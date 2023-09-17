@@ -1,0 +1,29 @@
+table{
+    width:100%
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+input{
+    width: 100%; /* Faz com que o input ocupe 100% da largura da célula */
+    box-sizing: border-box; /* Inclui a largura da borda e do padding no tamanho total do elemento */
+    border-style: none;
+}
+td.td__item {
+    width: 45%;
+    padding: 0;
+}
+td.td__item {
+    width: 45%; 
+    padding: 0;
+}
+td.td__q_solicitado {
+    width: 5%; 
+    padding: 0;
+}
+td.td__q_fornecida {
+    width: 5%; 
+    padding: 0;
+}
