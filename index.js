@@ -17,3 +17,16 @@ itemOptions.forEach(option => {
     optionElement.value = option;
     datalist.appendChild(optionElement);
 });
+
+function printBy(selector){
+    var $print = $(selector)
+        .clone()
+        .addClass('print')
+        .prependTo('body');
+
+    // Stop JS execution
+    window.print();
+
+    // Remove div once printed
+    $print.remove();
+}

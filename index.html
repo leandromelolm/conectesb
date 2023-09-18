@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="index.css">
-    <style>
-        
-    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
 </head>
 <body>
-    <div id="content"></div>
-    
-    <table>
-        <tr>
-          <th>Item</th>
+    <div id="div_print">        
+        <div id="content"></div>        
+        <table>
+            <tr>
+                <th>Item</th>
           <th>Quant solicitada</th> 
           <th>Quant fornecida</th>
         </tr>
@@ -32,7 +31,7 @@
                 <datalist id="item-list"></datalist>                
             </td>
             <td class="td__q_solicitado"><input type="number" min="0" class="solicitado" placeholder="-"/></td>
-            <td class="td__q_fornecida"><input type="number" min="0" class="fornecido"/></td>
+            <td class="td__q_fornecida"><input type="number" min="0" class="fornecido" readonly/></td>
         </tr>
         <tr>
             <td class="td__item">
@@ -43,8 +42,11 @@
             <td class="td__q_fornecida"><input type="number" min="0" class="fornecido"/></td>
         </tr>
       </table>
+    </div>
 
-    <script src="index.js"></script> 
+    <input type="button" onclick="printBy('#div_print');" value="Imprimir">
+    
+    <script src="index.js"></script>
     
 </body>
 </html>

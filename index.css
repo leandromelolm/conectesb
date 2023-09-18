@@ -27,3 +27,20 @@ td.td__q_fornecida {
     width: 5%; 
     padding: 0;
 }
+
+@media print {
+    html, body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+    #printable {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 14px;
+    }
+    #printable ~ * {
+        display: none;
+    }
+}
