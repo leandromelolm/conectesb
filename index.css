@@ -1,75 +1,91 @@
-#div_print{
-    margin-bottom: 5px;
+#div_print {
+    margin-bottom: 10px;
 }
 
-#div_left{
+#div_principal {
+    display: flex;
+}
+
+#div_left {
     padding-left: 5px;
 }
 
-#nota{
+#div_right {
+    width: 100%;
+}
+
+#nota {
     margin: 15px 0px 2px 0px;
     text-align: center;
 }
 
-input{
+input {
     width: 100%; /* Faz com que o input ocupe 100% da largura da célula */
     box-sizing: border-box; /* Inclui a largura da borda e do padding no tamanho total do elemento */
     border-style: none;
+}
+
+input:hover {
+    background-color: rgb(207, 240, 207);
 }
 
 input:focus {
     background-color: lightblue;
 }
 
-table{
+.tr_hidden {
+    display: none;
+}
+
+table {
     width:100%
 }
 
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-  height: 18px;
+  height: 19px;
 }
 
-#table_header tbody tr th{
+#table_header tbody tr th {
     text-align: initial;
     padding: 3px;
 }
 
-#table_autorizo_fornecimento thead tr th{
+#table_autorizo_fornecimento thead tr th {
     text-align: initial;
     padding: 3px;
 }
 
-#table_controle_estoque tbody tr th{
+#table_controle_estoque tbody tr th {
     text-align: initial;
     padding: 0px;
 }
 
-#table_total tbody tr th{
+#table_total tbody tr th {
     text-align: initial;
     padding: 1px 0px 0px 130px;
 }
 
-#header_distrito_data{
+#header_distrito_data {
     display: flex;
 }
 
-#data{
+#data {
     margin-left: 40%;
     border-left: solid 1px;
     padding-left: 3px ;
 }
 
-.item{
+.item {
     width: 2%;
 }
 
-.unid{
+.unid {
     width: 2%;
 }
 
-.codigo{
+.codigo {
     width: 2%;
 }
 
@@ -88,22 +104,35 @@ td.td__quant_fornecida {
     padding: 0;
 }
 
-.q_fornecida{
+.q_fornecida {
     width: 2%;
 }
 
-.p_m_unitario{
+.p_m_unitario {
     width: 2%;
 }
 
-.v_total{
+.v_total {
     width: 2%;
+}   
+
+#imprimirButton {
+    background-color: #efefef; /* Cor de fundo padrão */
+    cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
-#div_principal{
-    display: flex;
+#imprimirButton:hover {
+    background-color: #92b5db; /* Cor de fundo ao passar o mouse */
 }
 
-#div_right{
-    width: 100%;
+#toggleButton {
+    background-color: #efefef;
+    cursor: pointer;
 }
+
+#toggleButton:hover {
+    background-color: #abeb9c;
+    cursor: pointer;
+}
+
+

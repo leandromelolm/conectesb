@@ -1,4 +1,4 @@
-const content = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
+const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
 const datalist = document.getElementById("item-list");
 
@@ -47,4 +47,21 @@ function printBy(selector){
 
     // Remove div once printed
     $print.remove();
+}
+
+function toggleRowVisibility() {
+    const rows = document.querySelectorAll('.tr_hidden');
+    rows.forEach(row => {
+        if (row.style.display === 'table-row') {
+            row.style.display = 'none'; // Esconder a linha
+        } else {
+            row.style.display = 'table-row'; // Mostrar a linha
+        }
+    });
+    const button = document.getElementById('toggleButton');
+    if (button.value === 'Mostrar Mais Linhas') {
+        button.value = 'Ocultar Linhas';
+    } else {
+        button.value = 'Mostrar Mais Linhas';
+    }
 }
