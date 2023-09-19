@@ -7,9 +7,15 @@
     #div_print {
         margin: 2px;
         padding: 2px;
-        border: 0;
-        font-size: 14px;
-    }    
+        border: 0;        
+    }
+    #div_print ~ * {
+        display: none;
+    }  
+}
+
+body{
+    font-size: 12px;
 }
 
 #div_print {
@@ -41,22 +47,27 @@ input {
 
 input.input_unidade {
     width: 50%;
+    text-transform: uppercase;
 }
 
 input.input_distrito {
     width: 15%;
+    text-transform: uppercase;
 }
 
 input.input_data_pedido {
     width: 72%;
+    text-transform: uppercase;
 }
 
 input.input_grupo {
     width: 50%;
+    text-transform: uppercase;
 }
 
 input.input_funcionario {
     width: 60%;
+    text-transform: uppercase;
 }
 
 input:hover {
