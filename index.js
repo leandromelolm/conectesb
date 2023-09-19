@@ -3,7 +3,7 @@ const datalist = document.getElementById("item-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
 function updateTitleWithDate() {
-    document.getElementById("pageTitle").innerText = "sb-insumos-"+nomeUnidade.value + "-" + new Date().toLocaleDateString();
+    document.getElementById("pageTitle").innerText = "sb-material-"+nomeUnidade.value + "-" + new Date().toLocaleDateString();
 }
 
 let divDublicada;
