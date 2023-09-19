@@ -25,12 +25,32 @@ input {
     border-style: none;
 }
 
+input.input_unidade {
+    width: 50%;
+}
+
+input.input_distrito {
+    width: 15%;
+}
+
+input.input_data_pedido {
+    width: 72%;
+}
+
+input.input_grupo {
+    width: 50%;
+}
+
+input.input_funcionario {
+    width: 60%;
+}
+
 input:hover {
     background-color: rgb(207, 240, 207);
 }
 
 input:focus {
-    background-color: lightblue;
+    background-color: rgb(195, 232, 244);
 }
 
 .tr_hidden {
@@ -68,11 +88,16 @@ table, th, td {
 }
 
 #header_distrito_data {
+    width: 100%;
     display: flex;
 }
 
-#data {
-    margin-left: 40%;
+#div_distrito {
+    width: 40%;
+}
+
+#div_data {
+    margin-left: 5%;
     border-left: solid 1px;
     padding-left: 3px ;
 }
