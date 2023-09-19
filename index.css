@@ -1,21 +1,18 @@
 @media print {
-
     html,
     body {
         margin: 0;
         padding: 0;
         border: 0;
     }
-
     #docPrint {
         margin: 2px;
         padding: 2px;
         border: 0;
     }
-
     #docPrint ~ * {
         display: none;
-    }  
+    }
 }
 
 /* @media print {
@@ -32,15 +29,15 @@ body {
     margin-bottom: 10px;
 }
 
-#div_principal {
+#divPrincipal {
     display: flex;
 }
 
-#div_left {
+#divLeft {
     padding-left: 5px;
 }
 
-#div_right {
+#divRight {
     width: 100%;
 }
 
@@ -106,36 +103,36 @@ td {
     height: 19px;
 }
 
-#table_header tbody tr th {
+#tableHeader tbody tr th {
     text-align: initial;
     padding: 3px;
 }
 
-#table_autorizo_fornecimento thead tr th {
+#tableAutorizoFornecimento thead tr th {
     text-align: initial;
     padding: 3px;
 }
 
-#table_controle_estoque tbody tr th {
+#tableControleEstoque tbody tr th {
     text-align: initial;
     padding: 0px;
 }
 
-#table_total tbody tr th {
+#tableTotal tbody tr th {
     text-align: initial;
     padding: 0px 0px 0px 130px;
 }
 
-#header_distrito_data {
+#headerDistritoDate {
     width: 100%;
     display: flex;
 }
 
-#div_distrito {
+#divDistrito {
     width: 40%;
 }
 
-#div_data {
+#divDate {
     margin-left: 5%;
     border-left: solid 1px;
     padding-left: 3px;
@@ -180,11 +177,14 @@ td.td__quant_fornecida {
     width: 2%;
 }
 
+#buttons input {
+    height: 35px;
+    margin-top: 10px;
+}
+
 #imprimirButton {
-    background-color: #efefef;
-    /* Cor de fundo padrão */
-    cursor: pointer;
-    /* Cursor de mão quando o mouse passa sobre o botão */
+    background-color: #efefef;/* Cor de fundo padrão */
+    cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
 #imprimirButton:hover {

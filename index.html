@@ -16,9 +16,9 @@
 
         <div id="nota"></div>
 
-        <div id="div_principal">
-            <div id="div_right">
-                <table id="table_header" class="table table-responsive h-100">
+        <div id="divPrincipal">
+            <div id="divRight">
+                <table id="tableHeader" class="table table-responsive h-100">
                     <tbody>
                         <tr>
                             <th>Unidade Requisitante:
@@ -27,12 +27,12 @@
                         </tr>
                         <tr>
                             <th>
-                                <div id="header_distrito_data">
-                                    <div id="div_distrito">
+                                <div id="headerDistritoDate">
+                                    <div id="divDistrito">
                                         Distrito Sanitário:
                                         <input type="text" class="input_distrito">
                                     </div>
-                                    <div id="div_data">
+                                    <div id="divDate">
                                         Data:
                                         <input type="text" id="dataPedido" class="input_data_pedido">
                                     </div>
@@ -416,7 +416,7 @@
                 </div>
 
                 <div>
-                    <table id="table_controle_estoque">
+                    <table id="tableControleEstoque">
                         <tbody>
                             <tr>
                                 <th>Lançado na ficha de controle de estoque em:</th>                                
@@ -435,8 +435,8 @@
                 </div>
 
             </div>
-            <div id="div_left">
-                <table id="table_autorizo_fornecimento">
+            <div id="divLeft">
+                <table id="tableAutorizoFornecimento">
                     <thead>
                         <tr>
                             <th>Autorizo o Fornecimento</th>                            
@@ -638,7 +638,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <table id="table_total">
+                <table id="tableTotal">
                     <tr>
                         <th>Total:</th>
                     </tr>
@@ -661,7 +661,7 @@
 
     <div id="buttons">        
         <input type="button" id="imprimirButton" onclick="printBy('#docPrint');" value="Imprimir">
-        <input type="button" value="Mostrar Mais Linhas" id="toggleButton" onClick="toggleRowVisibility()">
+        <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
     </div>
 
     <script src="index.js"></script>
