@@ -1,5 +1,10 @@
 const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 const datalist = document.getElementById("item-list");
+let nomeUnidade = document.getElementById("nomeUnidade");
+
+function updateTitleWithDate() {
+    document.getElementById("pageTitle").innerText = "sb-insumos-"+nomeUnidade.value + "-" + new Date().toLocaleDateString();
+}
 
 let divDublicada;
 
@@ -25,12 +30,14 @@ $(function () {
 
 function printBy(selector) {
     this.cloneDocPrint();
+    this.updateTitleWithDate();
 
     let $print = $(selector)
         .clone()
         .addClass('print')
         .prependTo('body');
-
+    
+    // $print.prepend('<div>Data de Impressão: ' + new Date().toLocaleDateString() + '</div>');
     window.print();
     $print.remove();
 }
