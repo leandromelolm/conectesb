@@ -1,8 +1,47 @@
 const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
-
 const datalist = document.getElementById("item-list");
 
-const itemOptions = [    
+window.onload = () =>{
+    itemOptions.forEach(option => {
+        const optionElement = document.createElement("option");
+        optionElement.value = option;
+        datalist.appendChild(optionElement);
+    });
+}
+
+$(function () {
+    $('#dataPedido').mask('00/00/0000');
+})
+
+function printBy(selector) {
+    var $print = $(selector)
+        .clone()
+        .addClass('print')
+        .prependTo('body');
+
+    window.print();
+
+    $print.remove();
+}
+
+function toggleRowVisibility() {
+    const rows = document.querySelectorAll('.tr_hidden');
+    rows.forEach(row => {
+        if (row.style.display === 'table-row') {
+            row.style.display = 'none'; // Esconder a linha
+        } else {
+            row.style.display = 'table-row'; // Mostrar a linha
+        }
+    });
+    const button = document.getElementById('toggleButton');
+    if (button.value === 'Mostrar Mais Linhas') {
+        button.value = 'Ocultar Linhas';
+    } else {
+        button.value = 'Mostrar Mais Linhas';
+    }
+}
+
+const itemOptions = [
     "óxido de zinco",
     "eugenol",
     "sugador",
@@ -124,8 +163,8 @@ const itemOptions = [
     "CONE DE GUTA-PERCHA SECUNDARIO - FM 28MM, CAIXA COM 120 UNIDADES",
     "CONE DE GUTA-PERCHA SECUNDÁRIO - MF 28MM, CAIXA COM 120 UNIDADES.",
     "CONE DE GUTA-PERCHA SECUNDÁRIO - XF 28MM",
-    "CONE DE PAPEL ABSORVENTE - 2ª SERIE", 
-    "CREME DENTAL TUBO COM 90 G  UN",
+    "CONE DE PAPEL ABSORVENTE - 2ª SERIE",
+    "CREME DENTAL TUBO COM 90G UN",
     "CUNHA DE MADEIRA ANATÔMICA, SORTIDAS. CAIXA COM 100 UNIDADES.",
     "E.D.T.A TRISSODICO GEL CONCENTRACAO DE 24%, SERINGA COM 3 GRAMAS E BICO APLICADOR",
     "E.D.T.A. TRISSODICO LIQUIDO, FRASCO COM 20ML",
@@ -196,44 +235,9 @@ const itemOptions = [
     "TRICRESOLFORMALINA EM FRASCO 10ML"
 ];
 
-itemOptions.forEach(option => {
-    const optionElement = document.createElement("option");
-    optionElement.value = option;
-    datalist.appendChild(optionElement);
-});
-
-function printBy(selector){
-    var $print = $(selector)
-        .clone()
-        .addClass('print')
-        .prependTo('body');
-
-    window.print();
-
-    $print.remove();
-}
-
-function toggleRowVisibility() {
-    const rows = document.querySelectorAll('.tr_hidden');
-    rows.forEach(row => {
-        if (row.style.display === 'table-row') {
-            row.style.display = 'none'; // Esconder a linha
-        } else {
-            row.style.display = 'table-row'; // Mostrar a linha
-        }
-    });
-    const button = document.getElementById('toggleButton');
-    if (button.value === 'Mostrar Mais Linhas') {
-        button.value = 'Ocultar Linhas';
-    } else {
-        button.value = 'Mostrar Mais Linhas';
-    }
-}
-
-
 // const lista = ``
-
 // const linhas = lista.trim().split('\n');
 // const itens = linhas.map(item => `"${item.trim()}"`).join(',\n');
-
 // console.log(itens)
+
+// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
