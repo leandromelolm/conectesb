@@ -47,7 +47,8 @@ table, th, td {
 }
 
 #table_total tbody tr th{
-    padding: 0px;
+    text-align: initial;
+    padding: 1px 0px 0px 130px;
 }
 
 #header_distrito_data{
