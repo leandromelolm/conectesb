@@ -1,52 +1,310 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pedido Saúde Bucal</title>
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>
 </head>
+
 <body>
-    <div id="div_print">        
-        <div id="content"></div>        
-        <table>
-            <tr>
-                <th>Item</th>
-          <th>Quant solicitada</th> 
-          <th>Quant fornecida</th>
-        </tr>
-        <tr>
-            <td class="td__item">
-                <input type="text" class="item" placeholder="-" list="item-list">
-                <datalist id="item-list"></datalist>                
-            </td>
-            <td class="td__q_solicitado"><input type="number" min="0" class="solicitado" placeholder="-"/></td>
-            <td class="td__q_fornecida"><input type="number" min="0" class="fornecido"/></td>
-        </tr>
-        <tr>
-            <td class="td__item">
-                <input type="text" class="item" placeholder="-" list="item-list">
-                <datalist id="item-list"></datalist>                
-            </td>
-            <td class="td__q_solicitado"><input type="number" min="0" class="solicitado" placeholder="-"/></td>
-            <td class="td__q_fornecida"><input type="number" min="0" class="fornecido" readonly/></td>
-        </tr>
-        <tr>
-            <td class="td__item">
-                <input type="text" class="item" placeholder="-" list="item-list">
-                <datalist id="item-list"></datalist>                
-            </td>
-            <td class="td__q_solicitado"><input type="number" min="0" class="solicitado" placeholder="-"/></td>
-            <td class="td__q_fornecida"><input type="number" min="0" class="fornecido"/></td>
-        </tr>
-      </table>
+    <div id="div_print">
+
+        <div id="nota"></div>
+
+        <div id="div_principal">
+            <div id="div_right">
+                <table id="table_header" class="table table-responsive h-100">
+                    <tbody>
+                        <tr>
+                            <th>Unidade Requisitante:</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <div id="header_distrito_data">
+                                    <div id="distrito">
+                                        Distrito Sanitário:
+                                    </div>
+                                    <div id="data">
+                                        Data:
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Grupo de Material:</th>
+                        </tr>
+                        <tr>
+                            <th>Funcionário responsável:</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <table>
+                        <tr>
+                            <th>Item</th>
+                            <th>Unid.</th>
+                            <th>Código</th>
+                            <th>Especificações</th>
+                            <th>Quant. Pedida</th>
+                        </tr>
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                        
+                        <tr>
+                            <td class="item"></td>
+                            <td class="unid"></td>
+                            <td class="codigo"></td>
+                            <td class="td__especificacao">
+                                <input type="text" placeholder="" list="item-list">
+                                <datalist id="item-list"></datalist>
+                            </td>
+                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                        </tr>                      
+                    </table>
+                </div>
+
+                <div>
+                    <table id="table_controle_estoque">
+                        <tbody>
+                            <tr>
+                                <th>Lançado na ficha de controle de estoque em:</th>                                
+                            </tr>
+                            <tr>
+                                <th>Resp. pelo controle:</th>                                
+                            </tr>
+                            <tr>
+                                <th>Recebido em:</th>                                
+                            </tr>
+                            <tr>
+                                <th>Resp. pela unidade requisitante:</th>                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div id="div_left">
+                <table id="table_autorizo_fornecimento">
+                    <thead>
+                        <tr>
+                            <th>Autorizo o Fornecimento</th>                            
+                        </tr>
+                        <tr>
+                            <th>Em   _____/_____/__________</th>                            
+                        </tr>
+                        <tr>
+                            <th>Resp. Almox.:</th>                            
+                        </tr>
+                        <tr>
+                            <th></th>                            
+                        </tr>
+                    </thead>
+                </table>
+                <table id="table_fornecimento">
+                    <thead>
+                        <tr>
+                            <th class="q_fornecida">Quantidade Fornecida</th>
+                            <th class="p_m_unitario">Pedido med. unit</th>
+                            <th class="v_total">Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="table_total">
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
     </div>
 
-    <input type="button" onclick="printBy('#div_print');" value="Imprimir">
-    
-    <script src="index.js"></script>
-    
+        <input type="button" onclick="printBy('#div_print');" value="Imprimir">
+
+        <script src="index.js"></script>
+
 </body>
+
 </html>

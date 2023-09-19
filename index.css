@@ -1,9 +1,14 @@
-table{
-    width:100%
+#div_print{
+    margin-bottom: 5px;
 }
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
+
+#div_left{
+    padding-left: 5px;
+}
+
+#nota{
+    margin: 15px 0px 2px 0px;
+    text-align: center;
 }
 
 input{
@@ -11,36 +16,93 @@ input{
     box-sizing: border-box; /* Inclui a largura da borda e do padding no tamanho total do elemento */
     border-style: none;
 }
-td.td__item {
-    width: 45%;
-    padding: 0;
+
+input:focus {
+    background-color: lightblue;
 }
-td.td__item {
+
+table{
+    width:100%
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  height: 18px;
+}
+
+#table_header tbody tr th{
+    text-align: initial;
+    padding: 3px;
+}
+
+#table_autorizo_fornecimento thead tr th{
+    text-align: initial;
+    padding: 3px;
+}
+
+#table_controle_estoque tbody tr th{
+    text-align: initial;
+    padding: 0px;
+}
+
+#table_total tbody tr th{
+    padding: 0px;
+}
+
+#header_distrito_data{
+    display: flex;
+}
+
+#data{
+    margin-left: 40%;
+    border-left: solid 1px;
+    padding-left: 3px ;
+}
+
+.item{
+    width: 2%;
+}
+
+.unid{
+    width: 2%;
+}
+
+.codigo{
+    width: 2%;
+}
+
+td.td__especificacao {
     width: 45%; 
     padding: 0;
 }
-td.td__q_solicitado {
-    width: 5%; 
+
+td.td__quant_pedida {
+    width: 2%; 
     padding: 0;
 }
-td.td__q_fornecida {
+
+td.td__quant_fornecida {
     width: 5%; 
     padding: 0;
 }
 
-@media print {
-    html, body {
-        margin: 0;
-        padding: 0;
-        border: 0;
-    }
-    #printable {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        font-size: 14px;
-    }
-    #printable ~ * {
-        display: none;
-    }
+.q_fornecida{
+    width: 2%;
+}
+
+.p_m_unitario{
+    width: 2%;
+}
+
+.v_total{
+    width: 2%;
+}
+
+#div_principal{
+    display: flex;
+}
+
+#div_right{
+    width: 100%;
 }

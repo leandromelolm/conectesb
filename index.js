@@ -1,15 +1,33 @@
-const content = document.getElementById("content").innerHTML = "<b>Requisição de Material</b>";
+const content = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
 const datalist = document.getElementById("item-list");
 
 const itemOptions = [
-    "condicionador ácido",
+    "condicionador ácido gel ácido fosforico 37%",
     "óxido de zinco",
     "eugenol",
     "sugador",
     "sugador cirúrgico",
     "adesivo",
-    "ionomero de vidro"
+    "ionomero de vidro",
+    "anestésico lidocaina 2% com vaso",
+    "anestésico prilocaina 3% com vaso",
+    "anestésico mepivacaina 3% com vaso",
+    "anestesico mepivacaína sem vaso",
+    "agulha gengival 30G curta",
+    "fio de sutura nylon 4-0",
+    "fio de sutura nylon 3-0",
+    "fio de sutura seda",
+    "resina A1",
+    "resina A2",
+    "resina A3",
+    "resina A3,5",
+    "resina B2",
+    "Algodão rolos para uso odontológico",
+    "tricresolformalina",
+    "formocresol",
+    "otosporim",
+    "broca "
 ];
 
 itemOptions.forEach(option => {
