@@ -1,4 +1,4 @@
-const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
+document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 const datalist = document.getElementById("item-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
