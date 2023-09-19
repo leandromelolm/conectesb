@@ -33,12 +33,12 @@ body {
     display: flex;
 }
 
-#divLeft {
-    padding-left: 5px;
-}
-
 #divRight {
     width: 100%;
+}
+
+#divLeft {
+    padding-left: 5px;
 }
 
 #nota {
