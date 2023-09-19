@@ -1,24 +1,34 @@
 @media print {
-    html, body {
+
+    html,
+    body {
         margin: 0;
         padding: 0;
         border: 0;
     }
-    #div_print {
+
+    #docPrint {
         margin: 2px;
         padding: 2px;
-        border: 0;        
+        border: 0;
     }
-    #div_print ~ * {
+
+    #docPrint ~ * {
         display: none;
     }  
 }
 
-body{
+/* @media print {
+    .print {
+      display: block !important;
+    }
+  } */
+
+body {
     font-size: 12px;
 }
 
-#div_print {
+#docPrint {
     margin-bottom: 10px;
 }
 
@@ -40,8 +50,10 @@ body{
 }
 
 input {
-    width: 100%; /* Faz com que o input ocupe 100% da largura da célula */
-    box-sizing: border-box; /* Inclui a largura da borda e do padding no tamanho total do elemento */
+    width: 100%;
+    /* Faz com que o input ocupe 100% da largura da célula */
+    box-sizing: border-box;
+    /* Inclui a largura da borda e do padding no tamanho total do elemento */
     border-style: none;
 }
 
@@ -83,13 +95,15 @@ input:focus {
 }
 
 table {
-    width:100%
+    width: 100%
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-  height: 19px;
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    height: 19px;
 }
 
 #table_header tbody tr th {
@@ -124,7 +138,7 @@ table, th, td {
 #div_data {
     margin-left: 5%;
     border-left: solid 1px;
-    padding-left: 3px ;
+    padding-left: 3px;
 }
 
 .item {
@@ -140,17 +154,17 @@ table, th, td {
 }
 
 td.td__especificacao {
-    width: 45%; 
+    width: 45%;
     padding: 0;
 }
 
 td.td__quant_pedida {
-    width: 2%; 
+    width: 2%;
     padding: 0;
 }
 
 td.td__quant_fornecida {
-    width: 5%; 
+    width: 5%;
     padding: 0;
 }
 
@@ -164,15 +178,18 @@ td.td__quant_fornecida {
 
 .v_total {
     width: 2%;
-}   
+}
 
 #imprimirButton {
-    background-color: #efefef; /* Cor de fundo padrão */
-    cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
+    background-color: #efefef;
+    /* Cor de fundo padrão */
+    cursor: pointer;
+    /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
 #imprimirButton:hover {
-    background-color: #92b5db; /* Cor de fundo ao passar o mouse */
+    background-color: #92b5db;
+    /* Cor de fundo ao passar o mouse */
 }
 
 #toggleButton {
@@ -185,4 +202,14 @@ td.td__quant_fornecida {
     cursor: pointer;
 }
 
+/* Estilo para ocultar o elemento na exibição normal */
+.print-hidden {
+    display: none;
+}
 
+/* Estilo para exibir o elemento na página de impressão */
+@media print {
+    .print-hidden {
+        display: block !important;
+    }
+}

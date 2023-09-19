@@ -1,6 +1,12 @@
 const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 const datalist = document.getElementById("item-list");
 
+const divDocPrintOriginal = document.getElementById("docPrint");
+const divClone = divDocPrintOriginal.cloneNode(true);
+const divDublicada = document.getElementById("docPrintClone");
+divDublicada.appendChild(divClone);
+
+
 window.onload = () =>{
     itemOptions.forEach(option => {
         const optionElement = document.createElement("option");

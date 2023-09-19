@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="div_print">
+    <div id="docPrint" for="divPrint2" class="print">
 
         <div id="nota"></div>
 
@@ -656,8 +656,11 @@
             </div>
         </div>
     </div>
+
+    <div id="docPrintClone" class="print-hidden">2º via</div>
+
     <div id="buttons">        
-        <input type="button" id="imprimirButton" onclick="printBy('#div_print');" value="Imprimir">
+        <input type="button" id="imprimirButton" onclick="printBy('#docPrint');" value="Imprimir">
         <input type="button" value="Mostrar Mais Linhas" id="toggleButton" onClick="toggleRowVisibility()">
     </div>
 
