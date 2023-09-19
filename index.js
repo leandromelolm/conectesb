@@ -1,11 +1,15 @@
 const nota = document.getElementById("nota").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 const datalist = document.getElementById("item-list");
 
-const divDocPrintOriginal = document.getElementById("docPrint");
-const divClone = divDocPrintOriginal.cloneNode(true);
-const divDublicada = document.getElementById("docPrintClone");
-divDublicada.appendChild(divClone);
+let divDublicada;
 
+function cloneDocPrint() {
+    const divDocPrintOriginal = document.getElementById("docPrint");
+    const divClone = divDocPrintOriginal.cloneNode(true);
+    divDublicada = document.getElementById("docPrintClone");
+    divDublicada.innerHTML = ''; 
+    divDublicada.appendChild(divClone);
+}
 
 window.onload = () =>{
     itemOptions.forEach(option => {
@@ -19,15 +23,20 @@ $(function () {
     $('#dataPedido').mask('00/00/0000');
 })
 
-function printBy(selector) {
-    var $print = $(selector)
+function printBy(selector, selectorClone) {
+    this.cloneDocPrint();
+
+    let $print = $(selector)
         .clone()
         .addClass('print')
         .prependTo('body');
 
+    let $printClone = $(selectorClone).clone()
+
     window.print();
 
     $print.remove();
+    $printClone.remove();
 }
 
 function toggleRowVisibility() {
