@@ -23,7 +23,7 @@ $(function () {
     $('#dataPedido').mask('00/00/0000');
 })
 
-function printBy(selector, selectorClone) {
+function printBy(selector) {
     this.cloneDocPrint();
 
     let $print = $(selector)
@@ -31,12 +31,8 @@ function printBy(selector, selectorClone) {
         .addClass('print')
         .prependTo('body');
 
-    let $printClone = $(selectorClone).clone()
-
     window.print();
-
     $print.remove();
-    $printClone.remove();
 }
 
 function toggleRowVisibility() {
