@@ -4,7 +4,8 @@ let nomeUnidade = document.getElementById("nomeUnidade");
 
 function updateTitleWithDate() {
     document.getElementById("pageTitle")
-    .innerText = "sb-material-"+nomeUnidade.value + "-" + new Date().toLocaleDateString();
+        .innerText = "sb-material-"+nomeUnidade.value + "-" 
+        + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0,10);
 }
 
 let divDublicada;
