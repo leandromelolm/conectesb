@@ -271,6 +271,7 @@ Implementar:
 [] alterar background do input para ficar visível para preenchimento
 [] salvar no local storage inputs.
 [] lista de itens mover para um arquivo externo ao index.js
+[] implementar upload de arquivo csv para preencher inputs 
 
 
 */
