@@ -30,7 +30,7 @@ $(function () {
     $('#dataPedido').mask('00/00/0000');
 })
 
-function printBy(selector) {
+function printPage(selector) {
     this.cloneDocPrint();
     this.updateTitleWithDate();
 
@@ -255,12 +255,14 @@ const itemOptions = [
     "TRICRESOLFORMALINA EM FRASCO 10ML"
 ];
 
-// const lista = ``
-// const linhas = lista.trim().split('\n');
-// const itens = linhas.map(item => `"${item.trim()}"`).join(',\n');
-// console.log(itens)
 
-// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
+function partiStringESepararPorVirgula(listaStringConcatenada){
+    const lista = listaStringConcatenada
+    const linhas = lista.trim().split('\n');
+    const itens = linhas.map(item => `"${item.trim()}"`).join(',\n');
+    console.log(itens)
+}
+
 
 /*
 
@@ -272,3 +274,7 @@ Implementar:
 
 
 */
+
+
+// Link úteis
+// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
