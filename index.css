@@ -39,7 +39,12 @@ body {
     flex-grow: 1;
 }
 
-.image-sus{
+.img-left{
+    width: 40px;
+    height: auto;
+}
+
+.img-right{
     width: 40px;
     height: auto;
 }
