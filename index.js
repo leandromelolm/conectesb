@@ -1,4 +1,5 @@
 document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
+
 const datalist = document.getElementById("item-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
@@ -24,6 +25,15 @@ window.onload = () =>{
         optionElement.value = option;
         datalist.appendChild(optionElement);
     });
+    let requerenteJson = localStorage.getItem("dadosRequerente");
+
+    if(requerenteJson){
+        let requerente = JSON.parse(requerenteJson)
+        document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
+        document.getElementById('ds').value = requerente.ds;
+        document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
+        document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
+    }
 }
 
 $(function () {
@@ -58,6 +68,27 @@ function toggleRowVisibility() {
         button.value = 'Ocultar Linhas';
     } else {
         button.value = 'Mostrar Mais Linhas';
+    }
+}
+
+function saveLocalStorage(){
+    let dadosRequerente = {
+        nomeUnidade     : document.getElementById('nomeUnidade').value,
+        ds              : document.getElementById('ds').value,
+        grupoMaterial   : document.getElementById('grupoMaterial').value,
+        nomeResponsavel : document.getElementById('nomeResponsavel').value
+    }    
+    localStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
+}
+
+function inputClean(){
+    let confirmacao = confirm("Tem certeza de que deseja limpar os dados preenchidos no formulário?");
+    if(confirmacao) {
+        document.getElementById('nomeUnidade').value = '';
+        document.getElementById('ds').value = '';
+        document.getElementById('grupoMaterial').value = '';
+        document.getElementById('nomeResponsavel').value = '';
+        localStorage.removeItem('dadosRequerente');
     }
 }
 
@@ -269,7 +300,8 @@ function partiStringESepararPorVirgula(listaStringConcatenada){
 Implementar:
 [X] adicionar icone lado direito
 [] alterar background do input para ficar visível para preenchimento
-[] salvar no local storage inputs.
+[X] salvar no local storage inputs da unidade requerente.
+[] salvar no local storage inputs dos itens.
 [] lista de itens mover para um arquivo externo ao index.js
 [] implementar upload de arquivo csv para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina 

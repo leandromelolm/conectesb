@@ -17,7 +17,7 @@
         <section class="title-bar">            
             <img class="img-left" src="assets/logo_sus.png" alt="">            
             <div id="titleCenter"></div>
-            <img class="img-right" src="assets/logo_pr.png" alt="">.</img>
+            <img class="img-right" src="assets/logo_pr.png" alt="">
         </section>
         
         <div id="divPrincipal">
@@ -26,7 +26,7 @@
                     <tbody>
                         <tr>
                             <th>Unidade Requisitante:
-                                <input type="text" id="nomeUnidade" class="input_unidade">
+                                <input type="text" id="nomeUnidade" class="input_unidade" onblur="saveLocalStorage()">
                             </th>
                         </tr>
                         <tr>
@@ -34,23 +34,23 @@
                                 <div id="headerDistritoDate">
                                     <div id="divDistrito">
                                         Distrito Sanitário:
-                                        <input type="text" class="input_distrito">
+                                        <input type="text" id="ds" class="input_distrito" onblur="saveLocalStorage()">
                                     </div>
                                     <div id="divDate">
                                         Data:
-                                        <input type="text" id="dataPedido" class="input_data_pedido">
+                                        <input type="text" id="dataPedido" class="input_data_pedido" onblur="saveLocalStorage()">
                                     </div>
                                 </div>
                             </th>
                         </tr>
                         <tr>
                             <th>Grupo de Material:
-                                <input type="text" class="input_grupo">
+                                <input type="text" id="grupoMaterial" class="input_grupo" onblur="saveLocalStorage()">
                             </th>
                         </tr>
                         <tr>
                             <th>Funcionário responsável:
-                                <input type="text" class="input_funcionario">
+                                <input type="text" id="nomeResponsavel" class="input_funcionario" onblur="saveLocalStorage()">
                             </th>
                         </tr>
                     </tbody>
@@ -666,6 +666,7 @@
     <div id="buttons">        
         <input type="button" id="imprimirButton" onclick="printPage('#docPrint');" value="Imprimir">
         <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
+        <input type="button" onclick="inputClean()" value="Limpar Formulário">
     </div>
 
     <script src="index.js"></script>
