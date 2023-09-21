@@ -24,16 +24,8 @@ window.onload = () =>{
         const optionElement = document.createElement("option");
         optionElement.value = option;
         datalist.appendChild(optionElement);
-    });
-    let requerenteJson = localStorage.getItem("dadosRequerente");
-
-    if(requerenteJson){
-        let requerente = JSON.parse(requerenteJson)
-        document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
-        document.getElementById('ds').value = requerente.ds;
-        document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
-        document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
-    }
+    });    
+    recuperarDadosRequisitanteLocalStorage();
     recuperarDadosItensLocalStorage();
 }
 
@@ -105,6 +97,17 @@ var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao 
 inputs.forEach(function (input) {
     input.addEventListener('input', saveDataItensLocalStorage);
 });
+
+function recuperarDadosRequisitanteLocalStorage(){
+    let requerenteJson = localStorage.getItem("dadosRequerente");
+    if(requerenteJson){
+        let requerente = JSON.parse(requerenteJson)
+        document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
+        document.getElementById('ds').value = requerente.ds;
+        document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
+        document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
+    }
+}
 
 function recuperarDadosItensLocalStorage() {
     var dadosJSON = localStorage.getItem('dadosItens');
