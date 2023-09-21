@@ -81,8 +81,6 @@ function saveDataItensLocalStorage() {
     linhas.forEach(function (linha, index) {
         var inputEspecificacao = linha.querySelector('.td__especificacao input');
         var inputQuantidade = linha.querySelector('.td__quant_pedida input');
-
-        console.log(inputEspecificacao);
         var item = {
             especificacao: inputEspecificacao.value,
             quantidade: inputQuantidade.value
@@ -111,8 +109,6 @@ function recuperarDadosRequisitanteLocalStorage(){
 
 function recuperarDadosItensLocalStorage() {
     var dadosJSON = localStorage.getItem('dadosItens');
-    console.log(dadosJSON);
-
     if (dadosJSON) {
         var dados = JSON.parse(dadosJSON);
 
