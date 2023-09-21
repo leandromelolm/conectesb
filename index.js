@@ -375,8 +375,10 @@ Implementar:
 [X] alterar background do input para ficar visível para preenchimento
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
+[] implementar botão para salvar em pdf em nova aba.
 [] mover lista de itens para um arquivo externo ao index.js
-[] implementar upload de arquivo csv para preencher input
+[] implementar download de arquivo json para com dados preenchidos nos inputs
+[] implementar upload de arquivo json para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina 
 
 
