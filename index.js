@@ -372,10 +372,10 @@ function partiStringESepararPorVirgula(listaStringConcatenada){
 
 Implementar:
 [X] adicionar icone lado direito
-[] alterar background do input para ficar visível para preenchimento
+[X] alterar background do input para ficar visível para preenchimento
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
-[] lista de itens mover para um arquivo externo ao index.js
+[] mover lista de itens para um arquivo externo ao index.js
 [] implementar upload de arquivo csv para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina 
 

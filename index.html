@@ -444,7 +444,7 @@
                 </div>
 
             </div>
-            <div id="divLeft" class="print-hidden">
+            <div id="divLeft" class="show-in-print">
                 <table id="tableAutorizoFornecimento">
                     <thead>
                         <tr>
@@ -666,13 +666,14 @@
         </div>
     </div>
 
-    <div id="docPrintClone" class="print-hidden">2º via</div>
+    <span class="show-in-print">2º via</span>
+    <div id="docPrintClone" class="show-in-print">2º via</div>
 
     <div id="buttons">
         <input type="button" id="imprimirButton" onclick="printPage('#docPrint');" value="Imprimir">
         <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
-        <input type="button" onclick="inputsRequestorClean()" value="Limpar Formulário - requisitante">
-        <input type="button" onclick="inputsItensClean()" value="Limpar Formulário - itens pedidos">
+        <input type="button" class="class_hover" onclick="inputsRequestorClean()" value="Limpar Formulário - requisitante">
+        <input type="button" class="class_hover" onclick="inputsItensClean()" value="Limpar Campos de itens pedidos">
     </div>
 
     <script src="index.js"></script>

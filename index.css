@@ -13,6 +13,9 @@
     #docPrint ~ * {
         display: none;
     }
+    #buttons {
+       display: none !important;   
+    }
 }
 
 body {
@@ -63,6 +66,7 @@ input {
     box-sizing: border-box;
     /* Inclui a largura da borda e do padding no tamanho total do elemento */
     border-style: none;
+    background-color: cornsilk;
 }
 
 input.input_unidade {
@@ -188,19 +192,30 @@ td.td__quant_fornecida {
     width: 2%;
 }
 
+#buttons {
+    display: grid;
+    justify-content: center;   
+}
+
 #buttons input {
     height: 35px;
+    width: 380px;
     margin-top: 10px;
+    background-color: #efefef;
+}
+
+#buttons input:hover {
+    height: 38px;    
+    background-color: #abeb9c;
 }
 
 #imprimirButton {
-    background-color: #efefef;/* Cor de fundo padrão */
+    background-color: #efefef;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
 #imprimirButton:hover {
-    background-color: #92b5db;
-    /* Cor de fundo ao passar o mouse */
+    background-color: #92b5db !important; /* Cor de fundo ao passar o mouse */
 }
 
 #toggleButton {
@@ -213,14 +228,19 @@ td.td__quant_fornecida {
     cursor: pointer;
 }
 
+input.class_hover {
+    background-color: #abeb9c;
+    cursor: pointer;
+}
+
 /* Estilo para ocultar o elemento na exibição normal */
-.print-hidden {
+.show-in-print {
     display: none;
 }
 
 /* Estilo para exibir o elemento na página de impressão */
 @media print {
-    .print-hidden {
+    .show-in-print {
         display: block !important;
     }
 }
