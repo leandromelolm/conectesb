@@ -34,6 +34,7 @@ window.onload = () =>{
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
     }
+    recuperarDadosItensLocalStorage();
 }
 
 $(function () {
@@ -81,14 +82,83 @@ function saveLocalStorage(){
     localStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
 }
 
-function inputClean(){
-    let confirmacao = confirm("Tem certeza de que deseja limpar os dados preenchidos no formulário?");
-    if(confirmacao) {
+function saveDataItensLocalStorage() {
+    var dados = [];
+    // Iterar por todas as linhas de input
+    var linhas = document.querySelectorAll('#tableItens tbody tr');
+    linhas.forEach(function (linha, index) {
+        var inputEspecificacao = linha.querySelector('.td__especificacao input');
+        var inputQuantidade = linha.querySelector('.td__quant_pedida input');
+
+        console.log(inputEspecificacao);
+        var item = {
+            especificacao: inputEspecificacao.value,
+            quantidade: inputQuantidade.value
+        };
+        dados.push(item);
+    });
+    localStorage.setItem('dadosItens', JSON.stringify(dados));
+}
+
+// Adiciona um evento 'input' para salvar os dados no Local Storage automaticamente
+var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
+inputs.forEach(function (input) {
+    input.addEventListener('input', saveDataItensLocalStorage);
+});
+
+function recuperarDadosItensLocalStorage() {
+    var dadosJSON = localStorage.getItem('dadosItens');
+    console.log(dadosJSON);
+
+    if (dadosJSON) {
+        var dados = JSON.parse(dadosJSON);
+
+        // Iterar pelos dados e preencher os inputs correspondentes
+        var linhas = document.querySelectorAll('#tableItens tbody tr');
+        linhas.forEach(function (linha, index) {
+            var inputEspecificacao = linha.querySelector('.td__especificacao input');
+            var inputQuantidade = linha.querySelector('.td__quant_pedida input');
+
+            if (index < dados.length) {
+                if (inputEspecificacao) {
+                    inputEspecificacao.value = dados[index].especificacao;
+                }
+                if (inputQuantidade) {
+                    inputQuantidade.value = dados[index].quantidade;
+                }
+            }
+        });
+    }
+}
+
+function inputsRequestorClean(){
+    let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
+Essa ação apagará os campos: 
+UNIDADE REQUISITANTE, 
+DISTRITO, 
+GRUPO DE MATERIAL 
+E FUNCIONÁRIO RESPONSÁVEL
+`);
+    if(ok) {
         document.getElementById('nomeUnidade').value = '';
         document.getElementById('ds').value = '';
         document.getElementById('grupoMaterial').value = '';
         document.getElementById('nomeResponsavel').value = '';
         localStorage.removeItem('dadosRequerente');
+    }
+}
+
+function inputsItensClean() {
+    let ok = confirm(`Tem certeza de que deseja limpar os ITENS PEDIDOS?
+Essa ação apagará os campos da coluna: 
+ESPECIFICAÇÕES E QUANTIDADE PEDIDA 
+`);
+    if(ok) {
+        var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
+        inputs.forEach(function (input) {
+            input.value = '';
+        });
+        localStorage.removeItem('dadosItens');
     }
 }
 
@@ -301,7 +371,7 @@ Implementar:
 [X] adicionar icone lado direito
 [] alterar background do input para ficar visível para preenchimento
 [X] salvar no local storage inputs da unidade requerente.
-[] salvar no local storage inputs dos itens.
+[X] salvar no local storage inputs dos itens.
 [] lista de itens mover para um arquivo externo ao index.js
 [] implementar upload de arquivo csv para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina 

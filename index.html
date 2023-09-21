@@ -14,12 +14,12 @@
 <body>
     <div id="docPrint" for="divPrint2" class="print">
 
-        <section class="title-bar">            
-            <img class="img-left" src="assets/logo_sus.png" alt="">            
+        <section class="title-bar">
+            <img class="img-left" src="assets/logo_sus.png" alt="">
             <div id="titleCenter"></div>
             <img class="img-right" src="assets/logo_pr.png" alt="">
         </section>
-        
+
         <div id="divPrincipal">
             <div id="divRight">
                 <table id="tableHeader" class="table table-responsive h-100">
@@ -38,7 +38,8 @@
                                     </div>
                                     <div id="divDate">
                                         Data:
-                                        <input type="text" id="dataPedido" class="input_data_pedido" onblur="saveLocalStorage()">
+                                        <input type="text" id="dataPedido" class="input_data_pedido"
+                                            onblur="saveLocalStorage()">
                                     </div>
                                 </div>
                             </th>
@@ -50,372 +51,376 @@
                         </tr>
                         <tr>
                             <th>Funcionário responsável:
-                                <input type="text" id="nomeResponsavel" class="input_funcionario" onblur="saveLocalStorage()">
+                                <input type="text" id="nomeResponsavel" class="input_funcionario"
+                                    onblur="saveLocalStorage()">
                             </th>
                         </tr>
                     </tbody>
                 </table>
-                <div>
-                    <table>
-                        <tr>
-                            <th>Item</th>
-                            <th>Unid.</th>
-                            <th>Código</th>
-                            <th>Especificações</th>
-                            <th>Quant. Pedida</th>
-                        </tr>
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                      
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr>
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>
+                <div class="div__itens_pedido">
+                    <table id="tableItens">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Unid.</th>
+                                <th>Código</th>
+                                <th>Especificações</th>
+                                <th>Quant. Pedida</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr>
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
 
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                        <tr class="tr_hidden">
-                            <td class="item"></td>
-                            <td class="unid"></td>
-                            <td class="codigo"></td>
-                            <td class="td__especificacao">
-                                <input type="text" placeholder="" list="item-list">
-                                <datalist id="item-list"></datalist>
-                            </td>
-                            <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                        </tr>                        
-                                            
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                            <tr class="tr_hidden">
+                                <td class="item"></td>
+                                <td class="unid"></td>
+                                <td class="codigo"></td>
+                                <td class="td__especificacao">
+                                    <input type="text" placeholder="" list="item-list">
+                                    <datalist id="item-list"></datalist>
+                                </td>
+                                <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
@@ -423,16 +428,16 @@
                     <table id="tableControleEstoque">
                         <tbody>
                             <tr>
-                                <th>Lançado na ficha de controle de estoque em:</th>                                
+                                <th>Lançado na ficha de controle de estoque em:</th>
                             </tr>
                             <tr>
-                                <th>Resp. pelo controle:</th>                                
+                                <th>Resp. pelo controle:</th>
                             </tr>
                             <tr>
-                                <th>Recebido em:</th>                                
+                                <th>Recebido em:</th>
                             </tr>
                             <tr>
-                                <th>Resp. pela unidade requisitante:</th>                                
+                                <th>Resp. pela unidade requisitante:</th>
                             </tr>
                         </tbody>
                     </table>
@@ -443,16 +448,16 @@
                 <table id="tableAutorizoFornecimento">
                     <thead>
                         <tr>
-                            <th>Autorizo o Fornecimento</th>                            
+                            <th>Autorizo o Fornecimento</th>
                         </tr>
                         <tr>
-                            <th>Em   _____/_____/__________</th>                            
+                            <th>Em _____/_____/__________</th>
                         </tr>
                         <tr>
-                            <th>Resp. Almox.:</th>                            
+                            <th>Resp. Almox.:</th>
                         </tr>
                         <tr>
-                            <th></th>                            
+                            <th></th>
                         </tr>
                     </thead>
                 </table>
@@ -663,10 +668,11 @@
 
     <div id="docPrintClone" class="print-hidden">2º via</div>
 
-    <div id="buttons">        
+    <div id="buttons">
         <input type="button" id="imprimirButton" onclick="printPage('#docPrint');" value="Imprimir">
         <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
-        <input type="button" onclick="inputClean()" value="Limpar Formulário">
+        <input type="button" onclick="inputsRequestorClean()" value="Limpar Formulário - requisitante">
+        <input type="button" onclick="inputsItensClean()" value="Limpar Formulário - itens pedidos">
     </div>
 
     <script src="index.js"></script>
