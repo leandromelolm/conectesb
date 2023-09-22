@@ -1,6 +1,7 @@
 document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
 const datalist = document.getElementById("item-list");
+const undlist = document.getElementById("u-list")
 let nomeUnidade = document.getElementById("nomeUnidade");
 
 function updateTitleWithDate() {
@@ -18,11 +19,19 @@ function cloneDocPrint() {
 }
 
 window.onload = () =>{
+
     itemOptions.forEach(option => {
         const optionElement = document.createElement("option");
         optionElement.value = option;
         datalist.appendChild(optionElement);
-    });    
+    });
+
+    nomesUnidades.forEach(opt => {
+        const optEl = document.createElement("option");
+        optEl.value = opt;
+        undlist.appendChild(optEl);
+    });
+
     recuperarDadosRequisitanteLocalStorage();
     recuperarDadosItensLocalStorage();
 }
@@ -158,6 +167,27 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
         localStorage.removeItem('dadosItens');
     }
 }
+
+const nomesUnidades = [
+    'USF BONGI BOA IDEA',
+    'USF CHICO MENDES/XIMBORÉ',
+    'USF COQUEIRAL I E II',
+    'USF IRAQUE/RUA DO RIO',   
+    'USF JARDIM UCHOA',
+    'USF JIQUIA I E II',
+    'USF MANGUEIRA I',
+    'USF MANGUEIRA II',
+    'USF PLANETA DOS MACACOS II',
+    'USF SAN MARTIN',
+    'USF VILA SÃO MIGUEL/MARRON GLACÊ',
+    'USF VILA TAMANDARE',
+    'CS BIDU KRAUSE',
+    'CS PROFESSOR ROMERO MARQUES',
+    'UPINHA DIA - BONGI NOVO PRADO',
+    'UPINHA JARDIM SÃO PAULO',
+    'UPINHA NOVO JIQUIÁ',    
+    'PAM CEASA',
+];
 
 const itemOptions = [
     "óxido de zinco",
