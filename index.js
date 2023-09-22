@@ -9,12 +9,10 @@ function updateTitleWithDate() {
         + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0,10);
 }
 
-let divDublicada;
-
 function cloneDocPrint() {
     const divDocPrintOriginal = document.getElementById("docPrint");
     const divClone = divDocPrintOriginal.cloneNode(true);
-    divDublicada = document.getElementById("docPrintClone");
+    let divDublicada = document.getElementById("docPrintClone");
     divDublicada.innerHTML = ''; 
     divDublicada.appendChild(divClone);
 }
@@ -164,32 +162,34 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
 const itemOptions = [
     "óxido de zinco",
     "eugenol",
-    "sugador",
+    "ionomero de vidro",
+    "sugador gengival",
     "sugador cirúrgico",
     "adesivo fotopolimerizavel",
     "condicionador ácido gel ácido fosforico 37%",
-    "ionomero de vidro",
-    "anestésico lidocaina 2% com vaso",
-    "anestésico prilocaina 3% com vaso",
-    "anestésico mepivacaina 3% com vaso",
-    "anestesico mepivacaína sem vaso",
-    "agulha gengival 30G curta",
-    "agulha gengival 27G longa",
-    "fio de sutura nylon 4-0",
-    "fio de sutura nylon 3-0",
-    "fio de sutura seda",
     "resina A1",
     "resina A2",
     "resina A3",
     "resina A3,5",
     "resina B2",
-    "Algodão rolos para uso odontológico",
+    "anestésico lidocaina 2% com vaso",
+    "anestésico prilocaina 3% com vaso",
+    "anestésico mepivacaina 3% com vaso",
+    "anestésico mepivacaína sem vaso",
+    "anestésico tópico",
+    "agulha gengival 30G curta",
+    "agulha gengival 27G longa",
+    "fio de sutura nylon 4-0",
+    "fio de sutura nylon 3-0",
+    "fio de sutura seda",
+    "roletes de algodão para uso odontológico",
     "tricresolformalina",
     "formocresol",
     "otosporim",
     "broca ",
     "evidênciador de placa",
     "",
+
     "ABRIDOR DE BOCA ADULTO EM MATERIAL PLASTICO",
     "ABRIDOR DE BOCA INFANTIL EM MATERIAL PLASTICO",
     "ADESIVO UNIVERSAL PARA ESMALTE E DENTINA FRASCO COM 4ML",
@@ -375,7 +375,7 @@ Implementar:
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json para com dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
-[] mensagem no rodapé do desenvolvedor na pagina 
+[] mensagem no rodapé do desenvolvedor na pagina
 
 
 */
