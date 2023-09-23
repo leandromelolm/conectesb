@@ -97,14 +97,28 @@ td {
     height: 19px;
 }
 
+#tableHeader{
+    height: 106px;
+}
+
 #tableHeader tbody tr th {
     text-align: initial;
     padding: 3px;
 }
 
-#tableAutorizoFornecimento thead tr th {
+.table_autorizador_fornecimento {
+    background: white;
+    height: 106px;
+}
+
+.table_autorizador_fornecimento thead tr th {
     text-align: initial;
-    padding: 3px;
+}
+
+.table_autorizador_fornecimento thead tr:nth-child(2) {
+    height: 49px;
+    text-align: initial;
+    vertical-align: text-bottom;
 }
 
 #tableControleEstoque tbody tr th {
@@ -112,9 +126,18 @@ td {
     padding: 0px;
 }
 
-#tableTotal tbody tr th {
+.table__total {
+    height: 80px;
+}
+
+.table__total tbody tr th {
     text-align: initial;
     padding: 0px 0px 0px 90px;
+}
+
+.table__total tr:nth-child(2) {
+    background-color: white;
+    height: 56px;
 }
 
 #headerDistritoDate {
@@ -274,6 +297,12 @@ input.class_hover {
     #tableItens 
     th:nth-child(2), td:nth-child(2),
     th:nth-child(3), td:nth-child(3) {
-      display: none;
+        display: none;
     }
-  }
+}
+
+@media screen and (max-width: 800px) {
+    #divLeft{
+        display: none;
+    }
+}
