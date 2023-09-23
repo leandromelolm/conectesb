@@ -63,7 +63,7 @@ function toggleRowVisibility() {
     });
     const button = document.getElementById('toggleButton');
     if (button.value === 'Mostrar Mais Linhas') {
-        button.value = 'Ocultar Linhas';
+        button.value = 'Mostrar Menos Linhas';
     } else {
         button.value = 'Mostrar Mais Linhas';
     }
@@ -206,6 +206,8 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] alterar background do input para ficar visível para preenchimento
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
+[] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
+[] diminuir div left e coluna quantidade fornecida para aumentar coluna especificação
 [] implementar botão para salvar em pdf em nova aba.
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json para com dados preenchidos nos inputs
@@ -225,7 +227,7 @@ IONÔMERO DE VIDRO
 SUGADOR GENGIVAL
 SUGADOR CIRÚRGICO
 ADESIVO PARA ESMALTE E DENTINA
-CONDICIONADOR ÁCIDO GEL 37%
+CONDICIONADOR ÁCIDO GEL
 RESINA A1
 RESINA A2
 RESINA A3
@@ -249,6 +251,7 @@ EVIDENCIADOR DE PLACA BACTERIANA
 BROCA
 CIMENTO IRM (LIQUIDO)
 CIMENTO IRM (PO)
+FLÚOR GEL
 
 ALAVANCA RETA
 ALAVANCA CURVA DIREITA
@@ -263,7 +266,7 @@ APLICADOR PORTA DYCAL DUPLO
 ARCO DE YOUNG, EM PLASTICO
 ARCO OSTBY ADULTO PARA ISOLAMENTO ABSOLUTO, DOBRAVEL
 ARCO OSTBY INFANTIL PARA ISOLAMENTO ABSOLUTO, DOBRAVEL
-AVENTAL DESCARTAVEL
+AVENTAL DESCARTAVEL (CAPOTE)
 BICARBONATO DE SODIO 
 BROCA CARBIDE ESFÉRICA Nº4
 BROCA CARBIDE ESFERICA Nº8
@@ -399,10 +402,7 @@ LIMA TIPO K ESPECIAL 10 21 MM CAIXA COM 6 UNIDADES
 LIMA TIPO K ESPECIAL 10 25 MM CAIXA COM 6 UNIDADES 
 LIMA TIPO K ESPECIAL 15 25 MM CAIXA COM 6 UNIDADES 
 LIMA TIPO K N 20 - 25MM
-LIMA TIPO K N 25 - 25MM 
-
-LIMITE DO CAMPO PARA IMPRIMIR-AAAAAAAAAAA_FORA DA IMPRESSÃO
-
+LIMA TIPO K N 25 - 25MM
 OCULOS DE PROTECAO
 OLEO LUBRIFICANTE PARA CANETA DE ALTA ROTACAO
 PAPEL CARBONO PARA ARTICULAÇÃO (DUAS CORES)

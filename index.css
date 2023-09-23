@@ -6,10 +6,15 @@
         border: 0;
     }
     #docPrint {
-        margin: 2px;
-        padding: 2px;
+        margin: 0;
+        padding: 0px 2px 0px 0px;
         border: 0;
     }
+
+    #docPrintClone {
+        margin-top: 30px;
+    }
+
     #docPrint ~ * {
         display: none;
     }
@@ -57,14 +62,12 @@ body {
 }
 
 #divLeft {
-    padding-left: 5px;
+    padding-left: 3px;
 }
 
 input {
-    width: 100%;
-    /* Faz com que o input ocupe 100% da largura da célula */
+    width: 100%;   
     box-sizing: border-box;
-    /* Inclui a largura da borda e do padding no tamanho total do elemento */
     border-style: none;
     background-color: cornsilk;
 }
@@ -136,7 +139,7 @@ td {
 
 #tableTotal tbody tr th {
     text-align: initial;
-    padding: 0px 0px 0px 130px;
+    padding: 0px 0px 0px 90px;
 }
 
 #headerDistritoDate {
@@ -163,7 +166,7 @@ td {
 }
 
 .codigo {
-    width: 2%;
+    width: 0%;
 }
 
 td.td__especificacao {
@@ -171,18 +174,31 @@ td.td__especificacao {
     padding: 0;
 }
 
+td.td__especificacao input {
+    font-size: x-small;
+    font-weight: bold;
+    height: inherit;
+}
+
 td.td__quant_pedida {
     width: 2%;
     padding: 0;
 }
 
-td.td__quant_fornecida {
-    width: 5%;
-    padding: 0;
+td.td__quant_pedida input {
+    text-align: center;
 }
 
+/* 
+esconder tá removendo o espaço que a linha ocupa, 
+fazendo com que fique desalinhado com a tabela da direita
+*/
+/* .no-border-bottom {
+    border-bottom-style: hidden;
+  } */
+
 .q_fornecida {
-    width: 2%;
+    width: 1%;
 }
 
 .p_m_unitario {
@@ -206,7 +222,6 @@ td.td__quant_fornecida {
 }
 
 #buttons input:hover {
-    height: 38px;    
     background-color: #abeb9c;
 }
 
@@ -245,3 +260,11 @@ input.class_hover {
         display: block !important;
     }
 }
+
+@media screen and (max-width: 600px) {
+    #tableItens 
+    th:nth-child(2), td:nth-child(2),
+    th:nth-child(3), td:nth-child(3) {
+      display: none;
+    }
+  }
