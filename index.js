@@ -38,16 +38,9 @@ function cloneDocPrint() {
     divDublicada.appendChild(divClone);
 }
 
-function printPage(selector) {
+function printPage() {
     this.cloneDocPrint();
     this.updateTitleWithDate();
-
-    let $print = $(selector)
-        .clone()
-        .addClass('print')
-        .prependTo('body');
-    
-    // $print.prepend('<div>Data de Impressão: ' + new Date().toLocaleDateString() + '</div>');
     window.print();
     $print.remove();
 }
@@ -206,8 +199,7 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] alterar background do input para ficar visível para preenchimento
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
-[] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
-[] diminuir div left e coluna quantidade fornecida para aumentar coluna especificação
+[X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
 [] implementar botão para salvar em pdf em nova aba.
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json para com dados preenchidos nos inputs
@@ -227,7 +219,7 @@ IONÔMERO DE VIDRO
 SUGADOR GENGIVAL
 SUGADOR CIRÚRGICO
 ADESIVO PARA ESMALTE E DENTINA
-CONDICIONADOR ÁCIDO GEL
+CONDICIONADOR ÁCIDO GEL (ÁCIDO FOSFÓRICO 37%)
 RESINA A1
 RESINA A2
 RESINA A3

@@ -1,29 +1,4 @@
-@media print {
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        border: 0;
-    }
-    #docPrint {
-        margin: 0;
-        padding: 0px 2px 0px 0px;
-        border: 0;
-    }
-
-    #docPrintClone {
-        margin-top: 30px;
-    }
-
-    #docPrint ~ * {
-        display: none;
-    }
-    #buttons {
-       display: none !important;   
-    }
-}
-
-body {
+body {   
     font-size: 12px;
 }
 
@@ -189,14 +164,6 @@ td.td__quant_pedida input {
     text-align: center;
 }
 
-/* 
-esconder tá removendo o espaço que a linha ocupa, 
-fazendo com que fique desalinhado com a tabela da direita
-*/
-/* .no-border-bottom {
-    border-bottom-style: hidden;
-  } */
-
 .q_fornecida {
     width: 1%;
 }
@@ -249,15 +216,57 @@ input.class_hover {
     cursor: pointer;
 }
 
-/* Estilo para ocultar o elemento na exibição normal */
+.full-content {
+    display: grid;
+    grid-template-columns: minmax(0px, 15%) 1fr minmax(0px, 15%);
+}
+
+.dashboard-sidebar {
+    background-color: white
+}
+
+.right-sidebar {
+    background-color: white
+}
+
 .show-in-print {
-    display: none;
+    display: none;  /* ocultar o elemento na exibição normal */
+}
+
+.hidden-in-print {
+    display: block;
 }
 
 /* Estilo para exibir o elemento na página de impressão */
 @media print {
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
     .show-in-print {
         display: block !important;
+    }
+    .hidden-in-print {
+        display: none !important;
+    }
+    .full-content {
+        display: inline;
+    }
+    #docPrint {
+        margin: 0;
+        padding: 0px 2px 0px 0px;
+        border: 0;
+    }
+    #docPrintClone {
+        margin-top: 30px;
+    }
+    #docPrint ~ * {
+        display: none;
+    }
+    #buttons {
+       display: none !important;   
     }
 }
 
