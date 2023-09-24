@@ -62,10 +62,11 @@ function toggleRowVisibility() {
     }
 }
 
-function saveLocalStorage(){
+function saveRequesterLocaStorage(){
     let dadosRequerente = {
         nomeUnidade     : document.getElementById('nomeUnidade').value,
         ds              : document.getElementById('ds').value,
+        dataPedido      : document.getElementById('dataPedido').value,
         grupoMaterial   : document.getElementById('grupoMaterial').value,
         nomeResponsavel : document.getElementById('nomeResponsavel').value
     }    
