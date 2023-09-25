@@ -22,13 +22,13 @@ window.onload = () =>{
 
     recuperarDadosRequisitanteLocalStorage();
     recuperarDadosItensLocalStorage();    
-}
+};
 
 function updateTitleWithDate() {
     document.getElementById("pageTitle")
         .innerText = "sb-material-"+nomeUnidade.value + "-" 
         + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0,10);
-}
+};
 
 function cloneDocPrint() {
     const divDocPrintOriginal = document.getElementById("docPrint");
@@ -36,7 +36,7 @@ function cloneDocPrint() {
     let divDublicada = document.getElementById("docPrintClone");
     divDublicada.innerHTML = ''; 
     divDublicada.appendChild(divClone);
-}
+};
 
 function printPage() {
     if(document.getElementById('dataPedido').value){
@@ -48,7 +48,7 @@ function printPage() {
     this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
-}
+};
 
 function toggleRowVisibility() {
     const rows = document.querySelectorAll('.tr_hidden');
@@ -65,7 +65,7 @@ function toggleRowVisibility() {
     } else {
         button.value = 'Mostrar Mais Linhas';
     }
-}
+};
 
 function saveRequesterLocaStorage(){
     let dadosRequerente = {
@@ -76,7 +76,7 @@ function saveRequesterLocaStorage(){
         nomeResponsavel : document.getElementById('nomeResponsavel').value
     }    
     localStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
-}
+};
 
 function saveDataItensLocalStorage() {
     var dados = [];
@@ -92,7 +92,7 @@ function saveDataItensLocalStorage() {
         dados.push(item);
     });
     localStorage.setItem('dadosItens', JSON.stringify(dados));
-}
+};
 
 // Adiciona um evento 'input' para salvar os dados no Local Storage automaticamente
 var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
@@ -109,7 +109,7 @@ function recuperarDadosRequisitanteLocalStorage(){
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
     }
-}
+};
 
 function recuperarDadosItensLocalStorage() {
     let dadosJSON = localStorage.getItem('dadosItens');
@@ -132,7 +132,7 @@ function recuperarDadosItensLocalStorage() {
             }
         });
     }
-}
+};
 
 function inputsRequestorClean(){
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
@@ -149,7 +149,7 @@ E FUNCIONÁRIO RESPONSÁVEL
         document.getElementById('nomeResponsavel').value = '';
         localStorage.removeItem('dadosRequerente');
     }
-}
+};
 
 function inputsItensClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os ITENS PEDIDOS?
@@ -163,13 +163,12 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
         });
         localStorage.removeItem('dadosItens');
     }
-}
+};
 
-// Adicionar máscara
-// $(function () {
-//     $('#dataPedido').mask('00/00/0000');
-// })
-
+function stringParaArray(string) {
+    const linhas = string.trim().split('\n');  
+    return linhas;
+};
 
 const nomesUnidades = [
     'USF BONGI BOA IDEA',
@@ -192,34 +191,6 @@ const nomesUnidades = [
     'UPINHA NOVO JIQUIÁ',    
     'PAM CEASA',
 ];
-
-function stringParaArray(itensStringConcatenado) {
-    const linhas = itensStringConcatenado.trim().split('\n');  
-    return linhas;
-}
-
-/*
-
-IMPLEMENTAÇÕES FUTURAS:
-[X] adicionar icone lado direito
-[X] alterar background do input para ficar visível para preenchimento
-[X] salvar no local storage inputs da unidade requerente.
-[X] salvar no local storage inputs dos itens.
-[X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
-
-[] fetch post em uma planilha google.
-[] mover lista de itens para um arquivo externo ao index.js
-[] implementar download de arquivo json com os dados preenchidos nos inputs
-[] implementar upload de arquivo json para preencher input
-[] mensagem no rodapé do desenvolvedor na pagina
-[] implementar botão para salvar em pdf em nova aba.
-
-
-
-LINK ÚTEIS
-// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
-
-*/
 
 const itensStringConcatenado =
 `
@@ -441,3 +412,26 @@ TIRA DE POLIESTER DE 100X10X0,05MM CAIXA COM 50 TIRAS.
 TRICRESOLFORMALINA FRASCO COM 10 ML
 VASELINA SOLIDA TUBO COM 25 G
 `;
+
+/*
+
+IMPLEMENTAÇÕES FUTURAS:
+[X] adicionar icone lado direito
+[X] alterar background do input para ficar visível para preenchimento
+[X] salvar no local storage inputs da unidade requerente.
+[X] salvar no local storage inputs dos itens.
+[X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
+
+[] fetch post em uma planilha google.
+[] mover lista de itens para um arquivo externo ao index.js
+[] implementar download de arquivo json com os dados preenchidos nos inputs
+[] implementar upload de arquivo json para preencher input
+[] mensagem no rodapé do desenvolvedor na pagina
+[] implementar botão para salvar em pdf em nova aba.
+
+
+
+LINK ÚTEIS
+// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
+
+*/
