@@ -103,7 +103,7 @@ td {
 
 #tableHeader tbody tr th {
     text-align: initial;
-    padding: 3px;
+    padding: 0 0 0 3px;
 }
 
 .table_autorizador_fornecimento {
@@ -171,7 +171,7 @@ td {
 }
 
 .codigo {
-    width: 0%;
+    width: 2%;
 }
 
 td.td__especificacao {
@@ -321,4 +321,14 @@ input.class_hover {
     size: A4;
     margin: 1cm;
     counter-increment: page;
+}
+
+  /* Estilo específico para o Firefox usando um seletor de atributos */
+.browser__style[data-navegador="firefox"] {
+    font-size: 11px;    
+    table, th, td {
+        border: 2px solid black !important;
+        border-collapse: collapse !important;
+        height: 17px;
+    }
 }

@@ -47,7 +47,7 @@ function printPage() {
     }   
     this.cloneDocPrint();
     this.updateTitleWithDate();
-    window.print();
+        window.print();
 };
 
 function toggleRowVisibility() {
@@ -169,6 +169,23 @@ function stringParaArray(string) {
     const linhas = string.trim().split('\n');  
     return linhas;
 };
+
+// Obtém o agente do usuário do navegador
+const userAgent = navigator.userAgent;
+
+// Verifica o agente do usuário e define o valor do atributo data-navegador
+if (userAgent.includes("Chrome")) {
+  document.querySelector(".browser__style").setAttribute("data-navegador", "chrome");
+} else if (userAgent.includes("Firefox")) {
+  document.querySelector(".browser__style").setAttribute("data-navegador", "firefox");
+} else if (userAgent.includes("Edge")) {
+  document.querySelector(".browser__style").setAttribute("data-navegador", "edge");
+} else if (userAgent.includes("Safari")) {
+  document.querySelector(".browser__style").setAttribute("data-navegador", "safari");
+} else {
+  document.querySelector(".browser__style").setAttribute("data-navegador", "desconhecido");
+}
+
 
 const nomesUnidades = [
     'USF BONGI BOA IDEA',
