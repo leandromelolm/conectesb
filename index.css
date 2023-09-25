@@ -59,7 +59,7 @@ input.input_distrito {
 }
 
 input.input_data_pedido {
-    width: 72%;
+    width: 78%;
     text-transform: uppercase;
 }
 
@@ -150,9 +150,16 @@ td {
 }
 
 #divDate {
+    display: flex;
+    place-items: center;
     margin-left: 5%;
     border-left: solid 1px;
     padding-left: 3px;
+}
+
+#divDateShowPrint{
+    display: flex;
+    place-items: center
 }
 
 .item {
@@ -253,7 +260,7 @@ input.class_hover {
 }
 
 .show-in-print {
-    display: none;  /* ocultar o elemento na exibição normal */
+    display: none !important;  /* ocultar o elemento na exibição normal */
 }
 
 .hidden-in-print {

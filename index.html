@@ -44,10 +44,14 @@
                                                 <input type="text" id="ds" class="input_distrito"
                                                     onblur="saveRequesterLocaStorage()">
                                             </div>
-                                            <div id="divDate">
-                                                Data:
-                                                <input type="text" id="dataPedido" class="input_data_pedido"
+                                            <div id="divDate" class="hidden-in-print">
+                                                <span>Data:</span>
+                                                <input type="date" id="dataPedido" class="input_data_pedido"
                                                     onblur="saveRequesterLocaStorage()">
+                                            </div>
+                                            <div id="divDateShowPrint" class="show-in-print">
+                                                <span>Data:</span>
+                                                <input type="text" id="dataPedidoShowPrint" class="input_data_pedido">
                                             </div>
                                         </div>
                                     </th>

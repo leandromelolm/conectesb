@@ -39,10 +39,15 @@ function cloneDocPrint() {
 }
 
 function printPage() {
+    if(document.getElementById('dataPedido').value){
+        date = new Date(document.getElementById('dataPedido').value);
+        document.getElementById('dataPedidoShowPrint').value = date.toLocaleDateString('pt-Br', {timeZone: 'UTC'});
+    }else{
+        document.getElementById('dataPedidoShowPrint').value = "          /          /      "
+    }   
     this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
-    $print.remove();
 }
 
 function toggleRowVisibility() {
@@ -107,9 +112,9 @@ function recuperarDadosRequisitanteLocalStorage(){
 }
 
 function recuperarDadosItensLocalStorage() {
-    var dadosJSON = localStorage.getItem('dadosItens');
+    let dadosJSON = localStorage.getItem('dadosItens');
     if (dadosJSON) {
-        var dados = JSON.parse(dadosJSON);
+        let dadosObj = JSON.parse(dadosJSON);
 
         // Iterar pelos dados e preencher os inputs correspondentes
         var linhas = document.querySelectorAll('#tableItens tbody tr');
@@ -117,12 +122,12 @@ function recuperarDadosItensLocalStorage() {
             var inputEspecificacao = linha.querySelector('.td__especificacao input');
             var inputQuantidade = linha.querySelector('.td__quant_pedida input');
 
-            if (index < dados.length) {
+            if (index < dadosObj.length) {
                 if (inputEspecificacao) {
-                    inputEspecificacao.value = dados[index].especificacao;
+                    inputEspecificacao.value = dadosObj[index].especificacao;
                 }
                 if (inputQuantidade) {
-                    inputQuantidade.value = dados[index].quantidade;
+                    inputQuantidade.value = dadosObj[index].quantidade;
                 }
             }
         });
@@ -161,9 +166,9 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
 }
 
 // Adicionar máscara
-$(function () {
-    $('#dataPedido').mask('00/00/0000');
-})
+// $(function () {
+//     $('#dataPedido').mask('00/00/0000');
+// })
 
 
 const nomesUnidades = [
@@ -201,11 +206,15 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
 [X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
-[] implementar botão para salvar em pdf em nova aba.
+
+[] fetch post em uma planilha google.
 [] mover lista de itens para um arquivo externo ao index.js
-[] implementar download de arquivo json para com dados preenchidos nos inputs
+[] implementar download de arquivo json com os dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina
+[] implementar botão para salvar em pdf em nova aba.
+
+
 
 LINK ÚTEIS
 // https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
