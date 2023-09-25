@@ -441,3 +441,12 @@ TIRA DE POLIESTER DE 100X10X0,05MM CAIXA COM 50 TIRAS.
 TRICRESOLFORMALINA FRASCO COM 10 ML
 VASELINA SOLIDA TUBO COM 25 G
 `;
+
+const mySecret = process.env.SECRET_ENV;
+
+if (mySecret) {
+  // Faça algo com o segredo aqui
+  console.log("O valor do segredo é:", mySecret);
+} else {
+  console.error("A variável de ambiente MY_SECRET não está definida.");
+}
