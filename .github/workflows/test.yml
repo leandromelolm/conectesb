@@ -14,4 +14,4 @@ jobs:
       env:
         SECRET_ENV: ${{ secrets.SECRET_ENV }}
       run: |
-        echo "O valor do segredo é: $SECRET_ENV"
+        node index.js
