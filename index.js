@@ -4,7 +4,10 @@ const datalist = document.getElementById("item-list");
 const undlist = document.getElementById("u-list")
 let nomeUnidade = document.getElementById("nomeUnidade");
 
-window.onload = () =>{
+let requerenteForm;
+let itensForm;
+
+window.onload = () => {
 
     let itemArray = stringParaArray(itensStringConcatenado);
 
@@ -21,33 +24,33 @@ window.onload = () =>{
     });
 
     recuperarDadosRequisitanteLocalStorage();
-    recuperarDadosItensLocalStorage();    
+    recuperarDadosItensLocalStorage();
 };
 
 function updateTitleWithDate() {
     document.getElementById("pageTitle")
-        .innerText = "sb-material-"+nomeUnidade.value + "-" 
-        + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0,10);
+        .innerText = "sb-material-" + nomeUnidade.value + "-"
+        + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0, 10);
 };
 
 function cloneDocPrint() {
     const divDocPrintOriginal = document.getElementById("docPrint");
     const divClone = divDocPrintOriginal.cloneNode(true);
     let divDublicada = document.getElementById("docPrintClone");
-    divDublicada.innerHTML = ''; 
+    divDublicada.innerHTML = '';
     divDublicada.appendChild(divClone);
 };
 
 function printPage() {
-    if(document.getElementById('dataPedido').value){
+    if (document.getElementById('dataPedido').value) {
         date = new Date(document.getElementById('dataPedido').value);
-        document.getElementById('dataPedidoShowPrint').value = date.toLocaleDateString('pt-Br', {timeZone: 'UTC'});
-    }else{
+        document.getElementById('dataPedidoShowPrint').value = date.toLocaleDateString('pt-Br', { timeZone: 'UTC' });
+    } else {
         document.getElementById('dataPedidoShowPrint').value = "          /          /      "
-    }   
+    }
     this.cloneDocPrint();
     this.updateTitleWithDate();
-        window.print();
+    window.print();
 };
 
 function toggleRowVisibility() {
@@ -67,14 +70,14 @@ function toggleRowVisibility() {
     }
 };
 
-function saveRequesterLocaStorage(){
+function saveRequesterLocaStorage() {
     let dadosRequerente = {
-        nomeUnidade     : document.getElementById('nomeUnidade').value,
-        ds              : document.getElementById('ds').value,
-        dataPedido      : document.getElementById('dataPedido').value,
-        grupoMaterial   : document.getElementById('grupoMaterial').value,
-        nomeResponsavel : document.getElementById('nomeResponsavel').value
-    }    
+        nomeUnidade: document.getElementById('nomeUnidade').value,
+        ds: document.getElementById('ds').value,
+        dataPedido: document.getElementById('dataPedido').value,
+        grupoMaterial: document.getElementById('grupoMaterial').value,
+        nomeResponsavel: document.getElementById('nomeResponsavel').value
+    }
     localStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
 };
 
@@ -100,9 +103,9 @@ inputs.forEach(function (input) {
     input.addEventListener('input', saveDataItensLocalStorage);
 });
 
-function recuperarDadosRequisitanteLocalStorage(){
+function recuperarDadosRequisitanteLocalStorage() {
     let requerenteJson = localStorage.getItem("dadosRequerente");
-    if(requerenteJson){
+    if (requerenteJson) {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
         document.getElementById('ds').value = requerente.ds;
@@ -134,7 +137,7 @@ function recuperarDadosItensLocalStorage() {
     }
 };
 
-function inputsRequestorClean(){
+function inputsRequestorClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
 Essa ação apagará os campos: 
 UNIDADE REQUISITANTE, 
@@ -142,7 +145,7 @@ DISTRITO,
 GRUPO DE MATERIAL 
 E FUNCIONÁRIO RESPONSÁVEL
 `);
-    if(ok) {
+    if (ok) {
         document.getElementById('nomeUnidade').value = '';
         document.getElementById('ds').value = '';
         document.getElementById('grupoMaterial').value = '';
@@ -156,7 +159,7 @@ function inputsItensClean() {
 Essa ação apagará os campos da coluna: 
 ESPECIFICAÇÕES E QUANTIDADE PEDIDA 
 `);
-    if(ok) {
+    if (ok) {
         var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
         inputs.forEach(function (input) {
             input.value = '';
@@ -166,7 +169,7 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
 };
 
 function stringParaArray(string) {
-    const linhas = string.trim().split('\n');  
+    const linhas = string.trim().split('\n');
     return linhas;
 };
 
@@ -175,23 +178,53 @@ const userAgent = navigator.userAgent;
 
 // Verifica o agente do usuário e define o valor do atributo data-navegador
 if (userAgent.includes("Chrome")) {
-  document.querySelector(".browser__style").setAttribute("data-navegador", "chrome");
+    document.querySelector(".browser__style").setAttribute("data-navegador", "chrome");
 } else if (userAgent.includes("Firefox")) {
-  document.querySelector(".browser__style").setAttribute("data-navegador", "firefox");
+    document.querySelector(".browser__style").setAttribute("data-navegador", "firefox");
 } else if (userAgent.includes("Edge")) {
-  document.querySelector(".browser__style").setAttribute("data-navegador", "edge");
+    document.querySelector(".browser__style").setAttribute("data-navegador", "edge");
 } else if (userAgent.includes("Safari")) {
-  document.querySelector(".browser__style").setAttribute("data-navegador", "safari");
+    document.querySelector(".browser__style").setAttribute("data-navegador", "safari");
 } else {
-  document.querySelector(".browser__style").setAttribute("data-navegador", "desconhecido");
+    document.querySelector(".browser__style").setAttribute("data-navegador", "desconhecido");
 }
 
+
+function saveSheetGoogle() {
+
+    let pedidoInfo = {
+        requerente: localStorage.getItem('dadosRequerente'),
+        itens: localStorage.getItem('dadosItens')
+    };
+    console.log(pedidoInfo);
+
+    var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
+    var sheetName = "Sheet1";
+    var scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
+
+    var params = new URLSearchParams(pedidoInfo);
+    console.log(params)
+    params.append("sheetId", sheetId);
+    params.append("sheetName", sheetName);
+    fetch(scriptUrl, {
+        method: "POST",
+        body: params
+    }).then(function (response) {
+        return response.text();
+    })
+    .then(function (text) {
+        alert(text);
+    })
+    .catch(function (error) {
+        alert(error);
+    });
+}
 
 const nomesUnidades = [
     'USF BONGI BOA IDEA',
     'USF CHICO MENDES/XIMBORÉ',
     'USF COQUEIRAL I E II',
-    'USF IRAQUE/RUA DO RIO',   
+    'USF IRAQUE/RUA DO RIO',
     'USF JARDIM UCHOA',
     'USF JIQUIA I E II',
     'USF MANGUEIRA I',
@@ -205,12 +238,12 @@ const nomesUnidades = [
     'CS PROFESSOR ROMERO MARQUES',
     'UPINHA DIA - BONGI NOVO PRADO',
     'UPINHA JARDIM SÃO PAULO',
-    'UPINHA NOVO JIQUIÁ',    
+    'UPINHA NOVO JIQUIÁ',
     'PAM CEASA',
 ];
 
 const itensStringConcatenado =
-`
+    `
 ÓXIDO DE ZINCO
 EUGENOL
 IONÔMERO DE VIDRO

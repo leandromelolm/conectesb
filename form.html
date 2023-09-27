@@ -1,0 +1,94 @@
+<html>
+<head>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    input {
+      width: 300px;
+      height: 30px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    button {
+      width: 100px;
+      height: 40px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00a0ff;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <form id="myForm">
+    <h1>Enviar dados para uma planilha do Google</h1>
+    <input type="text" id="name" name="name" placeholder="Nome" required>
+    <input type="email" id="email" name="email" placeholder="Email" required>
+    <input type="number" id="age" name="age" placeholder="Idade" required>
+    <button type="submit" id="submit">Enviar</button>
+  </form>
+  <script>
+    // Coloque aqui o ID da sua planilha do Google
+    // var sheetId = "1a2b3c4d5e6f7g8h9i0j";
+    // https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit?pli=1#gid=0
+    var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
+// 
+
+    // Coloque aqui o nome da aba da sua planilha do Google
+    var sheetName = "Sheet1";
+
+    // Coloque aqui a URL do seu script do Google Apps Script que faz o fetch
+    // var scriptUrl = "https://script.google.com/macros/s/ABCDEFGHIJKL/exec";
+    var scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
+
+    // Seleciona o formulário pelo seu ID
+    var form = document.getElementById("myForm");
+    
+    // Adiciona um evento de submit ao formulário
+    form.addEventListener("submit", function(event) {
+        // Previne o comportamento padrão do formulário (recarregar a página)
+        event.preventDefault();
+        
+        // Cria um objeto FormData com os dados do formulário
+        var formData = new FormData(form);
+        console.log(formData)
+
+      // Cria um objeto URLSearchParams com os dados do FormData
+      var params = new URLSearchParams(formData);
+      console.log(params);
+
+      // Adiciona o ID e o nome da planilha aos parâmetros
+      params.append("sheetId", sheetId);
+      params.append("sheetName", sheetName);
+
+      // Cria uma requisição fetch para o script do Google Apps Script
+      fetch(scriptUrl, {
+        method: "POST",
+        body: params
+      })
+      .then(function(response) {
+        // Converte a resposta em texto
+        return response.text();
+      })
+      .then(function(text) {
+        // Mostra a resposta na tela
+        alert(text);
+      })
+      .catch(function(error) {
+        // Mostra o erro na tela
+        alert(error);
+      });
+    });
+  </script>
+</body>
+</html>
