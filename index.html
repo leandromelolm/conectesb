@@ -424,16 +424,6 @@
                                         </td>
                                         <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
                                     </tr>
-                                    <tr class="tr_hidden">
-                                        <td class="item"></td>
-                                        <td class="unid"></td>
-                                        <td class="codigo"></td>
-                                        <td class="td__especificacao">
-                                            <input type="text" placeholder="" list="item-list">
-                                            <datalist id="item-list"></datalist>
-                                        </td>
-                                        <td class="td__quant_pedida"><input type="number" min="0" placeholder="" /></td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -651,11 +641,6 @@
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr class="tr_hidden">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
                             </tbody>
                         </table>
                         <table class="table__total">
@@ -680,7 +665,8 @@
                     value="Limpar Formulário - requisitante">
                 <input type="button" class="class_hover" onclick="inputsItensClean()"
                     value="Limpar Campos de itens pedidos">
-                <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test">
+                <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test"
+                style="display: none;">
             </div>
         </div>
 

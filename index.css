@@ -98,7 +98,7 @@ td {
 }
 
 #tableHeader{
-    height: 106px;
+    height: 109px;
 }
 
 #tableHeader tbody tr th {
@@ -108,7 +108,7 @@ td {
 
 .table_autorizador_fornecimento {
     background: white;
-    height: 106px;
+    height: 109px;
 }
 
 .table_autorizador_fornecimento thead tr th {
@@ -329,6 +329,17 @@ input.class_hover {
     table, th, td {
         border: 2px solid black !important;
         border-collapse: collapse !important;
-        height: 17px;
+        height: 16px !important;
+    }
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+    @page {
+        size: A4;
+        margin: 1cm;
+        counter-increment: page;
     }
 }
