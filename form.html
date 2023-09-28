@@ -29,12 +29,13 @@
     }
   </style>
 </head>
-<body>
+<body onload="setDataAtual()">
   <form id="myForm">
-    <h1>Enviar dados para uma planilha do Google</h1>
-    <input type="text" id="name" name="name" placeholder="Nome" required>
-    <input type="email" id="email" name="email" placeholder="Email" required>
-    <input type="number" id="age" name="age" placeholder="Idade" required>
+    <h2>Enviar dados para uma planilha do Google</h2>
+    <h4>Estoque atual</h4>
+    <input type="text" id="name" name="name" placeholder="produto" required>
+    <input type="date" id="data" name="data">
+    <input type="number" id="quant" name="quant" placeholder="quantidade" required>
     <button type="submit" id="submit">Enviar</button>
   </form>
   <script>
@@ -42,7 +43,6 @@
     // var sheetId = "1a2b3c4d5e6f7g8h9i0j";
     // https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit?pli=1#gid=0
     var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
-// 
 
     // Coloque aqui o nome da aba da sua planilha do Google
     var sheetName = "Sheet1";
@@ -89,6 +89,21 @@
         alert(error);
       });
     });
+
+    function setDataAtual() {
+      var data = new Date();
+      var ano = data.getFullYear();
+      var mes = data.getMonth() + 1;
+      var dia = data.getDate();
+      if (mes < 10) { // se o mês for menor que 10, adiciona um zero à esquerda
+        mes = "0" + mes;
+      }
+      if (dia < 10) { // se o dia for menor que 10, adiciona um zero à esquerda
+        dia = "0" + dia;
+      }
+      var dataAtual = ano + "-" + mes + "-" + dia;
+      document.getElementById("data").value = dataAtual;
+    }
   </script>
 </body>
 </html>
