@@ -92,7 +92,7 @@ table {
 table,
 th,
 td {
-    border: 1px solid black;
+    border: 1.7px solid black;
     border-collapse: collapse;
     height: 19px;
 }
@@ -327,19 +327,16 @@ input.class_hover {
 .browser__style[data-navegador="firefox"] {
     font-size: 11px;    
     table, th, td {
-        border: 2px solid black !important;
+        border: 0.12rem solid black !important;
         border-collapse: collapse !important;
-        height: 16px !important;
+    }
+    td{
+        height: 18px;
     }
     html,
     body {
         margin: 0;
         padding: 0;
         border: 0;
-    }
-    @page {
-        size: A4;
-        margin: 1cm;
-        counter-increment: page;
     }
 }
