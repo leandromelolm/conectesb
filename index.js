@@ -474,8 +474,8 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] salvar no local storage inputs da unidade requerente.
 [X] salvar no local storage inputs dos itens.
 [X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
+[X] fetch post em uma planilha google.
 
-[] fetch post em uma planilha google.
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json com os dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
