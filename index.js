@@ -51,6 +51,7 @@ function printPage() {
     this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
+    saveSheetGoogle();
 };
 
 function toggleRowVisibility() {
@@ -194,16 +195,16 @@ function saveSheetGoogle() {
 
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
-        itens: localStorage.getItem('dadosItens')
+        itens: localStorage.getItem('dadosItens'),
+        date: new Date()
     };
-    console.log(pedidoInfo);
 
     var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
     var sheetName = "Sheet1";
     var scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
 
     var params = new URLSearchParams(pedidoInfo);
-    console.log(params)
+    var date = new Date();
     params.append("sheetId", sheetId);
     params.append("sheetName", sheetName);
     fetch(scriptUrl, {
@@ -213,10 +214,12 @@ function saveSheetGoogle() {
         return response.text();
     })
     .then(function (text) {
-        alert(text);
+        // alert(text);
+        console.log(text)
     })
     .catch(function (error) {
-        alert(error);
+        // alert(error);
+        console.log(text)
     });
 }
 
