@@ -215,35 +215,29 @@ td.td__quant_pedida input {
     height: 35px;
     width: 380px;
     margin-top: 10px;
-    background-color: #efefef;
+    background-color: #0091e5;
+    color: white;       
+    border-radius: 5px;
+    border: none;
+    font-weight: bold;
 }
 
 #buttons input:hover {
-    background-color: #abeb9c;
+    background-color: #01a509;
+    cursor: pointer;
 }
 
 #imprimirButton {
-    background-color: #efefef;
+    background-color: #0033ff;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
 #imprimirButton:hover {
-    background-color: #92b5db !important; /* Cor de fundo ao passar o mouse */
-}
-
-#toggleButton {
-    background-color: #efefef;
-    cursor: pointer;
+    background-color: #0033ff !important; /* Cor de fundo ao passar o mouse */
 }
 
 #toggleButton:hover {
-    background-color: #abeb9c;
-    cursor: pointer;
-}
-
-input.class_hover {
-    background-color: #abeb9c;
-    cursor: pointer;
+    background-color: #263ea1 !important;
 }
 
 .full-content {
