@@ -85,7 +85,18 @@ function stringParaArray(string) {
     return linhas;
 };
 
+function enviarFormulario(event) {
+    event.preventDefault();
+    const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
+    const itensDados = document.getElementById('listaPedido').value;
+    localStorage.setItem('dadosRequerente', unidadeRequisitante)
+    localStorage.setItem('dadosItens', itensDados);
+}
 
+function limparCampos() {
+    document.getElementById('unidadeRequisitante').value = ''; 
+    document.getElementById('listaPedido').value = ''; 
+  }
 
 
 const itensStringConcatenado =
