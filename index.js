@@ -196,6 +196,7 @@ function saveSheetGoogle() {
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
+        unidade: document.getElementById('nomeUnidade').value,
         date: new Date()
     };
 
