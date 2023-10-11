@@ -83,23 +83,26 @@ function saveRequesterLocaStorage() {
 };
 
 function saveDataItensLocalStorage() {
-    var dados = [];
+    let dados = [];
     // Iterar por todas as linhas de input
-    var linhas = document.querySelectorAll('#tableItens tbody tr');
+    let linhas = document.querySelectorAll('#tableItens tbody tr');
     linhas.forEach(function (linha, index) {
-        var inputEspecificacao = linha.querySelector('.td__especificacao input');
-        var inputQuantidade = linha.querySelector('.td__quant_pedida input');
-        var item = {
-            especificacao: inputEspecificacao.value,
-            quantidade: inputQuantidade.value
-        };
-        dados.push(item);
+        let inputEspecificacao = linha.querySelector('.td__especificacao input');
+        let inputQuantidade = linha.querySelector('.td__quant_pedida input');
+        let produto = inputEspecificacao.value.trim();
+        if (produto !== ''){
+            let item = {
+                especificacao: produto,
+                quantidade: inputQuantidade.value
+            };
+            dados.push(item);
+        }
     });
     localStorage.setItem('dadosItens', JSON.stringify(dados));
 };
 
 // Adiciona um evento 'input' para salvar os dados no Local Storage automaticamente
-var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
+let inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
 inputs.forEach(function (input) {
     input.addEventListener('input', saveDataItensLocalStorage);
 });
@@ -121,10 +124,10 @@ function recuperarDadosItensLocalStorage() {
         let dadosObj = JSON.parse(dadosJSON);
 
         // Iterar pelos dados e preencher os inputs correspondentes
-        var linhas = document.querySelectorAll('#tableItens tbody tr');
+        let linhas = document.querySelectorAll('#tableItens tbody tr');
         linhas.forEach(function (linha, index) {
-            var inputEspecificacao = linha.querySelector('.td__especificacao input');
-            var inputQuantidade = linha.querySelector('.td__quant_pedida input');
+            let inputEspecificacao = linha.querySelector('.td__especificacao input');
+            let inputQuantidade = linha.querySelector('.td__quant_pedida input');
 
             if (index < dadosObj.length) {
                 if (inputEspecificacao) {
@@ -161,7 +164,7 @@ Essa ação apagará os campos da coluna:
 ESPECIFICAÇÕES E QUANTIDADE PEDIDA 
 `);
     if (ok) {
-        var inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
+        let inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
         inputs.forEach(function (input) {
             input.value = '';
         });
@@ -197,15 +200,15 @@ function saveSheetGoogle() {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
         unidade: document.getElementById('nomeUnidade').value,
+        navegador:  userAgent,
         date: new Date()
     };
 
-    var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
-    var sheetName = "Sheet1";
-    var scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
+    let sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
+    let sheetName = "Sheet1";
+    let scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
 
-    var params = new URLSearchParams(pedidoInfo);
-    var date = new Date();
+    let params = new URLSearchParams(pedidoInfo);
     params.append("sheetId", sheetId);
     params.append("sheetName", sheetName);
     fetch(scriptUrl, {
@@ -525,7 +528,7 @@ function gerarTabelaPDF(pdf, dados, columns, startX, startY) {
 }
   
 function gerarPDF() {
-    var pdf = new jsPDF();
+    let pdf = new jsPDF();
 
     // Adiciona o cabeçalho do PDF
     pdf.setFont("Times", "bold", 16);
@@ -540,20 +543,20 @@ function gerarPDF() {
     pdf.text("Data: " + document.querySelector("#dataPedidoShowPrint").value, 10, 60);
 
     // Dados do material
-    var especificacoesInputs = document.querySelectorAll(".td__especificacao input");
-    var quantPedidaInputs = document.querySelectorAll(".td__quant_pedida input");
+    let especificacoesInputs = document.querySelectorAll(".td__especificacao input");
+    let quantPedidaInputs = document.querySelectorAll(".td__quant_pedida input");
 
     // Cria um array para armazenar os dados da tabela
-    var tableData = [];
-    for (var i = 0; i < especificacoesInputs.length; i++) {
-        var especificacao = especificacoesInputs[i].value;
-        var quantidade = quantPedidaInputs[i].value;
+    let tableData = [];
+    for (let i = 0; i < especificacoesInputs.length; i++) {
+        let especificacao = especificacoesInputs[i].value;
+        let quantidade = quantPedidaInputs[i].value;
         tableData.push([especificacao, quantidade]);
     }
 
     // Configuração da tabela
-    var columns = ["Especificações", "Quantidade"];
-    var startY = 70;  // Posição inicial da tabela
+    let columns = ["Especificações", "Quantidade"];
+    let startY = 70;  // Posição inicial da tabela
     startY = gerarTabelaPDF(pdf, tableData, columns, 10, startY);
 
     // Salva o arquivo PDF
@@ -569,8 +572,8 @@ $(document).ready(function () {
 
 // https://mrrio.github.io/jsPDF/examples/basic.html
 function savePDF() {
-    var data = new Date();
-    var pdf = new jsPDF('p', 'pt', 'letter')
+    let data = new Date();
+    let pdf = new jsPDF('p', 'pt', 'letter')
         , source = $('body')[0]
 
         , specialElementHandlers = {
