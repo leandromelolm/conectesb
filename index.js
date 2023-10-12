@@ -483,6 +483,11 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
 [X] fetch post em uma planilha google.
 
+[] fazer get de uma determinada coluna da planilha
+[] fazer get de uma linha linha da planilha
+[] alterar exibição do botão imprimir no evento de click
+[] adicionar botão ENVIAR PEDIDO - que enviar pedido para planilha retorna mensagem de pedido enviado.
+
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json com os dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
