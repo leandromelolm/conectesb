@@ -1,9 +1,13 @@
 let dataEnv = '';
 
-const script = process.env.LINK_GOOGLE_SCRIPT; // Acesse a variável de ambiente
-const planilha = process.env.LINK_SPREADSHEET; // Acesse a variável de ambiente
+// const script = process.env.LINK_GOOGLE_SCRIPT; // Acesse a variável de ambiente
+// const planilha = process.env.LINK_SPREADSHEET; // Acesse a variável de ambiente
 // Use a variável apiUrl no seu código
-console.log('Planilha: ', planilha);
+
+const planilha = getenv("LINK_GOOGLE_SCRIPT");
+const script = getenv("LINK_GOOGLE_SCRIPT");
+
+console.log("planilha ", planilha)
 
 function carregarDados() {
     return fetch('config.json')  
@@ -29,6 +33,8 @@ export async function getLink() {
     }
     return dataEnv;
 }
+
+
 
 // export const LINK_GOOGLE_SCRIPT = '';
 // export const LINK_SPREADSHEET = '';
