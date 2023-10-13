@@ -29,7 +29,8 @@ function doGet(e) {
 
 https://support.google.com/docs/thread/188243991/utilizando-api-no-google-sheets?hl=pt
 
-Crie um novo arquivo de script do google desvinculado de qualquer planilha.
+Crie um novo arquivo de script do google desvinculado de qualquer planilha
+(drive.google.com -> Novo -> mais -> Script do Google App).
 No arquivo de script renomeie ele para o que você precisar
 Apague tudo o que tiver dentro
 Copie o código abaixo e cole
