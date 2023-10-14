@@ -5,13 +5,19 @@ import { getLink } from './env.js';
 // const linkSpreadSheet = LINK_SPREADSHEET;
 let dataEnv;
 let linkGoogleScript, linkSpreadSheet;
+let obterCelulas;
+let linkGoogleScript16 = "https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec";
 
 window.onload = () =>{
     usarLinks();
+    // setTimeout(() => {
+    //     enviarDadosParaPlanilha(), obterDadosDaPlanilha();
+    // }, "2000");  
 
-    setTimeout(() => {
-        enviarDadosParaPlanilha(), obterDadosDaPlanilha();
-    }, "2000");  
+
+    setTimeout(() =>{
+        getSheetData();
+    }, '3000');
 }
 
 async function usarLinks() {
@@ -24,9 +30,9 @@ function enviarDadosParaPlanilha() {
     fetch(linkGoogleScript, {
         method: 'POST',
         body: JSON.stringify({
-            link: linkSpreadSheet,
-            pagina: 'pedidos',
             requisicao: 'enviar',
+            link: linkSpreadSheet,
+            pagina: 'pedidos',            
             informacoes: 
             [
                 new Date(), 
@@ -62,8 +68,44 @@ function obterDadosDaPlanilha() {
 };
 
 function verificarDados(dados){
-    console.log(dados);
+    console.log(dados);    
 }
+
+function atribuirValor(lastRow){
+    obterCelulas = `A${lastRow}:E${lastRow-20}`
+    console.log(obterCelulas)
+}
+
+function getSheetData(){    
+    fetch(linkGoogleScript16, {
+        method: 'POST',
+        body: JSON.stringify({
+          link: linkSpreadSheet,
+          pagina: 'sheet1',
+          celulas: obterCelulas,
+          requisicao: 'obter',
+        }),
+    
+      })
+        .then((dados) => dados.json()) // acesse json do retorno
+        .then((dados) => verificarDados(dados)); // chame a função que irá validar, filtrar, e verificar seus dados
+    
+};
+
+fetch(linkGoogleScript16, {
+    method: 'POST',
+    body: JSON.stringify({
+      link: '',
+      pagina: 'sheet1',
+      celulas:'',
+      requisicao: 'ultimopedido',
+    }),
+
+})
+.then((dados) => dados.json()) // acesse json do retorno
+.then((dados) => atribuirValor(dados));
+
+
 
 
 
@@ -74,7 +116,7 @@ PASSOS PARA SEREM EXECUTADOS NO SCRIPT.GOOGLE.COM
 1- Crie um novo arquivo de script do google desvinculado de qualquer planilha
 (drive.google.com -> Novo -> mais -> Script do Google App).
 
-2- No arquivo de script renomeie e copie a função doPost(e) abaixo.
+2- No arquivo de script renomeie e copie a função doPost(e) do arquivo code-appscript_v16.gs
 
 3- Clique em Implantar
 (IMPLANTAR -> NOVA IMPLANTAÇÃO -> ENGRENAGEM -> APP DA WEB -> CONFIGURAÇÃO)
@@ -91,32 +133,4 @@ https://support.google.com/docs/thread/188243991/utilizando-api-no-google-sheets
 
 */
 
-// colar este código no script do google script
-function doPost(e) {
-    ContentService.createTextOutput(JSON.stringify({ method: "POST", eventObject: e }))
-      .setMimeType(ContentService.MimeType.JSON);
-    const dados = JSON.parse(e.postData.contents);
-    const response = { method: "POST", eventObject: e };
- 
-    try {  
-      if (dados.requisicao == 'requisitar') {
-        return ContentService.createTextOutput(JSON.stringify(
-          SpreadsheetApp.openByUrl(dados.link).getSheetByName(dados.pagina).getRange(dados.celulas).getValues()
-        ));  
-      } else if (dados.requisicao == 'enviar') {
-        const sheet = SpreadsheetApp.openByUrl(dados.link).getSheetByName(dados.pagina);
-        const lastRow = sheet.getLastRow() + 1;
-        sheet.appendRow(dados.informacoes);
-        response.text = "sucesso";
-        response.insertedRow = lastRow;
-        return ContentService.createTextOutput(
-          JSON.stringify(response)).setMimeType(ContentService.MimeType.JSON);          
-      } else {
-        return ContentService.createTextOutput(
-          JSON.stringify({ text: "tipo de requisicao invalida" })).setMimeType(ContentService.MimeType.JSON);      
-      }  
-    } catch (erro) {
-      return ContentService.createTextOutput(
-        JSON.stringify({ erro: erro.message })).setMimeType(ContentService.MimeType.JSON);  
-    }  
-}
+// colar código code-appscript_v16.gs no script do google script

@@ -6,6 +6,8 @@ let nomeUnidade = document.getElementById("nomeUnidade");
 
 let requerenteForm;
 let itensForm;
+// appscript v10 - OBS. v16 fecth blocked - CORS policy: No 'Access-Control-Allow-Origin' 
+let scriptUrl = 'https://script.google.com/macros/s/AKfycbw1sMXgBUIV7ViGvizX35k2GvlD1MMG4Mv8n7W0A-PE9mXo7C4qqkbBg9_WzKY5Eaf-Tg/exec';
 
 window.onload = () => {
 
@@ -201,14 +203,15 @@ function saveSheetGoogle() {
         itens: localStorage.getItem('dadosItens'),
         unidade: document.getElementById('nomeUnidade').value,
         navegador:  userAgent,
-        date: new Date()
+        date: new Date(),
+        requisicao: "salvar", // salvar
+        Date: ''
     };
 
     let sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
     let sheetName = "Sheet1";
-    let scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
-
     let params = new URLSearchParams(pedidoInfo);
+   
     params.append("sheetId", sheetId);
     params.append("sheetName", sheetName);
     fetch(scriptUrl, {
@@ -218,8 +221,11 @@ function saveSheetGoogle() {
         return response.text();
     })
     .then(function (text) {
-        // alert(text);
         console.log(text)
+        let t = JSON.parse(text)
+        console.log(t.row)
+        document.querySelector(
+            '#respostaPlanilhaPedido').innerHTML =`Pedido enviado para planilha google: Número: ${t.row}`;
     })
     .catch(function (error) {
         // alert(error);

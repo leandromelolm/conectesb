@@ -1,3 +1,4 @@
 config.json
 config.js
-env.development
+.env
+google-code_v1.gs.js
