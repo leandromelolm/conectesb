@@ -226,7 +226,9 @@ function saveSheetGoogle() {
         let t = JSON.parse(text)
         console.log(t.row)
         document.querySelector(
-            '#respostaPlanilhaPedido').innerHTML =`Pedido enviado para planilha google: Número: ${t.row}`;
+            '#respostaPlanilhaPedido').innerHTML =
+            `Pedido enviado para planilha google. Número Pedido:
+             <b>${t.row}</b>. Momento: <b>${new Date()}</b>`; // new Date().toISOString()
     })
     .catch(function (error) {
         // alert(error);
