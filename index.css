@@ -227,13 +227,23 @@ td.td__quant_pedida input {
     cursor: pointer;
 }
 
-#imprimirButton {
+#btnPrint {
     background-color: #0033ff;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
-#imprimirButton:hover {
+#btnPrint:hover {
     background-color: #0033ff !important; /* Cor de fundo ao passar o mouse */
+}
+
+#btnPrint:active {
+    background-color: green !important;
+    color: #ffffff;
+}
+
+#btnPrint:disabled {
+    background-color: #999999 !important;
+    color: #ffffff;
 }
 
 #toggleButton:hover {

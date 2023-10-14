@@ -54,6 +54,7 @@ function printPage() {
     this.updateTitleWithDate();
     window.print();
     saveSheetGoogle();
+    desabilitarBotaoImprimir(); // desabilita por alguns segundos
 };
 
 function toggleRowVisibility() {
@@ -231,6 +232,18 @@ function saveSheetGoogle() {
         // alert(error);
         console.log(text)
     });
+}
+
+let botaoHabilitado = true;
+function desabilitarBotaoImprimir() {
+    if (botaoHabilitado) {
+    botaoHabilitado = false;
+    document.getElementById('btnPrint').disabled = true;
+    setTimeout(function() {
+        botaoHabilitado = true;
+        document.getElementById('btnPrint').disabled = false;
+    }, 5000);
+    }
 }
 
 const nomesUnidades = [
@@ -490,8 +503,8 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] fetch post em uma planilha google.
 
 [] fazer get de uma determinada coluna da planilha
-[] fazer get de uma linha linha da planilha
-[] alterar exibição do botão imprimir no evento de click
+[X] fazer get de uma linha linha da planilha
+[X] alterar exibição do botão imprimir no evento de click
 [] adicionar botão ENVIAR PEDIDO - que enviar pedido para planilha retorna mensagem de pedido enviado.
 
 [] mover lista de itens para um arquivo externo ao index.js
