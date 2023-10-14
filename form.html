@@ -1,22 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <style>
-    form {
+    form#myForm{
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 20px;
     }
 
-    input {
+    input{
       width: 300px;
       height: 30px;
       margin: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 5px;
-    }
+    }    
 
     button {
       width: 100px;
@@ -39,36 +42,91 @@
       margin: 20px;
       display: block;
     }
+
+    .pesquisa{
+      margin: 20px;
+    }
+    
+    a {
+      color: black;
+      text-decoration: none;
+    }
+
+    a:hover{
+      color: white
+    }
+
+    #btnPesquisa:disabled {
+      background-color: #cccccc; /* Cor de fundo para o estado desabilitado */
+      color: #555555; /* Cor do texto para o estado desabilitado */
+    }
+
   </style>
 </head>
 <body>
-  <form id="myForm">
-    <h2>Enviar dados para uma planilha Google</h2>
-    <h4>Estoque atual</h4>
-    <input type="date" id="data" name="data">
-    <input type="text" id="name" name="name" placeholder="produto" list="item-list" required>
+  <div class="container-fluid">
+    <form id="myForm" class="d-none"> <!--FORM ESCONDIDA-->
+      <h4>Enviar dados para uma planilha Google</h4>
+      <h5>Estoque atual</h5>
+      <input class="updateItens" type="date" id="data" name="data">
+      <input type="text" id="name" name="name" placeholder="produto" list="item-list" required>
       <datalist id="item-list"></datalist>    
-    <input type="number" id="quant" name="quant" placeholder="quantidade" required>
-    <button type="submit" id="submit">Enviar</button>
-  </form>  
-  
-  <form class="salvarArmazenamentoLocal" onsubmit="enviarFormulario(event)">
-    <h4>Salvar no LocalStorage</h4>
-    <div>
-      <label for="unidadeRequisitante">Unidade Requisitante</label>
-      <textarea class="form-control" placeholder="{}" id="unidadeRequisitante"></textarea>
-    </div>    
-    <div>
-      <label for="listaPedido">Lista de pedido</label>
-      <textarea class="form-control" placeholder='[{"especificacao":"","quantidade":""},{"especificacao":"","quantidade":""}]' id="listaPedido"></textarea>
-    </div>
-    <button type="submit" class="btn btn-secondary armazenamento">Salvar no armazenamento local</button>
-    <div class="input-group-append">
-      <button class="btn btn-outline-secondary armazenamento" type="button" onclick="limparCampos()">Limpar campos</button>
-    </div>
-  </form>
+      <input type="number" id="quant" name="quant" placeholder="quantidade" required>
+      <button type="submit" id="submit">Enviar</button>
+    </form>  
     
-<script src="form.js"></script>
-<script src="index.js"></script>
+    <form class="salvarArmazenamentoLocal" onsubmit="enviarFormulario(event)">
+      <h4>Salvar no LocalStorage</h4>
+      <div>
+        <label for="unidadeRequisitante">Unidade Requisitante</label>
+        <textarea class="form-control" placeholder="" id="unidadeRequisitante"></textarea>
+      </div>    
+      <div>
+        <label for="listaPedido">Lista de pedido</label>
+        <textarea class="form-control" placeholder='[{"especificacao":"","quantidade":""},{"especificacao":"","quantidade":""}]' id="listaPedido"></textarea>
+      </div>
+      <button type="submit" class="btn btn-outline-primary armazenamento">Salvar no armazenamento local</button>
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary armazenamento" type="button" onclick="limparCampos()">Limpar campos</button>
+      </div>
+      <div>
+        <button class="btn btn-outline-primary armazenamento">
+          <a target="_blank" href='index.html'>Página pedido</a>
+        </button>
+      </div>
+    </form>
+
+    <div class="pesquisa">
+      <h4>Pesquisar Pedidos</h4>
+      <p id="numeroUltimoPedido"></p>
+      <form id="search-form">
+          <input type="text" id="textoPesquisado" placeholder="Número do pedido">
+          <button id="btnPesquisa">Pesquisar</button>
+      </form>
+      <table class="table">
+        <thead>
+          <th>data</th>
+          <th>requisitante</th>
+          <th>dados requisitante</th>
+          <th>pedido</th>
+        </thead>
+        <tbody>
+          <td>
+            <div id="dataPedido"></div>
+          </td>
+          <td>
+            <div id="requisitante"></div>
+          </td>
+          <td>
+            <div id="dadosRequisitante"></div>
+          </td>
+          <td>
+            <div id="pedido"></div>
+          </td>
+        </tbody>
+      </table>
+    </div>    
+  </div>
+  <script src="form.js"></script>
 </body>
 </html>

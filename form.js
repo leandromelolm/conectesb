@@ -78,6 +78,8 @@ window.onload = () => {
     });
 
     setDataAtual();
+    getSheetData('ultimopedido', '');
+    
 };
 
 function stringParaArray(string) {
@@ -94,9 +96,69 @@ function enviarFormulario(event) {
 }
 
 function limparCampos() {
-    document.getElementById('unidadeRequisitante').value = ''; 
-    document.getElementById('listaPedido').value = ''; 
-  }
+    document.getElementById('unidadeRequisitante').value = '';
+    document.getElementById('listaPedido').value = '';
+}
+
+const formularioPequisa = document.getElementById('search-form');
+formularioPequisa.addEventListener('submit', e => {
+    e.preventDefault()
+    pesquisar();   
+})
+
+function pesquisar(){
+    let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
+    let txtlinhaFormatada = `A${txtLinhaPesquisada}:E${txtLinhaPesquisada}`;
+    getSheetData('obter', txtlinhaFormatada);
+    habilitarBotao();
+};
+
+function getSheetData(tipoRequisicao, obterCelulas){  
+    const linkScriptv16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
+    const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0'
+    fetch(linkScriptv16, {
+        method: 'POST',
+        body: JSON.stringify({
+          link: linkPlanilha,
+          pagina: 'sheet1',
+          celulas: obterCelulas,
+          requisicao: tipoRequisicao,
+        }),    
+    })
+    .then((dados) => dados.json()) 
+    .then((dados) => verificarDados(dados));    
+};
+
+function verificarDados(dados){  
+    if(typeof dados === 'number'){
+        document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
+    }
+    console.log("retorno",dados)
+    let data = dados
+    if(data[0]){
+        document.getElementById('dataPedido').innerHTML = data[0][0];
+        document.getElementById('requisitante').innerHTML = data[0][1];
+        document.getElementById('dadosRequisitante').innerHTML = data[0][2];
+        document.getElementById('pedido').innerHTML = data[0][3];
+
+        document.getElementById('unidadeRequisitante').value = data[0][2];
+        document.getElementById('listaPedido').value = data[0][3];
+    }
+};
+
+
+let botaoHabilitado = true;
+
+function habilitarBotao() {
+    if (botaoHabilitado) {
+    botaoHabilitado = false;
+    document.getElementById('btnPesquisa').disabled = true;
+    setTimeout(function() {
+        botaoHabilitado = true;
+        document.getElementById('btnPesquisa').disabled = false;
+    }, 3000);
+    }
+}
 
 
 const itensStringConcatenado =
