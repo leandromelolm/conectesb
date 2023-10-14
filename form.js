@@ -110,7 +110,7 @@ function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
     let txtlinhaFormatada = `A${txtLinhaPesquisada}:E${txtLinhaPesquisada}`;
     getSheetData('obter', txtlinhaFormatada);
-    habilitarBotao();
+    desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
 
 function getSheetData(tipoRequisicao, obterCelulas){  
@@ -146,10 +146,9 @@ function verificarDados(dados){
     }
 };
 
-
 let botaoHabilitado = true;
 
-function habilitarBotao() {
+function desabilitarBotaoPesquisa() {
     if (botaoHabilitado) {
     botaoHabilitado = false;
     document.getElementById('btnPesquisa').disabled = true;
