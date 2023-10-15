@@ -1,33 +1,15 @@
-// Coloque aqui o ID da sua planilha do Google
 // https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit?pli=1#gid=0
-var sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
-
-// Coloque aqui o nome da aba da sua planilha do Google
-var sheetName = "Sheet1";
-
-// Coloque aqui a URL do seu script do Google Apps Script que faz o fetch
-var scriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
-
-// Seleciona o formulário pelo seu ID
-var form = document.getElementById("myForm");
-
-// Adiciona um evento de submit ao formulário
+let sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0"; // ID planilha google
+let sheetName = "Sheet1"; // Aba da planilha
+let googleAppScriptUrl = "https://script.google.com/macros/s/AKfycbw3Av8e3v9kM51mDRT4-0HF-0QzaS_bGpO-PaBs2edJX4HL1UrCtv4cwKadnsEain7OWQ/exec";
+let form = document.getElementById("myForm");
 form.addEventListener("submit", function(event) {
-    // Previne o comportamento padrão do formulário (recarregar a página)
-    event.preventDefault();
-    
-    // Cria um objeto FormData com os dados do formulário
-    var formData = new FormData(form);
-
-    // Cria um objeto URLSearchParams com os dados do FormData
-    var params = new URLSearchParams(formData);
-
-    // Adiciona o ID e o nome da planilha aos parâmetros
+    event.preventDefault();    
+    let formData = new FormData(form);
+    let params = new URLSearchParams(formData);
     params.append("sheetId", sheetId);
     params.append("sheetName", sheetName);
-
-    // Cria uma requisição fetch para o script do Google Apps Script
-    fetch(scriptUrl, {
+    fetch(googleAppScriptUrl, {
         method: "POST",
         body: params
     })
@@ -49,17 +31,17 @@ function limparForm(){
 }
 
 function setDataAtual() {
-    var data = new Date();
-    var ano = data.getFullYear();
-    var mes = data.getMonth() + 1;
-    var dia = data.getDate();
+    let data = new Date();
+    let ano = data.getFullYear();
+    let mes = data.getMonth() + 1;
+    let dia = data.getDate();
     if (mes < 10) { // se o mês for menor que 10, adiciona um zero à esquerda
     mes = "0" + mes;
     }
     if (dia < 10) { // se o dia for menor que 10, adiciona um zero à esquerda
     dia = "0" + dia;
     }
-    var dataAtual = ano + "-" + mes + "-" + dia;
+    let dataAtual = ano + "-" + mes + "-" + dia;
     document.getElementById("data").value = dataAtual;
 }
 
