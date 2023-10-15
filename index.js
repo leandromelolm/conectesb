@@ -199,13 +199,15 @@ if (userAgent.includes("Chrome")) {
 
 function saveSheetGoogle() {
 
+    const nomeUnidade = document.getElementById('nomeUnidade').value;   
+
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
-        unidade: document.getElementById('nomeUnidade').value,
+        unidade: nomeUnidade.toUpperCase(),
         navegador:  userAgent,
         date: new Date(),
-        requisicao: "salvar", // salvar
+        requisicao: "salvar",
         Date: ''
     };
 
