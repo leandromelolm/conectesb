@@ -32,16 +32,13 @@ form.addEventListener("submit", function(event) {
         body: params
     })
     .then(function(response) {
-        // Converte a resposta em texto
         return response.text();
     })
     .then(function(text) {
-        // Mostra a resposta na tela
         alert(text);
         limparForm()
     })
     .catch(function(error) {
-        // Mostra o erro na tela
         alert(error);
     });
 });
@@ -214,8 +211,23 @@ function criarTabela(arr) {
       table.appendChild(row);
     }  
     tabelaDiv.appendChild(table);
-  }
+}
 
+function AbrirFormularioPedido() {
+    const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
+    const itensDados = document.getElementById('listaPedido').value;
+    localStorage.setItem('dadosRequerente', unidadeRequisitante)
+    localStorage.setItem('dadosItens', itensDados);
+    window.open('index.html', '_blank');
+}
+
+function limparTodosCampos(){
+    limparCampos();
+    document.getElementById('tabelaListaPedido').innerHTML = "";
+    document.getElementById("textoPesquisado").value = "";
+    resultadoPesquisa = document.getElementById('resultadoPesquisa');
+    resultadoPesquisa.className = 'd-none table';
+}
 
 const itensStringConcatenado =
     `

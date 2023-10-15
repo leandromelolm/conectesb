@@ -56,6 +56,13 @@
       color: white
     }
 
+    #btnPesquisa {
+      width: 100px;
+      height: 37px;
+      border: none;
+      border-radius: 5px;
+    }
+    
     #btnPesquisa:active {
       background-color: white;
       color: black;
@@ -80,7 +87,7 @@
       <button type="submit" id="submit">Enviar</button>
     </form>  
     
-    <form class="salvarArmazenamentoLocal" onsubmit="enviarFormulario(event)">
+    <form class="salvarArmazenamentoLocal d-none" onsubmit="enviarFormulario(event)"> <!--FORM ESCONDIDA-->
       <h4>Salvar no LocalStorage</h4>
       <div>
         <label for="unidadeRequisitante">Unidade Requisitante</label>
@@ -92,11 +99,11 @@
       </div>
       <button type="submit" class="btn btn-outline-primary armazenamento">Salvar no armazenamento local</button>
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary armazenamento" type="button" onclick="limparCampos()">Limpar campos</button>
+        <button class="btn btn-outline-secondary armazenamento" type="button" onclick="limparTodosCampos()">Limpar campos</button>
       </div>
       <div>
         <button class="btn btn-outline-primary armazenamento">
-          <a target="_blank" href='index.html'>Página pedido</a>
+          <a target="_blank" href='index.html'>Página formulário de pedido</a>
         </button>
       </div>
     </form>
@@ -106,9 +113,19 @@
       <p id="numeroUltimoPedido"></p>
       <form id="search-form">
           <input type="text" id="textoPesquisado" placeholder="Número do pedido">
-          <button id="btnPesquisa">Pesquisar</button>
+          <button id="btnPesquisa" class="btn-primary armazenamento">Pesquisar</button>
+          <button 
+            class="btn btn-outline-primary armazenamento" 
+            onclick="AbrirFormularioPedido()">
+            Abrir formulário de pedido
+          </button>
+          <button class="btn btn-outline-secondary armazenamento" 
+            type="button" 
+            onclick="limparTodosCampos()">
+            Limpar campos
+          </button>          
       </form>
-      <table id="resultadoPesquisa" class="table">
+      <table id="resultadoPesquisa" class="table d-none">
         <thead>
           <th>data</th>
           <th>requisitante</th>
@@ -135,6 +152,6 @@
       <div id="tabelaListaPedido"></div>
     </div>  
   </div>
-  <script src="form.js"></script>
+  <script src="pedido.js"></script>
 </body>
 </html>
