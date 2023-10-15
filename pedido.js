@@ -28,7 +28,7 @@ form.addEventListener("submit", function(event) {
 function limparForm(){
     document.getElementById('name').value = '';
     document.getElementById('quant').value = '';
-}
+};
 
 function setDataAtual() {
     let data = new Date();
@@ -43,7 +43,7 @@ function setDataAtual() {
     }
     let dataAtual = ano + "-" + mes + "-" + dia;
     document.getElementById("data").value = dataAtual;
-}
+};
 
 
 window.onload = () => {
@@ -55,10 +55,8 @@ window.onload = () => {
         optionElement.value = option;
         datalist.appendChild(optionElement);
     });
-
     setDataAtual();
-    getSheetData('ultimopedido', '');
-    
+    getSheetData('ultimopedido', '');    
 };
 
 function stringParaArray(string) {
@@ -72,12 +70,12 @@ function enviarFormulario(event) {
     const itensDados = document.getElementById('listaPedido').value;
     localStorage.setItem('dadosRequerente', unidadeRequisitante)
     localStorage.setItem('dadosItens', itensDados);
-}
+};
 
 function limparCampos() {
     document.getElementById('unidadeRequisitante').value = '';
     document.getElementById('listaPedido').value = '';
-}
+};
 
 const formularioPequisa = document.getElementById('search-form');
 formularioPequisa.addEventListener('submit', e => {
@@ -141,7 +139,6 @@ function verificarDados(dados){
 };
 
 let botaoHabilitado = true;
-
 function desabilitarBotaoPesquisa() {
     if (botaoHabilitado) {
     botaoHabilitado = false;
@@ -151,7 +148,7 @@ function desabilitarBotaoPesquisa() {
         document.getElementById('btnPesquisa').disabled = false;
     }, 3000);
     }
-}
+};
 
 function criarTabela(arr) {
     let ordem = ultimoPedido-20;
@@ -193,7 +190,7 @@ function criarTabela(arr) {
       table.appendChild(row);
     }  
     tabelaDiv.appendChild(table);
-}
+};
 
 function AbrirFormularioPedido() {
     const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
@@ -201,7 +198,7 @@ function AbrirFormularioPedido() {
     localStorage.setItem('dadosRequerente', unidadeRequisitante)
     localStorage.setItem('dadosItens', itensDados);
     window.open('index.html', '_blank');
-}
+};
 
 function limparTodosCampos(){
     limparCampos();
@@ -209,7 +206,7 @@ function limparTodosCampos(){
     document.getElementById("textoPesquisado").value = "";
     resultadoPesquisa = document.getElementById('resultadoPesquisa');
     resultadoPesquisa.className = 'd-none table';
-}
+};
 
 const itensStringConcatenado =
     `
