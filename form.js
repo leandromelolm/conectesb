@@ -106,10 +106,17 @@ formularioPequisa.addEventListener('submit', e => {
     pesquisar();   
 })
 
+let ultimoPedido;
 function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
     let txtlinhaFormatada = `A${txtLinhaPesquisada}:E${txtLinhaPesquisada}`;
-    getSheetData('obter', txtlinhaFormatada);
+    if(!txtLinhaPesquisada == ''){
+        getSheetData('obter', txtlinhaFormatada);
+    }
+    else{
+        getSheetData('obter', `A${ultimoPedido -20}:B${ultimoPedido}`);
+    }
+   
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
 
@@ -132,9 +139,10 @@ function getSheetData(tipoRequisicao, obterCelulas){
 function verificarDados(dados){  
     if(typeof dados === 'number'){
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
+        ultimoPedido = dados;
     }
-    console.log("retorno",dados)
-    let data = dados
+    console.log(dados);
+    let data = dados;
     if(data[0]){
         document.getElementById('dataPedido').innerHTML = data[0][0];
         document.getElementById('requisitante').innerHTML = data[0][1];
@@ -143,6 +151,10 @@ function verificarDados(dados){
 
         document.getElementById('unidadeRequisitante').value = data[0][2];
         document.getElementById('listaPedido').value = data[0][3];
+
+        if(!data[0][3]){
+            criarTabela(data);
+        }
     }
 };
 
@@ -158,6 +170,45 @@ function desabilitarBotaoPesquisa() {
     }, 3000);
     }
 }
+
+function criarTabela(arr) {
+    let ordem = ultimoPedido-20;
+
+    document.getElementById('tabela').innerHTML = "";
+    const tabelaDiv = document.getElementById('tabela');
+    const table = document.createElement('table');
+    table.className = 'table';
+    const thead = document.createElement('thead');
+    const theadRow = document.createElement('tr');
+    const ordemHeader = document.createElement('th');
+    ordemHeader.textContent = 'Ordem';
+    const dataHeader = document.createElement('th');
+    dataHeader.textContent = 'Data';
+    const unidadeHeader = document.createElement('th');
+    unidadeHeader.textContent = 'Unidade';
+
+    theadRow.appendChild(ordemHeader);
+    theadRow.appendChild(dataHeader);
+    theadRow.appendChild(unidadeHeader);
+    thead.appendChild(theadRow);
+    table.appendChild(thead);
+
+    for (let i = 0; i < arr.length; i++) {
+      const row = document.createElement('tr');
+      const numeroCelula = document.createElement('td');     
+      numeroCelula.textContent = ordem;
+      ordem++
+
+      row.appendChild(numeroCelula);
+      for (let j = 0; j < arr[i].length; j++) {
+        const cell = document.createElement('td');
+        cell.appendChild(document.createTextNode(arr[i][j]));
+        row.appendChild(cell);
+      }  
+      table.appendChild(row);
+    }  
+    tabelaDiv.appendChild(table);
+  }
 
 
 const itensStringConcatenado =

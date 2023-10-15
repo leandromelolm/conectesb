@@ -232,7 +232,7 @@ function saveSheetGoogle() {
     })
     .catch(function (error) {
         // alert(error);
-        console.log(text)
+        console.log(error)
     });
 }
 
