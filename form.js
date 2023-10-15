@@ -114,9 +114,9 @@ function pesquisar(){
         getSheetData('obter', txtlinhaFormatada);
     }
     else{
+        getSheetData('ultimopedido', '');
         getSheetData('obter', `A${ultimoPedido -20}:B${ultimoPedido}`);
-    }
-   
+    }   
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
 
@@ -152,6 +152,9 @@ function verificarDados(dados){
         document.getElementById('unidadeRequisitante').value = data[0][2];
         document.getElementById('listaPedido').value = data[0][3];
 
+        let resultadoPesquisa = document.getElementById('resultadoPesquisa');
+        resultadoPesquisa.className = 'd-inline table';
+
         if(!data[0][3]){
             criarTabela(data);
         }
@@ -174,8 +177,11 @@ function desabilitarBotaoPesquisa() {
 function criarTabela(arr) {
     let ordem = ultimoPedido-20;
 
-    document.getElementById('tabela').innerHTML = "";
-    const tabelaDiv = document.getElementById('tabela');
+    let resultadoPesquisa = document.getElementById('resultadoPesquisa');
+    resultadoPesquisa.className = 'd-none';
+
+    document.getElementById('tabelaListaPedido').innerHTML = "";
+    const tabelaDiv = document.getElementById('tabelaListaPedido');
     const table = document.createElement('table');
     table.className = 'table';
     const thead = document.createElement('thead');
