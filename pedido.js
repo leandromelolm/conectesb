@@ -83,6 +83,7 @@ formularioPequisa.addEventListener('submit', e => {
     pesquisar();   
 })
 
+let itemInicial;
 let ultimoPedido;
 function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
@@ -113,14 +114,18 @@ function getSheetData(tipoRequisicao, obterCelulas){
 };
 
 function verificarDados(dados){  
-    if(typeof dados === 'number'){
+    if (typeof dados === 'number') {
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
         ultimoPedido = dados;
-        getSheetData('obter', `A${ultimoPedido -20}:B${ultimoPedido}`);
+        if (dados < 21) {
+            itemInicial = ultimoPedido - dados;
+            getSheetData('obter', `A${itemInicial + 1}:B${ultimoPedido}`);
+        } else {
+            getSheetData('obter', `A${ultimoPedido - 20}:B${ultimoPedido}`);
+        }
     }
-    console.log(dados);
     let data = dados;
-    if(data[0]){
+    if (data[0]) {
         document.getElementById('dataPedido').innerHTML = data[0][0];
         document.getElementById('requisitante').innerHTML = data[0][1];
         document.getElementById('dadosRequisitante').innerHTML = data[0][2];
@@ -151,7 +156,12 @@ function desabilitarBotaoPesquisa() {
 };
 
 function criarTabela(arr) {
-    let ordem = ultimoPedido-20;
+    let ordem;
+    if (ultimoPedido <21) {
+        ordem = itemInicial+1;        
+    } else {
+        ordem = ultimoPedido - 20;
+    }
 
     let resultadoPesquisa = document.getElementById('resultadoPesquisa');
     resultadoPesquisa.className = 'd-none';
@@ -163,7 +173,7 @@ function criarTabela(arr) {
     const thead = document.createElement('thead');
     const theadRow = document.createElement('tr');
     const ordemHeader = document.createElement('th');
-    ordemHeader.textContent = 'Ordem';
+    ordemHeader.textContent = '#';
     const dataHeader = document.createElement('th');
     dataHeader.textContent = 'Data';
     const unidadeHeader = document.createElement('th');
