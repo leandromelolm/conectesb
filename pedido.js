@@ -124,7 +124,7 @@ function verificarDados(dados){
             getSheetData('obter', `A${ultimoPedido - 20}:B${ultimoPedido}`);
         }
     }
-    let data = dados;
+    let data = dados;    
     if (data[0]) {
         document.getElementById('dataPedido').innerHTML = data[0][0];
         document.getElementById('requisitante').innerHTML = data[0][1];
@@ -136,9 +136,13 @@ function verificarDados(dados){
 
         let resultadoPesquisa = document.getElementById('resultadoPesquisa');
         resultadoPesquisa.className = 'd-inline table';
+        document.getElementById('tabelaListaPedido').innerHTML = "";
 
-        if(!data[0][3]){
+        if(data.length > 1){
             criarTabela(data);
+        }
+        if(dados[0][0] == ''){
+            document.getElementById('tabelaListaPedido').innerHTML = "Pedido não encontrado";
         }
     }
 };
