@@ -111,8 +111,7 @@ function pesquisar(){
         getSheetData('obter', txtlinhaFormatada);
     }
     else{
-        getSheetData('ultimopedido', '');
-        getSheetData('obter', `A${ultimoPedido -20}:B${ultimoPedido}`);
+        getSheetData('ultimopedido', '');      
     }   
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
@@ -129,14 +128,15 @@ function getSheetData(tipoRequisicao, obterCelulas){
           requisicao: tipoRequisicao,
         }),    
     })
-    .then((dados) => dados.json()) 
-    .then((dados) => verificarDados(dados));    
+    .then((response) => response.json()) 
+    .then((data) => verificarDados(data));    
 };
 
 function verificarDados(dados){  
     if(typeof dados === 'number'){
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
         ultimoPedido = dados;
+        getSheetData('obter', `A${ultimoPedido -20}:B${ultimoPedido}`);
     }
     console.log(dados);
     let data = dados;
