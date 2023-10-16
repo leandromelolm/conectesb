@@ -126,7 +126,7 @@ function verificarDados(dados){
     }
     let data = dados;    
     if (data[0]) {
-        document.getElementById('dataPedido').innerHTML = data[0][0];
+        document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
         document.getElementById('requisitante').innerHTML = data[0][1];
         document.getElementById('dadosRequisitante').innerHTML = data[0][2];
         document.getElementById('pedido').innerHTML = data[0][3];
@@ -198,7 +198,11 @@ function criarTabela(arr) {
       row.appendChild(numeroCelula);
       for (let j = 0; j < arr[i].length; j++) {
         const cell = document.createElement('td');
-        cell.appendChild(document.createTextNode(arr[i][j]));
+        if (arr[i][j].substr(0,2) == '20') {            
+            cell.appendChild(document.createTextNode(dateFormat(arr[i][j])));           
+        } else {
+            cell.appendChild(document.createTextNode(arr[i][j]));
+        }
         row.appendChild(cell);
       }  
       table.appendChild(row);
@@ -221,6 +225,19 @@ function limparTodosCampos(){
     resultadoPesquisa = document.getElementById('resultadoPesquisa');
     resultadoPesquisa.className = 'd-none table';
 };
+
+function dateFormat(data) {
+    const dataObj = new Date(data);
+    
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const ano = dataObj.getFullYear();
+    const horas = String(dataObj.getHours()).padStart(2, '0');
+    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
+    const segundos = String(dataObj.getSeconds()).padStart(2, '0');
+    
+    return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
+  }
 
 const itensStringConcatenado =
     `
