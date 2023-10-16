@@ -43,6 +43,11 @@ function cloneDocPrint() {
     divDublicada.appendChild(divClone);
 };
 
+function printPageAndSendToSpreadsheet(){
+    saveSheetGoogle();
+    printPage();
+}
+
 function printPage() {
     if (document.getElementById('dataPedido').value) {
         date = new Date(document.getElementById('dataPedido').value);
@@ -53,7 +58,6 @@ function printPage() {
     this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
-    saveSheetGoogle();
     desabilitarBotaoImprimir(); // desabilita por alguns segundos
 };
 
@@ -242,10 +246,10 @@ let botaoHabilitado = true;
 function desabilitarBotaoImprimir() {
     if (botaoHabilitado) {
     botaoHabilitado = false;
-    document.getElementById('btnPrint').disabled = true;
+    document.getElementById('btnPrintSendSpreadsheet').disabled = true;
     setTimeout(function() {
         botaoHabilitado = true;
-        document.getElementById('btnPrint').disabled = false;
+        document.getElementById('btnPrintSendSpreadsheet').disabled = false;
     }, 5000);
     }
 }

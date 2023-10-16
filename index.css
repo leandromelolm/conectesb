@@ -227,21 +227,21 @@ td.td__quant_pedida input {
     cursor: pointer;
 }
 
-#btnPrint {
+#btnPrintSendSpreadsheet {
     background-color: #0033ff;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
-#btnPrint:hover {
+#btnPrintSendSpreadsheet:hover {
     background-color: #0033ff !important; /* Cor de fundo ao passar o mouse */
 }
 
-#btnPrint:active {
+#btnPrintSendSpreadsheet:active {
     background-color: white !important;
       color: black;
 }
 
-#btnPrint:disabled {
+#btnPrintSendSpreadsheet:disabled {
     background-color: #999999 !important;
     color: #ffffff;
 }

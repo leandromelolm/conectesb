@@ -663,12 +663,13 @@
             <div id="respostaPlanilhaPedido"></div>
 
             <div id="buttons">
-                <input type="button" id="btnPrint" onclick="printPage();" value="Imprimir e Enviar">
+                <input type="button" id="btnPrintSendSpreadsheet" onclick="printPageAndSendToSpreadsheet()" value="Imprimir e Enviar">
                 <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
                 <input type="button" class="class_hover" onclick="inputsRequestorClean()"
                     value="Limpar Formulário - requisitante">
                 <input type="button" class="class_hover" onclick="inputsItensClean()"
                     value="Limpar Campos de itens pedidos">
+                <input type="button" id="btnPrint" onclick="printPage()" value="Imprimir">
                     
                 <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test"
                 style="display: none;">
