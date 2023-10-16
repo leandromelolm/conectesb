@@ -203,14 +203,15 @@ if (userAgent.includes("Chrome")) {
 
 function saveSheetGoogle() {
 
-    const nomeUnidade = document.getElementById('nomeUnidade').value;   
+    const nomeUnidade = document.getElementById('nomeUnidade').value;
+    let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
         unidade: nomeUnidade.toUpperCase(),
         navegador:  userAgent,
-        date: new Date(),
+        date: instantePedido,
         requisicao: "salvar",
         Date: ''
     };
@@ -234,7 +235,7 @@ function saveSheetGoogle() {
         document.querySelector(
             '#respostaPlanilhaPedido').innerHTML =
             `Pedido enviado para planilha google. Número Pedido:
-             <b>${t.row}</b>. Momento: <b>${new Date()}</b>`; // new Date().toISOString()
+             <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
     })
     .catch(function (error) {
         // alert(error);
