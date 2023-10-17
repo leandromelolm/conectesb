@@ -223,25 +223,25 @@ td.td__quant_pedida input {
 }
 
 #buttons input:hover {
-    background-color: #01a509;
+    background-color: #0033ff;
     cursor: pointer;
 }
 
-#btnPrintSendSpreadsheet {
+#btnSendSpreadsheet {
     background-color: #0033ff;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
-#btnPrintSendSpreadsheet:hover {
+#btnSendSpreadsheet:hover {
     background-color: #0033ff !important; /* Cor de fundo ao passar o mouse */
 }
 
-#btnPrintSendSpreadsheet:active {
+#btnSendSpreadsheet:active {
     background-color: white !important;
       color: black;
 }
 
-#btnPrintSendSpreadsheet:disabled {
+#btnSendSpreadsheet:disabled {
     background-color: #999999 !important;
     color: #ffffff;
 }

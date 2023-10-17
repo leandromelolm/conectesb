@@ -43,9 +43,13 @@ function cloneDocPrint() {
     divDublicada.appendChild(divClone);
 };
 
-function printPageAndSendToSpreadsheet(){
-    saveSheetGoogle();
-    printPage();
+function sendToSpreadsheet(){
+    let ok = confirm(`Gostaria de enviar o pedido?`);
+    if (ok) {
+        saveSheetGoogle();
+        desabilitarBotaoEnviar();
+        // printPage();
+    }
 }
 
 function printPage() {
@@ -58,7 +62,7 @@ function printPage() {
     this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
-    desabilitarBotaoImprimir(); // desabilita por alguns segundos
+    desabilitarBotaoEnviar(); // desabilita por alguns segundos
 };
 
 function toggleRowVisibility() {
@@ -229,28 +233,42 @@ function saveSheetGoogle() {
         return response.text();
     })
     .then(function (text) {
-        console.log(text)
-        let t = JSON.parse(text)
-        console.log(t.row)
-        document.querySelector(
-            '#respostaPlanilhaPedido').innerHTML =
-            `Pedido enviado para planilha google. Número Pedido:
-             <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
+        responseFetch(text, instantePedido);
+
     })
     .catch(function (error) {
-        // alert(error);
+        alert(error);
         console.log(error)
     });
+};
+
+function responseFetch(text, instantePedido){
+    let t = JSON.parse(text);
+    console.log(t.row);
+    document.querySelector(
+        '#respostaPlanilhaPedido').innerHTML =
+        `Pedido enviado para planilha google. Número Pedido:
+         <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
+    alert(
+        `Pedido enviado para planilha google. 
+        Número Pedido: ${t.row}
+        Momento: ${instantePedido}` 
+    );
+    let respostaPlanilhaPedido = document.getElementById('respostaPlanilhaPedido');
+    respostaPlanilhaPedido.style.backgroundColor = '#C2E7FF';
+    respostaPlanilhaPedido.style.height =  '27px';
+    respostaPlanilhaPedido.style.textAlign = 'center';
 }
 
+
 let botaoHabilitado = true;
-function desabilitarBotaoImprimir() {
+function desabilitarBotaoEnviar() {
     if (botaoHabilitado) {
     botaoHabilitado = false;
-    document.getElementById('btnPrintSendSpreadsheet').disabled = true;
+    document.getElementById('btnSendSpreadsheet').disabled = true;
     setTimeout(function() {
         botaoHabilitado = true;
-        document.getElementById('btnPrintSendSpreadsheet').disabled = false;
+        document.getElementById('btnSendSpreadsheet').disabled = false;
     }, 5000);
     }
 }
