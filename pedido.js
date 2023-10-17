@@ -116,7 +116,7 @@ function getSheetData(tipoRequisicao, obterCelulas){
 function verificarDados(dados){  
     if (typeof dados === 'number') {
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
-        ultimoPedido = dados;
+        ultimoPedido = dados;       
         if (dados < 21) {
             itemInicial = ultimoPedido - dados;
             getSheetData('obter', `A${itemInicial + 1}:B${ultimoPedido}`);
@@ -136,7 +136,7 @@ function verificarDados(dados){
 
         let resultadoPesquisa = document.getElementById('resultadoPesquisa');
         resultadoPesquisa.className = 'd-inline table';
-        document.getElementById('tabelaListaPedido').innerHTML = "";
+        document.getElementById('tabelaListaPedido').innerHTML = "";        
 
         if(data.length > 1){
             criarTabela(data);
@@ -144,6 +144,10 @@ function verificarDados(dados){
         if(dados[0][0] == ''){
             document.getElementById('tabelaListaPedido').innerHTML = "Pedido não encontrado";
         }
+        if (data.length == 1) {
+            let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
+            abrirPedidonoFormulario.className = "btn btn-primary armazenamento";            
+        } 
     }
 };
 
