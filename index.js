@@ -27,6 +27,7 @@ window.onload = () => {
 
     recuperarDadosRequisitanteLocalStorage();
     recuperarDadosItensLocalStorage();
+    visibilidadeDasLinhas();
 };
 
 function updateTitleWithDate() {
@@ -79,8 +80,25 @@ function toggleRowVisibility() {
         button.value = 'Mostrar Menos Linhas';
     } else {
         button.value = 'Mostrar Mais Linhas';
-    }
+    }    
 };
+
+function visibilidadeDasLinhas(){
+    let dadosJSON = localStorage.getItem('dadosItens');
+    const rows = document.querySelectorAll('.tr_hidden');
+    const button = document.getElementById('toggleButton');
+    if (dadosJSON) {
+        let dadosObj = JSON.parse(dadosJSON);
+        console.log(dadosObj.length)
+        
+        if (dadosObj.length > 11) {
+            rows.forEach(row => {
+                row.style.display = 'table-row';
+                button.value = 'Mostrar Menos Linhas';
+            });
+        }
+    }
+}
 
 function saveRequesterLocaStorage() {
     let dadosRequerente = {
@@ -247,10 +265,10 @@ function responseFetch(text, instantePedido){
     console.log(t.row);
     document.querySelector(
         '#respostaPlanilhaPedido').innerHTML =
-        `Pedido enviado para planilha google. Número Pedido:
+        `Pedido enviado para planilha. Número Pedido:
          <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
     alert(
-        `Pedido enviado para planilha google. 
+        `Pedido enviado para planilha. 
         Número Pedido: ${t.row}
         Momento: ${instantePedido}` 
     );
