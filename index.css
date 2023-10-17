@@ -237,7 +237,7 @@ td.td__quant_pedida input {
 }
 
 #btnSendSpreadsheet:active {
-    background-color: white !important;
+    background-color: rgb(160, 160, 159) !important;
       color: black;
 }
 

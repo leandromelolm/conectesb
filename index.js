@@ -88,14 +88,18 @@ function visibilidadeDasLinhas(){
     const rows = document.querySelectorAll('.tr_hidden');
     const button = document.getElementById('toggleButton');
     if (dadosJSON) {
-        let dadosObj = JSON.parse(dadosJSON);
-        console.log(dadosObj.length)
-        
-        if (dadosObj.length > 11) {
+        let dadosObj = JSON.parse(dadosJSON);        
+        if (dadosObj.length > 10) {
             rows.forEach(row => {
-                row.style.display = 'table-row';
-                button.value = 'Mostrar Menos Linhas';
+                row.style.display = 'table-row'; // EXIBIR
             });
+            button.value = 'Mostrar Menos Linhas';
+        }
+        if (dadosObj.length <= 10) {
+            rows.forEach(row => {
+                row.style.display = 'none'; // ESCONDER
+            });
+            button.value = 'Mostrar Menos Linhas';
         }
     }
 }
@@ -125,6 +129,8 @@ function saveDataItensLocalStorage() {
                 quantidade: inputQuantidade.value
             };
             dados.push(item);
+            console.log(dados.length);
+            visibilidadeDasLinhas();
         }
     });
     localStorage.setItem('dadosItens', JSON.stringify(dados));
