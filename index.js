@@ -45,6 +45,17 @@ function cloneDocPrint() {
 };
 
 function sendToSpreadsheet(){
+    if (document.getElementById('nomeUnidade').value === '') {
+        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
+        msgEnvioPedido.style.backgroundColor = '#FF6347';
+        msgEnvioPedido.style.color = 'black'
+        msgEnvioPedido.style.height =  '27px';
+        msgEnvioPedido.style.textAlign = 'center';
+
+        return  document.querySelector(
+            '#msgEnvioPedido').innerHTML =
+            `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
+    }
     let ok = confirm(`Gostaria de enviar o pedido?`);
     if (ok) {
         saveSheetGoogle();
@@ -268,20 +279,19 @@ function saveSheetGoogle() {
 
 function responseFetch(text, instantePedido){
     let t = JSON.parse(text);
-    console.log(t.row);
+    let msgEnvioPedido = document.getElementById('msgEnvioPedido');
+    msgEnvioPedido.style.backgroundColor = '#C2E7FF';
+    msgEnvioPedido.style.height =  '27px';
+    msgEnvioPedido.style.textAlign = 'center';
     document.querySelector(
-        '#respostaPlanilhaPedido').innerHTML =
+        '#msgEnvioPedido').innerHTML =
         `Pedido enviado para planilha. Número Pedido:
          <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
     alert(
         `Pedido enviado para planilha. 
         Número Pedido: ${t.row}
         Momento: ${instantePedido}` 
-    );
-    let respostaPlanilhaPedido = document.getElementById('respostaPlanilhaPedido');
-    respostaPlanilhaPedido.style.backgroundColor = '#C2E7FF';
-    respostaPlanilhaPedido.style.height =  '27px';
-    respostaPlanilhaPedido.style.textAlign = 'center';
+    );    
 }
 
 
