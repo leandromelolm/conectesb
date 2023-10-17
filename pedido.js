@@ -215,7 +215,8 @@ function AbrirFormularioPedido() {
     const itensDados = document.getElementById('listaPedido').value;
     localStorage.setItem('dadosRequerente', unidadeRequisitante)
     localStorage.setItem('dadosItens', itensDados);
-    window.open('index.html', '_blank');
+    // window.open('index.html', '_blank');
+    window.location.href = 'index.html';
 };
 
 function limparTodosCampos(){
