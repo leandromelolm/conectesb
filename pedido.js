@@ -124,7 +124,8 @@ function verificarDados(dados){
             getSheetData('obter', `A${ultimoPedido - 20}:B${ultimoPedido}`);
         }
     }
-    let data = dados;    
+    let data = dados;
+    let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
     if (data[0]) {
         document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
         document.getElementById('requisitante').innerHTML = data[0][1];
@@ -140,12 +141,12 @@ function verificarDados(dados){
 
         if(data.length > 1){
             criarTabela(data);
+            abrirPedidonoFormulario.className = "d-none"; 
         }
         if(dados[0][0] == ''){
             document.getElementById('tabelaListaPedido').innerHTML = "Pedido não encontrado";
         }
         if (data.length == 1) {
-            let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
             abrirPedidonoFormulario.className = "btn btn-primary armazenamento";            
         } 
     }
@@ -214,7 +215,7 @@ function criarTabela(arr) {
     tabelaDiv.appendChild(table);
 };
 
-function AbrirFormularioPedido() {
+function abrirPedidoNoFormulario() {
     const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
     const itensDados = document.getElementById('listaPedido').value;
     localStorage.setItem('dadosRequerente', unidadeRequisitante)

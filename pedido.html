@@ -113,17 +113,14 @@
       <form id="search-form">
           <input type="text" id="textoPesquisado" placeholder="Número do pedido">
           <button id="btnPesquisa" class="btn-primary armazenamento">Pesquisar</button>
-          <button 
-            id="abrirPedidonoFormulario"
-            class="d-none"
-            onclick="AbrirFormularioPedido()">
-            Abrir pedido no formulário
-          </button>
           <button class="btn btn-outline-secondary armazenamento" 
-            type="button" 
-            onclick="limparTodosCampos()">
-            Limpar campos
-          </button>          
+          type="button" 
+          onclick="limparTodosCampos()">
+          Limpar campos
+        </button>          
+        <button id="abrirPedidonoFormulario" class="d-none" onclick="abrirPedidoNoFormulario()">
+          Abrir pedido no formulário
+        </button>
       </form>
       <table id="resultadoPesquisa" class="table d-none">
         <thead>
