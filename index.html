@@ -5,17 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Saude Bucal - Pedido de Material</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="jquery/jquery.mask.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
+        integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
+        crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js" defer></script>-->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> --> 
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.js"></script>
 </head>
 
 <body>
-    <a class="hidden-in-print" target="" href='pedido.html'>Consultar pedido</a> 
+
+    <!--NAVBAR-->
+    <div class="hidden-in-print">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">Principal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="index.html">Formulário Requisição de
+                            Matériais</a>
+                        <a class="nav-link" href="pedido.html">Buscar Pedido</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>  
+   
     <div class="full-content browser__style">
 
         <div class="dashboard-sidebar hidden-in-print"></div>
@@ -31,7 +55,7 @@
 
                 <div id="divPrincipal">
                     <div id="divRight">
-                        <table id="tableHeader" class="table table-responsive h-100">
+                        <table id="tableHeader" class="table table-responsive ">
                             <tbody>
                                 <tr>
                                     <th>Unidade Requisitante:
@@ -459,7 +483,7 @@
                                         <span>Autorizo o Fornecimento</span>
                                         <p>Em _____/_____/_________</p>
                                     </th>
-                                </tr>                               
+                                </tr>
                                 <tr>
                                     <th>Resp. Almox.:</th>
                                 </tr>
@@ -528,7 +552,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                </tr>                                    
+                                </tr>
                                 <tr class="tr_hidden">
                                     <td></td>
                                     <td></td>
@@ -649,10 +673,10 @@
                         <table class="table__total">
                             <tr>
                                 <th>Total:</th>
-                            </tr>                           
+                            </tr>
                             <tr>
                                 <th></th>
-                            </tr>                           
+                            </tr>
                         </table>
 
                     </div>
@@ -671,15 +695,15 @@
                     value="Limpar Formulário - requisitante">
                 <input type="button" class="class_hover" onclick="inputsItensClean()"
                     value="Limpar Campos de itens pedidos">
-                
+
                 <!--Botões escondidos-->
                 <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test"
-                style="display: none;">
+                    style="display: none;">
                 <input type="button" class="class_hover" onclick="gerarPDF()" value="Salvar PDF (buttonPDF)"
-                style="display: none;">
-                
+                    style="display: none;">
+
                 <input type="button" class="btn btn-danger" id="btnPDF" value="Gerar PDF (btnPDF)"
-                style="display: none;">
+                    style="display: none;">
             </div>
         </div>
 
@@ -692,6 +716,7 @@
     </div>
 
     <script src="index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

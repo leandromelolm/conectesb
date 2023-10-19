@@ -71,6 +71,7 @@ input.input_grupo {
 input.input_funcionario {
     width: 60%;
     text-transform: uppercase;
+    height: -webkit-fill-available;
 }
 
 input:hover {
@@ -92,18 +93,26 @@ table {
 table,
 th,
 td {
-    border: 1.7px solid black;
+    border: 1.8px solid black;
     border-collapse: collapse;
     height: 19px;
 }
 
 #tableHeader{
     height: 109px;
+    margin: 0px;
 }
 
 #tableHeader tbody tr th {
     text-align: initial;
     padding: 0 0 0 3px;
+}
+
+th {
+    height: 21px !important;
+}
+tr {
+    height: 21px !important;
 }
 
 .table_autorizador_fornecimento {
