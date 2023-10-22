@@ -48,15 +48,29 @@ function sendToSpreadsheet(){
     if (document.getElementById('nomeUnidade').value === '') {
         let msgEnvioPedido = document.getElementById('msgEnvioPedido');
         msgEnvioPedido.style.backgroundColor = '#FF6347';
-        msgEnvioPedido.style.color = 'black'
-        msgEnvioPedido.style.height =  '27px';
+        msgEnvioPedido.style.color = 'white'
+        msgEnvioPedido.style.height =  '35px';
         msgEnvioPedido.style.textAlign = 'center';
 
         return  document.querySelector(
             '#msgEnvioPedido').innerHTML =
             `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
     }
-    let ok = confirm(`Gostaria de enviar o pedido?`);
+    const dataAtual = new Date();
+    const umDiaEmMilissegundos = 86400000;
+    const dataAnterior = new Date(dataAtual.getTime() - umDiaEmMilissegundos);
+    const dataFornecida = new Date(document.getElementById('dataPedido').value);    
+    if (dataFornecida < dataAnterior) {
+        msgEnvioPedido.style.backgroundColor = '#FF6347';
+        msgEnvioPedido.style.color = 'white'
+        msgEnvioPedido.style.height =  '35px';
+        msgEnvioPedido.style.textAlign = 'center';
+        return  document.querySelector(
+            '#msgEnvioPedido').innerHTML =
+            `Não é possível enviar pedido. A data não pode ser uma data passada.
+            Verifique o campo <b>Data</b> no formulário.`;
+    }
+    let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
         saveSheetGoogle();
         desabilitarBotaoEnviar();
@@ -161,6 +175,7 @@ function recuperarDadosRequisitanteLocalStorage() {
         document.getElementById('ds').value = requerente.ds;
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
+        document.getElementById('dataPedido').value = requerente.dataPedido;
     }
 };
 
