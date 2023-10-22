@@ -71,7 +71,7 @@ function sendToSpreadsheet(){
             Verifique o campo <b>Data</b> no formulário.`;
     }else{}
     document.querySelector('#msgEnvioPedido').innerHTML ="";
-    msgEnvioPedido.style.backgroundColor = 'white';   
+    msgEnvioPedido.style.backgroundColor = 'white';
     msgEnvioPedido.style.height =  '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
@@ -299,6 +299,7 @@ function responseFetch(text, instantePedido){
     let t = JSON.parse(text);
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
     msgEnvioPedido.style.backgroundColor = '#4CAF50';
+    msgEnvioPedido.style.color = 'white'
     msgEnvioPedido.style.height =  '35px';
     msgEnvioPedido.style.textAlign = 'center';
     document.querySelector(
