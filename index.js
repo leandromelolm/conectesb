@@ -69,7 +69,10 @@ function sendToSpreadsheet(){
             '#msgEnvioPedido').innerHTML =
             `Não é possível enviar pedido. A data não pode ser uma data passada.
             Verifique o campo <b>Data</b> no formulário.`;
-    }
+    }else{}
+    document.querySelector('#msgEnvioPedido').innerHTML ="";
+    msgEnvioPedido.style.backgroundColor = 'white';   
+    msgEnvioPedido.style.height =  '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
         saveSheetGoogle();
@@ -295,8 +298,8 @@ function saveSheetGoogle() {
 function responseFetch(text, instantePedido){
     let t = JSON.parse(text);
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
-    msgEnvioPedido.style.backgroundColor = '#C2E7FF';
-    msgEnvioPedido.style.height =  '27px';
+    msgEnvioPedido.style.backgroundColor = '#4CAF50';
+    msgEnvioPedido.style.height =  '35px';
     msgEnvioPedido.style.textAlign = 'center';
     document.querySelector(
         '#msgEnvioPedido').innerHTML =
