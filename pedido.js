@@ -130,7 +130,20 @@ function verificarDados(dados){
         document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
         document.getElementById('requisitante').innerHTML = data[0][1];
         document.getElementById('dadosRequisitante').innerHTML = data[0][2];
-        document.getElementById('pedido').innerHTML = data[0][3];
+        
+        // document.getElementById('pedido').innerHTML = data[0][3];
+        const listaItens = data[0][3];
+        document.getElementById('listaOrdenadaItemPedido').innerHTML = ''
+
+        if(listaItens){
+            let listObj = JSON.parse(listaItens);        
+            const lista = document.getElementById("listaOrdenadaItemPedido");
+            for (let i = 0; i < listObj.length; i++) {
+                const item = document.createElement("li");
+                item.textContent = `${listObj[i].especificacao} - quant. pedida: ${listObj[i].quantidade}`;               
+                lista.appendChild(item);
+            }
+        }
 
         document.getElementById('unidadeRequisitante').value = data[0][2];
         document.getElementById('listaPedido').value = data[0][3];
