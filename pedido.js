@@ -155,6 +155,7 @@ function verificarDados(dados){
         let resultadoPesquisa = document.getElementById('resultadoPesquisa');
         resultadoPesquisa.className = 'd-inline table';
         document.getElementById('tabelaListaPedido').innerHTML = "";        
+        let divListaItemPedido = document.getElementsByClassName('div__lista_item_pedido');
 
         if(data.length > 1){
             criarTabela(data);
@@ -164,7 +165,8 @@ function verificarDados(dados){
             document.getElementById('tabelaListaPedido').innerHTML = "Pedido não encontrado";
         }
         if (data.length == 1) {
-            abrirPedidonoFormulario.className = "btn btn-primary armazenamento";            
+            abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
+            divListaItemPedido = 'div__lista_item_pedido'         
         } 
     }
 };
@@ -225,7 +227,7 @@ function criarTabela(arr) {
         document.getElementById("textoPesquisado").value = link.textContent;
         pesquisar();
       });
-          
+
       numeroCelula.appendChild(link);    
       ordem++
 
@@ -259,6 +261,9 @@ function limparTodosCampos(){
     document.getElementById("textoPesquisado").value = "";
     resultadoPesquisa = document.getElementById('resultadoPesquisa');
     resultadoPesquisa.className = 'd-none table';
+    document.getElementById('listaOrdenadaItemPedido').innerHTML = '';
+    getSheetData('ultimopedido', '');
+    
 };
 
 function dateFormat(data) {
