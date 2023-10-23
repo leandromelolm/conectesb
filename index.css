@@ -315,6 +315,12 @@ td.td__quant_pedida input {
     header, footer {
         display: none !important;
     }
+    input {
+        width: 100%;   
+        box-sizing: border-box;
+        border-style: none;
+        background-color: transparent;
+    }
 }
 
 @media screen and (max-width: 600px) {
