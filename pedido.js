@@ -144,7 +144,7 @@ function verificarDados(dados){
             const lista = document.getElementById("listaOrdenadaItemPedido");
             for (let i = 0; i < listObj.length; i++) {
                 const item = document.createElement("li");
-                item.textContent = `${listObj[i].especificacao} - quant. pedida: ${listObj[i].quantidade}`;               
+                item.textContent = `${listObj[i].especificacao}: ${listObj[i].quantidade}`;               
                 lista.appendChild(item);
             }
         }
