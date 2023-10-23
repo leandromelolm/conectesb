@@ -147,6 +147,9 @@ function saveDataItensLocalStorage() {
     let dados = [];
     // Iterar por todas as linhas de input
     let linhas = document.querySelectorAll('#tableItens tbody tr');
+    limparValoresDaColunaItem();
+    const cells = document.querySelectorAll(".item");
+
     linhas.forEach(function (linha, index) {
         let inputEspecificacao = linha.querySelector('.td__especificacao input');
         let inputQuantidade = linha.querySelector('.td__quant_pedida input');
@@ -157,7 +160,8 @@ function saveDataItensLocalStorage() {
                 quantidade: inputQuantidade.value
             };
             dados.push(item);
-            console.log(dados.length);
+            const celulaItem = cells[index + 1];
+            celulaItem.textContent = index + 1;
             visibilidadeDasLinhas();
         }
     });
@@ -188,14 +192,16 @@ function recuperarDadosItensLocalStorage() {
         let dadosObj = JSON.parse(dadosJSON);
 
         // Iterar pelos dados e preencher os inputs correspondentes
-        let linhas = document.querySelectorAll('#tableItens tbody tr');
+        let linhas = document.querySelectorAll('#tableItens tbody tr');       
         linhas.forEach(function (linha, index) {
             let inputEspecificacao = linha.querySelector('.td__especificacao input');
             let inputQuantidade = linha.querySelector('.td__quant_pedida input');
-
+            const cells = document.querySelectorAll(".item");
             if (index < dadosObj.length) {
+                const celulaItem = cells[index + 1];
+                celulaItem.textContent = index + 1;
                 if (inputEspecificacao) {
-                    inputEspecificacao.value = dadosObj[index].especificacao;
+                    inputEspecificacao.value = dadosObj[index].especificacao;                    
                 }
                 if (inputQuantidade) {
                     inputQuantidade.value = dadosObj[index].quantidade;
@@ -233,8 +239,21 @@ ESPECIFICAÇÕES E QUANTIDADE PEDIDA
             input.value = '';
         });
         localStorage.removeItem('dadosItens');
+        limparValoresDaColunaItem();
     }
 };
+
+function limparValoresDaColunaItem() {
+    const cells = document.querySelectorAll(".item");
+    let i = 0;
+    cells.forEach((celula) => {
+        i = i + 1       
+        if (i > 1 ) {
+            // i = 1 apaga celula cabeçalho (th) da coluna item
+            celula.textContent = "";
+        }
+    });
+  }
 
 function stringParaArray(string) {
     const linhas = string.trim().split('\n');
