@@ -317,12 +317,12 @@ function saveSheetGoogle() {
     fetch(scriptUrl, {
         method: "POST",
         body: params
-    }).then(function (response) {
+    })
+    .then(function (response) {
         return response.text();
     })
     .then(function (text) {
         responseFetch(text, instantePedido);
-
     })
     .catch(function (error) {
         alert(error);

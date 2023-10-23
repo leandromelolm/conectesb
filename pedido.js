@@ -97,7 +97,7 @@ function pesquisar(){
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
 
-function getSheetData(tipoRequisicao, obterCelulas){  
+function getSheetData(tipoRequisicao, obterCelulas){
     const linkScriptv16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
     const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0'
     fetch(linkScriptv16, {
@@ -110,10 +110,14 @@ function getSheetData(tipoRequisicao, obterCelulas){
         }),    
     })
     .then((response) => response.json()) 
-    .then((data) => verificarDados(data));    
+    .then((data) => verificarDados(data))
+    .catch(function (error) {
+        alert(error);
+        console.log(error)
+    });;    
 };
 
-function verificarDados(dados){  
+function verificarDados(dados){
     if (typeof dados === 'number') {
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
         ultimoPedido = dados;       
@@ -209,8 +213,20 @@ function criarTabela(arr) {
 
     for (let i = 0; i < arr.length; i++) {
       const row = document.createElement('tr');
-      const numeroCelula = document.createElement('td');     
-      numeroCelula.textContent = ordem;
+      const numeroCelula = document.createElement('td');
+    //   numeroCelula.textContent = `${ordem}`;
+      const link = document.createElement('a');
+      link.textContent = ordem; 
+      link.href = 'javascript:void(0)';
+      link.style.textDecoration = 'none';
+      link.style.fontSize = '20px';
+
+      link.addEventListener('click', function () {
+        document.getElementById("textoPesquisado").value = link.textContent;
+        pesquisar();
+      });
+          
+      numeroCelula.appendChild(link);    
       ordem++
 
       row.appendChild(numeroCelula);
