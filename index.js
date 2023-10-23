@@ -127,7 +127,7 @@ function visibilidadeDasLinhas(){
             rows.forEach(row => {
                 row.style.display = 'none'; // ESCONDER
             });
-            button.value = 'Mostrar Menos Linhas';
+            button.value = 'Mostrar Mais Linhas';
         }
     }
 }
@@ -182,7 +182,14 @@ function recuperarDadosRequisitanteLocalStorage() {
         document.getElementById('ds').value = requerente.ds;
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
-        document.getElementById('dataPedido').value = requerente.dataPedido;
+        if (requerente.dataPedido) {
+            document.getElementById('dataPedido').value = requerente.dataPedido;
+        } else {
+            document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
+        }
+    } else {
+        document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
+        document.getElementById('grupoMaterial').value = 'SAÚDE BUCAL';
     }
 };
 
@@ -211,6 +218,14 @@ function recuperarDadosItensLocalStorage() {
     }
 };
 
+function formatarDataParaYYYYMMDD(dataAtual){    
+    const ano = dataAtual.getFullYear();
+    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0'); 
+    const dia = dataAtual.getDate().toString().padStart(2, '0');
+    const dataFormatada = `${ano}-${mes}-${dia}`;
+    return dataFormatada;
+}
+
 function inputsRequestorClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
 Essa ação apagará os campos: 
@@ -222,6 +237,7 @@ E FUNCIONÁRIO RESPONSÁVEL
     if (ok) {
         document.getElementById('nomeUnidade').value = '';
         document.getElementById('ds').value = '';
+        document.getElementById('dataPedido').value = '';
         document.getElementById('grupoMaterial').value = '';
         document.getElementById('nomeResponsavel').value = '';
         localStorage.removeItem('dadosRequerente');
@@ -600,12 +616,11 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] salvar no local storage inputs dos itens.
 [X] diminuir fonte dos itens na coluna especificação para se adequar ao imprimir
 [X] fetch post em uma planilha google.
-
 [X] fazer get de uma linha da planilha
 [X] alterar exibição do botão imprimir no evento de click
 [X] adicionar botão ENVIAR PEDIDO - que enviar pedido para planilha retorna mensagem de pedido enviado.
-[] fazer get de uma determinada coluna da planilha
 
+[] fazer get de uma determinada coluna da planilha
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json com os dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
