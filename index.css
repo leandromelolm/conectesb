@@ -125,7 +125,7 @@ tr {
 }
 
 .table_autorizador_fornecimento thead tr:nth-child(2) {
-    height: 49px;
+    height: 49px !important;
     text-align: initial;
     vertical-align: text-bottom;
 }
