@@ -56,7 +56,7 @@ window.onload = () => {
         datalist.appendChild(optionElement);
     });
     setDataAtual();
-    getSheetData('ultimopedido', '');    
+    getSheetData('ultimopedido', '');
 };
 
 function stringParaArray(string) {
@@ -98,6 +98,7 @@ function pesquisar(){
 };
 
 function getSheetData(tipoRequisicao, obterCelulas){
+    showLoading();
     const linkScriptv16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
     const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0'
     fetch(linkScriptv16, {
@@ -117,7 +118,7 @@ function getSheetData(tipoRequisicao, obterCelulas){
     });;    
 };
 
-function verificarDados(dados){
+function verificarDados(dados){   
     if (typeof dados === 'number') {
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
         ultimoPedido = dados;       
@@ -131,6 +132,7 @@ function verificarDados(dados){
     let data = dados;
     let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
     if (data[0]) {
+        hideLoading();
         document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
         document.getElementById('requisitante').innerHTML = data[0][1];
         document.getElementById('dadosRequisitante').innerHTML = data[0][2];
@@ -277,7 +279,18 @@ function dateFormat(data) {
     const segundos = String(dataObj.getSeconds()).padStart(2, '0');
     
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
-  }
+}
+
+function showLoading() {
+    document.getElementById("loading-message").style.display = "block";
+    document.getElementById("content").style.display = "none";
+}
+
+// Função para ocultar a mensagem de "Carregando" e mostrar o conteúdo
+function hideLoading() {
+    document.getElementById("loading-message").style.display = "none";
+    document.getElementById("content").style.display = "block";
+}
 
 const itensStringConcatenado =
     `
