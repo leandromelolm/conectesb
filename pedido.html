@@ -127,38 +127,11 @@
     </div>
   </nav>
 
-  <div class="container-fluid">    
-    <form id="myForm" class="d-none"> <!--FORM ESCONDIDA-->
-      <h4>Enviar dados para uma planilha Google</h4>
-      <h5>Estoque atual</h5>
-      <input class="updateItens" type="date" id="data" name="data">
-      <input type="text" id="name" name="name" placeholder="produto" list="item-list" required>
-      <datalist id="item-list"></datalist>    
-      <input type="number" id="quant" name="quant" placeholder="quantidade" required>
-      <button type="submit" id="submit">Enviar</button>
-    </form>  
-    
-    <form class="salvarArmazenamentoLocal d-none" onsubmit="enviarFormulario(event)"> <!--FORM ESCONDIDA-->
-      <h4>Salvar no LocalStorage</h4>
-      <div>
-        <label for="unidadeRequisitante">Unidade Requisitante</label>
-        <textarea class="form-control" placeholder="" id="unidadeRequisitante"></textarea>
-      </div>    
-      <div>
-        <label for="listaPedido">Lista de pedido</label>
-        <textarea class="form-control" placeholder='[{"especificacao":"","quantidade":""},{"especificacao":"","quantidade":""}]' id="listaPedido"></textarea>
-      </div>
-      <button type="submit" class="btn btn-outline-primary armazenamento">Salvar no armazenamento local</button>
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary armazenamento" type="button" onclick="limparTodosCampos()">Limpar campos</button>
-      </div>
-      <div>
-        <button class="btn btn-outline-primary armazenamento">
-          <a target="_blank" href='index.html'>Página formulário de pedido</a>
-        </button>
-      </div>
-    </form>
-
+  <div class="container-fluid">
+    <div class="resultadoPesquisado">
+      <span id="unidadeRequisitante"></span>
+      <span id="listaPedido"></span>
+    </div>
     <div class="pesquisa">
       <h4>Buscar Pedido</h4>
       <p id="numeroUltimoPedido"></p>
@@ -185,7 +158,6 @@
           <th>data</th>
           <th>requisitante</th>
           <th class="d-none">dados requisitante</th>
-          <!-- <th>pedido</th> -->
         </thead>
         <tbody>
           <td>
@@ -197,11 +169,6 @@
           <td class="d-none">
             <div id="dadosRequisitante"></div>
           </td>
-           <!-- <td>
-           <div id="pedido">
-               <ol id="listaOrdenadaItemPedido"></ol> 
-            </div> 
-          </td>   -->
         </tbody>
       </table>
       <div class="div__lista_item_pedido">
