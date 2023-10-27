@@ -2,11 +2,6 @@ window.onload = () => {
     getSheetData('ultimopedido', '');
 };
 
-function limparCampos() {
-    document.getElementById('unidadeRequisitante').value = '';
-    document.getElementById('listaPedido').value = '';
-};
-
 const formularioPequisa = document.getElementById('search-form');
 formularioPequisa.addEventListener('submit', e => {
     e.preventDefault()
@@ -44,11 +39,11 @@ function getSheetData(tipoRequisicao, obterCelulas){
     .then((data) => verificarDados(data))
     .catch(function (error) {
         alert(error);
-        console.log(error)
+        document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado. Insira apenas o número do pedido";
     });;    
 };
 
-function verificarDados(dados){   
+function verificarDados(dados){
     if (typeof dados === 'number') {
         document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
         ultimoPedido = dados;       
@@ -59,75 +54,62 @@ function verificarDados(dados){
             getSheetData('obter', `A${ultimoPedido - 20}:B${ultimoPedido}`);
         }
     }
-    let data = dados;
-    let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
-    if (data[0]) {
-        hideLoading();
-        document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
-        document.getElementById('requisitante').innerHTML = data[0][1];
-        document.getElementById('dadosRequisitante').innerHTML = data[0][2];
+    if (typeof dados !== 'number') {
+        hideLoading();      
         
-        // document.getElementById('pedido').innerHTML = data[0][3];
-        const listaItens = data[0][3];
-        document.getElementById('listaOrdenadaItemPedido').innerHTML = ''
-
-        if(listaItens){
-            let listObj = JSON.parse(listaItens);        
-            const lista = document.getElementById("listaOrdenadaItemPedido");
-            for (let i = 0; i < listObj.length; i++) {
-                const item = document.createElement("li");
-                item.textContent = `${listObj[i].especificacao}: ${listObj[i].quantidade}`;               
-                lista.appendChild(item);
-            }
-        }
-
-        document.getElementById('unidadeRequisitante').value = data[0][2];
-        document.getElementById('listaPedido').value = data[0][3];
-
-        let resultadoPesquisa = document.getElementById('resultadoPesquisa');
-        resultadoPesquisa.className = 'd-inline table';
-        document.getElementById('tabelaListaPedido').innerHTML = "";        
-        let divListaItemPedido = document.getElementsByClassName('div__lista_item_pedido');
-
-        if(data.length > 1){
-            criarTabela(data);
+        let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
+        let tabelaPedidoBuscado = document.getElementById('tabelaPedidoBuscado');
+        let listaOrdenadaItemPedido = document.getElementById('listaOrdenadaItemPedido');
+        tabelaPedidoBuscado.className = 'd-inline table';
+        document.getElementById('divListaPedido').innerHTML = "";
+        if(dados.length > 1){
+            preencherTabelaListaDePedidos(dados);
             abrirPedidonoFormulario.className = "d-none"; 
         }
         if(dados[0][0] == ''){
-            document.getElementById('tabelaListaPedido').innerHTML = "Pedido não encontrado";
+            document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado";
+            tabelaPedidoBuscado.className = 'd-none';
+            abrirPedidonoFormulario.className = "d-none";
+            listaOrdenadaItemPedido.innerHTML = '';
         }
-        if (data.length == 1) {
-            abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
-            divListaItemPedido = 'div__lista_item_pedido'         
-        } 
-    }
-};
+        if (dados.length == 1 && dados[0][0] !== '') {
+            abrirPedidonoFormulario.className = "btn btn-primary armazenamento";            
+            preencherTabelaPedidoBuscado(dados);
+        }
+    };
+}
 
-let botaoHabilitado = true;
-function desabilitarBotaoPesquisa() {
-    if (botaoHabilitado) {
-    botaoHabilitado = false;
-    document.getElementById('btnPesquisa').disabled = true;
-    setTimeout(function() {
-        botaoHabilitado = true;
-        document.getElementById('btnPesquisa').disabled = false;
-    }, 3000);
-    }
-};
 
-function criarTabela(arr) {
+function preencherTabelaPedidoBuscado(data) {
+    document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
+    document.getElementById('requisitante').innerHTML = data[0][1];
+    document.getElementById('dadosRequisitante').innerHTML = data[0][2];
+    const listaItens = data[0][3];
+    document.getElementById('listaOrdenadaItemPedido').innerHTML = ''
+
+    if(listaItens){
+        let listObj = JSON.parse(listaItens);        
+        const lista = document.getElementById("listaOrdenadaItemPedido");
+        for (let i = 0; i < listObj.length; i++) {
+            const item = document.createElement("li");
+            item.textContent = `${listObj[i].especificacao}: ${listObj[i].quantidade}`;               
+            lista.appendChild(item);
+        }
+    }
+    document.getElementById('unidadeRequisitante').value = data[0][2];
+    document.getElementById('listaPedido').value = data[0][3];
+}
+
+function preencherTabelaListaDePedidos(arr) {
     let ordem;
     if (ultimoPedido <21) {
         ordem = itemInicial+1;        
     } else {
         ordem = ultimoPedido - 20;
     }
-
-    let resultadoPesquisa = document.getElementById('resultadoPesquisa');
-    resultadoPesquisa.className = 'd-none';
-
-    document.getElementById('tabelaListaPedido').innerHTML = "";
-    const tabelaDiv = document.getElementById('tabelaListaPedido');
+    document.getElementById('tabelaPedidoBuscado').className = 'd-none';
+    document.getElementById('divListaPedido').innerHTML = "";
+    const tabelaDiv = document.getElementById('divListaPedido');
     const table = document.createElement('table');
     table.className = 'table';
     const thead = document.createElement('thead');
@@ -178,6 +160,19 @@ function criarTabela(arr) {
     tabelaDiv.appendChild(table);
 };
 
+let botaoHabilitado = true;
+function desabilitarBotaoPesquisa() {
+    if (botaoHabilitado) {
+    botaoHabilitado = false;
+    document.getElementById('btnPesquisa').disabled = true;
+    setTimeout(function() {
+        botaoHabilitado = true;
+        document.getElementById('btnPesquisa').disabled = false;
+    }, 3000);
+    }
+};
+
+
 function abrirPedidoNoFormulario() {
     const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
     const itensDados = document.getElementById('listaPedido').value;
@@ -187,12 +182,17 @@ function abrirPedidoNoFormulario() {
     window.location.href = 'index.html';
 };
 
+function limparCampos() {
+    document.getElementById('unidadeRequisitante').value = '';
+    document.getElementById('listaPedido').value = '';
+};
+
 function limparTodosCampos(){
     limparCampos();
-    document.getElementById('tabelaListaPedido').innerHTML = "";
+    document.getElementById('divListaPedido').innerHTML = "";
     document.getElementById("textoPesquisado").value = "";
-    resultadoPesquisa = document.getElementById('resultadoPesquisa');
-    resultadoPesquisa.className = 'd-none table';
+    tabelaPedidoBuscado = document.getElementById('tabelaPedidoBuscado');
+    tabelaPedidoBuscado.className = 'd-none table';
     document.getElementById('listaOrdenadaItemPedido').innerHTML = '';
     getSheetData('ultimopedido', '');
     
