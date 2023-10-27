@@ -44,8 +44,18 @@ function getSheetData(tipoRequisicao, obterCelulas){
 };
 
 function verificarDados(dados){
+    let listPedidosRecebido;
+    const ultPedido = localStorage.getItem('ultimoPedido', dados);
+    if (ultPedido == dados) {        
+        dados = recuperarListaDePedidosLocalStorage();
+        ultimoPedido = ultPedido;
+        document.querySelector('#numeroUltimoPedido').innerHTML = `Último pedido: ${ultPedido}`;
+    }
     if (typeof dados === 'number') {
-        document.querySelector('#numeroUltimoPedido').innerHTML = `Ultimo pedido: ${dados}`;
+        localStorage.setItem('ultimoPedido', dados);
+        document.querySelector('#numeroUltimoPedido').innerHTML = `
+        Parece ter um novo pedido.
+        Último pedido: ${dados}`;
         ultimoPedido = dados;       
         if (dados < 21) {
             itemInicial = ultimoPedido - dados;
@@ -55,30 +65,38 @@ function verificarDados(dados){
         }
     }
     if (typeof dados !== 'number') {
-        hideLoading();      
+        hideLoading(); 
+
+        listPedidosRecebido = dados;
         
         let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
         let tabelaPedidoBuscado = document.getElementById('tabelaPedidoBuscado');
         let listaOrdenadaItemPedido = document.getElementById('listaOrdenadaItemPedido');
         tabelaPedidoBuscado.className = 'd-inline table';
         document.getElementById('divListaPedido').innerHTML = "";
-        if(dados.length > 1){
-            preencherTabelaListaDePedidos(dados);
-            abrirPedidonoFormulario.className = "d-none"; 
+        if(listPedidosRecebido.length > 1){
+            preencherTabelaListaDePedidos(listPedidosRecebido);
+            abrirPedidonoFormulario.className = "d-none";
+            localStorage.setItem('listaDePedidos', JSON.stringify(listPedidosRecebido))
         }
-        if(dados[0][0] == ''){
+        if(listPedidosRecebido[0][0] == ''){
             document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado";
             tabelaPedidoBuscado.className = 'd-none';
             abrirPedidonoFormulario.className = "d-none";
             listaOrdenadaItemPedido.innerHTML = '';
         }
-        if (dados.length == 1 && dados[0][0] !== '') {
+        if (listPedidosRecebido.length == 1 && listPedidosRecebido[0][0] !== '') {
             abrirPedidonoFormulario.className = "btn btn-primary armazenamento";            
-            preencherTabelaPedidoBuscado(dados);
+            preencherTabelaPedidoBuscado(listPedidosRecebido);
         }
     };
 }
 
+function recuperarListaDePedidosLocalStorage() {
+    let jsonListaDePedido = localStorage.getItem('listaDePedidos');
+    let objListaDePedido = JSON.parse(jsonListaDePedido);
+    return objListaDePedido;
+}
 
 function preencherTabelaPedidoBuscado(data) {
     document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
