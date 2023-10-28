@@ -19,7 +19,6 @@ window.onload = () => {
             return response.json();
         })
         .then(function (res) {
-           console.log(res.appscript);
            scriptUrl = res.appscript;
         })
         .catch(function (error) {
