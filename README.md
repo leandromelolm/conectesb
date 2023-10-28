@@ -34,7 +34,9 @@ template: javascript-hello-word
 
 Executar projeto com netlify:
 
- `netlify dev`
+ `netlify dev`  
+ ou  
+ `npm run start` 
 
 
 Alterado versão Node para 18.
