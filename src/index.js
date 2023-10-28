@@ -1,3 +1,4 @@
+
 document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
 const datalist = document.getElementById("item-list");
@@ -7,11 +8,24 @@ let nomeUnidade = document.getElementById("nomeUnidade");
 let requerenteForm;
 let itensForm;
 // v16 fecth blocked - CORS policy: No 'Access-Control-Allow-Origin' 
-let v10 = 'https://script.google.com/macros/s/AKfycbw1sMXgBUIV7ViGvizX35k2GvlD1MMG4Mv8n7W0A-PE9mXo7C4qqkbBg9_WzKY5Eaf-Tg/exec'
-let v33 =  'https://script.google.com/macros/s/AKfycbx5KeDj15b3ol5vpPE5xLSA9o_i7162jKpvEBlGfGqCSRUaNsVkZE4hF7BpLQh90AZYEg/exec';
-let scriptUrl = v33;
+let v10 = ''
+let v33 =  '';
+let scriptUrl;
 
 window.onload = () => {
+
+    fetch(`/.netlify/functions/fetch-spreadsheet`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (res) {
+           console.log(res.appscript);
+           scriptUrl = res.appscript;
+        })
+        .catch(function (error) {
+            alert(error);
+            console.log(error)
+        });
 
     let itemArray = stringParaArray(itensStringConcatenado);
 

@@ -1,5 +1,21 @@
-window.onload = () => { 
-    getSheetData('ultimopedido', '');
+let resAppScript;
+let restUrlSpreadSheet;
+window.onload = () => {
+    fetch(`/.netlify/functions/fetch-spreadsheet`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (res) {
+           console.log(res.appscript);
+           console.log(res.urlspreadsheet);           
+           resAppScript = res.appscript;
+           restUrlSpreadSheet = res.urlspreadsheet;
+           getSheetData('ultimopedido', '');
+        })
+        .catch(function (error) {
+            alert(error);
+            console.log(error)
+        });
 };
 
 const formularioPequisa = document.getElementById('search-form');
@@ -24,10 +40,10 @@ function pesquisar(){
 
 function getSheetData(tipoRequisicao, obterCelulas){
     showLoading();
-    let v16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
-    let v33 =  'https://script.google.com/macros/s/AKfycbx5KeDj15b3ol5vpPE5xLSA9o_i7162jKpvEBlGfGqCSRUaNsVkZE4hF7BpLQh90AZYEg/exec';
-    let linkScript = v33;
-    const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0'
+    let v16 = '';
+    let v33 =  '';
+    let linkScript = resAppScript;
+    const linkPlanilha = restUrlSpreadSheet;
     fetch(linkScript, {
         method: 'POST',
         body: JSON.stringify({
