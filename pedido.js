@@ -12,7 +12,7 @@ let itemInicial;
 let ultimoPedido;
 function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
-    let txtlinhaFormatada = `A${txtLinhaPesquisada}:E${txtLinhaPesquisada}`;
+    let txtlinhaFormatada = `B${txtLinhaPesquisada}:F${txtLinhaPesquisada}`;
     if(!txtLinhaPesquisada == ''){
         getSheetData('obter', txtlinhaFormatada);
     }
@@ -61,9 +61,9 @@ function verificarDados(dados){
         ultimoPedido = dados;       
         if (dados < 21) {
             itemInicial = ultimoPedido - dados;
-            getSheetData('obter', `A${itemInicial + 1}:B${ultimoPedido}`);
+            getSheetData('obter', `B${itemInicial + 1}:C${ultimoPedido}`);
         } else {
-            getSheetData('obter', `A${ultimoPedido - 20}:B${ultimoPedido}`);
+            getSheetData('obter', `B${ultimoPedido - 20}:C${ultimoPedido}`);
         }
     }
     if (typeof dados !== 'number') {
