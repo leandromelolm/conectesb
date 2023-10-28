@@ -24,9 +24,11 @@ function pesquisar(){
 
 function getSheetData(tipoRequisicao, obterCelulas){
     showLoading();
-    const linkScriptv16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
+    let v16 = 'https://script.google.com/macros/s/AKfycbyTH5vqL7NNn0qYTr6gIu-OshjKhMZGDMewxK16ITQTshDuy1QebjhHRFgvQA9Dol6hGw/exec';
+    let v33 =  'https://script.google.com/macros/s/AKfycbx5KeDj15b3ol5vpPE5xLSA9o_i7162jKpvEBlGfGqCSRUaNsVkZE4hF7BpLQh90AZYEg/exec';
+    let linkScript = v33;
     const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0'
-    fetch(linkScriptv16, {
+    fetch(linkScript, {
         method: 'POST',
         body: JSON.stringify({
           link: linkPlanilha,
