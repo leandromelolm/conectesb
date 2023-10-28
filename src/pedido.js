@@ -5,9 +5,7 @@ window.onload = () => {
         .then(function (response) {
             return response.json();
         })
-        .then(function (res) {
-           console.log(res.appscript);
-           console.log(res.urlspreadsheet);           
+        .then(function (res) {                      
            resAppScript = res.appscript;
            restUrlSpreadSheet = res.urlspreadsheet;
            getSheetData('ultimopedido', '');
