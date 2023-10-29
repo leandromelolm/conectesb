@@ -256,12 +256,13 @@ td.td__quant_pedida input {
 }
 
 #btnSendSpreadsheet {
-    background-color: #0033ff;
+    background-color: #5cebdf !important;
+    color: black !important;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
 #btnSendSpreadsheet:hover {
-    background-color: #0033ff !important; /* Cor de fundo ao passar o mouse */
+    background-color: #32E6E2 !important; /* Cor de fundo ao passar o mouse */
 }
 
 #btnSendSpreadsheet:active {
@@ -274,9 +275,9 @@ td.td__quant_pedida input {
     color: #ffffff;
 }
 
-#toggleButton:hover {
+/* #toggleButton:hover {
     background-color: #263ea1 !important;
-}
+} */
 
 .full-content {
     display: grid;
