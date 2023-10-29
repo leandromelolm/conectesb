@@ -27,6 +27,10 @@ let ultimoPedido;
 function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
     let txtlinhaFormatada = `B${txtLinhaPesquisada}:F${txtLinhaPesquisada}`;
+    if(!isNumberGreaterThanOne(txtLinhaPesquisada)){
+        document.getElementById("textoPesquisado").value = "";
+        return alert("Apenas é possível pesquisar pelo número do pedido");
+    } else
     if(!txtLinhaPesquisada == ''){
         getSheetData('obter', txtlinhaFormatada);
     }
@@ -35,6 +39,19 @@ function pesquisar(){
     }   
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
+
+function isNumberGreaterThanOne(value) {
+    if (!(!isNaN(value) && !isNaN(parseFloat(value))) || parseFloat(value) <= 1) {
+      const message = "Faça a pesquisa pelo número de pedido (#ID).";
+      const alertElement = document.getElementById("alert-message");      
+      if (alertElement) {
+        alertElement.textContent = message;
+      }  
+      return false;
+    } 
+    document.getElementById("alert-message").innerHTML = "";    
+    return true;
+}
 
 function getSheetData(tipoRequisicao, obterCelulas){
     showLoading();
@@ -149,7 +166,7 @@ function preencherTabelaListaDePedidos(arr) {
     const thead = document.createElement('thead');
     const theadRow = document.createElement('tr');
     const ordemHeader = document.createElement('th');
-    ordemHeader.textContent = '#';
+    ordemHeader.textContent = '#ID';
     const dataHeader = document.createElement('th');
     dataHeader.textContent = 'Data';
     const unidadeHeader = document.createElement('th');
