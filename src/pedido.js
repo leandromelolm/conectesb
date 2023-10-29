@@ -91,11 +91,11 @@ function verificarDados(dados){
         Parece ter um novo pedido.
         Último pedido: ${dados}`;
         ultimoPedido = dados;       
-        if (dados < 21) {
+        if (dados < 22) {
             itemInicial = ultimoPedido - dados;
-            getSheetData('obter', `B${itemInicial + 1}:C${ultimoPedido}`);
+            getSheetData('obter', `A${itemInicial + 2}:C${ultimoPedido}`);
         } else {
-            getSheetData('obter', `B${ultimoPedido - 20}:C${ultimoPedido}`);
+            getSheetData('obter', `A${ultimoPedido - 20}:C${ultimoPedido}`);
         }
     }
     if (typeof dados !== 'number') {
@@ -152,13 +152,7 @@ function preencherTabelaPedidoBuscado(data) {
     document.getElementById('listaPedido').value = data[0][3];
 }
 
-function preencherTabelaListaDePedidos(arr) {
-    let ordem;
-    if (ultimoPedido <21) {
-        ordem = itemInicial+1;        
-    } else {
-        ordem = ultimoPedido - 20;
-    }
+function preencherTabelaListaDePedidos(arr) {    
     document.getElementById('tabelaPedidoBuscado').className = 'd-none';
     document.getElementById('divListaPedido').innerHTML = "";
     const tabelaDiv = document.getElementById('divListaPedido');
@@ -177,38 +171,34 @@ function preencherTabelaListaDePedidos(arr) {
     theadRow.appendChild(dataHeader);
     theadRow.appendChild(unidadeHeader);
     thead.appendChild(theadRow);
-    table.appendChild(thead);
+    table.appendChild(thead);    
 
-    for (let i = 0; i < arr.length; i++) {
-      const row = document.createElement('tr');
-      const numeroCelula = document.createElement('td');
-    //   numeroCelula.textContent = `${ordem}`;
-      const link = document.createElement('a');
-      link.textContent = ordem; 
-      link.href = 'javascript:void(0)';
-      link.style.textDecoration = 'none';
-      link.style.fontSize = '20px';
+    arr.forEach((item) => {
+        const row = table.insertRow();
+        item.forEach((value, index) => {     
+            const cell = row.insertCell();
+            if (index === 0) {                
+                const link = document.createElement('a');
+                link.textContent = value; 
+                link.href = 'javascript:void(0)';
+                link.style.textDecoration = 'none';
+                link.style.fontSize = '20px';
 
-      link.addEventListener('click', function () {
-        document.getElementById("textoPesquisado").value = link.textContent;
-        pesquisar();
-      });
-
-      numeroCelula.appendChild(link);    
-      ordem++
-
-      row.appendChild(numeroCelula);
-      for (let j = 0; j < arr[i].length; j++) {
-        const cell = document.createElement('td');
-        if (arr[i][j].substr(0,2) == '20') {            
-            cell.appendChild(document.createTextNode(dateFormat(arr[i][j])));           
-        } else {
-            cell.appendChild(document.createTextNode(arr[i][j]));
-        }
-        row.appendChild(cell);
-      }  
-      table.appendChild(row);
-    }  
+                link.addEventListener('click', function () {
+                    document.getElementById("textoPesquisado").value = link.textContent;
+                    pesquisar();
+                });
+                cell.appendChild(link); 
+            }
+            if (index === 1) {         
+                console.log("test", value);
+                cell.textContent = dateFormat(value);
+            } 
+            if (index === 2) {
+                cell.textContent = value;
+            }
+        });
+    }); 
     tabelaDiv.appendChild(table);
 };
 
