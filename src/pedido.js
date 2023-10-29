@@ -8,6 +8,7 @@ window.onload = () => {
         .then(function (res) {                      
            resAppScript = res.appscript;
            restUrlSpreadSheet = res.urlspreadsheet;
+           console.log(res.testenv);
            getSheetData('ultimopedido', '');
         })
         .catch(function (error) {

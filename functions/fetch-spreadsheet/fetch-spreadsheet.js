@@ -16,10 +16,16 @@
 
 exports.handler = async function (event, context) {
   const script = process.env.APP_SCRIPT_GOOGLE_V33;
-  const planilha = process.env.URL_PLANILHA_GOOGLE;
+  const urlplanilha = process.env.URL_PLANILHA_GOOGLE;
+  const testEnv = process.env.TEST_ENV;
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ appscript: script, urlspreadsheet: planilha }),
+    body: JSON.stringify(
+      { appscript: script, 
+        urlspreadsheet: urlplanilha,
+        testenv: testEnv
+      }
+    ),
   };  
-};
+}
