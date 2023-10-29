@@ -172,6 +172,8 @@ function preencherTabelaListaDePedidos(arr) {
     dataHeader.textContent = 'Data';
     const unidadeHeader = document.createElement('th');
     unidadeHeader.textContent = 'Unidade';
+    // const tipoPedidoHeader = document.createElement('th');
+    // tipoPedidoHeader.textContent = 'Tipo';
 
     theadRow.appendChild(ordemHeader);
     theadRow.appendChild(dataHeader);
@@ -202,6 +204,9 @@ function preencherTabelaListaDePedidos(arr) {
             if (index === 2) {
                 cell.textContent = value;
             }
+            // if (index === 5) {
+            //     cell.textContent = value;
+            // }
         });
     }); 
     tabelaDiv.appendChild(table);

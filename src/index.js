@@ -312,12 +312,13 @@ function saveSheetGoogle() {
 
     const nomeUnidade = document.getElementById('nomeUnidade').value;
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade; 
 
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
         tipoPedido: localStorage.getItem('tipoPedido'),
-        unidade: nomeUnidade.toUpperCase(),
+        unidade: nUnid.toUpperCase(),
         navegador:  userAgent,
         date: instantePedido,
         requisicao: "salvar",
