@@ -9,7 +9,7 @@ let requerenteForm;
 let itensForm;
 // v16 fecth blocked - CORS policy: No 'Access-Control-Allow-Origin' 
 let v10 = ''
-let v33 =  '';
+let v33 = '';
 let scriptUrl;
 
 window.onload = () => {
@@ -47,51 +47,51 @@ function cloneDocPrint() {
     divDublicada.appendChild(divClone);
 };
 
-function sendToSpreadsheet(){
+function sendToSpreadsheet() {
     if (document.getElementById('nomeUnidade').value === '') {
         let msgEnvioPedido = document.getElementById('msgEnvioPedido');
         msgEnvioPedido.style.backgroundColor = '#FF6347';
         msgEnvioPedido.style.color = 'white'
-        msgEnvioPedido.style.height =  '35px';
+        msgEnvioPedido.style.height = '35px';
         msgEnvioPedido.style.textAlign = 'center';
 
-        return  document.querySelector(
+        return document.querySelector(
             '#msgEnvioPedido').innerHTML =
             `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
     }
     const dataAtual = new Date();
     const umDiaEmMilissegundos = 86400000;
     const dataAnterior = new Date(dataAtual.getTime() - umDiaEmMilissegundos);
-    const dataFornecida = new Date(document.getElementById('dataPedido').value);    
+    const dataFornecida = new Date(document.getElementById('dataPedido').value);
     if (dataFornecida < dataAnterior) {
         msgEnvioPedido.style.backgroundColor = '#FF6347';
         msgEnvioPedido.style.color = 'white'
-        msgEnvioPedido.style.height =  '35px';
+        msgEnvioPedido.style.height = '35px';
         msgEnvioPedido.style.textAlign = 'center';
-        return  document.querySelector(
+        return document.querySelector(
             '#msgEnvioPedido').innerHTML =
             `Não é possível enviar pedido. A data não pode ser uma data passada.
             Verifique o campo <b>Data</b> no formulário.`;
-    }else{}
-    document.querySelector('#msgEnvioPedido').innerHTML ="";
+    } else { }
+    document.querySelector('#msgEnvioPedido').innerHTML = "";
     msgEnvioPedido.style.backgroundColor = 'white';
-    msgEnvioPedido.style.height =  '1px';
+    msgEnvioPedido.style.height = '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
 
         fetch(`/.netlify/functions/fetch-spreadsheet`)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (res) {
-           scriptUrl = res.appscript;
-           console.log(res.testenv);
-           saveSheetGoogle();
-        })
-        .catch(function (error) {
-            alert(error);
-            console.log(error)
-        });       
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (res) {
+                scriptUrl = res.appscript;
+                console.log(res.testenv);
+                saveSheetGoogle();
+            })
+            .catch(function (error) {
+                alert(error);
+                console.log(error)
+            });
         desabilitarBotaoEnviar();
         // printPage();
     }
@@ -124,15 +124,15 @@ function toggleRowVisibility() {
         button.value = 'Mostrar Menos Linhas';
     } else {
         button.value = 'Mostrar Mais Linhas';
-    }    
+    }
 };
 
-function visibilidadeDasLinhas(){
+function visibilidadeDasLinhas() {
     let dadosJSON = localStorage.getItem('dadosItens');
     const rows = document.querySelectorAll('.tr_hidden');
     const button = document.getElementById('toggleButton');
     if (dadosJSON) {
-        let dadosObj = JSON.parse(dadosJSON);        
+        let dadosObj = JSON.parse(dadosJSON);
         if (dadosObj.length > 10) {
             rows.forEach(row => {
                 row.style.display = 'table-row'; // EXIBIR
@@ -170,7 +170,7 @@ function saveDataItensLocalStorage() {
         let inputEspecificacao = linha.querySelector('.td__especificacao input');
         let inputQuantidade = linha.querySelector('.td__quant_pedida input');
         let produto = inputEspecificacao.value.trim();
-        if (produto !== ''){
+        if (produto !== '') {
             let item = {
                 especificacao: produto,
                 quantidade: inputQuantidade.value
@@ -215,7 +215,7 @@ function recuperarDadosItensLocalStorage() {
         let dadosObj = JSON.parse(dadosJSON);
 
         // Iterar pelos dados e preencher os inputs correspondentes
-        let linhas = document.querySelectorAll('#tableItens tbody tr');       
+        let linhas = document.querySelectorAll('#tableItens tbody tr');
         linhas.forEach(function (linha, index) {
             let inputEspecificacao = linha.querySelector('.td__especificacao input');
             let inputQuantidade = linha.querySelector('.td__quant_pedida input');
@@ -224,7 +224,7 @@ function recuperarDadosItensLocalStorage() {
                 const celulaItem = cells[index + 1];
                 celulaItem.textContent = index + 1;
                 if (inputEspecificacao) {
-                    inputEspecificacao.value = dadosObj[index].especificacao;                    
+                    inputEspecificacao.value = dadosObj[index].especificacao;
                 }
                 if (inputQuantidade) {
                     inputQuantidade.value = dadosObj[index].quantidade;
@@ -234,9 +234,9 @@ function recuperarDadosItensLocalStorage() {
     }
 };
 
-function formatarDataParaYYYYMMDD(dataAtual){    
+function formatarDataParaYYYYMMDD(dataAtual) {
     const ano = dataAtual.getFullYear();
-    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0'); 
+    const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
     const dia = dataAtual.getDate().toString().padStart(2, '0');
     const dataFormatada = `${ano}-${mes}-${dia}`;
     return dataFormatada;
@@ -279,13 +279,13 @@ function limparValoresDaColunaItem() {
     const cells = document.querySelectorAll(".item");
     let i = 0;
     cells.forEach((celula) => {
-        i = i + 1       
-        if (i > 1 ) {
+        i = i + 1
+        if (i > 1) {
             // i = 1 apaga celula cabeçalho (th) da coluna item
             celula.textContent = "";
         }
     });
-  }
+}
 
 function stringParaArray(string) {
     const linhas = string.trim().split('\n');
@@ -313,14 +313,14 @@ function saveSheetGoogle() {
 
     const nomeUnidade = document.getElementById('nomeUnidade').value;
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-    let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade; 
+    let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade;
 
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
         tipoPedido: localStorage.getItem('tipoPedido'),
         unidade: nUnid.toUpperCase(),
-        navegador:  userAgent,
+        navegador: userAgent,
         date: instantePedido,
         requisicao: "salvar",
         Date: ''
@@ -329,31 +329,31 @@ function saveSheetGoogle() {
     let sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
     let sheetName = "Sheet1";
     let params = new URLSearchParams(pedidoInfo);
-   
+
     params.append("sheetId", sheetId);
     params.append("sheetName", sheetName);
     fetch(scriptUrl, {
         method: "POST",
         body: params
     })
-    .then(function (response) {
-        return response.text();
-    })
-    .then(function (text) {
-        responseFetch(text, instantePedido);
-    })
-    .catch(function (error) {
-        alert(error);
-        console.log(error)
-    });
+        .then(function (response) {
+            return response.text();
+        })
+        .then(function (text) {
+            responseFetch(text, instantePedido);
+        })
+        .catch(function (error) {
+            alert(error);
+            console.log(error)
+        });
 };
 
-function responseFetch(text, instantePedido){
+function responseFetch(text, instantePedido) {
     let t = JSON.parse(text);
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
     msgEnvioPedido.style.backgroundColor = '#4CAF50';
     msgEnvioPedido.style.color = 'white'
-    msgEnvioPedido.style.height =  '35px';
+    msgEnvioPedido.style.height = '35px';
     msgEnvioPedido.style.textAlign = 'center';
     document.querySelector(
         '#msgEnvioPedido').innerHTML =
@@ -362,23 +362,23 @@ function responseFetch(text, instantePedido){
     alert(
         `Pedido enviado para planilha. 
         Número Pedido: ${t.row}
-        Momento: ${instantePedido}` 
-    );    
+        Momento: ${instantePedido}`
+    );
 }
 
 let botaoHabilitado = true;
 function desabilitarBotaoEnviar() {
     if (botaoHabilitado) {
-    botaoHabilitado = false;
-    document.getElementById('btnSendSpreadsheet').disabled = true;
-    setTimeout(function() {
-        botaoHabilitado = true;
-        document.getElementById('btnSendSpreadsheet').disabled = false;
-    }, 6000);
+        botaoHabilitado = false;
+        document.getElementById('btnSendSpreadsheet').disabled = true;
+        setTimeout(function () {
+            botaoHabilitado = true;
+            document.getElementById('btnSendSpreadsheet').disabled = false;
+        }, 6000);
     }
 }
 
-$('input[type="checkbox"]').on('change', function(e) {
+$('input[type="checkbox"]').on('change', function (e) {
     const mensalCheckbox = document.getElementById("mensal");
     const extraCheckbox = document.getElementById("extra");
     if (e.target.name === 'mensal') {
@@ -388,6 +388,21 @@ $('input[type="checkbox"]').on('change', function(e) {
     if (e.target.name === 'extra') {
         mensalCheckbox.checked = false;
         localStorage.setItem("tipoPedido", e.target.name.toUpperCase());
+    }
+});
+
+// Preencher o checkbox ao carregar a pagina pegando valor salvo no localStorage
+document.addEventListener("DOMContentLoaded", function () {
+    const mensalCheckbox = document.getElementById("mensal");
+    const extraCheckbox = document.getElementById("extra");
+    const tipoPedido = localStorage.getItem("tipoPedido");
+
+    if (tipoPedido === "MENSAL") {
+        mensalCheckbox.checked = true;
+        extraCheckbox.checked = false;
+    } else if (tipoPedido === "EXTRA") {
+        extraCheckbox.checked = true;
+        mensalCheckbox.checked = false;
     }
 });
 
@@ -694,7 +709,7 @@ function gerarTabelaPDF(pdf, dados, columns, startX, startY) {
 
     return startY + (dados.length + 1) * cellHeight;
 }
-  
+
 function gerarPDF() {
     let pdf = new jsPDF();
 
@@ -771,8 +786,8 @@ function savePDF() {
     )
 }
 
-$(document).ready(function(){
-    $('#btnPDF').click(function() {
-      savePDF();
+$(document).ready(function () {
+    $('#btnPDF').click(function () {
+        savePDF();
     });
 });
