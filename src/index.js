@@ -14,18 +14,6 @@ let scriptUrl;
 
 window.onload = () => {
 
-    fetch(`/.netlify/functions/fetch-spreadsheet`)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (res) {
-           scriptUrl = res.appscript;
-        })
-        .catch(function (error) {
-            alert(error);
-            console.log(error)
-        });
-
     let itemArray = stringParaArray(itensStringConcatenado);
 
     itemArray.forEach(option => {
@@ -90,7 +78,20 @@ function sendToSpreadsheet(){
     msgEnvioPedido.style.height =  '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
-        saveSheetGoogle();
+
+        fetch(`/.netlify/functions/fetch-spreadsheet`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (res) {
+           scriptUrl = res.appscript;
+           console.log(res.testenv);
+           saveSheetGoogle();
+        })
+        .catch(function (error) {
+            alert(error);
+            console.log(error)
+        });       
         desabilitarBotaoEnviar();
         // printPage();
     }
@@ -373,7 +374,7 @@ function desabilitarBotaoEnviar() {
     setTimeout(function() {
         botaoHabilitado = true;
         document.getElementById('btnSendSpreadsheet').disabled = false;
-    }, 5000);
+    }, 6000);
     }
 }
 
