@@ -1,6 +1,8 @@
 src/config.json
 src/config.js
 src/google-code_v1.gs.js
+src/example/config.js
+src/example/config.json
 src/example/code-appscript_v18.gs.js
 src/example/code-appscript_v1.gs.js
 src/example/code-appscript_v10.gs.js
