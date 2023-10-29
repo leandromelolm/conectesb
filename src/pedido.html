@@ -5,25 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <style>
     body {   
-    font-size: 12px;
-    font-family: var(--bs-font-sans-serif)!important;
-  }
+      font-size: 12px;
+      font-family: var(--bs-font-sans-serif)!important;
+    }
 
-    a {
-      /* font-family: 'Times New Roman'; */
+    a {      
       font-size: 12px;
       text-decoration: none;
       color: #551A8B;
     }
 
-    form#myForm{
+    form#myForm {
       display: flex;
       flex-direction: column;
       align-items: center;
       margin: 20px;
     }
 
-    input{
+    input {
       width: 300px;
       height: 37px;
       margin: 10px 10px 10px 0px;
@@ -43,17 +42,17 @@
       font-weight: bold;
     }
 
-    .armazenamento{
+    .armazenamento {
       width: max-content;
       /* height: min-content; */
     }
 
-    .salvarArmazenamentoLocal{
+    .salvarArmazenamentoLocal {
       margin: 20px;
       display: block;
     }
 
-    .pesquisa{
+    .pesquisa {
       margin: 20px;
     }
 
@@ -86,16 +85,16 @@
       margin: 10px 0 0px 0px!important;
     }
 
-    .limpar__campos{
+    .limpar__campos {
       width: max-content;
       margin: 0px 0px 0px 0px !important;
     }
     
-    button.navbar-toggler{
+    button.navbar-toggler {
       width: 56px
     }
 
-    .div__lista_item_pedido{
+    .div__lista_item_pedido {
       margin-top: 13px;
     }
 
@@ -104,6 +103,10 @@
       font-size: 18px;
       text-align: center;
       margin-top: 20px;
+    }
+
+    #divPedidoBuscado {
+      margin-top: 10px;
     }
    
   </style>
@@ -154,28 +157,21 @@
       <div class="loading-message" id="loading-message">Carregando...</div>
       <div id="content"></div>
 
-      <table id="tabelaPedidoBuscado" class="table d-none">
-        <thead>
-          <th>data</th>
-          <th>requisitante</th>
-          <th class="d-none">dados requisitante</th>
-        </thead>
-        <tbody>
-          <td>
-            <div id="dataPedido"></div>
-          </td>
-          <td>
-            <div id="requisitante"></div>
-          </td>
-          <td class="d-none">
-            <div id="dadosRequisitante"></div>
-          </td>
-        </tbody>
-      </table>
-      <div class="div__lista_item_pedido">
-        <ol id="listaOrdenadaItemPedido"></ol>
+      <div id="divPedidoBuscado" class="d-none">
+        <div id="dataPedido"></div>
+        <div id="requisitante"></div>
+        <table class="table table-striped" id="data-table">
+          <thead>
+            <tr>
+              <th>item</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
-
       <div id="divDataUnidade">
         <div id="divListaPedido"></div>
       </div>  

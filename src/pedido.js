@@ -104,9 +104,9 @@ function verificarDados(dados){
         listPedidosRecebido = dados;
         
         let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
-        let tabelaPedidoBuscado = document.getElementById('tabelaPedidoBuscado');
+        let divPedidoBuscado = document.getElementById('divPedidoBuscado');
         let listaOrdenadaItemPedido = document.getElementById('listaOrdenadaItemPedido');
-        tabelaPedidoBuscado.className = 'd-inline table';
+        divPedidoBuscado.className = 'card';
         document.getElementById('divListaPedido').innerHTML = "";
         if(listPedidosRecebido.length > 1){
             preencherTabelaListaDePedidos(listPedidosRecebido);
@@ -115,7 +115,7 @@ function verificarDados(dados){
         }
         if(listPedidosRecebido[0][0] == ''){
             document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado";
-            tabelaPedidoBuscado.className = 'd-none';
+            divPedidoBuscado.className = 'd-none';
             abrirPedidonoFormulario.className = "d-none";
             listaOrdenadaItemPedido.innerHTML = '';
         }
@@ -132,28 +132,33 @@ function recuperarListaDePedidosLocalStorage() {
     return objListaDePedido;
 }
 
-function preencherTabelaPedidoBuscado(data) {
-    document.getElementById('dataPedido').innerHTML = dateFormat(data[0][0]);
-    document.getElementById('requisitante').innerHTML = data[0][1];
-    document.getElementById('dadosRequisitante').innerHTML = data[0][2];
-    const listaItens = data[0][3];
-    document.getElementById('listaOrdenadaItemPedido').innerHTML = ''
-
-    if(listaItens){
-        let listObj = JSON.parse(listaItens);        
-        const lista = document.getElementById("listaOrdenadaItemPedido");
-        for (let i = 0; i < listObj.length; i++) {
-            const item = document.createElement("li");
-            item.textContent = `${listObj[i].especificacao}: ${listObj[i].quantidade}`;               
-            lista.appendChild(item);
-        }
+function preencherTabelaPedidoBuscado(data) {    
+    const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
+    while (tabela.firstChild) {
+        tabela.removeChild(tabela.firstChild);
     }
+    document.getElementById('dataPedido').innerHTML =`<b>Data Pedido</b>: ${dateFormat(data[0][0])}`;
+    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${data[0][1]}`;
     document.getElementById('unidadeRequisitante').value = data[0][2];
-    document.getElementById('listaPedido').value = data[0][3];
+    document.getElementById('listaPedido').value = data[0][3];   
+    const listaItens = data[0][3];    
+    let dados = JSON.parse(listaItens);
+    dados.forEach((obj, index) => {
+        const row = tabela.insertRow();        
+        const itemCell = row.insertCell();
+        itemCell.textContent = index + 1; // Números crescentes a partir de 1
+      
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const cell = row.insertCell();
+            cell.textContent = obj[key];
+          }
+        }
+    });
 }
 
 function preencherTabelaListaDePedidos(arr) {    
-    document.getElementById('tabelaPedidoBuscado').className = 'd-none';
+    document.getElementById('divPedidoBuscado').className = 'd-none';
     document.getElementById('divListaPedido').innerHTML = "";
     const tabelaDiv = document.getElementById('divListaPedido');
     const table = document.createElement('table');
@@ -190,8 +195,7 @@ function preencherTabelaListaDePedidos(arr) {
                 });
                 cell.appendChild(link); 
             }
-            if (index === 1) {         
-                console.log("test", value);
+            if (index === 1) {
                 cell.textContent = dateFormat(value);
             } 
             if (index === 2) {
@@ -233,9 +237,8 @@ function limparTodosCampos(){
     limparCampos();
     document.getElementById('divListaPedido').innerHTML = "";
     document.getElementById("textoPesquisado").value = "";
-    tabelaPedidoBuscado = document.getElementById('tabelaPedidoBuscado');
-    tabelaPedidoBuscado.className = 'd-none table';
-    document.getElementById('listaOrdenadaItemPedido').innerHTML = '';
+    divPedidoBuscado = document.getElementById('divPedidoBuscado');
+    divPedidoBuscado.className = 'd-none table';
     getSheetData('ultimopedido', '');
     
 };
