@@ -316,6 +316,7 @@ function saveSheetGoogle() {
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
+        tipoPedido: localStorage.getItem('tipoPedido'),
         unidade: nomeUnidade.toUpperCase(),
         navegador:  userAgent,
         date: instantePedido,
@@ -363,7 +364,6 @@ function responseFetch(text, instantePedido){
     );    
 }
 
-
 let botaoHabilitado = true;
 function desabilitarBotaoEnviar() {
     if (botaoHabilitado) {
@@ -375,6 +375,19 @@ function desabilitarBotaoEnviar() {
     }, 5000);
     }
 }
+
+$('input[type="checkbox"]').on('change', function(e) {
+    const mensalCheckbox = document.getElementById("mensal");
+    const extraCheckbox = document.getElementById("extra");
+    if (e.target.name === 'mensal') {
+        extraCheckbox.checked = false;
+        localStorage.setItem("tipoPedido", e.target.name.toUpperCase());
+    }
+    if (e.target.name === 'extra') {
+        mensalCheckbox.checked = false;
+        localStorage.setItem("tipoPedido", e.target.name.toUpperCase());
+    }
+});
 
 const nomesUnidades = [
     'USF BONGI BOA IDEA',

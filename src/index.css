@@ -221,6 +221,24 @@ td.td__quant_pedida input {
     justify-content: center;   
 }
 
+.tipo__pedido{
+    display: inline-flex;
+    width: 350px;
+    place-items: center;
+    place-self: center;
+    margin-top: 0px;
+}
+
+.tipo__pedido > span {
+    width: 700px;
+    text-align: right;
+}
+
+.tipo__pedido > input {
+    width: 50px;
+    margin-top: 0px !important;
+}
+
 #buttons input {
     height: 35px;
     width: 380px;

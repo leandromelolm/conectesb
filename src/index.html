@@ -687,6 +687,13 @@
             <div id="msgEnvioPedido"></div>
 
             <div id="buttons">
+                <div class="tipo__pedido">
+                    <span>Tipo de Pedido:</span>
+                    <span>Mensal</span>
+                    <input type="checkbox" id="mensal" name="mensal"/>
+                    <span>Extra</span>
+                    <input type="checkbox" id="extra" name="extra"/>
+                </div>
                 <input type="button" id="btnSendSpreadsheet" onclick="sendToSpreadsheet()" value="Enviar Pedido">
                 <input type="button" id="btnPrint" onclick="printPage()" value="Imprimir">
                 <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
