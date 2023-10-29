@@ -27,7 +27,7 @@ let itemInicial;
 let ultimoPedido;
 function pesquisar(){
     let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
-    let txtlinhaFormatada = `B${txtLinhaPesquisada}:F${txtLinhaPesquisada}`;
+    let txtlinhaFormatada = `A${txtLinhaPesquisada}:F${txtLinhaPesquisada}`;
     if(!isNumberGreaterThanOne(txtLinhaPesquisada)){
         document.getElementById("textoPesquisado").value = "";
         return alert("Apenas é possível pesquisar pelo número do pedido");
@@ -72,8 +72,8 @@ function getSheetData(tipoRequisicao, obterCelulas){
     .then((response) => response.json()) 
     .then((data) => verificarDados(data))
     .catch(function (error) {
-        alert(error);
-        document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado. Insira apenas o número do pedido";
+        alert(`Erro na Requisição: ${error}`);
+        document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado. Insira um número de pedido válido.";
     });;    
 };
 
@@ -137,11 +137,12 @@ function preencherTabelaPedidoBuscado(data) {
     while (tabela.firstChild) {
         tabela.removeChild(tabela.firstChild);
     }
-    document.getElementById('dataPedido').innerHTML =`<b>Data Pedido</b>: ${dateFormat(data[0][0])}`;
-    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${data[0][1]}`;
-    document.getElementById('unidadeRequisitante').value = data[0][2];
-    document.getElementById('listaPedido').value = data[0][3];   
-    const listaItens = data[0][3];    
+    document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${data[0][0]}`;
+    document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(data[0][1])}`;
+    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${data[0][2]}`;
+    document.getElementById('unidadeRequisitante').value = data[0][3];
+    document.getElementById('listaPedido').value = data[0][4];   
+    const listaItens = data[0][4];    
     let dados = JSON.parse(listaItens);
     dados.forEach((obj, index) => {
         const row = tabela.insertRow();        
