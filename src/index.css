@@ -350,7 +350,7 @@ td.td__quant_pedida input {
 }
 
 @media screen and (max-width: 800px) {
-    #divLeft{
+    #divLeft, #divControleEstoque{
         display: none;
     }
 }
