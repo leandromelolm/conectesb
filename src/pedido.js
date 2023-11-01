@@ -202,7 +202,17 @@ function preencherTabelaListaDePedidos(arr) {
                 cell.textContent = dateFormat(value);
             } 
             if (index === 2) {
-                cell.textContent = value;
+                const link = document.createElement('a');
+                link.textContent = value; 
+                link.href = 'javascript:void(0)';
+                link.style.textDecoration = 'none';
+                link.style.fontSize = '20px';
+
+                link.addEventListener('click', function () {
+                    document.getElementById("textoPesquisado").value = item[0];                    
+                    pesquisar();
+                });
+                cell.appendChild(link);
             }
             // if (index === 5) {
             //     cell.textContent = value;
