@@ -1,5 +1,4 @@
 [build]
     functions = "functions"
     publish = "src"
-    command = "npm run build"
     test_secret = "TEST_ENV"
