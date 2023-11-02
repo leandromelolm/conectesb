@@ -190,7 +190,7 @@ function preencherTabelaListaDePedidos(arr) {
                 link.textContent = value; 
                 link.href = 'javascript:void(0)';
                 link.style.textDecoration = 'none';
-                link.style.fontSize = '20px';
+                link.style.fontSize = '16px';
 
                 link.addEventListener('click', function () {
                     document.getElementById("textoPesquisado").value = link.textContent;
@@ -206,7 +206,7 @@ function preencherTabelaListaDePedidos(arr) {
                 link.textContent = value; 
                 link.href = 'javascript:void(0)';
                 link.style.textDecoration = 'none';
-                link.style.fontSize = '20px';
+                link.style.fontSize = '15px';
 
                 link.addEventListener('click', function () {
                     document.getElementById("textoPesquisado").value = item[0];                    
