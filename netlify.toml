@@ -1,4 +1,4 @@
 [build]
     functions = "functions"
     publish = "src"
-    test_secret = "TEST_ENV"
+    command = "node main.js"
