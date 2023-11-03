@@ -213,7 +213,22 @@ function preencherTabelaListaDePedidos(arr) {
                     pesquisar();
                 });
                 cell.appendChild(link);
+
+                link.addEventListener('mouseenter', function () {
+                    link.style.color = 'blue';                    
+                });           
+                link.addEventListener('mousedown', function () {
+                    link.style.color = 'gray'; 
+                    
+                });
+                link.addEventListener('mouseleave', function () {
+                    link.style.color = ''; 
+                    link.style.backgroundColor = '';                    
+                });
             }
+
+            // Estilo para o estado :hover
+    
             // if (index === 5) {
             //     cell.textContent = value;
             // }
