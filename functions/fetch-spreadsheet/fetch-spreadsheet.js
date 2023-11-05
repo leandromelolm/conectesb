@@ -15,7 +15,7 @@
 // export default { handler }
 
 exports.handler = async function (event, context) {
-  const script = process.env.APP_SCRIPT_GOOGLE_V33;
+  const script = process.env.APP_SCRIPT_GOOGLE;
   const urlplanilha = process.env.URL_PLANILHA_GOOGLE;
   const testEnv = process.env.TEST_ENV;
 
