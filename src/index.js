@@ -86,7 +86,7 @@ function sendToSpreadsheet() {
             .then(function (res) {
                 scriptUrl = res.appscript;
                 console.log(res.testenv);
-                saveSheetGoogle();
+                fetchPostSaveSheetGoogle();
             })
             .catch(function (error) {
                 alert(error);
@@ -309,7 +309,7 @@ if (userAgent.includes("Chrome")) {
 }
 
 
-function saveSheetGoogle() {
+function fetchPostSaveSheetGoogle() {
 
     const nomeUnidade = document.getElementById('nomeUnidade').value;
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
