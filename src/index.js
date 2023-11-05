@@ -326,12 +326,12 @@ function fetchPostSaveSheetGoogle() {
         Date: ''
     };
 
-    let sheetId = "1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0";
-    let sheetName = "Sheet1";
     let params = new URLSearchParams(pedidoInfo);
+    // let sheetId = "";
+    // let sheetName = "";   
+    // params.append("sheetId", sheetId);
+    // params.append("sheetName", sheetName);
 
-    params.append("sheetId", sheetId);
-    params.append("sheetName", sheetName);
     fetch(scriptUrl, {
         method: "POST",
         body: params
@@ -357,10 +357,10 @@ function responseFetch(text, instantePedido) {
     msgEnvioPedido.style.textAlign = 'center';
     document.querySelector(
         '#msgEnvioPedido').innerHTML =
-        `Pedido enviado para planilha. Número Pedido:
+        `Pedido enviado com sucesso! Número Pedido:
          <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
     alert(
-        `Pedido enviado para planilha. 
+        `Pedido enviado com sucesso!
         Número Pedido: ${t.row}
         Momento: ${instantePedido}`
     );
