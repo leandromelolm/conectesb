@@ -195,6 +195,7 @@ function preencherTabelaListaDePedidos(arr) {
                 link.addEventListener('click', function () {
                     document.getElementById("textoPesquisado").value = link.textContent;
                     pesquisar();
+                    scrollToTop();
                 });
                 cell.appendChild(link); 
             }
@@ -211,6 +212,7 @@ function preencherTabelaListaDePedidos(arr) {
                 link.addEventListener('click', function () {
                     document.getElementById("textoPesquisado").value = item[0];                    
                     pesquisar();
+                    scrollToTop();
                 });
                 cell.appendChild(link);
 
@@ -236,6 +238,13 @@ function preencherTabelaListaDePedidos(arr) {
     }); 
     tabelaDiv.appendChild(table);
 };
+
+function scrollToTop() {
+    window.scrollTo({
+        top:0,
+        behavior: 'smooth'
+    })
+}
 
 let botaoHabilitado = true;
 function desabilitarBotaoPesquisa() {
