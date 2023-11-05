@@ -10,6 +10,7 @@ src/example/code-appscript_v16.gs.js
 
 node_modules
 .env
+.env.development
 
 # Local Netlify folder
 .netlify
