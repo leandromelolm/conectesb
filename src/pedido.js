@@ -11,7 +11,7 @@ window.onload = () => {
            console.log(res.testenv);
            dados = recuperarListaDePedidosLocalStorage();
            preencherTabelaListaDePedidos(dados);
-           getSheetData('ultimopedido', '');
+           fetchPostGetSheetData('ultimopedido', '');
         })
         .catch(function (error) {
             alert(error);
@@ -35,10 +35,10 @@ function pesquisar(){
         return alert("Apenas é possível pesquisar pelo número do pedido");
     } else
     if(!txtLinhaPesquisada == ''){
-        getSheetData('obter', txtlinhaFormatada);
+        fetchPostGetSheetData('obter', txtlinhaFormatada);
     }
     else{
-        getSheetData('ultimopedido', '');      
+        fetchPostGetSheetData('ultimopedido', '');      
     }   
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
@@ -56,7 +56,7 @@ function isNumberGreaterThanOne(value) {
     return true;
 }
 
-function getSheetData(tipoRequisicao, obterCelulas){
+function fetchPostGetSheetData(tipoRequisicao, obterCelulas){
     showLoading();
     let linkScript = resAppScript;
     const linkPlanilha = restUrlSpreadSheet;
@@ -93,9 +93,9 @@ function verificarDados(dados){
         ultimoPedido = dados;       
         if (dados < 22) {
             itemInicial = ultimoPedido - dados;
-            getSheetData('obter', `A${itemInicial + 2}:C${ultimoPedido}`);
+            fetchPostGetSheetData('obter', `A${itemInicial + 2}:C${ultimoPedido}`);
         } else {
-            getSheetData('obter', `A${ultimoPedido - 20}:C${ultimoPedido}`);
+            fetchPostGetSheetData('obter', `A${ultimoPedido - 20}:C${ultimoPedido}`);
         }
     }
     if (typeof dados !== 'number') {
@@ -279,7 +279,7 @@ function limparTodosCampos(){
     document.getElementById("textoPesquisado").value = "";
     divPedidoBuscado = document.getElementById('divPedidoBuscado');
     divPedidoBuscado.className = 'd-none table';
-    getSheetData('ultimopedido', '');
+    fetchPostGetSheetData('ultimopedido', '');
     
 };
 
