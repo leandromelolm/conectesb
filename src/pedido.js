@@ -9,6 +9,8 @@ window.onload = () => {
            resAppScript = res.appscript;
            restUrlSpreadSheet = res.urlspreadsheet;
            console.log(res.testenv);
+           dados = recuperarListaDePedidosLocalStorage();
+           preencherTabelaListaDePedidos(dados);
            getSheetData('ultimopedido', '');
         })
         .catch(function (error) {
@@ -56,8 +58,6 @@ function isNumberGreaterThanOne(value) {
 
 function getSheetData(tipoRequisicao, obterCelulas){
     showLoading();
-    let v16 = '';
-    let v33 =  '';
     let linkScript = resAppScript;
     const linkPlanilha = restUrlSpreadSheet;
     fetch(linkScript, {
