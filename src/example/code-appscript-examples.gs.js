@@ -204,7 +204,8 @@ https://github.com/ipraveenkmr/html_to_google_sheet
 https://www.youtube.com/watch?v=39XZBKmcMfE&list=PLwP3cL-MKVkNk2sxdKIRBBDqCHuariclo&index=5
 https://support.google.com/docs/thread/188243991/utilizando-api-no-google-sheets?hl=pt
 
-*Não abrir em ceular* https://www.codewithsundeep.com/2022/05/html-form-to-google-sheet.html
+
+https://developers.google.com/apps-script/reference/spreadsheet/sheet?hl=pt-br
 
 */
 

@@ -6,7 +6,7 @@ const sheets = SpreadsheetApp.openByUrl(urlSpreadSheet);
 const sheet = sheets.getSheetByName(sheetName);
 const spreadsheetAppId = SpreadsheetApp.openById(spreadSheetID);
 
-// v3
+// apps-script-google-planilha-requisicao-material v4
 
 // POST
 const doPost = (e) => {
@@ -75,9 +75,10 @@ const doPost = (e) => {
   }
 }
 
-// Test GET
-// https://SCRIPT_GOOGLE_TEST/dev?id=&search=&page=&perPage=
-// https://SCRIPT_GOOGLE_TEST/dev?id=&search=&startId=&endId=&page=&perPage=
+// GET PARAMETROS
+// ?id=&search=
+// ?page=&perPage=
+// ?search=pesquisarIntervalo&startId=&endId=
 
 // GET
 function doGet(e) {
@@ -86,13 +87,7 @@ function doGet(e) {
   const page = parseInt(e.parameter['page']) || 1;
   const perPage = parseInt(e.parameter['perPage']) || 20;
   const inicial = parseInt(e.parameter['startId'] || 1);
-  const final = parseInt(e.parameter['endId'] || 1);
-
-  if (pesquisaId == 0) {
-    let lista = retornarItensIntervalo(inicial, final);
-    return ContentService.createTextOutput(
-      JSON.stringify(lista)).setMimeType(ContentService.MimeType.JSON);
-  }
+  const final = parseInt(e.parameter['endId'] || 1);  
 
   if(pesquisaId !== "") {
     let pedido = buscarPorId(pesquisaId);
@@ -101,14 +96,20 @@ function doGet(e) {
   }
 
   if (pesquisaTxt == "" || pesquisaTxt === null) {
-    let todos = retornarItensPaginadosInversosOrdenados(page, perPage);
-    Logger.log(JSON.stringify(todos));
+    let listPage = retornarItensPaginadosOrdemInversa(page, perPage);
+    Logger.log(JSON.stringify(listPage));
     return ContentService.createTextOutput(
-      JSON.stringify(todos)).setMimeType(ContentService.MimeType.JSON);
+      JSON.stringify(listPage)).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (pesquisaTxt == 'pesquisarIntervalo') {
+    let lista = retornarItensIntervalo(inicial, final);
+    return ContentService.createTextOutput(
+      JSON.stringify(lista)).setMimeType(ContentService.MimeType.JSON);
   }
 
   if (pesquisaTxt != "" ) {
-    let allResults = encontrarTextoEmColuna(pesquisaTxt);
+    let allResults = encontrarTextoNaColuna(pesquisaTxt);
     allResults.sort((a, b) => b.id - a.id);
     let totalResults = allResults.length;
 
@@ -120,74 +121,6 @@ function doGet(e) {
     return ContentService.createTextOutput(resultString)
       .setMimeType(ContentService.MimeType.JSON);
   }  
-}
-
-function encontreTexto(str) {
-   let planilha = SpreadsheetApp.openById(spreadSheetID);
-  // let planilha = SpreadsheetApp.getActiveSpreadsheet();
-
-  let guia = planilha.getSheetByName(sheetName);
-  let textoParaEncontrar = str;
-  let textFinder = guia.createTextFinder(textoParaEncontrar);
-  let resultados = textFinder.findAll();
-  let listaDeObjetos = [];
-  for (let i = 0; i < resultados.length; i++) {
-    let resultado = resultados[i];
-    let linha = resultado.getRow();
-    let valorColunaA = guia.getRange("A" + linha).getValue();
-    let valorColunaB = guia.getRange("B" + linha).getValue();
-    let valorColunaC = guia.getRange("C" + linha).getValue();
-    let valorColunaF = guia.getRange("F" + linha).getValue();
-    let objeto = {
-      A: valorColunaA,
-      B: valorColunaB,
-      C: valorColunaC,
-      F: valorColunaF
-    };
-    Logger.log('Resultado Pesquisa: '+ valorColunaA+' : '+valorColunaC);
-    if (!listaDeObjetos.some(item => JSON.stringify(item) === JSON.stringify(objeto))) {
-      listaDeObjetos.push(objeto);
-    }
-  }
-  return listaDeObjetos;
-  
-}
-
-function encontrarTextoEmColuna(str) {
-  let planilhaId = spreadSheetID;
-  let planilha = SpreadsheetApp.openById(planilhaId);
-  let guia = planilha.getSheetByName(sheetName);  
-  let colunaParaPesquisar = "C";  
-  let textoParaEncontrar = str;
-  let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar)
-      .createTextFinder(textoParaEncontrar);
-  let resultados = textFinder.findAll();
-
-  if (resultados.length == 0){
-    throw new Error("Nenhum objeto encontrado.");
-  }
-
-  let listaDeObjetos = [];
-  for (let i = 0; i < resultados.length; i++) {
-    let resultado = resultados[i];
-    let linha = resultado.getRow();
-    if (linha == 1) {
-      continue; // Pule a linha de cabeçalho
-    }
-    let valorColunaA = guia.getRange("A" + linha).getValue();
-    let valorColunaB = guia.getRange("B" + linha).getValue();
-    let valorColunaC = guia.getRange("C" + linha).getValue();
-    let valorColunaF = guia.getRange("F" + linha).getValue();
-    let objeto = {
-      id: valorColunaA,
-      dataPedido: valorColunaB,
-      nomeUnidade: valorColunaC,
-      tipoPedido: valorColunaF
-    };   
-    Logger.log('Resultado Pesquisa: '+ valorColunaA+' : '+valorColunaC);
-    listaDeObjetos.push(objeto);    
-  }
-  return listaDeObjetos;
 }
 
 function buscarPorId(id) {
@@ -228,6 +161,73 @@ function buscarPorId(id) {
   return objeto;
 }
 
+function encontrarTextoNaFolha(str) {
+   let planilha = SpreadsheetApp.openById(spreadSheetID);
+
+  let guia = planilha.getSheetByName(sheetName);
+  let textoParaEncontrar = str;
+  let textFinder = guia.createTextFinder(textoParaEncontrar);
+  let resultados = textFinder.findAll();
+  let listaDeObjetos = [];
+  for (let i = 0; i < resultados.length; i++) {
+    let resultado = resultados[i];
+    let linha = resultado.getRow();
+    let valorColunaA = guia.getRange("A" + linha).getValue();
+    let valorColunaB = guia.getRange("B" + linha).getValue();
+    let valorColunaC = guia.getRange("C" + linha).getValue();
+    let valorColunaF = guia.getRange("F" + linha).getValue();
+    let objeto = {
+      A: valorColunaA,
+      B: valorColunaB,
+      C: valorColunaC,
+      F: valorColunaF
+    };
+    Logger.log('Resultado Pesquisa: '+ valorColunaA+' : '+valorColunaC);
+    if (!listaDeObjetos.some(item => JSON.stringify(item) === JSON.stringify(objeto))) {
+      listaDeObjetos.push(objeto);
+    }
+  }
+  return listaDeObjetos;
+  
+}
+
+function encontrarTextoNaColuna(str) {
+  let planilhaId = spreadSheetID;
+  let planilha = SpreadsheetApp.openById(planilhaId);
+  let guia = planilha.getSheetByName(sheetName);  
+  let colunaParaPesquisar = "C";  
+  let textoParaEncontrar = str;
+  let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar)
+      .createTextFinder(textoParaEncontrar);
+  let resultados = textFinder.findAll();
+
+  if (resultados.length == 0){
+    throw new Error("Nenhum objeto encontrado.");
+  }
+
+  let listaDeObjetos = [];
+  for (let i = 0; i < resultados.length; i++) {
+    let resultado = resultados[i];
+    let linha = resultado.getRow();
+    if (linha == 1) {
+      continue; // Pule a linha de cabeçalho
+    }
+    let valorColunaA = guia.getRange("A" + linha).getValue();
+    let valorColunaB = guia.getRange("B" + linha).getValue();
+    let valorColunaC = guia.getRange("C" + linha).getValue();
+    let valorColunaF = guia.getRange("F" + linha).getValue();
+    let objeto = {
+      id: valorColunaA,
+      dataPedido: valorColunaB,
+      nomeUnidade: valorColunaC,
+      tipoPedido: valorColunaF
+    };   
+    Logger.log('Resultado Pesquisa: '+ valorColunaA+' : '+valorColunaC);
+    listaDeObjetos.push(objeto);    
+  }
+  return listaDeObjetos;
+}
+
 function retornarItensPaginados(paginaAtual, elementosPorPagina) {
   let lastRow = sheet.getLastRow();
 
@@ -240,7 +240,7 @@ function retornarItensPaginados(paginaAtual, elementosPorPagina) {
   let maxInicio = (paginaAtual - 1) * elementosPorPagina + 1;
   let maxFim = maxInicio + elementosPorPagina - 1;
 
-  // Certificar que os índices não ultrapassem o primeiro elemento
+  // Certifica-se de que os índices não ultrapassem o último elemento
   maxFim = Math.min(maxFim, lastRow);
 
   let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 3);
@@ -254,16 +254,16 @@ function retornarItensPaginados(paginaAtual, elementosPorPagina) {
     result.push(rowData);
   }
 
-  return {
-    data: result,
+  return {   
     paginaAtual: paginaAtual,
     totalPaginas: totalPaginas,
     elementosPorPagina: elementosPorPagina,
-    totalElementos: lastRow
+    totalElementos: lastRow,
+    data: result
   };
 }
 
-function retornarItensPaginadosInversosOrdenados(paginaAtual, elementosPorPagina) {
+function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   let lastRow = sheet.getLastRow();
 
   let totalPaginas = Math.ceil(lastRow / elementosPorPagina);
@@ -289,15 +289,15 @@ function retornarItensPaginadosInversosOrdenados(paginaAtual, elementosPorPagina
     result.push(rowData);
   }
 
-  // Ordena o array result em ordem decrescente com base no ID
+  // Ordene o array result em ordem decrescente com base no ID
   result.sort((a, b) => b.id - a.id);
 
   return {
-    data: result,
-    paginaAtual: paginaAtual,
-    totalPaginas: totalPaginas,
-    elementosPorPagina: elementosPorPagina,
-    totalElementos: lastRow
+    pageNumber: paginaAtual,
+    totalPages: totalPaginas,
+    pageSize: elementosPorPagina,
+    totalRows: lastRow,
+    data: result
   };
 }
 
@@ -327,8 +327,9 @@ function retornarItensIntervalo(inicio, fim) {
   }
   
   return {
-    data: result,
-    totalElementos: lastRow
+    totalElementos: lastRow,
+    function: 'retornarItensIntervalo',
+    data: result    
   };
 }
 
@@ -349,4 +350,3 @@ function retornarTodosColunasABC() {
 function ultimaLinha() {
   return sheet.getLastRow();
 }
-
