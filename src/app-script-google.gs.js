@@ -6,7 +6,7 @@ const sheets = SpreadsheetApp.openByUrl(urlSpreadSheet);
 const sheet = sheets.getSheetByName(sheetName);
 const spreadsheetAppId = SpreadsheetApp.openById(spreadSheetID);
 
-// apps-script-google-planilha-requisicao-material v4
+// apps-script-google-planilha-requisicao-material v6
 
 // POST
 const doPost = (e) => {
