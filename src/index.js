@@ -328,9 +328,9 @@ function fetchPostSaveSheetGoogle() {
 
     let params = new URLSearchParams(pedidoInfo);
     // let sheetId = "";
-    // let sheetName = "";   
     // params.append("sheetId", sheetId);
-    // params.append("sheetName", sheetName);
+    let sheetName = "Sheet1";
+    params.append("sheetName", sheetName);
 
     fetch(scriptUrl, {
         method: "POST",

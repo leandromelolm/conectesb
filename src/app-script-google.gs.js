@@ -14,7 +14,8 @@ const doPost = (e) => {
   lock.tryLock(10000);
   try {
     const doc = spreadsheetAppId;
-    const sheet = doc.getSheetByName(sheetName);    
+    // const sheet = doc.getSheetByName(sheetName);
+    const sheet = doc.getSheetByName(e.parameter['sheetName']);   
 
     if (e.parameter['requisicao'] == 'salvar') {
       const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
@@ -33,12 +34,10 @@ const doPost = (e) => {
       const nextRow = sheet.getLastRow() + 1;
       sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
       return ContentService
-        .createTextOutput(JSON.stringify({ 'result': 'success', 'row': nextRow }))
+        .createTextOutput(JSON.stringify(
+          { 'result': 'success', 'row': nextRow }))
         .setMimeType(ContentService.MimeType.JSON);
     } else {
-      ContentService.createTextOutput(JSON.stringify(
-        { method: "POST", eventObject: e }))
-        .setMimeType(ContentService.MimeType.JSON);
       const dados = JSON.parse(e.postData.contents);
       if (dados.requisicao == 'obter') {
         return ContentService.createTextOutput(
