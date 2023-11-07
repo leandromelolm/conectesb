@@ -11,6 +11,7 @@ let itensForm;
 let v10 = ''
 let v33 = '';
 let scriptUrl;
+let appEnv;
 
 window.onload = () => {
 
@@ -85,7 +86,8 @@ function sendToSpreadsheet() {
             })
             .then(function (res) {
                 scriptUrl = res.appscript;
-                console.log(res.testenv);
+                appEnv = res.testenv;
+                console.log(appEnv);
                 fetchPostSaveSheetGoogle();
             })
             .catch(function (error) {
@@ -329,7 +331,8 @@ function fetchPostSaveSheetGoogle() {
     let params = new URLSearchParams(pedidoInfo);
     // let sheetId = "";
     // params.append("sheetId", sheetId);
-    let sheetName = "Sheet1";
+    
+    let sheetName = appEnv === "dev - appscript v8" ? "Sheet1-test" : "Sheet1";
     params.append("sheetName", sheetName);
 
     fetch(scriptUrl, {

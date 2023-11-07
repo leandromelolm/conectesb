@@ -10,7 +10,7 @@ window.onload = () => {
            restUrlSpreadSheet = res.urlspreadsheet;
            console.log(res.testenv);
            dados = recuperarListaDePedidosLocalStorage();
-           preencherTabelaListaDePedidos(dados);
+        //    preencherTabelaListaDePedidos(dados);
            fetchPostGetSheetData('ultimopedido', '');
         })
         .catch(function (error) {
@@ -67,6 +67,7 @@ function fetchPostGetSheetData(tipoRequisicao, obterCelulas){
           pagina: 'sheet1',
           celulas: obterCelulas,
           requisicao: tipoRequisicao,
+          sheetName: 'Sheet1'
         }),    
     })
     .then((response) => response.json()) 
