@@ -10,7 +10,9 @@ window.onload = () => {
            restUrlSpreadSheet = res.urlspreadsheet;
            console.log(res.testenv);
            dados = recuperarListaDePedidosLocalStorage();
-        //    preencherTabelaListaDePedidos(dados);
+           if (dados) {
+                preencherTabelaListaDePedidos(dados);
+           }
            fetchPostGetSheetData('ultimopedido', '');
         })
         .catch(function (error) {
