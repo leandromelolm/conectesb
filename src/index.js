@@ -7,9 +7,6 @@ let nomeUnidade = document.getElementById("nomeUnidade");
 
 let requerenteForm;
 let itensForm;
-// v16 fecth blocked - CORS policy: No 'Access-Control-Allow-Origin' 
-let v10 = ''
-let v33 = '';
 let scriptUrl;
 let appEnv;
 

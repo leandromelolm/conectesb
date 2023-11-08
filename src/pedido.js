@@ -229,12 +229,6 @@ function preencherTabelaListaDePedidos(arr) {
                     link.style.backgroundColor = '';                    
                 });
             }
-
-            // Estilo para o estado :hover
-    
-            // if (index === 5) {
-            //     cell.textContent = value;
-            // }
         });
     }); 
     tabelaDiv.appendChild(table);

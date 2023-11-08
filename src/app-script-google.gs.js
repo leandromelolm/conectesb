@@ -6,7 +6,7 @@ const sheets = SpreadsheetApp.openByUrl(urlSpreadSheet);
 const sheet = sheets.getSheetByName(sheetName);
 const spreadsheetAppId = SpreadsheetApp.openById(spreadSheetID);
 
-// apps-script-google-planilha-requisicao-material v6
+// apps-script-google-planilha-requisicao-material v8
 
 // POST
 const doPost = (e) => {
@@ -19,9 +19,6 @@ const doPost = (e) => {
 
     if (e.parameter['requisicao'] == 'salvar') {
       const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
-      // const newRow = headers.map((header) => {
-      //   return header === 'Date' ? new Date() : e.parameter[header];
-      // });
       const newRow = headers.map((header) => {
         if (header === 'Date') {
           return new Date();
