@@ -1,8 +1,27 @@
-let resAppScript;
-let restUrlSpreadSheet;
+let res_AppScript;
+let res_UrlSpreadSheet;
+const apiUrlLastRow = 'https://script.google.com/macros/s/AKfycbyBBzepvuBTF414jIiZ6xbq89RFcYvW36yRR4yxarOsXoqFaLGvDRIf5FkSWCBNK3m5NQ/exec';
 let lastRowOrder;
-apiUrlLastRow = 'https://script.google.com/macros/s/AKfycbyBBzepvuBTF414jIiZ6xbq89RFcYvW36yRR4yxarOsXoqFaLGvDRIf5FkSWCBNK3m5NQ/exec';
-window.onload = () => {
+window.onload = () => {    
+
+    // GET
+    const id = 2;
+    const search = "pesquisarTexto";
+    const page = 1;
+    const perPage = 20;
+    const startId = 1;
+    const endId = 1;
+    fetch(`/.netlify/functions/fetch-spreadsheet?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            console.log(data)
+        })
+    
+    // POST
+    submitEmail("TEST@TEST.EMAIL");
+
     fetch(apiUrlLastRow)
         .then(response =>{
         return response.json();
@@ -18,7 +37,7 @@ window.onload = () => {
             console.log(data.lastRow);
             // fetchPostGetSheetData('ultimopedido', '');
             fetchPostGetSheetData('obter', `A${data.lastRow - 20}:C${data.lastRow}`);
-        })
+    })
 
     // fetch(`/.netlify/functions/fetch-spreadsheet`)
     //     .then(function (response) {
@@ -39,6 +58,21 @@ window.onload = () => {
     //         console.log(error)
     //     });
 };
+
+function submitEmail(email) {
+    fetch('/.netlify/functions/fetch-spreadsheet', {
+        method: 'post',
+        body: JSON.stringify({
+          email: email
+        })
+      }).then(function(response) {
+        return response.json()
+      }).then(function(data) {
+        console.log('data from function (POST)', data)
+        res_AppScript = data.appscript;
+        res_UrlSpreadSheet = data.urlspreadsheet;
+      })
+  }
 
 const formularioPequisa = document.getElementById('search-form');
 formularioPequisa.addEventListener('submit', e => {
@@ -79,9 +113,8 @@ function isNumberGreaterThanOne(value) {
 
 function fetchPostGetSheetData(tipoRequisicao, obterCelulas){
     showLoading();
-    // let linkScript = resAppScript;
-    let linkScript = 'https://script.google.com/macros/s/AKfycbx98i7ty3KXvUNVoFKVmTKMyj3us2uABSYIO-lrlESjn4GWfcxb0K4VRSioCjVCBBp_FQ/exec';
-    const linkPlanilha = 'https://docs.google.com/spreadsheets/d/1ZPSsgOIJJE0p-QT4r2pwVmf4zMtUE5x4FnwnTTig4W0/edit#gid=0';
+    let linkScript = res_AppScript;
+    const linkPlanilha = res_UrlSpreadSheet;
     fetch(linkScript, {
         method: 'POST',
         body: JSON.stringify({

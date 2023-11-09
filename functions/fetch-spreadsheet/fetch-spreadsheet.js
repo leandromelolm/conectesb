@@ -14,18 +14,40 @@
 
 // export default { handler }
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event, context, callback) {
   const script = process.env.APP_SCRIPT_GOOGLE;
   const urlplanilha = process.env.URL_PLANILHA_GOOGLE;
   const testEnv = process.env.TEST_ENV;
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      { appscript: script, 
+  if(event.httpMethod == "POST") {
+    return callback(null,{
+      statusCode: 200,
+      body: JSON.stringify({
+        appscript: script,
         urlspreadsheet: urlplanilha,
-        testenv: testEnv
-      }
-    ),
-  };  
-}
+        eventBody: event.body,
+        testenv: testEnv,
+        event_http_method: event.httpMethod,
+        event_path: event.path,
+        context: context,
+        callback: callback
+      })
+    })
+  }
+  if(event.httpMethod == "GET") {
+    return callback(null,{
+      statusCode: 200,
+      body: JSON.stringify({
+        event: event,
+        eventParamId: event.queryStringParameters.id,
+        eventParamSearch: event.queryStringParameters.search,
+        event_http_method: event.httpMethod,
+        event_path: event.path,
+        context: context,
+        callback: callback
+      })
+    })
+  }
+
+};  
+
