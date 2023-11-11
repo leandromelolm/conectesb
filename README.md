@@ -7,10 +7,10 @@ e botão para imprimir que gera documento em duas vias.
 Projeto no Netlify: [Nota de requisição e saíde de materiais](https://sbpedido.netlify.app)
 
 ### Executar projeto 
-```
+```sh
 npm install
 ```
-```
+```sh
 npm start
 ```
 
@@ -31,6 +31,9 @@ npm install -D netlify-cli -g
 
 ## instalar o Netlify CLI localmente, execute o seguinte comando no diretório raiz do projeto:
 npm install netlify-cli --save-dev
+
+## instalar axios
+npm install axios
 
 ## Executar
 npm run dev 
@@ -53,9 +56,11 @@ template: javascript-hello-word
 
 Executar projeto com netlify:
 
- `netlify dev`  
- ou  
- `npm run start` 
+```sh
+ netlify dev 
+ ## ou  
+ npm run start
+ `````` 
 
 
 ```sh
