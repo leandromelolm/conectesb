@@ -72,6 +72,7 @@ const doPost = (e) => {
 }
 
 // GET PARAMETROS
+// ?id=&search=?page=&perPage=startId=&endId=
 // ?id=&search=
 // ?page=&perPage=
 // ?search=pesquisarIntervalo&startId=&endId=

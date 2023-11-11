@@ -5,39 +5,41 @@ let lastRowOrder;
 window.onload = () => {    
 
     // GET
-    const id = 2;
-    const search = "pesquisarTexto";
-    const page = 1;
-    const perPage = 20;
-    const startId = 1;
-    const endId = 1;
+    let id = "";
+    let search = "";
+    let page = 1;
+    let perPage = 20;
+    let startId = 1; // startId e endId apenas são validos na pesquisa quando search for atribuido o valor 'pesquisarIntervalo'
+    let endId = 1;
     fetch(`/.netlify/functions/fetch-spreadsheet?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
         .then(function(response) {
             return response.json();
         })
         .then(function(data) {
-            console.log(data)
+            preencherTabelaListaDePedidos(data.res.data);
         })
     
     // POST
     submitEmail("TEST@TEST.EMAIL");
 
-    fetch(apiUrlLastRow)
-        .then(response =>{
-        return response.json();
-        })
-        .then(data =>{
-            dados = recuperarListaDePedidosLocalStorage();
-            if (dados) {
-                preencherTabelaListaDePedidos(dados);
-                console.log(data.lastRow);
-            }
-            lastRowOrder = data.lastRow;
-            // verificarDados(data.lastRow);
-            console.log(data.lastRow);
-            // fetchPostGetSheetData('ultimopedido', '');
-            fetchPostGetSheetData('obter', `A${data.lastRow - 20}:C${data.lastRow}`);
-    })
+
+    // fetch(apiUrlLastRow)
+    //     .then(response =>{
+    //     return response.json();
+    //     })
+    //     .then(data =>{
+    //         dados = recuperarListaDePedidosLocalStorage();
+    //         if (dados) {
+    //             preencherTabelaListaDePedidos(dados);
+    //             console.log(data.lastRow);
+    //         }
+    //         lastRowOrder = data.lastRow;
+    //         // verificarDados(data.lastRow);
+    //         console.log(data.lastRow);
+    //         // fetchPostGetSheetData('ultimopedido', '');
+    //         fetchPostGetSheetData('obter', `A${data.lastRow - 20}:C${data.lastRow}`);
+    // })
+
 
     // fetch(`/.netlify/functions/fetch-spreadsheet`)
     //     .then(function (response) {
@@ -244,51 +246,48 @@ function preencherTabelaListaDePedidos(arr) {
 
     arr.forEach((item) => {
         const row = table.insertRow();
-        item.forEach((value, index) => {     
-            const cell = row.insertCell();
-            if (index === 0) {                
-                const link = document.createElement('a');
-                link.textContent = value; 
-                link.href = 'javascript:void(0)';
-                link.style.textDecoration = 'none';
-                link.style.fontSize = '16px';
+        const cell = row.insertCell();
+        console.log(item);
+        const link = document.createElement('a');
+        link.textContent = item.id; 
+        link.href = 'javascript:void(0)';
+        link.style.textDecoration = 'none';
+        link.style.fontSize = '16px';
 
-                link.addEventListener('click', function () {
-                    document.getElementById("textoPesquisado").value = link.textContent;
-                    pesquisar();
-                    scrollToTop();
-                });
-                cell.appendChild(link); 
-            }
-            if (index === 1) {
-                cell.textContent = dateFormat(value);
-            } 
-            if (index === 2) {
-                const link = document.createElement('a');
-                link.textContent = value; 
-                link.href = 'javascript:void(0)';
-                link.style.textDecoration = 'none';
-                link.style.fontSize = '15px';
+        link.addEventListener('click', function () {
+            document.getElementById("textoPesquisado").value = link.textContent;
+            pesquisar();
+            scrollToTop();
+        });
+        cell.appendChild(link);
 
-                link.addEventListener('click', function () {
-                    document.getElementById("textoPesquisado").value = item[0];                    
-                    pesquisar();
-                    scrollToTop();
-                });
-                cell.appendChild(link);
+        const cell2 = row.insertCell();
+        cell2.textContent = dateFormat(item.dataPedido);
 
-                link.addEventListener('mouseenter', function () {
-                    link.style.color = 'blue';                    
-                });           
-                link.addEventListener('mousedown', function () {
-                    link.style.color = 'gray'; 
-                    
-                });
-                link.addEventListener('mouseleave', function () {
-                    link.style.color = ''; 
-                    link.style.backgroundColor = '';                    
-                });
-            }
+        const cell3 = row.insertCell();
+        const linkUnid = document.createElement('a');
+        linkUnid.textContent = item.nomeUnidade; 
+        linkUnid.href = 'javascript:void(0)';
+        linkUnid.style.textDecoration = 'none';
+        linkUnid.style.fontSize = '15px';
+
+        linkUnid.addEventListener('click', function () {
+            document.getElementById("textoPesquisado").value = item[0];                    
+            pesquisar();
+            scrollToTop();
+        });
+        cell3.appendChild(linkUnid);
+
+        linkUnid.addEventListener('mouseenter', function () {
+            linkUnid.style.color = 'blue';                    
+        });           
+        linkUnid.addEventListener('mousedown', function () {
+            linkUnid.style.color = 'gray'; 
+            
+        });
+        linkUnid.addEventListener('mouseleave', function () {
+            linkUnid.style.color = ''; 
+            linkUnid.style.backgroundColor = '';                    
         });
     }); 
     tabelaDiv.appendChild(table);
