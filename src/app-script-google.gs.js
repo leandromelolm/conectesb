@@ -1,4 +1,4 @@
-const urlSpreadSheet = 'URL_PLANILHA';
+const urlSpreadSheet = 'URL_PLANILHA_GOOGLE';
 const spreadSheetID = 'ID_PLANILHA';
 const sheetName = 'Sheet1';
 const sheets = SpreadsheetApp.openByUrl(urlSpreadSheet);
@@ -6,7 +6,7 @@ const sheet = sheets.getSheetByName(sheetName);
 const spreadsheetId = SpreadsheetApp.openById(spreadSheetID);
 const sheetUser = sheets.getSheetByName('UserSheet')
 
-// Versão 9 - Prod
+// Versão 10 - Prod
 
 function requestTest() {
   let itensString = sheetUser.getRange("F"+2).getValue();
@@ -138,10 +138,10 @@ function isDigit(n) {
 }
 
 function buscarPorId(id) {
-  if(isDigit(id)){
+  if(!isDigit(id)){
     throw  obj = {
       statusCode: 422,
-      message: `ID É uma texto, mas deveria ser apenas número. ID: ${id}`,
+      message: `Id da pesquisa não é um número inteiro válido. ID: ${id}`,
       status: "Unprocessable Entity",
       details: ""
     };

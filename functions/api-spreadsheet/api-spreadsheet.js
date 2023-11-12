@@ -47,6 +47,8 @@ exports.handler = async function (event, context, callback) {
   
 
   if(event.httpMethod == "GET") {
+
+    /* GET /.netlify/functions/api-spreadsheet?id=&search=&page=&perPage=&startId=&endId=&search_key= */
     
     let id = event.queryStringParameters.id;
     let search = event.queryStringParameters.search;
