@@ -63,36 +63,7 @@ function submitPostTest(str) {
         res_AppScript = data.appscript;
         res_UrlSpreadSheet = data.urlspreadsheet;
       })
-  }
-
-const formularioPequisa = document.getElementById('search-form');
-formularioPequisa.addEventListener('submit', e => {
-    e.preventDefault()
-    pesquisar();   
-})
-
-function pesquisar(){
-    let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
-    if(!isNumberGreaterThanOne(txtLinhaPesquisada)){
-        fetchGetSheetData("", txtLinhaPesquisada,"","","","");
-    } else {
-        fetchGetSheetData(txtLinhaPesquisada,"","","","","");
-    }
-    desabilitarBotaoPesquisa(); // desabilita por 3 segundos
 };
-
-function isNumberGreaterThanOne(value) {
-    if (!(!isNaN(value) && !isNaN(parseFloat(value))) || parseFloat(value) <= 1) {
-      const message = "Faça a pesquisa pelo número de pedido (#ID).";
-      const alertElement = document.getElementById("alert-message");      
-      if (alertElement) {
-        alertElement.textContent = message;
-      }  
-      return false;
-    } 
-    document.getElementById("alert-message").innerHTML = "";    
-    return true;
-}
 
 function fetchGetSheetData(id, search, page, perPage, startId, endId){
     showLoading();
@@ -113,9 +84,6 @@ function fetchGetSheetData(id, search, page, perPage, startId, endId){
     });;    
 };
 
-function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-}
 function verificarDados(data){
     if (Array.isArray(data.res.results)) {
         const itens = data.res.results;
@@ -126,13 +94,28 @@ function verificarDados(data){
         hideLoading();
     }
 
-}
+};
+
+document.getElementById('search-form').addEventListener('submit', e => {
+    e.preventDefault()
+    pesquisar();   
+});
+
+function pesquisar(){
+    let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
+    if(!isNumberGreaterThanOne(txtLinhaPesquisada)){
+        fetchGetSheetData("", txtLinhaPesquisada,"","","","");
+    } else {
+        fetchGetSheetData(txtLinhaPesquisada,"","","","","");
+    }
+    desabilitarBotaoPesquisa(); // desabilita por 3 segundos
+};
 
 function recuperarListaDePedidosLocalStorage() {
     let jsonListaDePedido = localStorage.getItem('listaDePedidos');
     let objListaDePedido = JSON.parse(jsonListaDePedido);
     return objListaDePedido;
-}
+};
 
 function mostrarPedido(pedido) {
     abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
@@ -157,7 +140,7 @@ function mostrarPedido(pedido) {
           }
         }
     });
-}
+};
 
 function preencherTabelaListaDePedidos(arr) {
     hideLoading();
@@ -235,20 +218,7 @@ function scrollToTop() {
         top:0,
         behavior: 'smooth'
     })
-}
-
-let botaoHabilitado = true;
-function desabilitarBotaoPesquisa() {
-    if (botaoHabilitado) {
-    botaoHabilitado = false;
-    document.getElementById('btnPesquisa').disabled = true;
-    setTimeout(function() {
-        botaoHabilitado = true;
-        document.getElementById('btnPesquisa').disabled = false;
-    }, 3000);
-    }
 };
-
 
 function abrirPedidoNoFormulario() {
     const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
@@ -288,18 +258,43 @@ function dateFormat(data) {
     const segundos = String(dataObj.getSeconds()).padStart(2, '0');
     
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
-}
+};
+
+let botaoHabilitado = true;
+function desabilitarBotaoPesquisa() {
+    if (botaoHabilitado) {
+    botaoHabilitado = false;
+    document.getElementById('btnPesquisa').disabled = true;
+    setTimeout(function() {
+        botaoHabilitado = true;
+        document.getElementById('btnPesquisa').disabled = false;
+    }, 3000);
+    }
+};
 
 function showLoading() {
     document.getElementById("loading-message").style.display = "block";
     document.getElementById("content").style.display = "none";
-}
+};
 
-// Função para ocultar a mensagem de "Carregando" e mostrar o conteúdo
 function hideLoading() {
     document.getElementById("loading-message").style.display = "none";
     document.getElementById("content").style.display = "block";
-}
+};
 
-function fetchGetLastRow() {    
-}
+function isNumberGreaterThanOne(value) {
+    if (!(!isNaN(value) && !isNaN(parseFloat(value))) || parseFloat(value) <= 1) {
+      const message = "Faça a pesquisa pelo número de pedido (#ID).";
+      const alertElement = document.getElementById("alert-message");      
+      if (alertElement) {
+        alertElement.textContent = message;
+      }  
+      return false;
+    } 
+    document.getElementById("alert-message").innerHTML = "";    
+    return true;
+};
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+};
