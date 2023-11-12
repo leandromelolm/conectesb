@@ -43,22 +43,6 @@ window.onload = () => {
         }
         ultimaAtualizacaoDaPagina.innerText = `última atualização: ${dateFormat(new Date())}`;
     })
-    
-    // POST
-    submitPostTest("OI test");
-
-};
-
-function submitPostTest(str) {
-    fetch('/.netlify/functions/api-spreadsheet', {
-        method: 'post',
-        body: JSON.stringify({
-            str: str
-        })
-      }).then(function(response) {
-        return response.json()
-      }).then(function(data) {
-      })
 };
 
 function fetchGetSheetData(id, search, page, perPage, startId, endId){

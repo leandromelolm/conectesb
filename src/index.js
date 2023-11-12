@@ -76,21 +76,7 @@ function sendToSpreadsheet() {
     msgEnvioPedido.style.height = '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
-
-        fetch(`/.netlify/functions/fetch-spreadsheet`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (res) {
-                scriptUrl = res.appscript;
-                appEnv = res.testenv;
-                console.log(appEnv);
-                fetchPostSaveSheetGoogle();
-            })
-            .catch(function (error) {
-                alert(error);
-                console.log(error)
-            });
+        fetchPostSaveSheetGoogle();        
         desabilitarBotaoEnviar();
         // printPage();
     }
@@ -309,11 +295,9 @@ if (userAgent.includes("Chrome")) {
 
 
 function fetchPostSaveSheetGoogle() {
-
     const nomeUnidade = document.getElementById('nomeUnidade').value;
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade;
-
     let pedidoInfo = {
         requerente: localStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
@@ -324,32 +308,29 @@ function fetchPostSaveSheetGoogle() {
         requisicao: "salvar",
         Date: ''
     };
-
     let params = new URLSearchParams(pedidoInfo);
     // let sheetId = "";
-    // params.append("sheetId", sheetId);
-    
+    // params.append("sheetId", sheetId);    
     let sheetName = appEnv === "dev - appscript v8" ? "Sheet1-test" : "Sheet1";
     params.append("sheetName", sheetName);
-
-    fetch(scriptUrl, {
-        method: "POST",
-        body: params
-    })
-        .then(function (response) {
-            return response.text();
-        })
-        .then(function (text) {
-            responseFetch(text, instantePedido);
-        })
-        .catch(function (error) {
-            alert(error);
-            console.log(error)
-        });
+    submitPostFunctionsNetlify(pedidoInfo, sheetName)   
 };
 
-function responseFetch(text, instantePedido) {
-    let t = JSON.parse(text);
+function submitPostFunctionsNetlify(pedidoInfo) {
+    fetch('/.netlify/functions/api-spreadsheet', {
+        method: 'POST',
+        body: JSON.stringify(pedidoInfo)
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        console.log(data);       
+        responseFetch(data.numeroPedido, data.dataPedido);
+    }).catch(function(error) {
+        console.error('Erro na requisição:', error);
+    });
+}
+
+function responseFetch(numeroPedido, instantePedido) {    
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
     msgEnvioPedido.style.backgroundColor = '#4CAF50';
     msgEnvioPedido.style.color = 'white'
@@ -358,10 +339,10 @@ function responseFetch(text, instantePedido) {
     document.querySelector(
         '#msgEnvioPedido').innerHTML =
         `Pedido enviado com sucesso! Número Pedido:
-         <b>${t.row}</b>. Momento: <b>${instantePedido}</b>`;
+         <b>${numeroPedido}</b>. Momento: <b>${instantePedido}</b>`;
     alert(
         `Pedido enviado com sucesso!
-        Número Pedido: ${t.row}
+        Número Pedido: ${numeroPedido}
         Momento: ${instantePedido}`
     );
 }
@@ -405,6 +386,20 @@ document.addEventListener("DOMContentLoaded", function () {
         mensalCheckbox.checked = false;
     }
 });
+
+function fetchPost(params){
+    fetch(scriptUrl, {
+        method: "POST",
+        body: params
+    }).then(function (response) {
+        return response.text();
+    }).then(function (text) {
+        responseFetch(text, instantePedido);
+    }).catch(function (error) {
+        alert(error);
+        console.log(error)
+    });
+}
 
 const nomesUnidades = [
     'USF BONGI BOA IDEA',
