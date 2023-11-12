@@ -16,13 +16,15 @@ let ultimoPedidoFeito;
 window.onload = () => {
     showLoading();
     ultimoPedidoFeito = localStorage.getItem('ultimoPedido');
-    
+    let listaDePedidos = localStorage.getItem('listaDePedidos');
+    if(listaDePedidos){
+        preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
+    }
     fetch(apiUrlLastRow).then(response =>{
         return response.json();
     })
-    .then(data => {
-        
-        if ( data.lastRow != ultimoPedidoFeito || ultimoPedidoFeito == null){
+    .then(data => {        
+        if ( data.lastRow != ultimoPedidoFeito || ultimoPedidoFeito == null || listaDePedidos == null){
             localStorage.setItem('ultimoPedido', data.lastRow);
             fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
             .then(function(response) {
@@ -30,20 +32,16 @@ window.onload = () => {
             })
             .then(function(data) {
                 localStorage.setItem('listaDePedidos',JSON.stringify(data.res.data));
-                preencherTabelaListaDePedidos(data.res.data);
-                ultimaAtualizacaoDaPagina.innerText = `última atualização: ${dateFormat(new Date())}`;                
+                preencherTabelaListaDePedidos(data.res.data);                               
             })
             .catch(function (error) {
                 alert(error);
                 console.log(error)
             });
-        }else{
-            console.log("Preenchido com dados do localStorage");
-            let listaDePedidos = localStorage.getItem('listaDePedidos');
-            preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
-            ultimaAtualizacaoDaPagina.innerText = `última atualização: ${dateFormat(new Date())}`;
-            msgNovoPedido.innerText = 'nenhum novo pedido';
+        } else {
+            msgNovoPedido.innerText = 'Nenhum novo pedido';
         }
+        ultimaAtualizacaoDaPagina.innerText = `última atualização: ${dateFormat(new Date())}`;
     })
     
     // POST
@@ -60,15 +58,11 @@ function submitPostTest(str) {
       }).then(function(response) {
         return response.json()
       }).then(function(data) {
-        res_AppScript = data.appscript;
-        res_UrlSpreadSheet = data.urlspreadsheet;
       })
 };
 
 function fetchGetSheetData(id, search, page, perPage, startId, endId){
     showLoading();
-    let linkScript = res_AppScript;
-    const linkPlanilha = res_UrlSpreadSheet;
     fetch(
         `/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`
     )
@@ -81,6 +75,7 @@ function fetchGetSheetData(id, search, page, perPage, startId, endId){
     .catch(function (error) {
         alert(`Erro na Requisição: ${error}`);
         document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado. Insira um número de pedido válido.";
+        hideLoading();        
     });;    
 };
 
@@ -109,37 +104,6 @@ function pesquisar(){
         fetchGetSheetData(txtLinhaPesquisada,"","","","","");
     }
     desabilitarBotaoPesquisa(); // desabilita por 3 segundos
-};
-
-function recuperarListaDePedidosLocalStorage() {
-    let jsonListaDePedido = localStorage.getItem('listaDePedidos');
-    let objListaDePedido = JSON.parse(jsonListaDePedido);
-    return objListaDePedido;
-};
-
-function mostrarPedido(pedido) {
-    abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
-    document.getElementById('divListaPedido').innerHTML = "";
-    document.getElementById('divPedidoBuscado').className = 'card';
-    document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
-    document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(pedido.dataPedido)}`;
-    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${pedido.nomeUnidade}`;
-    const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
-    while (tabela.firstChild) {
-        tabela.removeChild(tabela.firstChild);
-    }
-    const listaItens =pedido.itens; 
-    listaItens.forEach((obj, index) => {
-        const row = tabela.insertRow();        
-        const itemCell = row.insertCell();
-        itemCell.textContent = index + 1; // Números crescentes a partir de 1      
-        for (const key in obj) {
-          if (obj.hasOwnProperty(key)) {
-            const cell = row.insertCell();
-            cell.textContent = obj[key];
-          }
-        }
-    });
 };
 
 function preencherTabelaListaDePedidos(arr) {
@@ -212,6 +176,51 @@ function preencherTabelaListaDePedidos(arr) {
     }); 
     tabelaDiv.appendChild(table);
 };
+
+function mostrarPedido(pedido) {
+    abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
+    document.getElementById('divPedidoBuscado').className = 'card';
+    document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
+    document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(pedido.dataPedido)}`;
+    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${pedido.nomeUnidade}`;
+    document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
+    document.getElementById('listaPedido').value = pedido.itensStr; 
+    console.log(pedido);
+    const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
+    while (tabela.firstChild) {
+        tabela.removeChild(tabela.firstChild);
+    }
+    const listaItens =pedido.itens; 
+    listaItens.forEach((obj, index) => {
+        const row = tabela.insertRow();        
+        const itemCell = row.insertCell();
+        itemCell.textContent = index + 1; // Números crescentes a partir de 1      
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const cell = row.insertCell();
+            cell.textContent = obj[key];
+          }
+        }
+    });
+    // let modalMostrarPedido = new bootstrap.Modal(document.getElementById('modalMostrarPedido'), {});
+    // modalMostrarPedido.toggle();
+    openModal();
+};
+
+
+function openModal() {
+    $('#modalMostrarPedido').modal('show');
+}
+
+function closeModal() {
+    $('#modalMostrarPedido').modal('hide');
+}
+
+const closeButton = document.querySelector(".btn-secondary[data-dismiss='modal']");
+closeButton.addEventListener("click", function() {
+    closeModal();
+});
+
 
 function scrollToTop() {
     window.scrollTo({
