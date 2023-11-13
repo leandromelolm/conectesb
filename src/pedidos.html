@@ -14,6 +14,7 @@
       text-decoration: none;
       color: #551A8B;
     }
+
     a:hover{
       color: red;
     }
@@ -47,7 +48,6 @@
 
     .armazenamento {
       width: max-content;
-      /* height: min-content; */
     }
 
     .salvarArmazenamentoLocal {
@@ -58,30 +58,41 @@
     .pesquisa {
       margin: 20px;
     }
-
-    #btnPesquisa {
-      width: 100px;
-      /* height: 37px; */
-      border: none;
-      border-radius: 5px;
-      margin: 10px 0px 0px 0px;
+    
+    .btn__search {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+      width: 40px !important;
+      height: 37px !important;
     }
     
-    #btnPesquisa:active {
-      background-color: white;
+    .btn__search:active {
+      background-color: grey !important;
       color: black;
     }
 
-    #btnPesquisa:disabled {
-      background-color: #cccccc;
-      color: #555555;
+    .btn__clear {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
+      width: 40px !important;
+      height: 37px !important;
     }
 
-    .btn-secondary {
-      color: #fff;
-      background-color: #6c757d;
-      border-color: #6c757d;
-      margin: 0px 0 3px 5px!important;
+    .btn__clear:active {
+      background-color: grey !important;
+      color: black;
+    }
+
+    button:focus {
+        outline: none !important;
+        box-shadow: 0 0 2px 2px rgba(210, 214, 215, 0.5) !important;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        box-shadow: 0 0 2px 2px rgba(210, 214, 215, 0.5) !important;  
     }
 
     #abrirPedidonoFormulario  {
@@ -122,6 +133,7 @@
   </style>
   <script src="jquery/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
 </head>
 <body>
 
@@ -150,18 +162,33 @@
       <span id="unidadeRequisitante"></span>
       <span id="listaPedido"></span>
     </div>
-    <div class="pesquisa">
-      <p id="numeroUltimoPedido"></p>
-      <p id="alert-message"></p>
-      <form id="search-form">
-          <input type="text" id="textoPesquisado" placeholder="Número do pedido ou Nome da Unidade">
-          <button id="btnPesquisa" class="btn-primary armazenamento">Pesquisar</button>
-          <button class="btn btn-outline-secondary limpar__campos" 
-          type="button" 
-          onclick="limparTodosCampos()">
-          Limpar campo pesquisa
-        </button>         
-      </form>
+
+      <!-- <p id="alert-message"></p> -->
+
+      <!--PESQUISA-->
+      <div class="row mt-2">
+        <div class="col-md-12 mx-auto">
+            <div class="small fw-light">Pesquisar</div>
+            <div class="input-group">
+                <input class="form-control border" type="search"
+                  placeholder="ID do Pedido ou Nome da Unidade" 
+                  id="search-input" onkeydown="eventClickEnter(event)">
+                <span class="input-group-append">
+                  <button id="btn-search" 
+                    class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
+                    type="button" onclick="handleSearch()">
+                      <img src="assets/search.svg">
+                  </button>
+                </span>
+                <span class="input-group-append">
+                  <button class="btn bg-white border border-start-0 ms-n5 btn__clear" 
+                    type="button" onclick="limparTodosCampos()">
+                      <img src="assets/x.svg">
+                  </button>
+              </span>
+            </div>
+        </div>
+    </div>
 
       <div class="d-none">        
         <button id="abrirPedidonoFormulario" class="d-none" onclick="abrirPedidoNoFormulario()">

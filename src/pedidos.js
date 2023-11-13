@@ -41,7 +41,7 @@ window.onload = () => {
         } else {
             msgNovoPedido.innerText = 'Nenhum novo pedido';
         }
-        ultimaAtualizacaoDaPagina.innerText = `última atualização: ${dateFormat(new Date())}`;
+        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
     })
 };
 
@@ -75,20 +75,35 @@ function verificarDados(data){
 
 };
 
-document.getElementById('search-form').addEventListener('submit', e => {
-    e.preventDefault()
-    pesquisar();   
-});
-
-function pesquisar(){
-    let txtLinhaPesquisada = document.getElementById("textoPesquisado").value;
-    if(!isNumberGreaterThanOne(txtLinhaPesquisada)){
-        fetchGetSheetData("", txtLinhaPesquisada,"","","","");
-    } else {
-        fetchGetSheetData(txtLinhaPesquisada,"","","","","");
+function eventClickEnter(event) {
+    if (event.keyCode === 13) {
+        capturarTexto();
     }
-    desabilitarBotaoPesquisa(); // desabilita por 3 segundos
+}
+
+function handleSearch() {
+    var txtSearch = document.getElementById('search-input').value;
+    searchTxt(txtSearch);
 };
+
+function searchTxt(txtSearch){
+    if (!txtSearch) {
+        return preencherTabelaListaDePedidos(
+            JSON.parse(localStorage.getItem('listaDePedidos'))
+        );
+    }    
+    if (isPositiveInteger(txtSearch)) { 
+        fetchGetSheetData(txtSearch,"","","","","");
+    }
+    if (!isPositiveInteger(txtSearch)){
+        return fetchGetSheetData("", txtSearch,"","","","");
+    }
+    desabilitarBotaoPesquisa(); // desabilita por 3 seg
+};
+
+function isPositiveInteger(n) {
+    return /^\d+$/.test(n) && parseInt(n, 10) > 0;
+}
 
 function preencherTabelaListaDePedidos(arr) {
     hideLoading();
@@ -230,7 +245,7 @@ function limparCampos() {
 function limparTodosCampos(){
     limparCampos();
     document.getElementById('divListaPedido').innerHTML = "";
-    document.getElementById("textoPesquisado").value = "";
+    document.getElementById("search-input").value = "";
     divPedidoBuscado = document.getElementById('divPedidoBuscado');
     divPedidoBuscado.className = 'd-none table';
     let listaDePedidos = localStorage.getItem('listaDePedidos');
@@ -257,10 +272,10 @@ let botaoHabilitado = true;
 function desabilitarBotaoPesquisa() {
     if (botaoHabilitado) {
     botaoHabilitado = false;
-    document.getElementById('btnPesquisa').disabled = true;
+    document.getElementById('btn-search').disabled = true;
     setTimeout(function() {
         botaoHabilitado = true;
-        document.getElementById('btnPesquisa').disabled = false;
+        document.getElementById('btn-search').disabled = false;
     }, 3000);
     }
 };
