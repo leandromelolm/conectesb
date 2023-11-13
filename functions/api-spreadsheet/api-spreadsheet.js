@@ -63,10 +63,10 @@ exports.handler = async function (event, context, callback) {
       let response = await axios.get(
         `${script}?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`
         );
-      let res = response.data;
+      let responseData = response.data;
       return {
         statusCode: 200,
-        body: JSON.stringify({ res }),
+        body: JSON.stringify({ responseData }),
       };
     } catch (error) {
       

@@ -31,8 +31,8 @@ window.onload = () => {
                 return response.json();
             })
             .then(function(data) {
-                localStorage.setItem('listaDePedidos',JSON.stringify(data.res.data));
-                preencherTabelaListaDePedidos(data.res.data);                               
+                localStorage.setItem('listaDePedidos',JSON.stringify(data.responseData.data));
+                preencherTabelaListaDePedidos(data.responseData.data);
             })
             .catch(function (error) {
                 alert(error);
@@ -54,39 +54,46 @@ function fetchGetSheetData(id, search, page, perPage, startId, endId){
         return data.json();
     })
     .then( response =>{
-       verificarDados(response);
+        verificarDados(response);
     })
     .catch(function (error) {
         alert(`Erro na Requisição: ${error}`);
-        document.getElementById('divListaPedido').innerHTML = "Pedido não encontrado. Insira um número de pedido válido.";
-        hideLoading();        
+        document.getElementById('response__erro').innerHTML = "Pesquisa não encontrada. Insira um número de pedido válido.";
+        hideLoading();
+        console.log("erro: ",error);
     });;    
 };
 
 function verificarDados(data){
-    if (Array.isArray(data.res.results)) {
-        const itens = data.res.results;
+    if (data.responseData.result === "error") {        
+        hideLoading();
+        return document.getElementById('response__erro').innerHTML = data.responseData.error.message;
+    }
+
+    if (Array.isArray(data.responseData.results)) {
+        const itens = data.responseData.results;
         preencherTabelaListaDePedidos(itens);
         hideLoading();
     } else {
-        mostrarPedido(data.res);
+        mostrarPedido(data.responseData);
         hideLoading();
     }
-
 };
 
 function eventClickEnter(event) {
     if (event.keyCode === 13) {
-        capturarTexto();
+        handleSearch();
     }
 }
 
 function handleSearch() {
     var txtSearch = document.getElementById('search-input').value;
     searchTxt(txtSearch);
+    desabilitarBotaoPesquisa();
 };
 
 function searchTxt(txtSearch){
+    document.getElementById('response__erro').innerHTML = '';
     if (!txtSearch) {
         return preencherTabelaListaDePedidos(
             JSON.parse(localStorage.getItem('listaDePedidos'))
@@ -94,6 +101,10 @@ function searchTxt(txtSearch){
     }    
     if (isPositiveInteger(txtSearch)) { 
         fetchGetSheetData(txtSearch,"","","","","");
+    }
+    if(Math.sign(txtSearch) == -1 || Math.sign(txtSearch) == 0) {
+        return document.getElementById('response__erro').innerHTML = 'Numero de pedido inválido';
+
     }
     if (!isPositiveInteger(txtSearch)){
         return fetchGetSheetData("", txtSearch,"","","","");
@@ -138,8 +149,8 @@ function preencherTabelaListaDePedidos(arr) {
         link.style.fontSize = '16px';
 
         link.addEventListener('click', function () {
-            document.getElementById("textoPesquisado").value = link.textContent;
-            pesquisar();
+            document.getElementById("search-input").value = link.textContent;
+            searchTxt(link.textContent);
             scrollToTop();
         });
         cell.appendChild(link);
@@ -155,8 +166,8 @@ function preencherTabelaListaDePedidos(arr) {
         linkUnid.style.fontSize = '15px';
 
         linkUnid.addEventListener('click', function () {
-            document.getElementById("textoPesquisado").value = item.id;                    
-            pesquisar();
+            document.getElementById("search-input").value = item.id;                    
+            searchTxt(item.id);
             scrollToTop();
         });
         cell3.appendChild(linkUnid);
@@ -179,12 +190,12 @@ function preencherTabelaListaDePedidos(arr) {
 function mostrarPedido(pedido) {
     abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
     document.getElementById('divPedidoBuscado').className = 'card';
-    document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
+    document.getElementById('labelPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
+    // document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
     document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(pedido.dataPedido)}`;
     document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${pedido.nomeUnidade}`;
     document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
     document.getElementById('listaPedido').value = pedido.itensStr; 
-    console.log(pedido);
     const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
     while (tabela.firstChild) {
         tabela.removeChild(tabela.firstChild);
@@ -268,16 +279,12 @@ function dateFormat(data) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
 
-let botaoHabilitado = true;
+
 function desabilitarBotaoPesquisa() {
-    if (botaoHabilitado) {
-    botaoHabilitado = false;
     document.getElementById('btn-search').disabled = true;
     setTimeout(function() {
-        botaoHabilitado = true;
         document.getElementById('btn-search').disabled = false;
     }, 3000);
-    }
 };
 
 function showLoading() {

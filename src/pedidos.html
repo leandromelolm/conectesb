@@ -73,6 +73,10 @@
       color: black;
     }
 
+    .btn__search:disabled {
+      background-color: grey !important
+    }
+
     .btn__clear {
       border-top-left-radius: 0px !important;
       border-bottom-left-radius: 0px !important;
@@ -128,6 +132,11 @@
       margin: 0px;
       color: gray;
       font-size: 14px;
+    }
+
+    .btn__close {
+      width: 40px;
+      height: 37px;
     }
    
   </style>
@@ -188,7 +197,7 @@
               </span>
             </div>
         </div>
-    </div>
+      </div>
 
       <div class="d-none">        
         <button id="abrirPedidonoFormulario" class="d-none" onclick="abrirPedidoNoFormulario()">
@@ -200,21 +209,28 @@
       <div class="loading-message" id="loading-message">Carregando...</div>
       <div id="content"></div>
 
+      <div id="response__erro"></div>
+
+      <div id="divDataUnidade">
+        <div id="divListaPedido"></div>
+      </div>  
+
       <!-- Modal -->
       <div class="modal fade" id="modalMostrarPedido" tabindex="-1" 
         role="dialog" aria-labelledby="modalMostrarPedidoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="modalMostrarPedidoLabel">Pedido</h5>
-              <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close"
+              <h5 class="modal-title" id="labelPedido">Pedido</h5>
+              <button type="button" class="close btn btn-transparent btn__close" 
+                data-dismiss="modal" aria-label="Close"
                 onclick="closeModal()">
                 <span aria-hidden="true">&times;</span>
               </button> 
             </div>
 
             <div class="container">
-              <div id="idPedido"></div>
+              <!-- <div id="idPedido"></div> -->
               <div id="dataPedido"></div>
               <div id="requisitante"></div>
               <button id="abrirPedidonoFormulario" onclick="abrirPedidoNoFormulario()">
@@ -249,10 +265,6 @@
         </div>
       </div>
 
-      
-      <div id="divDataUnidade">
-        <div id="divListaPedido"></div>
-      </div>  
     </div>
   </div>
   <script src="pedidos.js"></script>
