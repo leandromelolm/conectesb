@@ -35,6 +35,9 @@ npm install netlify-cli --save-dev
 ## instalar axios
 npm install axios
 
+## instalar boostrap-icons
+npm i bootstrap-icons
+
 ## Executar
 npm run dev 
 ``` 
@@ -71,9 +74,9 @@ netlify dev --context production
 Alterado versão Node para 18.
 
 ```bash
-#
+# listar versões node
 nvm ls
-#
+# alterar para usar versão
 nvm use 18.16.0
 ```  
 
