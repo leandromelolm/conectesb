@@ -33,14 +33,16 @@ window.onload = () => {
             .then(function(data) {
                 localStorage.setItem('listaDePedidos',JSON.stringify(data.responseData.data));
                 preencherTabelaListaDePedidos(data.responseData.data);
+                const dtUltPedido = dateFormat(data.responseData.data[0].dataPedido);
+                console.log(dtUltPedido);
+                const dataUltimoPedido = dtUltPedido.split(' ')
+                msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
             })
             .catch(function (error) {
                 alert(error);
                 console.log(error)
             });
-        } else {
-            msgNovoPedido.innerText = 'Nenhum novo pedido';
-        }
+        } 
         ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
     })
 };
