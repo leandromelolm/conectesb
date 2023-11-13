@@ -1,19 +1,16 @@
 # requisicao-de-material
 
+Este projeto visa simplificar o processo de solicitação de insumos, materiais e instrumentais, substituindo o tradicional preenchimento manual feito em duas vias do documento de **NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAIS**. Através de uma página web acessível tanto em computadores quanto em dispositivos móveis, os usuários podem enviar pedidos e imprimir uma **NOTA DE REQUISIÇÃO** de forma fácil e rápida. A página é compatível com os principais navegadores, apresenta campos com preenchimento interativo e intuitivo, além de oferecer a funcionalidade de impressão, resultando na geração de um documento em duas vias. Também foi implementada a funcionalidade para exibir os pedidos feitos e realizar a busca por pedido.
 
-Projeto que gera uma página html de uma **NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAIS** com campos para preenchimento 
-e botão para imprimir que gera documento em duas vias.
-
-Projeto no Netlify: [Nota de requisição e saíde de materiais](https://sbpedido.netlify.app)
+Projeto hospedado no Netlify: [sbpedido.netlify.app](https://sbpedido.netlify.app)
 
 ### Executar projeto 
 ```sh
+## instalar dependências
 npm install
-```
-```sh
+## iniciar o projeto
 npm start
 ```
-
 
 ### Comandos para configurar ambiente Node.js no projeto e hospedar no Netlify para usar variáveis de ambiente
 Projeto exportado para a pasta src, em seguida foi executado seguintes comandos:
