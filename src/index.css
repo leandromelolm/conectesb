@@ -2,6 +2,20 @@ body {
     font-size: 12px;
 }
 
+.navbar {
+    padding-inline: 10%;
+        
+}
+@media (max-width: 768px) {
+    .navbar {
+        padding-inline: 2%;
+    }
+}
+
+.nav-link { /* navbar */
+    font-size: 16px;
+}
+
 #docPrint {
     margin-bottom: 10px;
 }

@@ -4,25 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  
   <style>
-    body {   
-      font-size: 12px;
+    body { 
       font-family: var(--bs-font-sans-serif)!important;
     }
 
-    a {      
-      font-size: 12px;
+    .navbar {
+      padding-inline: 10%;
+        
+    }
+    @media (max-width: 768px) {
+        .navbar {
+            padding-inline: 2%;
+        }
+    }
+
+    a {
       text-decoration: none !important;
     }
 
-    a:hover{
-      color: red;
+    .main {
+      width: 70% !important;
     }
 
-    form#myForm {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px;
+    @media (max-width: 768px) {
+        .main {
+            width: 100% !important;
+        }
     }
 
     input {
@@ -33,30 +40,6 @@
       border-radius: 5px;
       padding: 5px;
     }    
-
-    button {
-      width: 100px;
-      height: 40px;
-      margin: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: #00a0ff;
-      color: white;
-      font-weight: bold;
-    }
-
-    .armazenamento {
-      width: max-content;
-    }
-
-    .salvarArmazenamentoLocal {
-      margin: 20px;
-      display: block;
-    }
-
-    .pesquisa {
-      margin: 20px;
-    }
     
     .btn__search {
       border-top-left-radius: 0px !important;
@@ -88,12 +71,7 @@
       color: black;
     }
 
-    button:focus {
-        outline: none !important;
-        box-shadow: 0 0 2px 2px rgba(210, 214, 215, 0.5) !important;
-    }
-
-    input:focus, textarea:focus {
+    button:focus, input:focus, textarea:focus {
         outline: none;
         box-shadow: 0 0 2px 2px rgba(210, 214, 215, 0.5) !important;  
     }
@@ -103,17 +81,8 @@
       width: 260px;
     }
 
-    .limpar__campos {
-      width: max-content;
-      margin: 0px 0px 0px 0px !important;
-    }
-    
     button.navbar-toggler {
       width: 56px
-    }
-
-    .div__lista_item_pedido {
-      margin-top: 13px;
     }
 
     .loading-message {
@@ -137,6 +106,13 @@
       width: 40px;
       height: 37px;
     }
+
+    tbody, td, tfoot, th, thead, tr {
+      border-color: inherit;
+      border-style: solid;
+      border-width: initial;
+      vertical-align: middle;
+    }
    
   </style>
   <script src="jquery/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
@@ -148,7 +124,7 @@
   <!--NAVBAR-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.html">Saúde Bucal Pedido</a>
+      <a class="navbar-brand" href="index.html">sbpedido.netlify.app</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -161,7 +137,7 @@
     </div>
   </nav>
 
-  <div class="container-fluid">
+  <div class="container-fluid main">
     <div id="atualizacaoPagina">
       <p id="ultimaAtualizacaoDaPagina"></p>
       <p id="msgNovoPedido"></p>
@@ -171,15 +147,13 @@
       <span id="listaPedido"></span>
     </div>
 
-      <!-- <p id="alert-message"></p> -->
-
       <!--PESQUISA-->
       <div class="row mt-2">
         <div class="col-md-12 mx-auto">
-            <div class="small fw-light">Pesquisar</div>
+            <!-- <div class="small fw-light">Pesquisar</div> -->
             <div class="input-group">
                 <input class="form-control border" type="search"
-                  placeholder="ID do Pedido ou Nome da Unidade" 
+                  placeholder="Pesquisar ID do Pedido ou Unidade" 
                   id="search-input" onkeydown="eventClickEnter(event)">
                 <span class="input-group-append">
                   <button id="btn-search" 
@@ -196,13 +170,6 @@
               </span>
             </div>
         </div>
-      </div>
-
-      <div class="d-none">        
-        <button id="abrirPedidonoFormulario" class="d-none" onclick="abrirPedidoNoFormulario()">
-          Abrir pedido no formulário
-        </button>
-        <!-- <br> -->
       </div>
 
       <div class="loading-message" id="loading-message">Carregando...</div>
@@ -266,8 +233,8 @@
 
       <p class="mt-4 text-center"><a href="https://github.com/leandromelolm/requisicao-de-material">Veja o codigo no GitHub</a></p>
 
-    </div>
-  </div>
+  </div>  
+
   <script src="pedidos.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
