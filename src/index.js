@@ -657,18 +657,14 @@ IMPLEMENTAÇÕES FUTURAS:
 [X] fazer get de uma linha da planilha
 [X] alterar exibição do botão imprimir no evento de click
 [X] adicionar botão ENVIAR PEDIDO - que enviar pedido para planilha retorna mensagem de pedido enviado.
+[X] fazer get de uma determinada coluna da planilha
 
-[] fazer get de uma determinada coluna da planilha
+[] adicionar toast boostrap 
 [] mover lista de itens para um arquivo externo ao index.js
 [] implementar download de arquivo json com os dados preenchidos nos inputs
 [] implementar upload de arquivo json para preencher input
 [] mensagem no rodapé do desenvolvedor na pagina
 [] implementar botão para salvar em pdf em nova aba.
-
-
-
-LINK ÚTEIS
-// https://igorescobar.github.io/jQuery-Mask-Plugin/docs.html
 
 */
 
