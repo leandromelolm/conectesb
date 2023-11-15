@@ -97,38 +97,35 @@ function printPage() {
 
 function toggleRowVisibility() {
     const rows = document.querySelectorAll('.tr_hidden');
+    const toggleButton = document.getElementById('toggleButton');
     rows.forEach(row => {
         if (row.style.display === 'table-row') {
             row.style.display = 'none'; // Esconder a linha
+            toggleButton.innerHTML = '<img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas';
         } else {
             row.style.display = 'table-row'; // Mostrar a linha
+            toggleButton.innerHTML = '<img src="assets/minus.svg" alt=""> Mostrar Menos Linhas';
         }
     });
-    const button = document.getElementById('toggleButton');
-    if (button.value === 'Mostrar Mais Linhas') {
-        button.value = 'Mostrar Menos Linhas';
-    } else {
-        button.value = 'Mostrar Mais Linhas';
-    }
 };
 
 function visibilidadeDasLinhas() {
     let dadosJSON = localStorage.getItem('dadosItens');
     const rows = document.querySelectorAll('.tr_hidden');
-    const button = document.getElementById('toggleButton');
+    const toggleButton = document.getElementById('toggleButton');
     if (dadosJSON) {
         let dadosObj = JSON.parse(dadosJSON);
         if (dadosObj.length > 10) {
             rows.forEach(row => {
                 row.style.display = 'table-row'; // EXIBIR
             });
-            button.value = 'Mostrar Menos Linhas';
+            toggleButton.innerHTML = '<img src="assets/minus.svg" alt=""> Mostrar Menos Linhas';
         }
         if (dadosObj.length <= 10) {
             rows.forEach(row => {
                 row.style.display = 'none'; // ESCONDER
             });
-            button.value = 'Mostrar Mais Linhas';
+            toggleButton.innerHTML = '<img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas';
         }
     }
 }

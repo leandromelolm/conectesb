@@ -695,12 +695,25 @@
                     <input type="checkbox" id="extra" name="extra"/>
                 </div>
                 <input type="button" id="btnSendSpreadsheet" onclick="sendToSpreadsheet()" value="Enviar Pedido">
-                <input type="button" id="btnPrint" onclick="printPage()" value="Imprimir">
-                <input type="button" id="toggleButton" value="Mostrar Mais Linhas" onClick="toggleRowVisibility()">
-                <input type="button" class="class_hover" onclick="inputsRequestorClean()"
-                    value="Limpar Formulário - requisitante">
-                <input type="button" class="class_hover" onclick="inputsItensClean()"
-                    value="Limpar Campos de itens pedidos">
+                
+                <div style="display: grid">
+                    <button type="button" id="btnPrint" class="btn btn-outline-primary btn__clear" onclick="printPage()">
+                        <img src="assets/printer.svg" alt="">
+                        Imprimir
+                    </button>
+                    <button type="button" id="toggleButton" class="btn btn-outline-success btn__clear" onclick="toggleRowVisibility()">
+                        <img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas
+                    </button>                                           
+                    <button type="button" class="btn btn-outline-secondary btn__clear" onclick="inputsRequestorClean()">
+                        <img src="assets/eraser.svg" alt="">
+                        Limpar Campos da unidade requisitante
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn__clear" onclick="inputsItensClean()">
+                        <img src="assets/eraser.svg" alt="">
+                        Limpar Campos de itens pedidos
+                    </button>                    
+                </div>
+                <br>
 
                 <!-- generate-pdf - hidden buttons -->
                 <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test"

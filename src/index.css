@@ -264,6 +264,16 @@ td.td__quant_pedida input {
     font-weight: bold;
 }
 
+.btn__clear {
+    border-radius: 5px;
+    width: 380px !important;
+    height: 35px !important;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: inherit;
+    text-transform: uppercase;
+}
+
 #buttons input:hover {
     background-color: #0033ff;
     cursor: pointer;
