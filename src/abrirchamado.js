@@ -148,7 +148,7 @@ function sendFetchPost(chamadoAberto){
         body: objPedidoString
     })
     .then(response => response.json())
-    .then(data => responseOK(data))
+    .then(data => responseOK(data, NewChamado))
     .catch(error => responseError(error));
 };
 
@@ -173,13 +173,15 @@ function removerMsgAguardarEnvio(){
     // chamadoForm.removeAttribute("disabled");
 };
 
-function responseOK(data){
+function responseOK(data, NewChamado){
     removerMsgAguardarEnvio();
     console.log(data.success);  
     if(data.success == "true"){
         document.getElementById('msgResponse').innerHTML = `
         <p><b>A solicitação para abrir o chamado foi enviado com sucesso!</b></p>       
-        Um email foi enviado para coordenação de saúde bucal.
+        Um email foi enviado para coordenação de saúde bucal.<p>
+        Unidade:${NewChamado.unidade}
+        Data: ${NewChamado.data}<p>
         <p>
         <a href="index.html">Voltar</a>
         `;

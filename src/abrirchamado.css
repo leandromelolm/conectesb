@@ -6,7 +6,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
 }
 
 form {
@@ -91,7 +91,7 @@ legend {
 }
 
 .main__container{
-    margin: 10%;
+    margin: 20px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -105,7 +105,8 @@ legend {
     width: 80%; 
     max-width: 100%;
     text-align: center;
-    height: 140px;
+    height: 180px;
+    margin-top: 90px;
 }
 
 .enviar__chamado{
