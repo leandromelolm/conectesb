@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="abrirchamado.css">
+    <title>Abrir Chamado</title>
+</head>
+<body>
+    
+    <div class="main__container">
+        
+        <form id="chamadoForm">
+            <a href="index.html">Voltar</a>
+            <p>
+
+            <label for="unidade">Unidade de Saúde:</label>
+            <input type="text" id="unidade">
+            
+            <label for="solicitante">Funcionário Solicitante:</label>
+            <input type="text" id="solicitante">
+            
+            <div id="divAddItensAoChamado">
+                <div class="chamado-element" data-chamado="1">
+                    <legend>Item para Chamado:</legend>
+                    <label for="equipamento">Equipamento:</label>
+                    <input type="text" id="equipamento">
+                    
+                    <label for="numero_serie">Número de Série:</label>
+                    <input type="text" id="numero_serie">
+                    
+                    <label for="patrimonio_tombamento">Patrimônio/Tombamento:</label>
+                    <input type="text" id="patrimonio_tombamento">
+                    
+                    <label for="problema_informado">Informe o Problema:</label>
+                    <textarea type="text" id="problema_informado"></textarea>
+                    
+                    <button type="button" onclick="adicionarItemAoChamado()">Adicionar Item ao Chamado</button>
+                </div>
+            </div>
+
+            <button id="btnMostrarFormulario" type="button" onclick="mostrarDivAddItensAoChamado()" class="hidden">Add Mais Itens</button>
+            
+            <ul id="listaChamados"></ul>
+            <table id="tabelaChamados"></table>
+            
+            <button type="button" class="enviar__chamado" onclick="enviarChamado()">Enviar Chamado</button>
+        </form>
+
+        <div id="mensagemAguarde" style="display: none;">Aguarde o envio...</div>
+        
+        <div id="msgResponse" class="hidden"></div>        
+        
+    </div>
+    
+        <script src="abrirchamado.js"></script>
+    </body>
+    </html>
+    
