@@ -1,5 +1,17 @@
 let listaChamados = [];
 
+window.addEventListener("DOMContentLoaded", (event) => {
+    let listCall = JSON.parse(localStorage.getItem('listCall'));
+    listaChamados = listCall === null ? [] : listCall;
+    if (listaChamados.length > 0) {
+        atualizarListaChamados();
+        esconderDivAddItensAoChamado();
+    }
+    if(localStorage.getItem('unidadeCall')) {
+        document.getElementById('unidade').value = localStorage.getItem('unidadeCall');
+    }
+});
+
 function adicionarItemAoChamado() {
     const equipamento = document.getElementById("equipamento").value;
     const numeroSerie = document.getElementById("numero_serie").value;
@@ -25,10 +37,49 @@ function adicionarItemAoChamado() {
     };
 
     listaChamados.push(novoChamado);
-    limparCampos();
+    limparCamposItemDoChamado();
     atualizarListaChamados();
-
     esconderDivAddItensAoChamado();
+};
+
+function limparCamposItemDoChamado() {
+    document.getElementById("equipamento").value = "";
+    document.getElementById("numero_serie").value = "";
+    document.getElementById("patrimonio_tombamento").value = "";
+    document.getElementById("problema_informado").value = "";    
+};
+
+function atualizarListaChamados() {
+    const listaChamadosElement = document.getElementById("listaChamados");
+    listaChamadosElement.innerHTML = "";
+
+    listaChamados.forEach(chamado => {
+        const listItem = document.createElement("li");
+        listItem.style.backgroundColor = "aliceblue"
+        
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "Remover";
+        btnRemover.classList.add("btn__remove_item");
+        listItem.appendChild(btnRemover);
+        
+        listItem.innerHTML += `
+        <strong>${chamado.item}.</strong> 
+        Equipamento: <strong>${chamado.equipamento}</strong>, 
+        Número de Série: <strong>${chamado.numero_serie}</strong>, 
+        Patrimônio/Tombamento: <strong>${chamado.patrimonio_tombamento}</strong>, 
+        Problema: <strong>${chamado.problema_informado}</strong>`;
+        listaChamadosElement.appendChild(listItem);        
+    });
+    saveCallListInLocalStorage(JSON.stringify(listaChamados));
+    
+    // ouvinte de evento de clique ao elemento pai (ul)
+    listaChamadosElement.addEventListener("click", (event) => {
+        const btnRemover = event.target.closest(".btn__remove_item");
+        if (btnRemover) {
+            const itemToRemove = btnRemover.parentElement.textContent.match(/\d+/)[0];
+            removerItemChamado(itemToRemove);
+        }
+    });
 };
 
 function mostrarDivAddItensAoChamado() {
@@ -41,38 +92,14 @@ function esconderDivAddItensAoChamado() {
     document.getElementById("btnMostrarFormulario").classList.toggle("hidden", false);
 };
 
-function limparCampos() {
-    document.getElementById("equipamento").value = "";
-    document.getElementById("numero_serie").value = "";
-    document.getElementById("patrimonio_tombamento").value = "";
-    document.getElementById("problema_informado").value = "";
-};
+function saveUnidadeSolicitanteLocalStorage() {
+    let unidade = document.getElementById("unidade").value;
+    localStorage.setItem("unidadeCall", unidade)
+}
 
-function atualizarListaChamados() {
-    const listaChamadosElement = document.getElementById("listaChamados");
-    listaChamadosElement.innerHTML = "";
-
-    listaChamados.forEach(chamado => {
-        const listItem = document.createElement("li");
-
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "Remover";
-        btnRemover.classList.add("btn__remove_item");
-        listItem.appendChild(btnRemover);
-
-        listItem.innerHTML += `<strong>${chamado.item}.</strong> Equipamento: <strong>${chamado.equipamento}</strong>, Número de Série: <strong>${chamado.numero_serie}</strong>, Patrimônio/Tombamento: <strong>${chamado.patrimonio_tombamento}</strong>, Problema: <strong>${chamado.problema_informado}</strong>`;
-        listaChamadosElement.appendChild(listItem);
-    });
-
-    // ouvinte de evento de clique ao elemento pai (ul)
-    listaChamadosElement.addEventListener("click", (event) => {
-        const btnRemover = event.target.closest(".btn__remove_item");
-        if (btnRemover) {
-            const itemToRemove = btnRemover.parentElement.textContent.match(/\d+/)[0];
-            removerItemChamado(itemToRemove);
-        }
-    });
-};
+function saveCallListInLocalStorage(listaChamados){
+    localStorage.setItem("listCall", listaChamados);
+}
 
 function removerItemChamado(item) {
     const index = listaChamados.findIndex(chamado => chamado.item == item);
@@ -85,16 +112,17 @@ function removerItemChamado(item) {
 function validarCamposUnidadeSolicitante() {
     const unidade = document.getElementById("unidade").value;
     const solicitante = document.getElementById("solicitante").value;
-    const btnEnviarChamado = document.getElementById("btnEnviarChamado");
-    if (unidade.trim() == "" && solicitante.trim() == "") {
-        // btnEnviarChamado.disabled = false;
-        return "Preencha os campos UNIDADE E FUNCIONÁRIO SOLICITANTE.";
+
+    if (unidade.trim() == "") {
+        return "Preencha o campo UNIDADE.";
+    }
+    if (solicitante.trim() == "") {
+        return "Preencha o campo FUNCIONÁRIO SOLICITANTE.";
     }
     if(listaChamados.length == 0){
         return "Adicione ao menos um item para a abertura do chamado técnico.";
     }    
     if(unidade.trim() !== "" && solicitante.trim() !== "") {
-        // btnEnviarChamado.disabled = true;
         return "OK";
     }
 };
@@ -107,17 +135,19 @@ function enviarChamado() {
 
     const unidade = document.getElementById("unidade").value;
     const solicitante = document.getElementById("solicitante").value;
+    const email = document.getElementById("email").value;
     const quantidadeListaChamado = listaChamados.length;
     const dataChamado = dateFormat(new Date());
 
     const chamadoAberto = {
-        unidade: unidade.trim(),
+        unidade: unidade.toUpperCase().trim(),
         solicitante: solicitante.trim(),
+        email: email.trim(),
         data: dataChamado,
         quantidadeListaChamado: quantidadeListaChamado,
         listaChamado: listaChamados
     };
-    console.log(chamadoAberto);
+    // console.log(chamadoAberto);
     sendFetchPost(chamadoAberto)
 }
 
@@ -125,19 +155,24 @@ function enviarChamado() {
 function sendFetchPost(chamadoAberto){     
     mostrarMsgAguardeEnvio();
 
-    let NewChamado = {
-        _subject: `ABRIR CHAMADO TÉCNICO: ${chamadoAberto.unidade} - ${chamadoAberto.data}`,
+    let chamadoFormatado = {
+        _subject: `ABRIR CHAMADO TÉCNICO: ${chamadoAberto.unidade} (DSV) - ${chamadoAberto.data}`,
+        _template : "box", // box ou table        
         unidade: chamadoAberto.unidade,
         solicitante: chamadoAberto.solicitante,
         data: chamadoAberto.data,
         quantidade_de_itens_do_chamado: chamadoAberto.quantidadeListaChamado,
     }
 
+    if (chamadoAberto.email){
+        chamadoFormatado['_cc'] = chamadoAberto.email;
+    }
+
     chamadoAberto.listaChamado.forEach((chamado, index) => {
-        NewChamado[`item_do_chamado_${index + 1}`] = `ITEM: ${chamado.item}, EQUIPAMENTO: ${chamado.equipamento}, NUMERO DE SERIE: ${chamado.numero_serie}, PATRIMONIO/TOMBAMENTO: ${chamado.patrimonio_tombamento}, PROBLEMA INFORMADO: ${chamado.problema_informado}`;
+        chamadoFormatado[`item_do_chamado_${index + 1}`] = `#${chamado.item}, EQUIPAMENTO: ${chamado.equipamento}, NUMERO DE SERIE: ${chamado.numero_serie}, PATRIMONIO/TOMBAMENTO: ${chamado.patrimonio_tombamento}, PROBLEMA INFORMADO: ${chamado.problema_informado}`;
     });
 
-    let objPedidoString = JSON.stringify(NewChamado);
+    let objPedidoString = JSON.stringify(chamadoFormatado);
 
     fetch("https://formsubmit.co/ajax/us284sb2@gmail.com", {
         method: "POST",
@@ -148,14 +183,9 @@ function sendFetchPost(chamadoAberto){
         body: objPedidoString
     })
     .then(response => response.json())
-    .then(data => responseOK(data, NewChamado))
+    .then(data => responseOK(data, chamadoFormatado))
     .catch(error => responseError(error));
 };
-
-function formatarItemChamado(item) {
-    return `item:${item.item},equipamento:${item.equipamento},numero_serie:${item.numero_serie},patrimonio_tombamento:${item.patrimonio_tombamento},problema_informado:${item.problema_informado}`;
-};
-
 
 function mostrarMsgAguardeEnvio(){
     const mensagemAguarde = document.getElementById("mensagemAguarde");
@@ -168,40 +198,55 @@ function removerMsgAguardarEnvio(){
     const mensagemAguarde = document.getElementById("mensagemAguarde");
     mensagemAguarde.style.display = "block";
     mensagemAguarde.style.display = "none";
-    // const chamadoForm = document.getElementById("chamadoForm");
-    // chamadoForm.setAttribute("disabled", true);
-    // chamadoForm.removeAttribute("disabled");
 };
 
-function responseOK(data, NewChamado){
+function responseOK(data, chamadoFormatado){
     removerMsgAguardarEnvio();
-    console.log(data.success);  
     if(data.success == "true"){
+        localStorage.removeItem('listCall');
         document.getElementById('msgResponse').innerHTML = `
         <p><b>A solicitação para abrir o chamado foi enviado com sucesso!</b></p>       
-        Um email foi enviado para coordenação de saúde bucal.<p>
-        Unidade:${NewChamado.unidade}
-        Data: ${NewChamado.data}<p>
-        <p>
-        <a href="index.html">Voltar</a>
+        <p>Um email foi enviado para coordenação de saúde bucal.</p>
+        Unidade:${chamadoFormatado.unidade}
+        <p>Data: ${chamadoFormatado.data}</p>
+        <p><a href="abrirchamado.html">Abrir um novo chamado</a></p>  
+        <a href="index.html">Voltar para o menu principal</a>
         `;
         document.getElementById('msgResponse').style.background = '#4cb050';
         document.getElementById('msgResponse').style.color = 'white';
         console.log(data);
-    } else {
+    } 
+    if(chamadoFormatado._cc && data.success !== "true"){
         document.getElementById('msgResponse').innerHTML = `
         Erro no envio! Tente novamente mais tarde ou informe a messagem de erro para os administradores.
         messagem de erro: ${data.message}.
-        <p>        
-        <a href="index.html">Voltar</a>
+        <p>Se você preencheu o campo email, verifique se o email foi digitado corretamente.</p>
+        Email preenchido no formulário: ${chamadoFormatado._cc}
+        <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
+        <a href="index.html">Voltar para o menu principal</a>
+        `;
+        console.log(data);
+    }    
+    if (!chamadoFormatado._cc && data.success !== "true") {
+        document.getElementById('msgResponse').innerHTML = `
+        Erro no envio! Tente novamente mais tarde ou informe a messagem de erro para os administradores.
+        messagem de erro: ${data.message}.
+        <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
+        <a href="index.html">Voltar para o menu principal</a>
         `;
         console.log(data);
     }
 };
 
 function responseError(error){
-    alert(error)
+    alert("Erro na Requisição: " + error)
     console.log(error);
+    removerMsgAguardarEnvio();
+    document.getElementById('msgResponse').innerHTML = `
+    Erro no envio, Verifique a conexão da internet! 
+    <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
+    <a href="index.html">Voltar para o menu principal</a>
+    `;
 };
 
 function dateFormat(data) {   

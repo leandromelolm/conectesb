@@ -11,43 +11,46 @@
     <div class="main__container">
         
         <form id="chamadoForm">
-            <a href="index.html">Voltar</a>
-            <p>
-
-            <label for="unidade">Unidade de Saúde:</label>
-            <input type="text" id="unidade">
+            <a href="index.html">Retornar ao Menu Principal</a>            
             
-            <label for="solicitante">Funcionário Solicitante:</label>
-            <input type="text" id="solicitante">
+            <div class="div__solicitante">                
+                <label for="unidade">Unidade de Saúde:</label>
+                <input type="text" id="unidade" placeholder="Obrigatório" maxlength = "50" onblur="saveUnidadeSolicitanteLocalStorage()">
+                
+                <label for="solicitante">Funcionário Solicitante:</label>
+                <input type="text" id="solicitante" placeholder="Obrigatório"  maxlength = "50">
+                
+                <label for="solicitante">Email (Opcional):</label>
+                <input type="email" id="email" placeholder="Opcional" maxlength = "40" aria-describedby="subtexto-email">
+                <span id="subtexto-email">
+                    Observação: Para receber uma cópia da solicitação de abertura do chamado por email, preencha o campo email (acima).
+                </span>
+            </div>
             
             <div id="divAddItensAoChamado">
                 <div class="chamado-element" data-chamado="1">
-                    <legend>Item para Chamado:</legend>
+                    <legend>Item para o chamado técnico:</legend>
                     <label for="equipamento">Equipamento:</label>
-                    <input type="text" id="equipamento">
+                    <input type="text" id="equipamento" maxlength = "50">
                     
                     <label for="numero_serie">Número de Série:</label>
-                    <input type="text" id="numero_serie">
+                    <input type="text" id="numero_serie" maxlength = "50">
                     
                     <label for="patrimonio_tombamento">Patrimônio/Tombamento:</label>
-                    <input type="text" id="patrimonio_tombamento">
+                    <input type="text" id="patrimonio_tombamento" maxlength = "20">
                     
                     <label for="problema_informado">Informe o Problema:</label>
-                    <textarea type="text" id="problema_informado"></textarea>
+                    <textarea type="text" id="problema_informado" maxlength = "200"></textarea>
                     
                     <button type="button" onclick="adicionarItemAoChamado()">Adicionar Item ao Chamado</button>
                 </div>
-            </div>
-
-            <button id="btnMostrarFormulario" type="button" onclick="mostrarDivAddItensAoChamado()" class="hidden">Adicionar outro item</button>
-            
+            </div>            
             <ul id="listaChamados"></ul>
-            <table id="tabelaChamados"></table>
-            
+            <button id="btnMostrarFormulario" type="button" onclick="mostrarDivAddItensAoChamado()" class="hidden">Adicionar outro item</button>         
             <button type="button" class="enviar__chamado" onclick="enviarChamado()">Enviar Chamado</button>
         </form>
 
-        <div id="mensagemAguarde" style="display: none;">Aguarde o envio...</div>
+        <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>
         
         <div id="msgResponse" class="hidden"></div>        
         
