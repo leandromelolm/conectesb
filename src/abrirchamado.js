@@ -173,8 +173,8 @@ function sendFetchPost(chamadoAberto){
     });
 
     let objPedidoString = JSON.stringify(chamadoFormatado);
-
-    fetch("https://formsubmit.co/ajax/us284sb2@gmail.com", {
+    // us284sb2@gmail.com
+    fetch("https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408", {
         method: "POST",
         headers: { 
         'Content-Type': 'application/json',
