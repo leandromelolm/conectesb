@@ -28,6 +28,7 @@ input {
     padding: 8px;
     margin-bottom: 16px;
     box-sizing: border-box;
+    font-size: medium;    
 }
 
 textarea {
@@ -37,6 +38,7 @@ textarea {
     margin-bottom: 16px;
     box-sizing: border-box;
     resize: vertical;
+    font-size: large;
 }
 
 button {
@@ -97,7 +99,12 @@ legend {
     justify-content: center;
 }
 
-#msgResponse{
+.msg__aguarde {
+    display: none;
+    margin-top: 190px;
+}
+
+#msgResponse {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -109,17 +116,37 @@ legend {
     margin-top: 90px;
 }
 
-.enviar__chamado{
+.enviar__chamado {
     background-color: #0091e5;
     margin-left: auto;
     margin-top: auto;
     display: block;
+}
+.enviar__chamado:hover {
+    background-color: #1ea1ed;
+}
+
+.div__solicitante {
+    margin-top: 30px;
+}
+
+.div__solicitante #unidade {
+    text-transform: uppercase !important;
+}
+
+.div__solicitante #email {
+    text-transform: lowercase !important;
+    margin-bottom: 5px;
+}
+
+.div__solicitante span{
+    color: grey;
 }
 
 #divAddItensAoChamado {
     margin-top: 20px;
 }
 
-#btnMostrarFormulario{
+#btnMostrarFormulario {
     margin-top: 15px;
 }
