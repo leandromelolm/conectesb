@@ -120,7 +120,7 @@ function validarCamposUnidadeSolicitante() {
         return "Preencha o campo FUNCIONÁRIO SOLICITANTE.";
     }
     if(listaChamados.length == 0){
-        return "Adicione ao menos um item para a abertura do chamado técnico.";
+        return "Adicione ao menos um item para a abertura do chamado técnico. Clique em Adicionar Item ao Chamado.";
     }    
     if(unidade.trim() !== "" && solicitante.trim() !== "") {
         return "OK";
