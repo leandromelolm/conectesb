@@ -51,15 +51,23 @@ button {
     margin-bottom: 8px;
 }
 
-.btn__remove_item {
-    background-color: red;
-    color: white;
-    margin-right: 15px;
+.btn__remove_item {    
+    margin: 3px;
+    padding: 0px;
 }
 
-.btn__remove_item:hover {
-    background-color: rgb(228, 2, 2);
-    color: white;
+.img__remove_item {
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    background-color: #dc3545;
+    border-radius: 5px;
+}
+
+.img__remove_item:hover {
+
+    background-color: red;
+    border-radius: 5px;
 }
 
 button:hover {

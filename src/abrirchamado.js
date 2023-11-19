@@ -53,34 +53,50 @@ function atualizarListaChamados() {
     const listaChamadosElement = document.getElementById("listaChamados");
     listaChamadosElement.innerHTML = "";
 
-    listaChamados.forEach(chamado => {
+    listaChamados.forEach((chamado, index) => {
         const listItem = document.createElement("li");
         listItem.style.backgroundColor = "aliceblue"
-        
-        const btnRemover = document.createElement("button");
-        btnRemover.textContent = "Remover";
-        btnRemover.classList.add("btn__remove_item");
-        listItem.appendChild(btnRemover);
-        
+        listItem.style.display = "flex";
         listItem.innerHTML += `
-        <strong>${chamado.item}.</strong> 
-        Equipamento: <strong>${chamado.equipamento}</strong>, 
-        Número de Série: <strong>${chamado.numero_serie}</strong>, 
-        Patrimônio/Tombamento: <strong>${chamado.patrimonio_tombamento}</strong>, 
-        Problema: <strong>${chamado.problema_informado}</strong>`;
+        <div style="align-self: center">        
+            <button class="btn__remove_item" 
+             style="background-color: transparent"
+             data-index="${index}">
+                <img class="img__remove_item" src="assets/x-white.svg" alt="Remover">
+            </button>
+        </div>
+        <div style="display: grid;">
+            <div>
+                <strong>#${index +1}</strong>
+                Equipamento: <strong>${chamado.equipamento}</strong>
+            </div>
+            <div>Número de Série: <strong>${chamado.numero_serie}</strong></div>
+            <div>Patrimônio: <strong>${chamado.patrimonio_tombamento}</strong></div>
+            <div>Marca: <strong>IMPLEMENTAR</strong></div>
+            <div>Problema: <strong>${chamado.problema_informado}</strong></div>
+        </div>
+        `;
         listaChamadosElement.appendChild(listItem);        
     });
+    
     saveCallListInLocalStorage(JSON.stringify(listaChamados));
     
     // ouvinte de evento de clique ao elemento pai (ul)
-    listaChamadosElement.addEventListener("click", (event) => {
-        const btnRemover = event.target.closest(".btn__remove_item");
-        if (btnRemover) {
-            const itemToRemove = btnRemover.parentElement.textContent.match(/\d+/)[0];
-            removerItemChamado(itemToRemove);
-        }
+    listaChamadosElement.querySelectorAll(".btn__remove_item").forEach((btnRemover) => {
+        btnRemover.addEventListener("click", (event) => {
+            const index = btnRemover.getAttribute("data-index");
+            removerItemChamado(index);
+        });
     });
 };
+
+function removerItemChamado(index) {
+    const parsedIndex = parseInt(index, 10);
+    if (!isNaN(parsedIndex) && parsedIndex >= 0 && parsedIndex < listaChamados.length) {
+        listaChamados.splice(parsedIndex, 1);
+        atualizarListaChamados();
+    }
+}
 
 function mostrarDivAddItensAoChamado() {
     document.getElementById("divAddItensAoChamado").classList.toggle("hidden", false);
@@ -100,14 +116,6 @@ function saveUnidadeSolicitanteLocalStorage() {
 function saveCallListInLocalStorage(listaChamados){
     localStorage.setItem("listCall", listaChamados);
 }
-
-function removerItemChamado(item) {
-    const index = listaChamados.findIndex(chamado => chamado.item == item);
-    if (index !== -1) {
-        listaChamados.splice(index, 1);
-        atualizarListaChamados();
-    }
-};
 
 function validarCamposUnidadeSolicitante() {
     const unidade = document.getElementById("unidade").value;
