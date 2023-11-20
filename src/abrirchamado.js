@@ -16,6 +16,8 @@ function adicionarItemAoChamado() {
     const equipamento = document.getElementById("equipamento").value;
     const numeroSerie = document.getElementById("numero_serie").value;
     const patrimonioTombamento = document.getElementById("patrimonio_tombamento").value;
+    const marca = document.getElementById("marca").value;
+    const modelo = document.getElementById("modelo").value;
     const problemaInformado = document.getElementById("problema_informado").value;
 
     if (!equipamento) {
@@ -33,6 +35,8 @@ function adicionarItemAoChamado() {
         equipamento: equipamento.trim(),
         numero_serie: numeroSerie.trim(),
         patrimonio_tombamento: patrimonioTombamento.trim(),
+        marca: marca.trim(),
+        modelo: modelo.trim(),
         problema_informado: problemaInformado.trim()
     };
 
@@ -46,6 +50,8 @@ function limparCamposItemDoChamado() {
     document.getElementById("equipamento").value = "";
     document.getElementById("numero_serie").value = "";
     document.getElementById("patrimonio_tombamento").value = "";
+    document.getElementById("marca").value = "";
+    document.getElementById("modelo").value = "";
     document.getElementById("problema_informado").value = "";    
 };
 
@@ -71,7 +77,8 @@ function atualizarListaChamados() {
             </div>
             <div>Número de Série: <strong>${chamado.numero_serie}</strong></div>
             <div>Patrimônio: <strong>${chamado.patrimonio_tombamento}</strong></div>
-            <div>Marca: <strong>IMPLEMENTAR</strong></div>
+            <div>Marca: <strong>${chamado.marca}</strong></div>
+            <div>Modelo: <strong>${chamado.modelo}</strong></div>
             <div>Problema: <strong>${chamado.problema_informado}</strong></div>
         </div>
         `;
@@ -188,7 +195,14 @@ function sendFetchPost(chamadoAberto){
     }
 
     chamadoAberto.listaChamado.forEach((chamado, index) => {
-        chamadoFormatado[`item_do_chamado_${index + 1}`] = `#${chamado.item}, EQUIPAMENTO: ${chamado.equipamento}, NUMERO DE SERIE: ${chamado.numero_serie}, PATRIMONIO/TOMBAMENTO: ${chamado.patrimonio_tombamento}, PROBLEMA INFORMADO: ${chamado.problema_informado}`;
+        chamadoFormatado[`item_do_chamado_${index + 1}`] = `
+EQUIPAMENTO: ${chamado.equipamento},
+SÉRIE: ${chamado.numero_serie},
+PATRIMÔNIO(TOMBAMENTO): ${chamado.patrimonio_tombamento}, 
+MARCA: ${chamado.marca},
+MODELO: ${chamado.modelo},
+PROBLEMA INFORMADO: ${chamado.problema_informado}
+        `;
     });
 
     let objPedidoString = JSON.stringify(chamadoFormatado);
