@@ -1,6 +1,6 @@
 let listaChamados = [];
 
-window.addEventListener("DOMContentLoaded", (event) => {
+window.addEventListener("DOMContentLoaded", () => {
     let listCall = JSON.parse(localStorage.getItem('listCall'));
     listaChamados = listCall === null ? [] : listCall;
     if (listaChamados.length > 0) {
@@ -21,13 +21,16 @@ function adicionarItemAoChamado() {
     const problemaInformado = document.getElementById("problema_informado").value;
 
     if (!equipamento) {
-        return alert (`Os campo EQUIPAMENTO precisam ser preenchidos.`);
+        document.getElementById("equipamento").focus();
+        return alert (`O campo EQUIPAMENTO precisam ser preenchido.`);
     }
     if (!numeroSerie && !patrimonioTombamento) {
-        return alert (`É necessario preencher o campo NÚMERO DE SÉRIE ou NÚMERO DE PATRIMÓNIO`);
+        document.getElementById("numero_serie").focus();
+        return alert (`É necessario preencher o campo NÚMERO DE SÉRIE ou NÚMERO DO PATRIMÓNIO`);
     }
     if (!problemaInformado) {
-        return alert (`Os campo PROBLEMA INFORMADO precisam ser preenchidos.`);
+        document.getElementById("problema_informado").focus();
+        return alert (`O campo INFORME O PROBLEMA precisa ser preenchido.`);
     }
 
     const novoChamado = {
@@ -102,17 +105,17 @@ function removerItemChamado(index) {
         listaChamados.splice(parsedIndex, 1);
         atualizarListaChamados();
     }
-}
+};
 
 function btnCancelAddItem() {
     limparCamposItemDoChamado();
     esconderDivAddItensAoChamado();
-}
+};
 
 function scrolldiv(elem) { 
     var elem = document.getElementById(elem); 
     elem.scrollIntoView(); 
-}
+};
 
 function mostrarDivAddItensAoChamado() {
     document.getElementById("divAddItensAoChamado").classList.toggle("hidden", false);
@@ -129,24 +132,28 @@ function esconderDivAddItensAoChamado() {
 function saveUnidadeSolicitanteLocalStorage() {
     let unidade = document.getElementById("unidade").value;
     localStorage.setItem("unidadeCall", unidade)
-}
+};
 
 function saveCallListInLocalStorage(listaChamados){
     localStorage.setItem("listCall", listaChamados);
-}
+};
 
 function validarCamposUnidadeSolicitante() {
     const unidade = document.getElementById("unidade").value;
     const solicitante = document.getElementById("solicitante").value;
+   
 
     if (unidade.trim() == "") {
+        document.getElementById("unidade").focus();
         return "Preencha o campo UNIDADE.";
     }
     if (solicitante.trim() == "") {
+        document.getElementById("solicitante").focus();
         return "Preencha o campo FUNCIONÁRIO SOLICITANTE.";
     }
     if(listaChamados.length == 0){
-        return "Adicione ao menos um item para a abertura do chamado técnico. Clique em Adicionar Item ao Chamado.";
+        document.getElementById("addItem").focus();
+        return `Adicione ao menos um item para a abertura do chamado técnico. Informe o equipamento para o chamado e clique em ADICIONAR ITEM.`;
     }    
     if(unidade.trim() !== "" && solicitante.trim() !== "") {
         return "OK";
@@ -175,7 +182,7 @@ function enviarChamado() {
     };
     // console.log(chamadoAberto);
     sendFetchPost(chamadoAberto)
-}
+};
 
 
 function sendFetchPost(chamadoAberto){     

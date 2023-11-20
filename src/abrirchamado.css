@@ -28,7 +28,12 @@ input {
     padding: 8px;
     margin-bottom: 16px;
     box-sizing: border-box;
-    font-size: medium;    
+    font-size: medium;
+    border-radius: 5px
+}
+
+input:focus {
+    background-color: ghostwhite;
 }
 
 textarea {
@@ -39,6 +44,7 @@ textarea {
     box-sizing: border-box;
     resize: vertical;
     font-size: large;
+    border-radius: 5px
 }
 
 button {
@@ -140,7 +146,7 @@ legend {
 .enviar__chamado {
     background-color: #0091e5;
     margin-left: auto;
-    margin-top: auto;
+    margin-top: 25px;
     display: block;
 }
 .enviar__chamado:hover {
