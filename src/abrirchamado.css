@@ -1,12 +1,38 @@
 body {
-    font-family: Arial, sans-serif;
+    /* font-family: Arial, sans-serif; */
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    display: flex;
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     height: 100%;
+}
+
+.navbar {
+    padding-inline: 10%;            
+}
+
+.navbar-toggler:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding-inline: 0%;
+    }
+}
+
+.nav-link { /* navbar */
+    font-size: 16px;
+}
+
+.main__container{
+    margin: 20px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 form {
@@ -47,7 +73,7 @@ textarea {
     border-radius: 5px
 }
 
-button {
+.btn__tag_class {
     background-color: #4caf50;
     color: white;
     padding: 10px;
@@ -112,13 +138,6 @@ ul li {
 legend {
     font-weight: bold;
     margin-bottom: 10px;
-}
-
-.main__container{
-    margin: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
 }
 
 .msg__aguarde {
