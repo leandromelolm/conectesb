@@ -67,8 +67,7 @@ function atualizarListaChamados() {
         </div>
         <div style="display: grid;">
             <div>
-                <strong>#${index +1}</strong>
-                Equipamento: <strong>${chamado.equipamento}</strong>
+                ${index +1}. <strong>${chamado.equipamento}</strong>
             </div>
             <div>Número de Série: <strong>${chamado.numero_serie}</strong></div>
             <div>Patrimônio: <strong>${chamado.patrimonio_tombamento}</strong></div>
@@ -98,14 +97,26 @@ function removerItemChamado(index) {
     }
 }
 
+function btnCancelAddItem() {
+    limparCamposItemDoChamado();
+    esconderDivAddItensAoChamado();
+}
+
+function scrolldiv(elem) { 
+    var elem = document.getElementById(elem); 
+    elem.scrollIntoView(); 
+}
+
 function mostrarDivAddItensAoChamado() {
     document.getElementById("divAddItensAoChamado").classList.toggle("hidden", false);
     document.getElementById("btnMostrarFormulario").classList.toggle("hidden", true);
+    scrolldiv("divAddItensAoChamado");
 };
 
 function esconderDivAddItensAoChamado() {
     document.getElementById("divAddItensAoChamado").classList.toggle("hidden", true);
     document.getElementById("btnMostrarFormulario").classList.toggle("hidden", false);
+    scrolldiv("btnMostrarFormulario");
 };
 
 function saveUnidadeSolicitanteLocalStorage() {

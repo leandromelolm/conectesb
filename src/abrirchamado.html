@@ -42,12 +42,13 @@
                     <label for="problema_informado">Informe o Problema:</label>
                     <textarea type="text" id="problema_informado" maxlength = "200"></textarea>
                     
-                    <button type="button" onclick="adicionarItemAoChamado()">Adicionar Item ao Chamado</button>
+                    <button type="button" class="btn__cancelar_item" onclick="btnCancelAddItem()">Cancelar</button>
+                    <button type="button" onclick="adicionarItemAoChamado()">Adicionar Item</button>
                 </div>
             </div>            
             <ul id="listaChamados"></ul>
             <button id="btnMostrarFormulario" type="button" onclick="mostrarDivAddItensAoChamado()" class="hidden">Adicionar outro item</button>         
-            <button type="button" class="enviar__chamado" onclick="enviarChamado()">Enviar Chamado</button>
+            <button type="button" id="btnSendCall" class="enviar__chamado" onclick="enviarChamado()">Enviar Chamado</button>
         </form>
 
         <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>

@@ -51,6 +51,14 @@ button {
     margin-bottom: 8px;
 }
 
+.btn__cancelar_item {
+    background-color: grey;
+}
+
+.btn__cancelar_item:hover {
+    background-color: #696969;
+}
+
 .btn__remove_item {    
     margin: 3px;
     padding: 0px;
