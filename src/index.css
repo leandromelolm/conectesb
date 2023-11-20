@@ -8,7 +8,7 @@ body {
 }
 @media (max-width: 768px) {
     .navbar {
-        padding-inline: 2%;
+        padding-inline: 0%;
     }
 }
 
