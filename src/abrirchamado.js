@@ -269,7 +269,7 @@ function responseOK(data, chamadoFormatado){
         document.getElementById('msgResponse').innerHTML = `
         <p><b>A solicitação para abrir o chamado foi enviado com sucesso!</b></p>       
         <p>Um email foi enviado para coordenação de saúde bucal.</p>
-        Unidade:${chamadoFormatado.unidade}
+        Unidade: ${chamadoFormatado.unidade}
         <p>Data: ${chamadoFormatado.data}</p>
         <p><a href="abrirchamado.html">Abrir um novo chamado</a></p>  
         <a href="index.html">Voltar para o menu principal</a>
