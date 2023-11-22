@@ -40,10 +40,10 @@
                 <input type="text" id="unidade" placeholder="" maxlength = "50" onblur="saveUnidadeSolicitanteLocalStorage()">
                 
                 <label for="solicitante">Funcionário Solicitante (Obrigatório):</label>
-                <input type="text" id="solicitante" placeholder=""  maxlength = "50">
+                <input type="text" id="solicitante" placeholder=""  maxlength = "50" onblur="restoreStyleBackgroundColor('solicitante')">
                 
                 <label for="solicitante">E-mail (Opcional):</label>
-                <input type="email" id="email" placeholder="opcional" maxlength = "50" aria-describedby="subtexto-email">
+                <input type="email" id="email" placeholder="opcional" maxlength = "50" aria-describedby="subtexto-email" onblur="validarEmail()">
                 <span id="subtexto-email">
                     Observação: Para receber uma cópia por e-mail dessa solicitação de abertura de chamado técnico, preencha o campo e-mail (acima) com o endereço de e-mail que você deseja que seja encaminhado a cópia.
                 </span>
@@ -79,10 +79,17 @@
             <button type="button" id="btnSendCall" class="enviar__chamado btn__tag_class" onclick="enviarChamado()">Enviar Chamado</button>
         </form>
 
+        <div class="d-flex justify-content-center">
+            <div id="spinner" class="hidden" style="align-self: self-end; margin-inline-end: 14px" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
         <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>
         
-        <div id="msgResponse" class="hidden"></div>        
-        
+        <div class="div__msg">
+            <div id="msgResponse" class="hidden"></div>
+            <div id="responseMsgSentToSpreadSheet" class="hidden"></div>
+        </div>
     </div>
     
         <script src="abrirchamado.js"></script>

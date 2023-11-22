@@ -112,9 +112,9 @@ function btnCancelAddItem() {
     esconderDivAddItensAoChamado();
 };
 
-function scrolldiv(elem) { 
+function scrolldiv(elem) {
     var elem = document.getElementById(elem); 
-    elem.scrollIntoView(); 
+    elem.scrollIntoView({block: "end", behavior: "smooth" }); 
 };
 
 function mostrarDivAddItensAoChamado() {
@@ -130,9 +130,14 @@ function esconderDivAddItensAoChamado() {
 };
 
 function saveUnidadeSolicitanteLocalStorage() {
-    let unidade = document.getElementById("unidade").value;
-    localStorage.setItem("unidadeCall", unidade)
+    let unidade = document.getElementById("unidade").value;    
+    localStorage.setItem("unidadeCall", unidade);
+    restoreStyleBackgroundColor('unidade')
 };
+
+function restoreStyleBackgroundColor(elem) {
+    document.getElementById(elem).style.backgroundColor = "white";
+}
 
 function saveCallListInLocalStorage(listaChamados){
     localStorage.setItem("listCall", listaChamados);
@@ -141,15 +146,16 @@ function saveCallListInLocalStorage(listaChamados){
 function validarCamposUnidadeSolicitante() {
     const unidade = document.getElementById("unidade").value;
     const solicitante = document.getElementById("solicitante").value;
-   
-
     if (unidade.trim() == "") {
-        document.getElementById("unidade").focus();
+        cursorFocus('unidade');
         return "Preencha o campo UNIDADE.";
     }
-    if (solicitante.trim() == "") {
-        document.getElementById("solicitante").focus();
+    if (!solicitante) {
+        cursorFocus('solicitante');
         return "Preencha o campo FUNCIONÁRIO SOLICITANTE.";
+    }
+    if(!validarEmail()){
+        return "O E-mail não foi preenchido corretamente";
     }
     if(listaChamados.length == 0){
         document.getElementById("addItem").focus();
@@ -157,6 +163,25 @@ function validarCamposUnidadeSolicitante() {
     }    
     if(unidade.trim() !== "" && solicitante.trim() !== "") {
         return "OK";
+    }
+};
+
+const cursorFocus = function(elem) {
+    document.getElementById(elem).scrollIntoView({block: "end", behavior: 'smooth'});    
+    document.getElementById(elem).style.backgroundColor = "antiquewhite";
+    // document.getElementById(elem).focus(); // focus remove o efeito do scroll
+}
+
+function validarEmail() {
+    const email = document.getElementById('email').value;
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;    
+    if (!regex.test(email) && email) {        
+        alert('Endereço de e-mail inválido!');  
+        scrolldiv("email");
+        document.getElementById('email').style.backgroundColor = "antiquewhite";
+        return false;
+    } else {
+        return true;
     }
 };
 
@@ -180,13 +205,14 @@ function enviarChamado() {
         quantidadeListaChamado: quantidadeListaChamado,
         listaChamado: listaChamados
     };
+    // mostrarMsgAguardeEnvio();
+    // setTimeout(responseOK, 3000);
     // console.log(chamadoAberto);    
     sendFetchEmail(chamadoAberto);
 };
 
 function sendFetchEmail(chamadoAberto){
     mostrarMsgAguardeEnvio();
-
     let chamadoFormatado = {
         _subject: `ABRIR CHAMADO TÉCNICO: ${chamadoAberto.unidade} (DSV) - ${chamadoAberto.data}`,
         _template : "box", // box ou table        
@@ -195,11 +221,9 @@ function sendFetchEmail(chamadoAberto){
         data: chamadoAberto.data,
         quantidade_de_itens_do_chamado: chamadoAberto.quantidadeListaChamado,
     }
-
     if (chamadoAberto.email){
         chamadoFormatado['_cc'] = chamadoAberto.email;
     }
-
     chamadoAberto.listaChamado.forEach((chamado, index) => {
         chamadoFormatado[`item_do_chamado_${index + 1}`] = `
 EQUIPAMENTO: ${chamado.equipamento},
@@ -222,10 +246,8 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
         body: objPedidoString
     })
     .then(response => response.json())
-    .then(data => responseOK(data, chamadoFormatado))
-    .catch(error => responseError(error));
-
-    sendFetchSpreadSheet(chamadoAberto);
+    .then(data => responseOK(data, chamadoFormatado, chamadoAberto))
+    .catch(error => responseError(error));    
 };
 
 function sendFetchSpreadSheet(chamadoAberto) {
@@ -245,25 +267,34 @@ function sendFetchSpreadSheet(chamadoAberto) {
         }
     })
     .then(response =>response.json())
-    .then(data => console.log(data));
-    console.log(chamadoAberto);
+    .then(data => responseMsgSentToSpreadSheet(data))
+    .catch(error => responseMsgSentToSpreadSheet(error));
+};
+
+function responseMsgSentToSpreadSheet(data) {
+    console.log(data);
+    let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
+    responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
+    responseMsgSentToSpreadSheet.innerHTML = `Planilha - Resposta do servidor: ${data.message} Id: ${data.content[0]}`
 }
 
 function mostrarMsgAguardeEnvio(){
+    document.getElementById('spinner').className = "spinner-border"
     const mensagemAguarde = document.getElementById("mensagemAguarde");
     mensagemAguarde.style.display = "block";
     document.getElementById("chamadoForm").classList.toggle("hidden", true);
 };
 
 function removerMsgAguardarEnvio(){
+    document.getElementById('spinner').className = "hidden"
     document.getElementById("msgResponse").classList.toggle("hidden", false); 
     const mensagemAguarde = document.getElementById("mensagemAguarde");
     mensagemAguarde.style.display = "block";
     mensagemAguarde.style.display = "none";
 };
 
-function responseOK(data, chamadoFormatado){
-    removerMsgAguardarEnvio();
+function responseOK(data, chamadoFormatado, chamadoAberto){    
+    removerMsgAguardarEnvio();    
     if(data.success == "true"){
         localStorage.removeItem('listCall');
         document.getElementById('msgResponse').innerHTML = `
@@ -277,6 +308,8 @@ function responseOK(data, chamadoFormatado){
         document.getElementById('msgResponse').style.background = '#4cb050';
         document.getElementById('msgResponse').style.color = 'white';
         console.log(data);
+
+        sendFetchSpreadSheet(chamadoAberto);
     } 
     if(chamadoFormatado._cc && data.success !== "true"){
         document.getElementById('msgResponse').innerHTML = `

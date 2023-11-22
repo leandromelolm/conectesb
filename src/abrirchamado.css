@@ -9,6 +9,10 @@ body {
     height: 100%;
 }
 
+*, ::after, ::before {
+    box-sizing: content-box;
+}
+
 .navbar {
     padding-inline: 10%;            
 }
@@ -40,7 +44,8 @@ form {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%; 
+    width: 600px;
+    margin: 10px; 
     max-width: 100%;
 }
 
@@ -138,6 +143,14 @@ ul li {
 legend {
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.div__msg {
+    text-align: -webkit-center;
+}
+
+#responseMsgSentToSpreadSheet {
+    margin-top: 30xp;
 }
 
 .msg__aguarde {
