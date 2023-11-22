@@ -137,7 +137,7 @@ function saveUnidadeSolicitanteLocalStorage() {
 
 function restoreStyleBackgroundColor(elem) {
     document.getElementById(elem).style.backgroundColor = "white";
-}
+};
 
 function saveCallListInLocalStorage(listaChamados){
     localStorage.setItem("listCall", listaChamados);
@@ -170,7 +170,7 @@ const cursorFocus = function(elem) {
     document.getElementById(elem).scrollIntoView({block: "end", behavior: 'smooth'});    
     document.getElementById(elem).style.backgroundColor = "antiquewhite";
     // document.getElementById(elem).focus(); // focus remove o efeito do scroll
-}
+};
 
 function validarEmail() {
     const email = document.getElementById('email').value;
@@ -276,7 +276,7 @@ function responseMsgSentToSpreadSheet(data) {
     let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
     responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
     responseMsgSentToSpreadSheet.innerHTML = `Planilha - Resposta do servidor: ${data.message} Id: ${data.content[0]}`
-}
+};
 
 function mostrarMsgAguardeEnvio(){
     document.getElementById('spinner').className = "spinner-border"
