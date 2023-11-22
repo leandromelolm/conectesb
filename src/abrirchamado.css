@@ -160,6 +160,7 @@ legend {
 #msgResponse a {
     text-decoration: none;    
     font-weight: bold;
+    color: midnightblue;
 }
 
 .enviar__chamado {

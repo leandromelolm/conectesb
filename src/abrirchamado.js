@@ -180,12 +180,11 @@ function enviarChamado() {
         quantidadeListaChamado: quantidadeListaChamado,
         listaChamado: listaChamados
     };
-    // console.log(chamadoAberto);
-    sendFetchPost(chamadoAberto)
+    // console.log(chamadoAberto);    
+    sendFetchEmail(chamadoAberto);
 };
 
-
-function sendFetchPost(chamadoAberto){     
+function sendFetchEmail(chamadoAberto){
     mostrarMsgAguardeEnvio();
 
     let chamadoFormatado = {
@@ -209,7 +208,7 @@ PATRIMÔNIO(TOMBAMENTO): ${chamado.patrimonio_tombamento},
 MARCA: ${chamado.marca},
 MODELO: ${chamado.modelo},
 PROBLEMA INFORMADO: ${chamado.problema_informado}
-        `;
+`;
     });
 
     let objPedidoString = JSON.stringify(chamadoFormatado);
@@ -225,7 +224,30 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     .then(response => response.json())
     .then(data => responseOK(data, chamadoFormatado))
     .catch(error => responseError(error));
+
+    sendFetchSpreadSheet(chamadoAberto);
 };
+
+function sendFetchSpreadSheet(chamadoAberto) {
+    chamadoAberto.listaChamado.forEach((chamado, index) => {
+        objItemString = JSON.stringify(chamado)
+        chamadoAberto.listaChamado[index] =  objItemString;    
+    })
+    objPedidoString = JSON.stringify(chamadoAberto);
+    // v13
+    let url = "https://script.google.com/macros/s/AKfycbwYIZ1dcoy1VRgK_lG1upDv8oRf_T7VZsNsIAY4M_-qGf3pfO8B1jv3CBfWhVQ089k4/exec"
+    fetch(url,{
+        redirect: "follow",
+        method: "POST",
+        body: objPedidoString,
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+        }
+    })
+    .then(response =>response.json())
+    .then(data => console.log(data));
+    console.log(chamadoAberto);
+}
 
 function mostrarMsgAguardeEnvio(){
     const mensagemAguarde = document.getElementById("mensagemAguarde");
