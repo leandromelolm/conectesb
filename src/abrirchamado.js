@@ -245,7 +245,7 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     
     const dominio = window.location.hostname;
     if (dominio === "conectesb.netlify.app" || dominio === "sbpedido.netlify.app") {
-        urlSubmitEmail = submitEmailProd;        
+        urlSubmitEmail = submitEmailTest; // QUANDO FOR PARA PRODUÇÃO DEFINITIVA ALTERAR PARA submitEmailProd       
     } else {
         urlSubmitEmail = submitEmailTest;        
     }
