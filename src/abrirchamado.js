@@ -238,17 +238,16 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     let objPedidoString = JSON.stringify(chamadoFormatado);
 
     let urlSubmitEmail;
+    // DEV
+    let submitEmailTest = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
+    // PROD coord-sb-dsv
+    let submitEmailProd = "https://formsubmit.co/ajax/491824f8b44b7c868c71bfcda5c0a842"
+    
     const dominio = window.location.hostname;
     if (dominio === "conectesb.netlify.app" || dominio === "sbpedido.netlify.app") {
-        // PROD
-        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
-        // coord-sb-dsv
-        // urlSubmitEmail = "https://formsubmit.co/ajax/491824f8b44b7c868c71bfcda5c0a842";
-        
+        urlSubmitEmail = submitEmailProd;        
     } else {
-        // DEV
-        // us284sb2
-        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";        
+        urlSubmitEmail = submitEmailTest;        
     }
 
     fetch(urlSubmitEmail, {
