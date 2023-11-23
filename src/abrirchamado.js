@@ -236,8 +236,17 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     });
 
     let objPedidoString = JSON.stringify(chamadoFormatado);
-    // us284sb2@gmail.com
-    fetch("https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408", {
+
+    let urlSubmitEmail;
+    const dominio = window.location.hostname;
+    if (dominio != "conectesb.netlify.app" || dominio != "sbpedido.netlify.app") {
+        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
+        console.log(dominio);
+    } else {
+        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408"
+    }
+
+    fetch(urlSubmitEmail, {
         method: "POST",
         headers: { 
         'Content-Type': 'application/json',
