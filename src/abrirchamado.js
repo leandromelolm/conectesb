@@ -240,11 +240,15 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     let urlSubmitEmail;
     const dominio = window.location.hostname;
     if (dominio === "conectesb.netlify.app" || dominio === "sbpedido.netlify.app") {
+        // PROD
         urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
-        console.log(dominio);
+        // coord-sb-dsv
+        // urlSubmitEmail = "https://formsubmit.co/ajax/491824f8b44b7c868c71bfcda5c0a842";
+        
     } else {
-        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
-        console.log(dominio);
+        // DEV
+        // us284sb2
+        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";        
     }
 
     fetch(urlSubmitEmail, {
