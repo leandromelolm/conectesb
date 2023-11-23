@@ -3,10 +3,10 @@ body {
 }
 
 .navbar {
-    padding-inline: 10%;
-        
+    padding-inline: 5%;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 992px) {
     .navbar {
         padding-inline: 0%;
     }
