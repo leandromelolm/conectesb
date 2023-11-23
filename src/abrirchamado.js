@@ -243,7 +243,8 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
         urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
         console.log(dominio);
     } else {
-        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408"
+        urlSubmitEmail = "https://formsubmit.co/ajax/cefa54954b23bf83a8eaef0881ced408";
+        console.log(dominio);
     }
 
     fetch(urlSubmitEmail, {
