@@ -8,10 +8,15 @@ body {
 }
 
 .main__container{
-    margin: 20px 0 0 0;
-    width: 100%;
+    margin: 20px 10px 10px 10px;
     display: flex;
     justify-content: center;
+}
+
+@media (min-width: 992px) {
+    .accordion {
+        width: 800px;
+    }
 }
 
 form {
