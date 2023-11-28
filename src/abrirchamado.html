@@ -79,16 +79,17 @@
             <button type="button" id="btnSendCall" class="enviar__chamado btn__tag_class" onclick="enviarChamado()">Enviar Chamado</button>
         </form>
 
-        <div class="d-flex justify-content-center">
-            <div id="spinner" class="hidden" style="align-self: self-end; margin-inline-end: 14px" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-        <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>
+        
         
         <div class="div__msg">
-            <div id="msgResponse" class="hidden"></div>
             <div id="responseMsgSentToSpreadSheet" class="hidden"></div>
+            <div id="msgResponse" class="hidden"></div>
+            <div class="d-flex justify-content-center">
+                <div id="spinner" class="hidden" style="align-self: self-end; margin-inline-end: 14px" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>
+            </div>
         </div>
     </div>
     

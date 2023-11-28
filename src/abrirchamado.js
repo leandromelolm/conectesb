@@ -205,26 +205,94 @@ function enviarChamado() {
         quantidadeListaChamado: quantidadeListaChamado,
         listaChamado: listaChamados
     };
-    // mostrarMsgAguardeEnvio();
-    // setTimeout(responseOK, 3000);
-    // console.log(chamadoAberto);    
-    sendFetchEmail(chamadoAberto);
+    sendFetchSpreadSheet(chamadoAberto);
+    // setTimeout(responseOKSubmitForm, 3000);
+    // sendFetchEmail(chamadoAberto);
+    // console.log("chAberto",chamadoAberto);
 };
 
-function sendFetchEmail(chamadoAberto){
+function sendFetchSpreadSheet(chamadoAberto) {
+    mostrarMsgAguardeEnvio();
+    let chamadoAbertoObj = chamadoAberto;
+    chamadoAberto.listaChamado.forEach((chamado, index) => {
+        objItemString = JSON.stringify(chamado)
+        chamadoAberto.listaChamado[index] =  objItemString;    
+    })
+    objPedidoString = JSON.stringify(chamadoAberto);
+
+    // let url13 = "https://script.google.com/macros/s/AKfycbwYIZ1dcoy1VRgK_lG1upDv8oRf_T7VZsNsIAY4M_-qGf3pfO8B1jv3CBfWhVQ089k4/exec";
+    let url = "https://script.google.com/macros/s/AKfycbx_grjTmeJxtEqmRRROj1No1LaesrSftV0Gvfi9EWaUi39-lhGpswlDnWCSZRvlrpUL/exec";
+    fetch(url,{
+        redirect: "follow",
+        method: "POST",
+        body: objPedidoString,
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+        }
+    })
+    .then(response =>response.json())
+    .then(data => responseMsgSentToSpreadSheet(data, chamadoAbertoObj))
+    .catch(error => responseMsgSentToSpreadSheet(error, chamadoAbertoObj));
+};
+
+function responseMsgSentToSpreadSheet(data, chamadoAbertoObj) {
+    console.log(data);
+    removerMsgAguardarEnvio(); 
+    let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
+    if (data.status == "success") {
+           
+        responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
+        responseMsgSentToSpreadSheet.innerHTML = `
+        <p><b>A solicitação para abrir o chamado foi enviada e registrada com sucesso!</b></p> 
+        <p>Id: ${data.content[0]}</p>  
+        <p>Unidade: ${data.content[1]}</p> 
+        <p>Data: ${data.content[4]}</p>       
+        <p><a class="link-primary" href="abrirchamado.html">Abrir um novo chamado</a></p>  
+        <a class="link-primary" href="index.html">Voltar para o menu principal</a>
+        `
+        sendFetchEmail(chamadoAbertoObj);
+        localStorage.removeItem('listCall'); 
+    } else {
+        responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
+        responseMsgSentToSpreadSheet.innerHTML = `
+        Resposta: Erro no envio!        
+        <p><a href="abrirchamado.html">Tentar Novamente</a></p>  
+        <a class="link-primary" href="index.html">Voltar para o menu principal</a>
+        `        
+    }
+};
+
+function mostrarMsgAguardeEnvio(){
+    document.getElementById('spinner').className = "spinner-border"
+    const mensagemAguarde = document.getElementById("mensagemAguarde");
+    mensagemAguarde.style.display = "block";
+    document.getElementById("chamadoForm").classList.toggle("hidden", true);
+};
+
+function removerMsgAguardarEnvio(){
+    document.getElementById('spinner').className = "hidden"
+    // document.getElementById("msgResponse").classList.toggle("hidden", false);
+    const mensagemAguarde = document.getElementById("mensagemAguarde");
+    mensagemAguarde.style.display = "block";
+    mensagemAguarde.style.display = "none";
+};
+
+function sendFetchEmail(chamadoAbertoObj){
     mostrarMsgAguardeEnvio();
     let chamadoFormatado = {
-        _subject: `ABRIR CHAMADO TÉCNICO: ${chamadoAberto.unidade} (DSV) - ${chamadoAberto.data}`,
+        _subject: `ABRIR CHAMADO TÉCNICO: ${chamadoAbertoObj.unidade} (DSV) - ${chamadoAbertoObj.data}`,
         _template : "box", // box ou table        
-        unidade: chamadoAberto.unidade,
-        solicitante: chamadoAberto.solicitante,
-        data: chamadoAberto.data,
-        quantidade_de_itens_do_chamado: chamadoAberto.quantidadeListaChamado,
+        unidade: chamadoAbertoObj.unidade,
+        solicitante: chamadoAbertoObj.solicitante,
+        data: chamadoAbertoObj.data,
+        quantidade_de_itens_do_chamado: chamadoAbertoObj.quantidadeListaChamado,
     }
-    if (chamadoAberto.email){
-        chamadoFormatado['_cc'] = chamadoAberto.email;
+    if (chamadoAbertoObj.email){
+        chamadoFormatado['_cc'] = chamadoAbertoObj.email;
     }
-    chamadoAberto.listaChamado.forEach((chamado, index) => {
+
+    chamadoAbertoObj.listaChamado.forEach((item, index) => {
+        let chamado = JSON.parse(`${item}`);
         chamadoFormatado[`item_do_chamado_${index + 1}`] = `
 EQUIPAMENTO: ${chamado.equipamento},
 SÉRIE: ${chamado.numero_serie},
@@ -259,97 +327,49 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
         body: objPedidoString
     })
     .then(response => response.json())
-    .then(data => responseOK(data, chamadoFormatado, chamadoAberto))
-    .catch(error => responseError(error));    
+    .then(data => responseOKSubmitForm(data, chamadoFormatado))
+    .catch(error => responseErrorSubmitForm(error));    
 };
 
-function sendFetchSpreadSheet(chamadoAberto) {
-    chamadoAberto.listaChamado.forEach((chamado, index) => {
-        objItemString = JSON.stringify(chamado)
-        chamadoAberto.listaChamado[index] =  objItemString;    
-    })
-    objPedidoString = JSON.stringify(chamadoAberto);
-    // v13
-    let url = "https://script.google.com/macros/s/AKfycbwYIZ1dcoy1VRgK_lG1upDv8oRf_T7VZsNsIAY4M_-qGf3pfO8B1jv3CBfWhVQ089k4/exec"
-    fetch(url,{
-        redirect: "follow",
-        method: "POST",
-        body: objPedidoString,
-        headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-        }
-    })
-    .then(response =>response.json())
-    .then(data => responseMsgSentToSpreadSheet(data))
-    .catch(error => responseMsgSentToSpreadSheet(error));
-};
-
-function responseMsgSentToSpreadSheet(data) {
-    console.log(data);
-    let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
-    responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
-    responseMsgSentToSpreadSheet.innerHTML = `Planilha - Resposta do servidor: ${data.message} Id: ${data.content[0]}`
-};
-
-function mostrarMsgAguardeEnvio(){
-    document.getElementById('spinner').className = "spinner-border"
-    const mensagemAguarde = document.getElementById("mensagemAguarde");
-    mensagemAguarde.style.display = "block";
-    document.getElementById("chamadoForm").classList.toggle("hidden", true);
-};
-
-function removerMsgAguardarEnvio(){
-    document.getElementById('spinner').className = "hidden"
-    document.getElementById("msgResponse").classList.toggle("hidden", false); 
-    const mensagemAguarde = document.getElementById("mensagemAguarde");
-    mensagemAguarde.style.display = "block";
-    mensagemAguarde.style.display = "none";
-};
-
-function responseOK(data, chamadoFormatado, chamadoAberto){    
-    removerMsgAguardarEnvio();    
+function responseOKSubmitForm(data, chamadoFormatado){    
+    removerMsgAguardarEnvio();
+    document.getElementById("msgResponse").classList.toggle("hidden", false);
     if(data.success == "true"){
         localStorage.removeItem('listCall');
         document.getElementById('msgResponse').innerHTML = `
-        <p><b>A solicitação para abrir o chamado foi enviado com sucesso!</b></p>       
-        <p>Um email foi enviado para coordenação de saúde bucal.</p>
+        <p><b>Um email foi enviado para coordenação de saúde bucal!</b></p> 
         Unidade: ${chamadoFormatado.unidade}
-        <p>Data: ${chamadoFormatado.data}</p>
-        <p><a href="abrirchamado.html">Abrir um novo chamado</a></p>  
-        <a href="index.html">Voltar para o menu principal</a>
+        <p>Data: ${chamadoFormatado.data}</p>        
         `;
-        document.getElementById('msgResponse').style.background = '#4cb050';
+        document.getElementById('msgResponse').style.background = '#4CB050';
         document.getElementById('msgResponse').style.color = 'white';
         console.log(data);
-
-        sendFetchSpreadSheet(chamadoAberto);
     } 
     if(chamadoFormatado._cc && data.success !== "true"){
         document.getElementById('msgResponse').innerHTML = `
-        Erro no envio! Tente novamente mais tarde ou informe a messagem de erro para os administradores.
+        Algum problema aconteceu no envio do e-mail para a coordenação.
         messagem de erro: ${data.message}.
         <p>Se você preencheu o campo email, verifique se o email foi digitado corretamente.</p>
-        Email preenchido no formulário: ${chamadoFormatado._cc}
-        <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
+        Email preenchido no formulário: ${chamadoFormatado._cc}  
         <a href="index.html">Voltar para o menu principal</a>
         `;
         console.log(data);
     }    
     if (!chamadoFormatado._cc && data.success !== "true") {
         document.getElementById('msgResponse').innerHTML = `
-        Erro no envio! Tente novamente mais tarde ou informe a messagem de erro para os administradores.
+        Erro no envio do email!.
         messagem de erro: ${data.message}.
-        <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
         <a href="index.html">Voltar para o menu principal</a>
         `;
         console.log(data);
     }
 };
 
-function responseError(error){
+function responseErrorSubmitForm(error){
     alert("Erro na Requisição: " + error)
     console.log(error);
     removerMsgAguardarEnvio();
+    document.getElementById("msgResponse").classList.toggle("hidden", false);
     document.getElementById('msgResponse').innerHTML = `
     Erro no envio, Verifique a conexão da internet! 
     <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
