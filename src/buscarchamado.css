@@ -1,0 +1,55 @@
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.main__container{
+    margin: 20px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
+    margin: 10px; 
+}
+
+.accordion_body__item_chamado {
+    margin-left: 0px;
+    margin-bottom: 10px;
+}
+
+.accordion_body__row {
+    margin-left: 10px;
+}
+
+input {    
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    font-size: medium;
+    border-radius: 8px
+}
+
+.div_btn {
+    margin-bottom: 10px;
+    text-align: end;
+}
+
+.btn__signin {
+    height: 43px;
+    margin-top: 16px;
+    background-color: #0091e5;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
