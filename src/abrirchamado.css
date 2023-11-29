@@ -150,7 +150,7 @@ legend {
 }
 
 #responseMsgSentToSpreadSheet {
-    margin: 20px 40px 10px 40px;
+    margin: 30px 0px 0px 0px;
     background-color: #4CB050; /* verde */
     color: #fff;
     font-weight: bold;
@@ -164,7 +164,7 @@ legend {
 
 #responseMsgSentToSpreadSheet a {
     text-decoration: none;
-    color: midnightblue;
+    color: indigo;
 }
 
 .msg__aguarde {

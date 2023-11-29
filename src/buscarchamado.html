@@ -45,10 +45,13 @@
                 <div id="msgLogin"></div>
             </form>
         </div>
-        <div id="divChamados" class="d-none">
-            <div class="div_btn">                
-                <button class="btn btn-danger align-self-end" onclick="signOut()">Deslogar</button>                
-            </div>            
+        <div id="divChamados" class="d-none">            
+            <div class="div_btn">            
+                <button id="btnLogout" class="btn btn-danger align-self-end" onclick="signOut()">Deslogar</button>                
+            </div>
+            <div id="atualizacaoPagina">
+                <p id="infoDivAtualizacaoPagina"></p>                
+            </div>
             <div id="listChamados">
                 <div class="accordion" id="accordionCall">                        
                     <div class="item__accordion" id="itemAccordion"></div>                        

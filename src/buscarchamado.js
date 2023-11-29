@@ -1,20 +1,23 @@
 let urlFetch = "https://script.google.com/macros/s/AKfycbw7l2v-1EZ8YNM3Ok6aH_AlaRtEql0OF-jOUGDKN_opyjEu39UOoBqyh_DKXFqfZLK7/exec";
 let access_token;
+let infoDivAtualizacaoPagina = document.getElementById('infoDivAtualizacaoPagina');
+
 window.addEventListener('DOMContentLoaded', () =>{
+    
     access_token = localStorage.getItem("access_token");
     chamado_list = sessionStorage.getItem("chamado_list");
     let objChamado = JSON.parse(chamado_list);
     if (objChamado) {
+       infoFetchChamados(urlFetch, access_token);   
         return handleResponseChamados(objChamado);
     }
-
-    if (!access_token || access_token !="null") {
+    if (!access_token || access_token !="null") {         
         fetchChamados(urlFetch, access_token);
         document.getElementById("msgAguarde").classList.toggle("d-none", false);
         document.getElementById("formLogin").classList.toggle("d-none", true);    
     } else {
         console.log("erro no acesso: problema na autenticação")
-    }
+    }    
 })
 
 function loginFetchAPI() {   
@@ -41,12 +44,12 @@ function loginFetchAPI() {
     .catch(error => responseError(error));
 }
 
-function responseOK(data) {
+function responseOK(data) {    
     localStorage.setItem("access_token", data.authorization);
     if (data.authorization == null) {
-        document.getElementById("msgLogin").innerHTML = "Usuário e senha inválidos"
+        document.getElementById("msgLogin").innerHTML = "Usuário e senha incorretos"
     }
-    fetchChamados(urlFetch, data.authorization);
+    fetchChamados(urlFetch, data.authorization);    
 }
 
 function responseError(error) {
@@ -56,14 +59,19 @@ function responseError(error) {
 async function fetchChamados(url,token) {
     const response = await fetch(`${url}?authorization=${token}`);
     const data = await response.json();
-    sessionStorage.setItem("chamado_list", JSON.stringify(data));    
+    sessionStorage.setItem("chamado_list", JSON.stringify(data));        
     handleResponseChamados(data);
+    let loginDate = dateFormat(new Date());
+    localStorage.setItem("dataHoraBuscaChamados", loginDate);
+    infoFetchChamados(url,token);
 }
 
 
 function handleResponseChamados(data) {
+    document.getElementById("btnLogout").disabled = false;
+    document.getElementsByClassName("btn__Atualizarchamados").disabled = false;
     document.getElementById("msgAguarde").classList.toggle("d-none", true);      
-    if (data.token === "token valido"){ 
+    if (data.token === "token valido"){        
         document.getElementById("formLogin").classList.toggle("d-none", true);
         document.getElementById("divChamados").classList.toggle("d-none", false);       
         preencherDivList(data.content);   
@@ -141,10 +149,30 @@ function preencherDivList(itens) {
 }
 
 function signOut() {
+    infoDivAtualizacaoPagina.innerHTML = ``;
     localStorage.removeItem("access_token");
+    localStorage.removeItem("dataHoraBuscaChamados");
     sessionStorage.removeItem("chamado_list")
     document.getElementById("formLogin").classList.toggle("d-none", false);
     document.getElementById("divChamados").classList.toggle("d-none", true);
+}
+
+function infoFetchChamados(url,token){
+    infoDivAtualizacaoPagina.innerHTML = "";    
+    let dateTimeFetchCalls = localStorage.getItem("dataHoraBuscaChamados");
+    infoDivAtualizacaoPagina.innerHTML = `
+        Atualização dos dados: ${dateTimeFetchCalls} 
+        <button id="btnAtualizarChamados" class="btn transparent btn__atualizarchamados" onclick="btnAtualizarChamado('${url}', '${token}')">
+            Clique para atualizar <img src="assets/arrow-clockwise.svg"> 
+        </button>
+    `;    
+}
+
+function btnAtualizarChamado(url, token) {
+    console.log("btnAtualizar");    
+    document.getElementById("btnLogout").disabled = true;
+    document.getElementById("btnAtualizarChamados").disabled = true;
+    fetchChamados(url,token);
 }
 
 function dateFormat(data) {   

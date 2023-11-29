@@ -58,3 +58,13 @@ input {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+#atualizacaoPagina p {
+    margin: 10px 0px 10px 5px;
+    color: gray;
+    font-size: 14px;
+}
+
+.btn__atualizarchamados:disabled {
+    color: gray;
+}
