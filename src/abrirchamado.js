@@ -220,7 +220,6 @@ function sendFetchSpreadSheet(chamadoAberto) {
     })
     objPedidoString = JSON.stringify(chamadoAberto);
 
-    // let url13 = "https://script.google.com/macros/s/AKfycbwYIZ1dcoy1VRgK_lG1upDv8oRf_T7VZsNsIAY4M_-qGf3pfO8B1jv3CBfWhVQ089k4/exec";
     let url = "https://script.google.com/macros/s/AKfycbx_grjTmeJxtEqmRRROj1No1LaesrSftV0Gvfi9EWaUi39-lhGpswlDnWCSZRvlrpUL/exec";
     fetch(url,{
         redirect: "follow",
@@ -313,7 +312,7 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     
     const dominio = window.location.hostname;
     if (dominio === "conectesb.netlify.app" || dominio === "sbpedido.netlify.app") {
-        urlSubmitEmail = submitEmailTest; // QUANDO FOR PARA PRODUÇÃO DEFINITIVA ALTERAR PARA submitEmailProd       
+        urlSubmitEmail = submitEmailProd; 
     } else {
         urlSubmitEmail = submitEmailTest;        
     }
