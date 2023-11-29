@@ -23,7 +23,7 @@ function adicionarItemAoChamado() {
 
     if (!equipamento) {
         document.getElementById("equipamento").focus();
-        return alert (`O campo EQUIPAMENTO precisam ser preenchido.`);
+        return alert (`O campo INSTRUMENTAL precisam ser preenchido.`);
     }
     // if (!numeroSerie && !patrimonioTombamento) {
     //     document.getElementById("numero_serie").focus();
@@ -160,7 +160,7 @@ function validarCamposUnidadeSolicitante() {
     }
     if(listaInventario.length == 0){
         document.getElementById("addItem").focus();
-        return `Adicione ao menos um item para o iventário.Preencha os campos de informação do item e clique em ADICIONAR ITEM.`;
+        return `Adicione ao menos um item para o inventário.Preencha os campos de informação do item e clique em ADICIONAR ITEM.`;
     }    
     if(unidade.trim() !== "" && solicitante.trim() !== "") {
         return "OK";
