@@ -18,6 +18,7 @@ function adicionarItemAoChamado() {
     // const patrimonioTombamento = document.getElementById("patrimonio_tombamento").value;
     // const marca = document.getElementById("marca").value;
     // const modelo = document.getElementById("modelo").value;
+    const quantidade = document.getElementById("quantidade").value;
     const observacao = document.getElementById("observacao").value;
 
     if (!equipamento) {
@@ -40,6 +41,7 @@ function adicionarItemAoChamado() {
         // patrimonio_tombamento: patrimonioTombamento.trim(),
         // marca: marca.trim(),
         // modelo: modelo.trim(),
+        quantidade: quantidade.trim(),
         observacao: observacao.trim()
     };
 
@@ -56,6 +58,7 @@ function limparCamposItemDoChamado() {
     // document.getElementById("patrimonio_tombamento").value = "";
     // document.getElementById("marca").value = "";
     // document.getElementById("modelo").value = "";
+    document.getElementById("quantidade").value = "";
     document.getElementById("observacao").value = "";    
 };
 
@@ -79,7 +82,8 @@ function atualizarListaChamados() {
             <div>
                 ${index +1}. <strong>${inventario.equipamento}</strong>
             </div>
-            <div>Problema: <strong>${inventario.observacao}</strong></div>
+            <div>quantidade: <strong>${inventario.quantidade}</strong></div>
+            <div>Observacão: <strong>${inventario.observacao}</strong></div>
         </div>
         `;
         listaInventarioElement.appendChild(listItem);        
