@@ -56,13 +56,28 @@
             <div id="divAddItensAoChamado">
                 <div class="inventario-element" data-inventario="1">
                     <legend>Adicione item:</legend>
-                    <label for="equipamento">Instrumental :</label>
-                    <input type="text" id="equipamento" maxlength = "50">
-                    <label for="marca">Quantidade:</label>
-                    <input type="number" id="quantidade" maxlength = "50"></input>
 
+                    <!-- <label for="equipamento">Instrumental:</label>
+                    <input type="text" id="equipamento" maxlength = "50">
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" maxlength = "50"></input>
                     <label for="observacao">Observação:</label>
-                    <textarea type="text" id="observacao" maxlength = "200"></textarea>
+                    <textarea type="text" id="observacao" maxlength = "200"></textarea> -->
+
+                    <div class="d-flex justify-content-between">
+                        <div class="col-9">
+                            <small for="equipamento">Instrumental</small>
+                            <input type="text" id="equipamento" maxlength = "50" class="form-control" >
+                        </div>
+                        <div class="col-2">
+                            <small for="quantidade">Quant.</small>
+                          <input type="number"  id="quantidade" max = "300" class="form-control">
+                        </div>                        
+                    </div>
+                    <div class="form-group">
+                        <small for="observacao">Observação</small>
+                        <textarea class="form-control" id="observacao" rows="2" maxlength = "200"></textarea>
+                    </div>                    
                     
                     <button type="button" id="addItem" class="btn__tag_class" onclick="adicionarItemAoChamado()">Adicionar item</button>
                     <button type="button" class="btn__tag_class btn__cancelar_item" onclick="btnCancelAddItem()">Cancelar</button>
