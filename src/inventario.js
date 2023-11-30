@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     listaInventario = listInventario === null ? [] : listInventario;
     if (listaInventario.length > 0) {
         atualizarListaChamados();
-        esconderDivAddItensAoChamado();
+        // esconderDivAddItensAoChamado();
     }
     if(localStorage.getItem('unidadeCall')) {
         document.getElementById('unidade').value = localStorage.getItem('unidadeCall');
@@ -13,11 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function adicionarItemAoChamado() {
-    const equipamento = document.getElementById("equipamento").value;
-    // const numeroSerie = document.getElementById("numero_serie").value;
-    // const patrimonioTombamento = document.getElementById("patrimonio_tombamento").value;
-    // const marca = document.getElementById("marca").value;
-    // const modelo = document.getElementById("modelo").value;
+    const equipamento = document.getElementById("equipamento").value; // equipamento => instrumental
     const quantidade = document.getElementById("quantidade").value;
     const observacao = document.getElementById("observacao").value;
 
@@ -25,22 +21,10 @@ function adicionarItemAoChamado() {
         document.getElementById("equipamento").focus();
         return alert (`O campo INSTRUMENTAL precisam ser preenchido.`);
     }
-    // if (!numeroSerie && !patrimonioTombamento) {
-    //     document.getElementById("numero_serie").focus();
-    //     return alert (`É necessario preencher o campo NÚMERO DE SÉRIE ou NÚMERO DO PATRIMÓNIO`);
-    // }
-    // if (!observacao) {
-    //     document.getElementById("observacao").focus();
-    //     return alert (`O campo INFORME O PROBLEMA precisa ser preenchido.`);
-    // }
 
     const novoChamado = {
         item: listaInventario.length + 1,
         equipamento: equipamento.trim(),
-        // numero_serie: numeroSerie.trim(),
-        // patrimonio_tombamento: patrimonioTombamento.trim(),
-        // marca: marca.trim(),
-        // modelo: modelo.trim(),
         quantidade: quantidade.trim(),
         observacao: observacao.trim()
     };
@@ -48,16 +32,10 @@ function adicionarItemAoChamado() {
     listaInventario.push(novoChamado);
     limparCamposItemDoChamado();
     atualizarListaChamados();
-    esconderDivAddItensAoChamado();
-    window.scrollTo(0, 4000);
 };
 
 function limparCamposItemDoChamado() {
     document.getElementById("equipamento").value = "";
-    // document.getElementById("numero_serie").value = "";
-    // document.getElementById("patrimonio_tombamento").value = "";
-    // document.getElementById("marca").value = "";
-    // document.getElementById("modelo").value = "";
     document.getElementById("quantidade").value = "";
     document.getElementById("observacao").value = "";    
 };
@@ -66,29 +44,31 @@ function atualizarListaChamados() {
     const listaInventarioElement = document.getElementById("listaInventario");
     listaInventarioElement.innerHTML = "";
 
-    listaInventario.forEach((inventario, index) => {
+    // Iterar sobre a lista de trás para frente
+    for (let index = listaInventario.length - 1; index >= 0; index--) {
+        const inventario = listaInventario[index];
+
         const listItem = document.createElement("li");
-        listItem.style.backgroundColor = "aliceblue"
+        listItem.style.backgroundColor = "aliceblue";
         listItem.style.display = "flex";
         listItem.innerHTML += `
-        <div style="align-self: center">        
-            <button class="btn__remove_item" 
-             style="background-color: transparent"
-             data-index="${index}">
-                <img class="img__remove_item" src="assets/x-white.svg" alt="Remover">
-            </button>
-        </div>
-        <div style="display: grid;">
-            <div>
-                ${index +1}. <strong>${inventario.equipamento}</strong>
+            <div style="align-self: center">        
+                <button class="btn__remove_item" 
+                    style="background-color: transparent"
+                    data-index="${index}">
+                    <img class="img__remove_item" src="assets/x-white.svg" alt="Remover">
+                </button>
             </div>
-            <div>quantidade: <strong>${inventario.quantidade}</strong></div>
-            <div>Observacão: <strong>${inventario.observacao}</strong></div>
-        </div>
+            <div style="display: grid;">
+                <div>
+                    ${index + 1}. <strong>${inventario.equipamento}</strong>
+                </div>
+                <div>quantidade: <strong>${inventario.quantidade}</strong></div>
+                <div>Observação: <strong>${inventario.observacao}</strong></div>
+            </div>
         `;
-        listaInventarioElement.appendChild(listItem);        
-    });
-    
+        listaInventarioElement.appendChild(listItem);
+    }
     saveCallListInLocalStorage(JSON.stringify(listaInventario));
     
     // ouvinte de evento de clique ao elemento pai (ul)
@@ -98,7 +78,8 @@ function atualizarListaChamados() {
             removerItemChamado(index);
         });
     });
-};
+}
+
 
 function removerItemChamado(index) {
     const parsedIndex = parseInt(index, 10);
@@ -110,7 +91,7 @@ function removerItemChamado(index) {
 
 function btnCancelAddItem() {
     limparCamposItemDoChamado();
-    esconderDivAddItensAoChamado();
+    // esconderDivAddItensAoChamado();
 };
 
 function scrolldiv(elem) {
@@ -388,57 +369,3 @@ function dateFormat(data) {
     
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
-
-
-/*
-
-    inventarioAbertoObj.listaChamado.forEach((item, index) => {
-        let inventario = JSON.parse(`${item}`);
-        inventarioFormatado[`item_do_inventario_${index + 1}`] = `
-EQUIPAMENTO: ${inventario.equipamento},
-SÉRIE: ${inventario.numero_serie},
-PATRIMÔNIO(TOMBAMENTO): ${inventario.patrimonio_tombamento}, 
-MARCA: ${inventario.marca},
-MODELO: ${inventario.modelo},
-OBSERVAÇÃO: ${inventario.observacao}
-`;
-    });
-
-
-
-*/
-
-/*
-
-function atualizarListaChamados() {
-    const listaInventarioElement = document.getElementById("listaInventario");
-    listaInventarioElement.innerHTML = "";
-
-    listaInventario.forEach((inventario, index) => {
-        const listItem = document.createElement("li");
-        listItem.style.backgroundColor = "aliceblue"
-        listItem.style.display = "flex";
-        listItem.innerHTML += `
-        <div style="align-self: center">        
-            <button class="btn__remove_item" 
-             style="background-color: transparent"
-             data-index="${index}">
-                <img class="img__remove_item" src="assets/x-white.svg" alt="Remover">
-            </button>
-        </div>
-        <div style="display: grid;">
-            <div>
-                ${index +1}. <strong>${inventario.equipamento}</strong>
-            </div>
-            <div>Número de Série: <strong>${inventario.numero_serie}</strong></div>
-            <div>Patrimônio: <strong>${inventario.patrimonio_tombamento}</strong></div>
-            <div>Marca: <strong>${inventario.marca}</strong></div>
-            <div>Modelo: <strong>${inventario.modelo}</strong></div>
-            <div>Problema: <strong>${inventario.observacao}</strong></div>
-        </div>
-        `;
-        listaInventarioElement.appendChild(listItem);        
-    });
-
-
-*/

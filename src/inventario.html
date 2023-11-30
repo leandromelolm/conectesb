@@ -37,7 +37,7 @@
         <form id="inventarioForm">
             <a href="index.html">Retornar ao Menu Principal</a>
             <p></p>
-            <h3>FAZER INVENTÁRIO</h3>           
+            <h5>FAZER INVENTÁRIO DE INSTRUMENTAIS</h5>           
             
             <div class="div__solicitante">                
                 <label for="unidade">Unidade de Saúde (Obrigatório):</label>
@@ -55,24 +55,11 @@
             
             <div id="divAddItensAoChamado">
                 <div class="inventario-element" data-inventario="1">
-                    <legend>Preencha formulário com informações do item para adicionar a lista:</legend>
+                    <legend>Adicione item:</legend>
                     <label for="equipamento">Instrumental :</label>
                     <input type="text" id="equipamento" maxlength = "50">
-                    
-                    <!-- <label for="numero_serie">Número de Série:</label>
-                    <input type="text" id="numero_serie" maxlength = "40">
-                    
-                    <label for="patrimonio_tombamento">Patrimônio/Tombamento:</label>
-                    <input type="text" id="patrimonio_tombamento" maxlength = "20">
-                    
-                    <label for="marca">Marca:</label>
-                    <input type="text" id="marca" maxlength = "50"></input>
-
-                    <label for="modelo">Modelo:</label>
-                    <input type="text" id="modelo" maxlength = "50"></input> -->
-
                     <label for="marca">Quantidade:</label>
-                    <input type="quantidade" id="quantidade" maxlength = "50"></input>
+                    <input type="number" id="quantidade" maxlength = "50"></input>
 
                     <label for="observacao">Observação:</label>
                     <textarea type="text" id="observacao" maxlength = "200"></textarea>
@@ -83,7 +70,7 @@
             </div>            
             <ul id="listaInventario"></ul>
             <button id="btnMostrarFormulario" type="button" onclick="mostrarDivAddItensAoChamado()" class="hidden btn__tag_class">Adicionar item ao inventario</button>         
-            <button type="button" id="btnSendCall" class="enviar__inventario btn__tag_class" onclick="enviarChamado()">Enviar Chamado</button>
+            <button type="button" id="btnSendCall" class="enviar__inventario btn__tag_class" onclick="enviarChamado()">Enviar</button>
         </form>
 
         
