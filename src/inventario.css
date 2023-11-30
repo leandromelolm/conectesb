@@ -99,6 +99,7 @@ textarea {
 .btn__remove_item {    
     margin: 3px;
     padding: 0px;
+    border: none;
 }
 
 .img__remove_item {

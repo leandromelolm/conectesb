@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Iniciar o plugin de autocomplete
-    $('#equipamento').autocomplete();
+    // document.getElementById("equipamento").autocomplete();
 });
 
 
