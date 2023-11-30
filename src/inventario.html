@@ -67,7 +67,10 @@
                     <div class="d-flex justify-content-between">
                         <div class="col-9">
                             <small for="equipamento">Instrumental</small>
-                            <input type="text" id="equipamento" maxlength = "50" class="form-control" >
+                            <input type="text" id="equipamento" list="list-instrumental" maxlength = "50" class="form-control">
+                            <datalist id="list-instrumental">
+                                <!-- Options will be populated dynamically with JavaScript -->
+                            </datalist>
                         </div>
                         <div class="col-2">
                             <small for="quantidade">Quant.</small>
@@ -77,7 +80,7 @@
                     <div class="form-group">
                         <small for="observacao">Observação</small>
                         <textarea class="form-control" id="observacao" rows="2" maxlength = "200"></textarea>
-                    </div>                    
+                    </div>
                     
                     <button type="button" id="addItem" class="btn__tag_class" onclick="adicionarItemAoChamado()">Adicionar item</button>
                     <button type="button" class="btn__tag_class btn__cancelar_item" onclick="btnCancelAddItem()">Cancelar</button>
