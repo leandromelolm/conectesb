@@ -277,6 +277,7 @@ function sendFetchEmail(inventarioAbertoObj){
         let inventario = JSON.parse(`${item}`);
         inventarioFormatado[`item_do_inventario_${index + 1}`] = `
 INSTRUMENTAL: ${inventario.equipamento},
+QUANTIDADE: ${inventario.quantidade},
 OBSERVAÇÃO: ${inventario.observacao}
 `;
     });
