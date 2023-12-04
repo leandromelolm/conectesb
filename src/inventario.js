@@ -232,7 +232,7 @@ function responseMsgSentToSpreadSheet(data, inventarioAbertoObj) {
         <p><a class="link-primary" href="inventario.html">fazer novo inventário</a></p>  
         <a class="link-primary" href="index.html">Voltar para o menu principal</a>
         `
-        sendFetchEmail(inventarioAbertoObj);
+        // sendFetchEmail(inventarioAbertoObj);
         localStorage.removeItem('listInventario'); 
     } else {
         responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
