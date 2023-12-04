@@ -1,0 +1,308 @@
+body {
+    /* font-family: Arial, sans-serif; */
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+a {
+    cursor: pointer;
+}
+
+*, ::after, ::before {
+    box-sizing: content-box;
+}
+
+.navbar-toggler:hover {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navbar {
+    padding-inline: 5%;
+}
+
+@media (max-width: 992px) {
+    .navbar {
+        padding-inline: 0%;
+    }
+}
+
+.nav-link { /* navbar */
+    font-size: 16px;
+}
+
+.main__container{
+    margin: 20px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.div__body {
+    /* width: 800px; */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    margin: 10px; 
+    max-width: 100%;
+}
+
+.div__item {
+    width: 15%;
+    text-align: center;  
+    padding: 5px 0px;  
+}
+
+.options li.selected {
+    background-color: DodgerBlue !important; 
+    color: #ffffff;
+}
+
+.div__quant {
+    width: 15%;
+    padding: 5px 0px;
+    text-align: center;    
+}
+
+.a__href {
+    width: max-content;
+    text-decoration: none;
+}
+
+.input__item {
+    border: 1px solid #ced4da;      
+}
+
+.input__quant {
+    border: 1px solid #ced4da; 
+}
+
+#inventarioForm {
+    background-color: #fff;
+    padding: 0px;
+    border-radius: 8px;
+    max-width: 100%;
+}
+
+/* form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 10px; 
+    max-width: 100%;
+} */
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    /* margin-bottom: 16px; */
+    box-sizing: border-box;
+    font-size: medium;
+    border-radius: 5px
+}
+
+input:focus {
+    background-color: ghostwhite;
+}
+
+textarea {
+    width: 100%;
+    height: 60px;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-size: large;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.btn__tag_class {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.btn__cancelar_item {
+    background-color: grey;
+}
+
+.btn__cancelar_item:hover {
+    background-color: #696969;
+}
+
+.btn__remove_item {    
+    margin: 3px;
+    padding: 0px;
+    border: none;
+}
+
+.img__remove_item {
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    background-color: #dc3545;
+    border-radius: 5px;
+}
+
+.img__remove_item:hover {
+
+    background-color: red;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 8px;
+}
+
+.hidden {
+    display: none;
+}
+
+.inventario-element {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: aliceblue;
+}
+
+.inventary__element {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: aliceblue;
+}
+
+legend {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.div__msg {
+    text-align: -webkit-center;
+}
+
+#responseMsgSentToSpreadSheet {
+    margin: 30px 0px 0px 0px;
+    background-color: #4CB050; /* verde */
+    color: #fff;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 100%;
+    text-align: center;
+}
+
+#responseMsgSentToSpreadSheet a {
+    text-decoration: none;
+    color: indigo;
+}
+
+.msg__aguarde {
+    display: none;
+    margin-top: 50px;
+}
+
+#msgResponse {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; 
+    max-width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+#msgResponse a {
+    text-decoration: none;    
+    font-weight: bold;
+    color: midnightblue;
+}
+
+.enviar__inventario {
+    background-color: #0091e5;
+    margin-left: auto;
+    margin-top: 25px;
+    display: block;
+}
+.enviar__inventario:hover {
+    background-color: #1ea1ed;
+}
+
+.div__solicitante {
+    margin-top: 30px;
+}
+
+.div__solicitante #unidade {
+    text-transform: uppercase !important;
+}
+
+.div__solicitante #email {
+    text-transform: lowercase !important;
+    margin-bottom: 5px;
+}
+
+.div__solicitante span{
+    color: grey;
+}
+
+#divFormAddItemIventarios {
+    margin-top: 20px;
+}
+
+#btnMostrarFormulario {
+    margin-top: 15px;
+}
+
+#btn-back-to-top {
+    position: fixed;
+    bottom: 5px;
+    left: 60px;
+    display: none;
+    border-radius: 100%;
+}
+
+#btn-to-bottom {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    display: none;
+    border-radius: 100%;
+}
+
+#invalidForm {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: .875em;
+    color: #dc3545;
+}

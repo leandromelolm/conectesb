@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="inventario-fazer.css">
+    <title>Conecte SB | Inventário</title>
+</head>
+<body>
+
+    <!--NAVBAR-->
+    <div class="hidden-in-print">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="index.html">ConecteSB</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page"  href="fazerpedido.html">Fazer Pedido</a>
+                        <a class="nav-link active" href="pedidos.html">Buscar Pedido</a>
+                        <a class="nav-link active" href="abrirchamado.html">Abrir Chamado Técnico</a>
+                        <a class="nav-link active" href="buscarchamado.html">Buscar Chamado</a>
+                        <a class="nav-link active" href="inventario-fazer.html">Inventário</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main__container">
+
+        <div class="div__body">
+
+            <div class="flex-sm-column">
+                <div>
+                    <a href="index.html">Principal</a>
+                </div>
+                <div>
+                    <a href="inventario-fazer.html">Fazer inventário (Novo Formulário)</a>
+                </div>
+                <div>
+                    <a href="inventario.html">Fazer inventário</a>
+                </div>
+            </div> 
+            <p></p>
+            
+            <form id="inventarioForm" class="row g-3 needs-validation">                
+                <legend>Fazer inventário (Novo Formulário)</legend>  
+                <div class="div__solicitante">                 
+                    <div class="col-md-12">
+                        <div class="form-outline form-floating mb-3" data-mdb-input-init>
+                            <input 
+                                type="text" 
+                                class="input__unidade form-control" 
+                                id="unidade" 
+                                value="" 
+                                maxlength="70"
+                                onblur="saveUnidadeSolicitanteLocalStorage()" 
+                                required 
+                            />
+                            <ul class="options"></ul>
+                            <label for="unidade">Unidade de Saúde (Obrigatório):</label>
+                            <div class="invalid-feedback">Por favor, preencha o nome da Unidade.</div>
+                            <!-- <div class="valid-feedback">OK!</div> -->
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12">
+                        <div class="form-outline form-floating mb-3" data-mdb-input-init>                            
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="solicitante"                                 
+                                value=""                                
+                                maxlength="50"                                
+                                required   
+                            />
+                            <label for="solicitante">Funcionário (Obrigatório):</label>
+                            <div class="invalid-feedback">Por favor, preencha campo Funcionário.</div>
+                            <!-- <div class="valid-feedback">OK!</div> -->
+                        </div>
+                    </div>
+            
+                    <div class="col-md-12">
+                        <div class="form-outline form-floating mb-3" data-mdb-input-init>
+
+                            <input 
+                                type="email"
+                                class="form-control"
+                                id="email"                        
+                                maxlength="50" 
+                                aria-describedby="subtexto-email" 
+                                onblur="validarEmail()"
+                            />
+                            <label for="solicitante">E-mail (Opcional):</label>
+                            <div class="invalid-feedback">Por favor, preencha o email corretamente.</div>
+                        </div>
+                    </div>
+
+                    <span id="subtexto-email">
+                        Observação: Para receber uma cópia por e-mail da relação do inventário, 
+                        preencha o campo e-mail (acima) com o endereço de e-mail que você 
+                        deseja que seja encaminhado a cópia.
+                    </span>
+                </div>                
+            
+                <div id="divFormAddItemIventario">
+                    <div id="inventaryContainer"></div>
+                    <ul id="listaInventario"></ul>
+                    <p></p>
+                    <div class="form-group">
+                        <small for="observacao">Informações Adicionais</small>
+                        <textarea 
+                            class="" 
+                            id="observacao" 
+                            rows="2" 
+                            maxlength="500"
+                            onblur="saveUnidadeSolicitanteLocalStorage()"
+                        >
+                        </textarea>
+                    </div>     
+
+                    <button type="button" class="btn__tag_class btn__cancelar_item" 
+                        onclick="btnLimparTodoFormulario()">Limpar todo  o formulário
+                    </button>
+
+                    <div id="invalidForm" class="hidden">
+                        Verifique se os campos foram preenchidos corretamente.
+                    </div>
+                    <button type="submit" id="btnEnviar" class="enviar__inventario btn__tag_class" 
+                        onclick="validarFormulario(event)">Enviar
+                    </button>
+                </div>
+            </form>
+
+            <div class="div__msg">
+                <div id="responseMsgSentToSpreadSheet" class="hidden"></div>
+                <div id="msgResponse" class="hidden"></div>
+                <div class="d-flex justify-content-center">
+                    <div id="spinner" class="hidden" style="align-self: self-end; margin-inline-end: 14px" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div id="mensagemAguarde" class="msg__aguarde">Aguarde o envio...</div>
+                </div>
+            </div>
+
+            <div>
+                <table id="tabelaInventario"></table>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="btn btn-danger btn-floating btn-lg"
+            id="btn-back-to-top"
+            >
+            <img src="assets/arrow-up.svg" alt="Ir para Topo da Página">
+        </button>
+
+        <button
+            type="button"
+            class="btn btn-danger btn-floating btn-lg"
+            id="btn-to-bottom"
+            >
+            <img src="assets/arrow-down.svg" alt="Ir para o Fim da Página">
+        </button>        
+    </div>
+    
+    <script src="inventario-fazer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+    
