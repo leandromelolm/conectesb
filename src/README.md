@@ -46,6 +46,11 @@
 `Ctrl+G` - Pesquisar em Linha</br>
 `Ctrl+Shift+V` - Abrir visualizador para .md</br>
 `Alt+setaCimaOusetaBaixo` mover linha selecionada<br>
+`Alt+setaCimaOusetaBaixo` mover linha selecionada<br>
+`Ctrl+]` Tab + linha<br>
+`Ctrl+[` Tab - linha<br>
+`Ctrl+Shift+]` Colapsar apenas o bloco atual<br>
+`Ctrl+Shift+[` Expandir apenas o bloco atual<br>
 
 #### Navegador
 
