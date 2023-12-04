@@ -219,14 +219,15 @@ function responseMsgSentToSpreadSheet(data, objIventario) {
         responseMsgSentToSpreadSheet.innerHTML = `
         <p><b>Inventário foi enviada e registrada com sucesso!</b></p> 
         <p>Id: ${data.content[0]}</p>
-        <p>Código: ${data.content[1]}</p>
+        <p>Protocolo: ${data.content[1]}</p>
         <p>Unidade: ${data.content[2]}</p> 
         <p>Data: ${data.content[5]}</p>       
         <p><a class="link-primary" href="inventario-fazer.html">fazer novo inventário</a></p>  
         <a class="link-primary" href="index.html">Voltar para o menu principal</a>
         `
-        sendEmail(objIventario);
-        localStorage.removeItem('listInventario'); 
+        // sendEmail(objIventario);
+        // localStorage.removeItem('listInventario'); 
+        limparTudo();
     } else {
         responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
         responseMsgSentToSpreadSheet.innerHTML = `
