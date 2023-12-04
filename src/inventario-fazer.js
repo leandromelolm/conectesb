@@ -10,6 +10,23 @@ window.addEventListener("DOMContentLoaded", () => {
 function criarFormulario() {
     const inventaryContainer = document.getElementById("inventaryContainer");
 
+    const divHeader = document.createElement("div");
+    divHeader.classList.add("inventary__header");
+    divHeader.innerHTML = `
+        <div class="d-flex justify-content-between">
+            <div class="col-8 d-flex">
+                <div id="headerItem">Item</div>
+            </div>
+            <div class="col-2 div__item">
+                <div>Quantidade Estoque</div>
+            </div>
+            <div class="col-2 div__quant">
+                <div>Quantidade Pedida</div>
+            </div>
+        </div>
+    `;
+    inventaryContainer.appendChild(divHeader);
+
     instrumentais_list.forEach((item, index) => {
         const divElement = document.createElement("div");
         divElement.classList.add("inventary__element");
@@ -506,7 +523,7 @@ function preencherInput(value) {
 }
 
 instrumentais_list = [
-    "abaixa língua de bruenings",
+    "abaixador de língua de bruenings",
     "abridor de boca infantil plástico",
     "afastador cirúrgico de farabeuf adulto (par)",
     "afastador minessota inox",

@@ -84,6 +84,19 @@ a {
     border: 1px solid #ced4da; 
 }
 
+.inventary__header > div {
+    font-size: xx-small;
+    align-items: center;
+    background: aliceblue;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;    
+}
+.inventary__header > div > div {
+    justify-content: center;  
+}
+
 #inventarioForm {
     background-color: #fff;
     padding: 0px;
