@@ -20,11 +20,13 @@ window.addEventListener('DOMContentLoaded', () =>{
     }    
 })
 
-function loginFetchAPI() {   
+function loginFetchAPI() {
+    let u = document.getElementById("username").value
+    let p = document.getElementById("password").value
     let user = {
         loginPage: true,
-        username: document.getElementById("username").value,
-        password: document.getElementById("password").value
+        username: u.trim().lowercase(),
+        password: p.trim()
     }
     userString = JSON.stringify(user);
 
