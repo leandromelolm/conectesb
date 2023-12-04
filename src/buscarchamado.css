@@ -83,3 +83,7 @@ input {
 .btn__atualizarchamados:disabled {
     color: gray;
 }
+
+#username {
+    text-transform: lowercase;
+}

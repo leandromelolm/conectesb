@@ -25,7 +25,7 @@ function loginFetchAPI() {
     let p = document.getElementById("password").value
     let user = {
         loginPage: true,
-        username: u.trim().lowercase(),
+        username: u.toLowerCase().trim(),
         password: p.trim()
     }
     userString = JSON.stringify(user);
