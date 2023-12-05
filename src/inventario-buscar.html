@@ -44,11 +44,25 @@
             </div>
             <div class="div__list">
                 <h5>Buscar inventário</h5>
+                
+                <div id="listGroupd" class="list-group">
+                    <div id="listGroupItem"></div>
+                    <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Loading...</h5>
+                        <small class="text-muted">Loading...</small>
+                      </div>
+                      <div class="spinner-grow text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                      <small class="text-muted">Loading...</small>
+                    </a>
+                </div>
 
                 <div class="row mt-2 div__search">
                     <div class="col-md-12 mx-auto">
                         <!-- <div class="small fw-light">Pesquisar</div> -->
-                        <div class="input-group">
+                        <div class="input-group div_input-search">
                             <input class="form-control border" type="search"
                               placeholder="Pesquisa por ID" 
                               id="search-input">
@@ -61,22 +75,13 @@
                             </span>                            
                         </div>
                     </div>
+                </div>                
+            </div>
+            <div id="divLoadingById" class="div__loading-by-id">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
                 </div>
-
-                <div id="listGroupd" class="list-group">
-                    <div id="listGroupItem"></div>                  
-                    
-                    <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Loading...</h5>
-                        <small class="text-muted">Loading...</small>
-                      </div>
-                      <div class="spinner-grow text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                      <small class="text-muted">Loading...</small>
-                    </a>
-                </div>
+                <h5 class="mb-1">Carregando...</h5>                  
             </div> 
             <div id="inventarioUnidade">
                 <div id="headerInventary"></div>

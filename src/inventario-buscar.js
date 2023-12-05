@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function handleSearch() {
     let searchId = document.getElementById('search-input').value;
-    setarParametrosNaURL('','', searchId);
+    setarParametrosNaURL('all','', searchId);
     getApiById(searchId);
 }
 
@@ -56,6 +56,7 @@ function getApi() {
 
 function getApiById(id) {
     // findById
+    document.getElementById('divLoadingById').classList.remove('hidden')
     let api = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';
     let apiParam = `${api}?id=${id}`
     fetch(apiParam,{ 
@@ -63,7 +64,14 @@ function getApiById(id) {
     })
     .then(response =>response.json())
     .then(data => getByIdResponse(data))
-    .catch(error => console.log(error));
+    .catch(error => msgErro(error));
+}
+
+function msgErro(error) {
+    console.log(error);
+    alert(`
+    Erro ao buscar. Id pesquisado talvez não exista.
+    `)
 }
 
 function divListGroup(res){
@@ -75,6 +83,7 @@ function divListGroup(res){
         <a href="#" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">${e.unidade}</h5>
+                <small class="text-muted">${e.id}</small>
             </div>
             <p class="mb-1">${e.data}</p>
             <small class="text-muted">${e.funcionario}</small>
@@ -88,6 +97,7 @@ function divListGroup(res){
 }
 
 function getByIdResponse(res) {
+    document.getElementById('divLoadingById').classList.add('hidden')
     let itensInventario = JSON.parse(res.content.itensInventario);
     criarTabelaInventario(itensInventario);
     cabecalhoInventarioId(res.content);

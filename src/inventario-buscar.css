@@ -351,3 +351,12 @@ tbody, td, tfoot, th, thead, tr {
 .div__search {
     width: 100%;
 }
+
+.div_input-search {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.div__loading-by-id {
+    text-align: -webkit-center;
+}
