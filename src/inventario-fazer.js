@@ -195,7 +195,8 @@ function sendSpreadSheet(objIventario) {
     let objInventarioStr = JSON.stringify(objIventario);
 
     // apps-script-google-inventario
-    let url = "https://script.google.com/macros/s/AKfycbyInVXd8o-Cbnf5QA9W-jgU-SmEUIYHk70tkOPhStYn5sucKIhUYqpM-kjDcBwfTsyhZQ/exec";
+    // let url = "https://script.google.com/macros/s/AKfycbyInVXd8o-Cbnf5QA9W-jgU-SmEUIYHk70tkOPhStYn5sucKIhUYqpM-kjDcBwfTsyhZQ/exec";
+    let url = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec";
     fetch(url,{
         redirect: "follow",
         method: "POST",
@@ -222,7 +223,8 @@ function responseMsgSentToSpreadSheet(data, objIventario) {
         <p>Protocolo: ${data.content[1]}</p>
         <p>Unidade: ${data.content[2]}</p> 
         <p>Data: ${data.content[5]}</p>       
-        <p><a class="link-primary" href="inventario-fazer.html">fazer novo inventário</a></p>  
+        <p><a class="link-primary" href="inventario-fazer.html">fazer novo inventário</a></p>
+        <p><a href="inventario-lista?search=all">Lista de inventário (já enviado)</a></p>
         <a class="link-primary" href="index.html">Voltar para o menu principal</a>
         `
         // sendEmail(objIventario);

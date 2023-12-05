@@ -1,12 +1,12 @@
 let spreadsheetUrl = '';
 let spreadsheetId = '';
 let sheetName = '';
-let sheetCall = ''; // nome da folha
+let sheetName1 = '';
 const sheets = SpreadsheetApp.openByUrl(spreadsheetUrl);
-const sheet = sheets.getSheetByName(sheetCall);
+const sheet = sheets.getSheetByName(sheetName1);
 const key_jwt = '';
 
-// INVENTÁRIO
+// IVENTÁRIO
 
 function doPost(e) {
   let dados = null;
@@ -44,11 +44,15 @@ function doPost(e) {
           })
         ).setMimeType(ContentService.MimeType.JSON);
     }
-    let spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-    let sheet = spreadsheet.getSheets()[3]; // Quarta aba
-    const id = sheet.getLastRow() + 1;
+    // let spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+    // let sheet = spreadsheet.getSheets()[3]; // Aba Número 4
+    // let sheet = spreadsheet.getSheetName("Inventario1");
+    // const id = sheet.getLastRow() + 1;
 
-    let codigo = `${converterDataParaCodigo(dados.data)}${id}`;
+    const valorUltimoId = obterUltimoValorColunaA();
+    const id = valorUltimoId + 1;
+
+    let codigo = `${converterDataParaProtocolo(dados.data)}${id}`;
 
     let chamado = [
       id, 
@@ -80,32 +84,41 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
+/*
 
-
+https://script.google.com/macros/s/AKfycbz0v-RVs8Cp58Wofuc4gwHPDgDNqF8muRs0I9EypfYj/dev
+https://script.google.com/macros/s/AKfycbz0v-RVs8Cp58Wofuc4gwHPDgDNqF8muRs0I9EypfYj/dev?search=all
+*/
 function doGet(e) {
   const lock = LockService.getScriptLock();
   lock.tryLock(10000);
   let token = null;
   let data = [];
   try {
-    const { parameter } = e;
-    const { authorization, name } = parameter;
-    token = authorization
-    const res = verificarJwtToken(token);
-    if (res.validToken) {
-      token = "token valido"
-      data = itensPaginadosOrdemInversa(1, 20);      
-    }
-    if (!res.validToken) {
-      data = {"res": res, message: "usuário não está autorizado"}
-    }
-    return ContentService.createTextOutput(
+
+    const protocolo = e.parameter['protocolo'] || "";
+    const search = e.parameter['search'] || "";
+
+
+    if (search == "all"){
+      let response = itensPaginadosOrdemInversa(1, 50);
+      return ContentService.createTextOutput(
       JSON.stringify({
-        status: "success",
-        token: token,
-        content:data
+        content: response
       })
     ).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    const { parameter } = e;
+    const { authorization, name } = parameter;
+
+    return ContentService.createTextOutput(
+      JSON.stringify({
+        content: e
+      })
+    ).setMimeType(ContentService.MimeType.JSON);
+
+    
   } catch (error) {
     return ContentService.createTextOutput(
       JSON.stringify({
@@ -205,15 +218,12 @@ function itensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   let result = [];
   for (let row = 0; row < values.length; row++) {
     let rowData = {};
-    if (values[row][0] != "ID"){
+    if (values[row][0] != "ID"){      
       rowData.id = values[row][0];
-      rowData.unidade = values[row][1];
-      rowData.funcionario = values[row][2];
-      rowData.data = values[row][4];
-      rowData.itens = values[row][5];
-      for (let r = 1; r <= values[row][5]; r++){
-        rowData[`item_${r}`] = values[row][5 + r];
-      }      
+      // rowData.protocolo = values[row][1];
+      rowData.unidade = values[row][2];
+      let dataFormatada =formatarData(values[row][5])
+      rowData.data = dataFormatada;         
       result.push(rowData);
     }
   }
@@ -227,7 +237,7 @@ function itensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   };
 }
 
-function converterDataParaCodigo(dataString) {
+function converterDataParaProtocolo(dataString) {
     const data = new Date(dataString);
     const ano = data.getFullYear();
     const mes = (data.getMonth() + 1).toString().padStart(2, '0');
@@ -237,4 +247,25 @@ function converterDataParaCodigo(dataString) {
     const segundos = data.getSeconds().toString().padStart(2, '0');
     const formatoDesejado = `${ano}${mes}${dia}${horas}${minutos}${segundos}00`;
     return formatoDesejado;
+}
+
+function formatarData(dataString) {
+    const data = new Date(dataString);
+
+    const dia = String(data.getDate()).padStart(2, '0');
+    const mes = String(data.getMonth() + 1).padStart(2, '0');
+    const ano = data.getFullYear();
+    
+    const horas = String(data.getHours()).padStart(2, '0');
+    const minutos = String(data.getMinutes()).padStart(2, '0');
+
+    return `${dia}-${mes}-${ano} ${horas}h${minutos}`;
+}
+
+function obterUltimoValorColunaA() {    
+    const ultimaLinha = sheet.getLastRow();    
+    const ultimaCelulaA = sheet.getRange('A' + ultimaLinha);
+    const ultimoValorColunaA = ultimaCelulaA.getValue();
+    Logger.log(ultimoValorColunaA)
+    return ultimoValorColunaA;
 }
