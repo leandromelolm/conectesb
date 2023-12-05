@@ -24,6 +24,7 @@ function getApi(){
 }
 
 function divListGroup(res){
+    console.log(res);
     let listGroupItem = document.getElementById('listGroupItem');
     let item = [];
     res.content.data.forEach(e => {
@@ -33,6 +34,7 @@ function divListGroup(res){
                 <h5 class="mb-1">${e.unidade}</h5>
             </div>
             <p class="mb-1">${e.data}</p>
+            <small class="text-muted">${e.funcionario}</small>
         </a>        
         `)        
     });

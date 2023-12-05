@@ -6,7 +6,7 @@ const sheets = SpreadsheetApp.openByUrl(spreadsheetUrl);
 const sheet = sheets.getSheetByName(sheetName1);
 const key_jwt = '';
 
-// IVENTÁRIO
+// INVENTÁRIO
 
 function doPost(e) {
   let dados = null;
@@ -84,11 +84,7 @@ function doPost(e) {
     ).setMimeType(ContentService.MimeType.JSON);
   }
 }
-/*
 
-https://script.google.com/macros/s/AKfycbz0v-RVs8Cp58Wofuc4gwHPDgDNqF8muRs0I9EypfYj/dev
-https://script.google.com/macros/s/AKfycbz0v-RVs8Cp58Wofuc4gwHPDgDNqF8muRs0I9EypfYj/dev?search=all
-*/
 function doGet(e) {
   const lock = LockService.getScriptLock();
   lock.tryLock(10000);
@@ -222,6 +218,7 @@ function itensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
       rowData.id = values[row][0];
       // rowData.protocolo = values[row][1];
       rowData.unidade = values[row][2];
+      rowData.funcionario = obterPrimeirosTresCaracteres(values[row][3]);
       let dataFormatada =formatarData(values[row][5])
       rowData.data = dataFormatada;         
       result.push(rowData);
@@ -268,4 +265,9 @@ function obterUltimoValorColunaA() {
     const ultimoValorColunaA = ultimaCelulaA.getValue();
     Logger.log(ultimoValorColunaA)
     return ultimoValorColunaA;
+}
+
+function obterPrimeirosTresCaracteres(txt) {
+    t = txt.substring(0, 3)
+    return `${t}**`;
 }
