@@ -180,8 +180,8 @@ tr {
     height: 56px;
 }
 
-.th__distrito_date {
-    position: relative;
+th.th__distrito_date {
+    position: relative !important;
 }
 
 #headerDistritoDate {
@@ -193,6 +193,8 @@ tr {
 
 #divDistrito {
     width: 40%;
+    display: flex;
+    place-items: center;
 }
 
 #divDate {
@@ -387,6 +389,9 @@ td.td__quant_pedida input {
         border-style: none;
         background-color: transparent;
     }
+    #divLeft {
+        display: block !important;
+    }
 }
 
 @media screen and (max-width: 600px) {
@@ -430,6 +435,27 @@ td.td__quant_pedida input {
 input { 
     text-transform: uppercase;
 }
+
+#divLeft {
+    display: none;
+}
+
+@media screen and (min-height: 630px) and (max-height: 700px) {
+    #divLeft {
+        display: block;
+    }
+}
+@media screen and (min-width: 1200px) and (min-height: 700px) {
+    .div_center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #docPrint {
+        width: 60%;
+    }
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
 text-transform: none;
 }
