@@ -61,29 +61,46 @@ input {
     background-color: cornsilk;
 }
 
+.div__label_input{
+    display: flex; 
+    position: relative; 
+    height: 100%;
+}
+
+.div__label {
+    min-width: fit-content; 
+    align-self: center;
+}
+
 input.input_unidade {
-    width: 60%;
+    width: 100%;
     text-transform: uppercase;
     font-weight: bold;
+    height: -webkit-fill-available;
 }
 
 input.input_distrito {
-    width: 15%;
+    margin-left: 3px;
+    width: 20%;
     text-transform: uppercase;
+    height: -webkit-fill-available;
 }
 
 input.input_data_pedido {
+    margin-left: 3px;
     width: 78%;
     text-transform: uppercase;
+    height: -webkit-fill-available;
 }
 
 input.input_grupo {
-    width: 50%;
+    width: 100%;
     text-transform: uppercase;
+    height: -webkit-fill-available;
 }
 
 input.input_funcionario {
-    width: 60%;
+    width: 100%;
     text-transform: uppercase;
     height: -webkit-fill-available;
 }
@@ -163,9 +180,15 @@ tr {
     height: 56px;
 }
 
+.th__distrito_date {
+    position: relative;
+}
+
 #headerDistritoDate {
-    width: 100%;
+    width: 99%;
     display: flex;
+    height: 100%;
+    position: absolute;
 }
 
 #divDistrito {

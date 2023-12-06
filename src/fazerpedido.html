@@ -56,42 +56,70 @@
                         <table id="tableHeader" class="table table-responsive ">
                             <tbody>
                                 <tr>
-                                    <th>Unidade Requisitante:
-                                        <input type="text" id="nomeUnidade" class="input_unidade" list="u-list"
-                                            onchange="saveRequesterLocaStorage()">
-                                        <datalist id="u-list"></datalist>
+                                    <th>
+                                        <div class="div__label_input">
+                                            <div class="div__label">
+                                                Unidade Requisitante:
+                                            </div>
+                                            <input type="text" id="nomeUnidade" class="input_unidade" 
+                                                list="u-list"
+                                                maxlength="70"
+                                                onchange="saveRequesterLocaStorage()"
+                                            />
+                                            <datalist id="u-list"></datalist>
+                                        </div>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th>
+                                    <th class="th__distrito_date">
                                         <div id="headerDistritoDate">
                                             <div id="divDistrito">
-                                                Distrito Sanitário:
+                                                <span>
+                                                    Distrito Sanitário:
+                                                </span>
                                                 <input type="text" id="ds" class="input_distrito"
-                                                    onblur="saveRequesterLocaStorage()">
+                                                    maxlength="1"
+                                                    onblur="saveRequesterLocaStorage()"
+                                                />
                                             </div>
                                             <div id="divDate" class="hidden-in-print">
                                                 <span>Data:</span>
                                                 <input type="date" id="dataPedido" class="input_data_pedido"
-                                                    onblur="saveRequesterLocaStorage()">
+                                                    onblur="saveRequesterLocaStorage()"
+                                                />
                                             </div>
                                             <div id="divDateShowPrint" class="show-in-print">
                                                 <span>Data:</span>
-                                                <input type="text" id="dataPedidoShowPrint" class="input_data_pedido">
+                                                <input type="text" id="dataPedidoShowPrint" class="input_data_pedido"
+                                                />
                                             </div>
                                         </div>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th>Grupo de Material:
-                                        <input type="text" id="grupoMaterial" class="input_grupo" 
-                                            onblur="saveRequesterLocaStorage()">
+                                    <th>
+                                        <div class="div__label_input">
+                                            <div class="div__label">
+                                                Grupo de Material:
+                                            </div>
+                                            <input type="text" id="grupoMaterial" class="input_grupo" 
+                                                maxlength="25"
+                                                onblur="saveRequesterLocaStorage()"
+                                            />
+                                        </div>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th>Funcionário responsável:
-                                        <input type="text" id="nomeResponsavel" class="input_funcionario"
-                                            onblur="saveRequesterLocaStorage()">
+                                    <th>
+                                        <div class="div__label_input">
+                                            <div class="div__label">
+                                                Funcionário responsável:
+                                            </div>
+                                            <input type="text" id="nomeResponsavel" class="input_funcionario"
+                                                maxlength="60"
+                                                onblur="saveRequesterLocaStorage()"
+                                            />
+                                        </div>
                                     </th>
                                 </tr>
                             </tbody>
