@@ -233,14 +233,18 @@ GRUPO DE MATERIAL
 E FUNCIONÁRIO RESPONSÁVEL
 `);
     if (ok) {
-        document.getElementById('nomeUnidade').value = '';
-        document.getElementById('ds').value = '';
-        document.getElementById('dataPedido').value = '';
-        document.getElementById('grupoMaterial').value = '';
-        document.getElementById('nomeResponsavel').value = '';
-        localStorage.removeItem('dadosRequerente');
+        limparCamposInfoUnidade();
     }
 };
+
+function limparCamposInfoUnidade() {
+    document.getElementById('nomeUnidade').value = '';
+    document.getElementById('ds').value = '';
+    document.getElementById('dataPedido').value = '';
+    document.getElementById('grupoMaterial').value = '';
+    document.getElementById('nomeResponsavel').value = '';
+    localStorage.removeItem('dadosRequerente');
+}
 
 function inputsItensClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os ITENS PEDIDOS?
@@ -248,14 +252,23 @@ Essa ação apagará os campos da coluna:
 ESPECIFICAÇÕES E QUANTIDADE PEDIDA 
 `);
     if (ok) {
-        let inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
-        inputs.forEach(function (input) {
-            input.value = '';
-        });
-        localStorage.removeItem('dadosItens');
-        limparValoresDaColunaItem();
+        limparCamposItens();
     }
 };
+
+function limparCamposItens() {
+    let inputs = document.querySelectorAll('#tableItens tbody tr .td__especificacao input, #tableItens tbody tr .td__quant_pedida input');
+    inputs.forEach(function (input) {
+        input.value = '';
+    });
+    localStorage.removeItem('dadosItens');
+    limparValoresDaColunaItem();
+}
+
+function limparTudo() {
+    limparCamposInfoUnidade();
+    limparCamposItens();
+}
 
 function limparValoresDaColunaItem() {
     const cells = document.querySelectorAll(".item");
@@ -293,7 +306,8 @@ function fetchPostSaveSheetGoogle() {
     // params.append("sheetId", sheetId);    
     // let sheetName = appEnv === "dev" ? "Sheet1-test" : "Sheet1";
     // params.append("sheetName", sheetName);
-    submitPostFunctionsNetlify(pedidoInfo)   
+    submitPostFunctionsNetlify(pedidoInfo);
+    document.getElementById('divLoadingById').classList.remove('d-none'); 
 };
 
 function submitPostFunctionsNetlify(pedidoInfo) {
@@ -312,11 +326,14 @@ function submitPostFunctionsNetlify(pedidoInfo) {
             Mensagem de Erro: 
             ${error}`
         )
+        document.getElementById('divLoadingById').classList.add('d-none');
         console.error('Erro na requisição:', error);
     });
 }
 
-function responseFetch(numeroPedido, instantePedido) {    
+function responseFetch(numeroPedido, instantePedido) {
+    limparTudo();
+    document.getElementById('divLoadingById').classList.add('d-none');
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
     msgEnvioPedido.style.backgroundColor = '#4CAF50';
     msgEnvioPedido.style.color = 'white'

@@ -440,7 +440,7 @@ input {
     display: none;
 }
 
-@media screen and (min-height: 630px) and (max-height: 700px) {
+@media screen and (min-height: 690px) and (max-height: 700px) {
     #divLeft {
         display: block;
     }
@@ -467,4 +467,15 @@ text-transform: none;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
 text-transform: none;
+}
+
+.div__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#msgEnvioPedido {
+    justify-content: center;
+    align-items: center;
 }

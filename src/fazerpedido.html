@@ -482,7 +482,7 @@
                                 </table>
                             </div>
 
-                            <div id="divControleEstoque">
+                            <div id="divControleEstoque" class="show-in-print">
                                 <table id="tableControleEstoque">
                                     <tbody>
                                         <tr>
@@ -697,14 +697,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <table class="table__total">
-                                <tr>
-                                    <th>Total:</th>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                </tr>
-                            </table>
+                            <div class="show-in-print">
+                                <table class="table__total">
+                                    <tr>
+                                        <th>Total:</th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                    </tr>
+                                </table>
+                            </div>
 
                         </div>
                     </div>
@@ -712,6 +714,13 @@
             </div>
 
             <div id="docPrintClone" class="show-in-print">2º via</div>
+
+            <div id="divLoadingById" class="div__loading d-none">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <h5 class="mb-1">Carregando...</h5>                  
+            </div>
 
             <div id="msgEnvioPedido"></div>
 
