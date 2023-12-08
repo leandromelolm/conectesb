@@ -11,10 +11,22 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 })
 
+function eventClickEnter(event) {
+    if (event.keyCode === 13) {
+        handleSearch();
+    }
+}
+
 function handleSearch() {
     let searchId = document.getElementById('search-input').value;
     setarParametrosNaURL('all','', searchId);
     getApiById(searchId);
+}
+
+function clickElementkGroupList(id) {
+    document.getElementById('search-input').value = id;
+    setarParametrosNaURL('all','', id);
+    getApiById(id);
 }
 
 function obterParametrosDaURL() {
@@ -80,15 +92,16 @@ function divListGroup(res){
     let item = [];
     res.content.data.forEach(e => {
         item.push(`
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">${e.unidade}</h5>
-                <small class="text-muted">${e.id}</small>
-            </div>
-            <p class="mb-1">${e.data}</p>
-            <small class="text-muted">${e.funcionario}</small>
-        </a>        
-        `)        
+            <a href="#divSearch" onclick="clickElementkGroupList('${e.id}')"  
+                class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${e.unidade}</h5>
+                    <small class="text-muted">${e.id}</small>
+                </div>
+                <p class="mb-1">${e.data}</p>
+                <small class="text-muted">${e.funcionario}</small>
+            </a>       
+        `);
     });
     listGroupItem.innerHTML = item.join('');
     document.getElementById('itemLoading').style.display = 'none';
