@@ -56,8 +56,41 @@
                       <small class="text-muted">Loading...</small>
                     </a>
                   </div>
-            </div>            
+            </div>
+
+            <div id="divSearch" class="row mt-2 div__search">
+                <div class="col-md-12 mx-auto">
+                    <!-- <div class="small fw-light">Pesquisar</div> -->
+                    <div class="input-group div_input-search">
+                        <input class="form-control border" type="search"
+                          placeholder="Pesquisa por Protocolo" 
+                          id="search-input" onkeydown="eventClickEnter(event)">
+                        <span class="input-group-append">
+                          <button id="btn-search" 
+                            class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
+                            type="button" onclick="handleSearch()">
+                              <img src="assets/search.svg">
+                          </button>
+                        </span>                            
+                    </div>
+                </div>
+            </div>
+
+            <div id="divLoadingById" class="div__loading-by-id d-none">
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Carregando...</span>
+                </div>
+                <h5 class="mb-1">Carregando...</h5>                  
+            </div> 
+            <div id="inventarioUnidade">
+                <div id="headerInventary"></div>
+                <table id="tabelaInventario"></table>
+                <div id="informacoesAdicionais"></div>
+            </div>
+
         </div>
+
+         
     </div>
     
     <script src="inventario-lista.js"></script>

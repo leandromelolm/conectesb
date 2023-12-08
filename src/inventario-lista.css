@@ -327,3 +327,18 @@ legend {
 .div__list {
     margin-top: 20px;
 }
+
+.div__search {
+    width: 100%;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.div__loading-by-id {
+    display: grid;
+    place-items: center;
+}
