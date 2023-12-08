@@ -44,13 +44,13 @@
                     <!-- <a href="inventario.html">Fazer inventário</a> -->
                 </div>
                 <div>
-                    <a href="inventario-lista?search=all">Lista de inventário (já enviado)</a>
+                    <a href="inventario-lista?search=all" class="text-decoration-none">Ver lista de unidades que já enviaram o inventário</a>
                 </div>
             </div> 
             <p></p>
             
             <form id="inventarioForm" class="row g-3 needs-validation">                
-                <legend>Fazer inventário (novo formulário)</legend>  
+                <legend>Fazer inventário de instrumentais</legend>  
                 <div class="div__solicitante">                 
                     <div class="col-md-12">
                         <div class="form-outline form-floating mb-3" data-mdb-input-init>
@@ -141,7 +141,7 @@
             </form>
 
             <div class="div__msg">
-                <div id="responseMsgSentToSpreadSheet" class="hidden"></div>
+                <div id="msgResponseSendSheet"></div>
                 <div id="msgResponse" class="hidden"></div>
                 <div class="d-flex justify-content-center">
                     <div id="spinner" class="hidden" style="align-self: self-end; margin-inline-end: 14px" role="status">

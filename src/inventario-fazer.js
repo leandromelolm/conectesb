@@ -106,7 +106,7 @@ function enviar(){
         listaInventario: localStorage.getItem("inventario_fazer_inventaryData"),
         observacao: observacao.trim()
     };
-    // setTimeout(responseOKSubmitForm, 3000);
+    // setTimeout(msgResponseSendToSheet('',''), 3000);
     sendSpreadSheet(objIventario);
 }
 
@@ -206,40 +206,48 @@ function sendSpreadSheet(objIventario) {
         }
     })
     .then(response =>response.json())
-    .then(data => responseMsgSentToSpreadSheet(data, objIventario))
+    .then(data => msgResponseSendToSheet(data, objIventario))
     .catch(error => responseMsgSentToSpreadSheet(error, objIventario));
 }
 
-function responseMsgSentToSpreadSheet(data, objIventario) {
-    console.log(data, objIventario );
-    removerMsgAguardarEnvio(); 
-    let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
+function msgResponseSendToSheet(data, objIventario) {
+    // console.log(data, objIventario);
+    removerMsgAguardarEnvio();
     if (data.status == "success") {
-           
-        responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
-        responseMsgSentToSpreadSheet.innerHTML = `
-        <p><b>Inventário foi enviada e registrada com sucesso!</b></p> 
-        <p>Id: ${data.content[0]}</p>
-        <p>Protocolo: ${data.content[1]}</p>
-        <p>Unidade: ${data.content[2]}</p> 
-        <p>Data: ${data.content[5]}</p>       
-        <p><a class="link-primary" href="inventario-fazer.html">fazer novo inventário</a></p>
-        <p><a href="inventario-lista?search=all">Lista de inventário (já enviado)</a></p>
-        <a class="link-primary" href="index.html">Voltar para o menu principal</a>
+
+        document.querySelector('#msgResponseSendSheet').innerHTML = `
+        <div class="alert alert-success">
+            <div class="d-block" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="./assets/check-circle-fill.svg#check-circle-fill"/>
+                </svg>
+                <div>
+                    <h5 class="alert-heading">Inventário foi enviada e registrada com sucesso!</h5>
+                </div>
+            </div>
+            <p><strong>Id: </strong>${data.content[0]}</p>                    
+            <p><strong>Protocolo: </strong>${data.content[1]}</p>                    
+            <p><strong>Unidade: </strong>${data.content[2]}</p> 
+            <p><strong>Data:</strong> ${data.content[5]}</p>       
+            <hr>
+            <div class="d-grid gap-3">
+                <a href="inventario-lista?search=all" class="alert-link text-decoration-none">Ver lista de unidades que já enviaram o inventário</a>
+                <a href="inventario-fazer.html" class="alert-link text-decoration-none">Fazer novo inventário</a>
+                <a href="ndex.html" class="alert-link text-decoration-none">Voltar para o menu principal</a>
+            </div>                    
+        </div>
         `
-        // sendEmail(objIventario);
-        // localStorage.removeItem('listInventario'); 
         limparTudo();
     } else {
-        responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
-        responseMsgSentToSpreadSheet.innerHTML = `
-        Resposta: Erro no envio!        
-        <p><a href="inventario-fazer.html">Tentar Novamente</a></p>  
-        <a class="link-primary" href="index.html">Voltar para o menu principal</a>
-        `        
+        document.querySelector('#msgResponseSendSheet').innerHTML = `
+        <div class="alert alert-danger" role="alert">
+            <h5 class="alert-heading">Erro no envio!</h5>
+            <p><a href="inventario-fazer.html" class="alert-link text-decoration-none">Tentar Novamente</a></p>
+            <p><a href="index.html" class="alert-link text-decoration-none">Voltar para o menu principal</a></p>
+        </div>
+        `
     }
-};
-
+}
 
 function sendEmail(objIventario) {
     mostrarMsgAguardeEnvio();

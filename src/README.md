@@ -51,6 +51,10 @@
 `Ctrl+[` Tab - linha<br>
 `Ctrl+Shift+]` Colapsar apenas o bloco atual<br>
 `Ctrl+Shift+[` Expandir apenas o bloco atual<br>
+`Ctrl+Shift+O` Navegar entre funções, classes ou símbolos<br>
+`Ctrl+Shift+K` Excluir linha<br>
+`Ctrl+M` Guia Move o Foco<br>
+`Ctrl+L` Selecionar linha<br>
 
 #### Navegador
 
