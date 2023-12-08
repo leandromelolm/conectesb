@@ -1,6 +1,11 @@
-
+let ultimoSalvo;
 window.addEventListener("DOMContentLoaded", () => {
-    getApi();
+    let ls =localStorage.getItem('inventario-lista_enviados');
+    if (ls) {
+        divListGroup(JSON.parse(ls));
+    }    
+    getApiLastRow();
+    // getApi();
 })
 
 function obterParametrosDaURL() {
@@ -11,7 +16,25 @@ function obterParametrosDaURL() {
     return { search, protocolo };
 }
 
+async function getApiLastRow() {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
+        method: "GET"
+    });
+    if (!response.ok) {
+    throw new Error('Erro na requisição: ' + response.status);
+    }  
+    const data = await response.json();
+    if (data.content > localStorage.getItem('inventario-lista-ultLinha')) {
+        getApi();
+        localStorage.setItem('inventario-lista-ultLinha', data.content);
+    } else {        
+        let ls =localStorage.getItem('inventario-lista_enviados');
+        divListGroup(JSON.parse(ls));
+    }
+}
+
 function getApi(){
+    console.log('getApi');
     const param = obterParametrosDaURL();
     let api = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec"
     apiParam = `${api}?search=${param.search}`
@@ -19,8 +42,19 @@ function getApi(){
         method: "GET",
     })
     .then(response =>response.json())
-    .then(data => divListGroup(data))
+    .then(data => responseGetApi(data))
     .catch(error => console.log(error));
+}
+
+function responseGetApi(data) {
+    divListGroup(data);
+    salvarLocalStorageLista(data);    
+}
+
+function salvarLocalStorageLista(data) {
+    if (data.totalRows !== localStorage.getItem('inventario-lista-ultLinha')) {
+        localStorage.setItem('inventario-lista_enviados', JSON.stringify(data));
+    } 
 }
 
 function divListGroup(res){
@@ -41,8 +75,6 @@ function divListGroup(res){
     });
     listGroupItem.innerHTML = item.join('');
     document.getElementById('itemLoading').style.display = 'none';
-    // localStorage.setItem('inventario-lista_enviados', JSON.stringify(res.content.data));
-    // localStorage.setItem('inventario-lista_enviados_tamanho', res.content.data.length);
 }
 
 function eventClickEnter(event) {
@@ -134,6 +166,10 @@ function criarCardInformaçõesAdicionais(e){
             <p class="mb-1">${strQuebraLinha}</p>
         </span>       
         `
+}
+
+function atualizarPagina() {
+    getApi();
 }
 
 function dateFormat(data) {   
