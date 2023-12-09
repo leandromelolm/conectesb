@@ -34,6 +34,12 @@
     <div class="d-grid gap-2 d-md-flex justify-content-end">
         <button class="btn btn-outline-primary me-md-2 mx-4 " type="button" onclick="atualizarPagina()">Atualizar</button>
     </div>
+    <div id="divLoadingUpdatePage" class="d-flex justify-content-center d-none">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+    </div>
+
     <div class="main__container">
         <div class="div__body">
             <div class="flex-sm-column">                
@@ -89,10 +95,12 @@
                 <table id="tabelaInventario"></table>
                 <div id="informacoesAdicionais"></div>
             </div>
-
-        </div>
-
-         
+            <div id='divBtn' class="div__btn d-none">
+                <div></div>
+                <button class="btn btn-outline-primary" onclick="copiarTodasInformacoesParaClipboard()">Copiar Informações Completas</button>
+                <button class="btn btn-outline-primary" onclick="copiarTabelaParaClipboard()">Copiar Tabela</button>
+            </div>
+        </div>     
     </div>
     
     <script src="inventario-lista.js"></script>

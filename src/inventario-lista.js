@@ -6,6 +6,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }    
     getApiLastRow();
     // getApi();
+    let p =  obterParametrosDaURL();
+    if (p.protocolo) {
+        getApiByProtocolo(p.protocolo);
+    }
 })
 
 function obterParametrosDaURL() {
@@ -15,6 +19,18 @@ function obterParametrosDaURL() {
     const protocolo = parametros.get('protocolo');
     return { search, protocolo };
 }
+
+function setarParametrosNaURL(search, protocolo) {
+    const url = new URL(window.location.href);
+    const parametros = new URLSearchParams(url.search);
+    if (search !== null && search !== undefined) {
+      parametros.set('search', search);
+    }
+    if (protocolo !== null && protocolo !== undefined) {
+      parametros.set('protocolo', protocolo);
+    }  
+    window.history.replaceState({}, '', `${url.pathname}?${parametros}`);
+  }
 
 async function getApiLastRow() {
     const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
@@ -43,10 +59,17 @@ function getApi(){
     })
     .then(response =>response.json())
     .then(data => responseGetApi(data))
-    .catch(error => console.log(error));
+    .catch(error => msgErroGetApi(error));
+}
+
+function msgErroGetApi(error) {
+    document.getElementById('divLoadingUpdatePage').classList.add('d-none');
+    console.log(error);
+    alert(error);
 }
 
 function responseGetApi(data) {
+    document.getElementById('divLoadingUpdatePage').classList.add('d-none');
     divListGroup(data);
     salvarLocalStorageLista(data);    
 }
@@ -65,7 +88,7 @@ function divListGroup(res){
         item.push(`
         <a href="#divSearch" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">${e.unidade}</h5>
+                <strong class="mb-1">${e.unidade}</strong>
                 <small class="text-muted">${e.id}</small>
             </div>
             <p class="mb-1">${e.data}</p>
@@ -85,11 +108,13 @@ function eventClickEnter(event) {
 
 function handleSearch() {
     let protocolo = document.getElementById('search-input').value;
+    setarParametrosNaURL('all',protocolo);
     getApiByProtocolo(protocolo);
 }
 
 function getApiByProtocolo(protocolo) {
     document.getElementById('divLoadingById').classList.remove('d-none');
+    // const param = obterParametrosDaURL();
     let api = "https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec";
     apiParam = `${api}?protocolo=${protocolo}`
     fetch(apiParam,{ 
@@ -121,9 +146,9 @@ function cabecalhoInventario(e) {
     headerInventary.innerHTML = `
         <span href="#" class="list-group-item list-group-item-action span__header-inventary">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
+                <strong class="mb-1">
                     <b>${e.unidade}</b>
-                </h5>
+                </strong>
                 <small class="text-muted">${e.id}</small>
             </div>
             <p class="mb-1">${dataFormatada}</p>
@@ -166,10 +191,43 @@ function criarCardInformaçõesAdicionais(e){
             <p class="mb-1">${strQuebraLinha}</p>
         </span>       
         `
+    document.getElementById('divBtn').classList.remove('d-none');
 }
 
 function atualizarPagina() {
+    document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
     getApi();
+}
+
+function copiarTodasInformacoesParaClipboard() {
+    const div = document.getElementById('inventarioUnidade');
+    const range = document.createRange();
+    range.selectNode(div);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+
+    try {
+      document.execCommand('copy');
+      alert('Informações copiada para a área de transferência!');
+    } catch (error) {
+      console.error('Erro ao copiar tabela: ', error);
+    }
+    window.getSelection().removeAllRanges();
+}
+
+function copiarTabelaParaClipboard() {
+    const tabela = document.getElementById('tabelaInventario');
+    const range = document.createRange();
+    range.selectNode(tabela);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    try {
+      document.execCommand('copy');
+      alert('Tabela copiada para a área de transferência!');
+    } catch (error) {
+      console.error('Erro ao copiar tabela: ', error);
+    }
+    window.getSelection().removeAllRanges();
 }
 
 function dateFormat(data) {   
