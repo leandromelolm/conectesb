@@ -319,3 +319,7 @@ legend {
     font-size: .875em;
     color: #dc3545;
 }
+
+li:hover {
+    background-color: rgb(58, 221, 218);
+}

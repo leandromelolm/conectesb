@@ -58,7 +58,7 @@ function validarFormulario(event) {
         console.log('Formulário válido. Executar função enviar...');
         event.preventDefault();
         document.getElementById("invalidForm").style.display = "none";    
-        enviar();
+        prepararParaEnviar();
     } else {
         document.getElementById("invalidForm").style.display = "block";
         console.log('Formulário inválido. Corrija os campos destacados.');
@@ -86,7 +86,7 @@ function scrolldiv(elem) {
     elem.scrollIntoView({block: "end", behavior: "smooth" }); 
 }
 
-function enviar(){
+function prepararParaEnviar(){
 
     inventaryList = JSON.parse(localStorage.getItem("inventario_fazer_inventaryData"));
 
@@ -108,6 +108,22 @@ function enviar(){
     };
     // setTimeout(msgResponseSendToSheet('',''), 3000);
     sendSpreadSheet(objIventario);
+}
+
+document.getElementById('solicitante').addEventListener('input', function() {
+    var campoValido = verificarLetraNoCampo();
+    if (campoValido) {
+        document.getElementById('solicitante').setCustomValidity('');
+    } else {
+        document.getElementById('solicitante').setCustomValidity('Por favor, preencha campo Funcionário corretamente.');
+    }
+});
+
+function verificarLetraNoCampo() {
+    var valorCampo = document.getElementById('solicitante').value;
+    var contemLetra = /[a-zA-Z]/.test(valorCampo);
+    // retorna true se houver alguma letra alfabetica no campo.
+    return contemLetra;
 }
 
 function mostrarMsgAguardeEnvio(){
@@ -194,9 +210,8 @@ function sendSpreadSheet(objIventario) {
     
     let objInventarioStr = JSON.stringify(objIventario);
 
-    // apps-script-google-inventario
-    // let url = "https://script.google.com/macros/s/AKfycbyInVXd8o-Cbnf5QA9W-jgU-SmEUIYHk70tkOPhStYn5sucKIhUYqpM-kjDcBwfTsyhZQ/exec";
-    let url = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec";
+    // script-google v22
+    let url = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';   
     fetch(url,{
         redirect: "follow",
         method: "POST",
@@ -207,7 +222,31 @@ function sendSpreadSheet(objIventario) {
     })
     .then(response =>response.json())
     .then(data => msgResponseSendToSheet(data, objIventario))
-    .catch(error => responseMsgSentToSpreadSheet(error, objIventario));
+    .catch(error => msgErrorSentToSpreadSheet(error, objIventario));
+}
+
+function msgErrorSentToSpreadSheet(error) {
+    console.log(error);
+    removerMsgAguardarEnvio();
+    document.querySelector('#msgResponseSendSheet').innerHTML = `
+    <div class="alert alert-danger">
+        <div class="d-block" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                <use xlink:href="./assets/check-circle-fill.svg#check-circle-fill"/>
+            </svg>
+            <div>
+                <h5 class="alert-heading">Erro no Envio!</h5>
+                <p>Menssagem do erro: ${error}</p>
+            </div>
+        </div>
+
+        <div class="d-grid gap-3">
+            <a href="inventario-lista?search=all" class="alert-link text-decoration-none">Ver lista de unidades que já enviaram o inventário</a>
+            <a href="inventario-fazer.html" class="alert-link text-decoration-none">Tentar novamente</a>
+            <a href="ndex.html" class="alert-link text-decoration-none">Voltar para o menu principal</a>
+        </div>                    
+    </div>
+`
 }
 
 function msgResponseSendToSheet(data, objIventario) {
