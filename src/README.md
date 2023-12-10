@@ -55,6 +55,8 @@
 `Ctrl+Shift+K` Excluir linha<br>
 `Ctrl+M` Guia Move o Foco<br>
 `Ctrl+L` Selecionar linha<br>
+`Ctrl+D` Selecionar todas as ocorrências<br>
+`Ctrl+Shift+.` Navegar no editor rapidamente entre as funções do arquivo de código<br>
 
 #### Navegador
 
