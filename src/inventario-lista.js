@@ -40,7 +40,9 @@ async function getApiLastRow() {
     throw new Error('Erro na requisição: ' + response.status);
     }  
     const data = await response.json();
-    if (data.content > localStorage.getItem('inventario-lista-ultLinha')) {
+    let lastRow = data.content;
+    if (lastRow > localStorage.getItem('inventario-lista-ultLinha')) {
+        document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
         getApi();
         localStorage.setItem('inventario-lista-ultLinha', data.content);
     } else {        

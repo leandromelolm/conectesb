@@ -30,18 +30,24 @@
                 </div>
             </div>
         </nav>
-    </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-end">
-        <button class="btn btn-outline-primary me-md-2 mx-4 " type="button" onclick="atualizarPagina()">Atualizar</button>
-    </div>
+    </div>  
+
     <div id="divLoadingUpdatePage" class="d-flex justify-content-center d-none">
         <div class="spinner-border" role="status">
           <span class="sr-only"></span>
         </div>
     </div>
 
-    <div class="main__container">
-        <div class="div__body">
+    <div class="div__container">
+        <div class="div__main">
+
+            <div class="d-grid gap-2 d-md-flex justify-content-end div__atualizar">
+                <button class="btn btn-outline-primary" type="button" onclick="atualizarPagina()">
+                    <img src="assets/arrow-clockwise.svg" alt="Atualizar">
+                    Atualizar                    
+                </button>
+            </div>
+
             <div class="flex-sm-column">                
                 <div>
                     <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário de instrumentais</a>
@@ -66,16 +72,17 @@
                   </div>
             </div>
 
+            <!-- PESQUISAR DETALHES DO INVENTÁRIO -->
             <div id="divSearch" class="row mt-2 div__search">
                 <div class="col-md-12 mx-auto">
-                    <!-- <div class="small fw-light">Pesquisar</div> -->
+                    <div class="small fw">Ver detalhes do inventário</div>
                     <div class="input-group div_input-search">
                         <input class="form-control border" type="search"
-                          placeholder="Pesquisa por Protocolo" 
+                          placeholder="Inserir número de protocolo" 
                           id="search-input" onkeydown="eventClickEnter(event)">
                         <span class="input-group-append">
                           <button id="btn-search" 
-                            class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
+                            class="btn btn-outline-transparent bg-white border border-start-0 ms-n5 btn__search" 
                             type="button" onclick="handleSearch()">
                               <img src="assets/search.svg">
                           </button>
