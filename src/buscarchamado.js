@@ -1,66 +1,32 @@
-let urlFetch = "https://script.google.com/macros/s/AKfycbw7l2v-1EZ8YNM3Ok6aH_AlaRtEql0OF-jOUGDKN_opyjEu39UOoBqyh_DKXFqfZLK7/exec";
+let urlFetch = "https://script.google.com/macros/s/AKfycbxWGEAZpZv2I5zV4NPcNCk999dj-VD4eegbxyrvqrfGklo14EZpYWxU5q1sHtNNVDH6/exec";
 let access_token;
 let infoDivAtualizacaoPagina = document.getElementById('infoDivAtualizacaoPagina');
 
 window.addEventListener('DOMContentLoaded', () =>{
     
-    access_token = localStorage.getItem("access_token");
+    access_token = localStorage.getItem("access_token") || null;
     chamado_list = sessionStorage.getItem("chamado_list");
     let objChamado = JSON.parse(chamado_list);
-    if (objChamado) {
-       infoFetchChamados(urlFetch, access_token);   
-        return handleResponseChamados(objChamado);
+    if(access_token == null) {
+        window.location.href = "user/sign-in";
     }
-    if (!access_token || access_token !="null") {         
+    if(!checkTokenExpirationDate(access_token)){
+        window.location.href = "user/sign-in";
+    } else 
+    if (objChamado){
+       infoFetchChamados(urlFetch, access_token);
+       console.log('infoFetch');
+        return handleResponseChamados(objChamado);
+    } else{
         fetchChamados(urlFetch, access_token);
-        document.getElementById("msgAguarde").classList.toggle("d-none", false);
-        document.getElementById("formLogin").classList.toggle("d-none", true);    
-    } else {
-        console.log("erro no acesso: problema na autenticação")
-    }    
+    } 
 })
 
-function loginFetchAPI() {
-    let u = document.getElementById("username").value
-    let p = document.getElementById("password").value
-    let user = {
-        loginPage: true,
-        username: u.toLowerCase().trim(),
-        password: p.trim()
-    }
-    userString = JSON.stringify(user);
-
-    document.getElementById("formLogin").classList.toggle("d-none", true);
-    document.getElementById("msgAguarde").classList.toggle("d-none", false);
-
-    fetch(urlFetch,{
-        redirect: "follow",
-        method: "POST",
-        body: userString,
-        headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-        }
-    })
-    .then(response => response.json())
-    .then(data => responseOK(data))
-    .catch(error => responseError(error));
-}
-
-function responseOK(data) {    
-    localStorage.setItem("access_token", data.authorization);
-    if (data.authorization == null) {
-        document.getElementById("msgLogin").innerHTML = "Usuário e senha incorretos"
-    }
-    fetchChamados(urlFetch, data.authorization);    
-}
-
-function responseError(error) {
-    console.log("error", error);
-}
 
 async function fetchChamados(url,token) {
     const response = await fetch(`${url}?authorization=${token}`);
     const data = await response.json();
+    console.log(`${url}?authorization=${token}`);
     sessionStorage.setItem("chamado_list", JSON.stringify(data));        
     handleResponseChamados(data);
     let loginDate = dateFormat(new Date());
@@ -68,18 +34,16 @@ async function fetchChamados(url,token) {
     infoFetchChamados(url,token);
 }
 
-
 function handleResponseChamados(data) {
     document.getElementById("btnLogout").disabled = false;
     document.getElementsByClassName("btn__Atualizarchamados").disabled = false;
     document.getElementById("msgAguarde").classList.toggle("d-none", true);      
-    if (data.token === "token valido"){        
-        document.getElementById("formLogin").classList.toggle("d-none", true);
+    if (data.token === "token valido"){
+        console.log("ok");
         document.getElementById("divChamados").classList.toggle("d-none", false);       
         preencherDivList(data.content);   
     } else {
-        document.getElementById("formLogin").classList.toggle("d-none", false);
-        document.getElementById("divChamados").classList.toggle("d-none", true);
+        document.getElementById("divChamados").classList.toggle("d-none", false);
     }
 }
 
@@ -155,8 +119,8 @@ function signOut() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("dataHoraBuscaChamados");
     sessionStorage.removeItem("chamado_list")
-    document.getElementById("formLogin").classList.toggle("d-none", false);
     document.getElementById("divChamados").classList.toggle("d-none", true);
+    window.location.href = 'index';
 }
 
 function infoFetchChamados(url,token){
@@ -192,11 +156,23 @@ function dateFormat(data) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
 
-// function sendFetchSpreadSheet() {    
-//     fetch(urlFetch,{ 
-//         method: "GET",
-//     })
-//     .then(response =>response.json())
-//     .then(data => console.log(data))
-//     .catch(error => console.log(error));
-// };
+function checkTokenExpirationDate(token) {
+    let s = token.split('.');
+    var decodeString = atob(s[1]);
+    // console.log(decodeString);
+    const { exp, name } = JSON.parse(decodeString);
+    // Verificar se não está expirado
+    if (new Date(exp * 1000) > new Date()) {
+        return res = {
+            auth: true,
+            message: 'Valid signature',
+            expira: new Date(exp * 1000),
+            username: name
+        }
+    } else {
+        return res = {
+            auth: false,
+            message: 'The token has expired'
+        }
+    }
+}

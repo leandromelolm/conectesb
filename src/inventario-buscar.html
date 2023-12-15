@@ -34,12 +34,17 @@
 
     <div class="main__container">
         <div class="div__body">
-            <div class="flex-sm-column">                
+            <div class="flex-sm-column">
+                <div class="d-flex">
+                    <span>Logado:</span>
+                    <span id="usuarioLogado">Usuario</span>
+                    <button class="btn-danger ms-1 rounded-pill" onclick="logout()">Sair</button>             
+                </div>              
                 <div>
                     <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário de instrumentais</a>
                 </div>
                 <div>
-                    <a href="inventario-lista?search=all" class="text-decoration-none">Lista de Inventário</a>
+                    <!-- <a href="inventario-lista?search=all" class="text-decoration-none">Lista de Inventário</a> -->
                 </div>
                 <div>
                     <a href="#divSearch" class="text-decoration-none">Ver detalhes do Inventário</a>

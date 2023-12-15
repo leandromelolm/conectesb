@@ -9,6 +9,20 @@ window.addEventListener("DOMContentLoaded", () => {
     if (p.id) {
         getApiById(p.id);
     }
+    
+    try {
+        let validToken = checkTokenExpirationDate(localStorage.getItem('access_token'));
+        // console.log(validToken);
+        if (!validToken.auth) {
+            window.location.href = 'user/sign-in';
+        } else {
+            document.getElementById("usuarioLogado").textContent = validToken.username;
+        }        
+    } catch (error) {
+        window.location.href = 'user/sign-in';
+    }
+       
+
 })
 
 function eventClickEnter(event) {
@@ -68,9 +82,10 @@ function getApi() {
 
 function getApiById(id) {
     // findById
-    document.getElementById('divLoadingById').classList.remove('hidden')
-    let api = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';
-    let apiParam = `${api}?id=${id}`
+    document.getElementById('divLoadingById').classList.remove('hidden');
+    // let api = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';
+    let api = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec';
+    let apiParam = `${api}?id=${id}&authorization=${localStorage.getItem('access_token')}`
     fetch(apiParam,{ 
         method: "GET",
     })
@@ -110,6 +125,10 @@ function divListGroup(res){
 }
 
 function getByIdResponse(res) {
+    console.log(res.token.auth);
+    if (!res.token.auth){
+        return window.location.href = 'user/sign-in'
+    }
     document.getElementById('divLoadingById').classList.add('hidden')
     let itensInventario = JSON.parse(res.content.itensInventario);
     criarTabelaInventario(itensInventario);
@@ -220,3 +239,28 @@ function dateFormat(data) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
 
+function checkTokenExpirationDate(token) {
+    let s = token.split('.');
+    var decodeString = atob(s[1]);
+    // console.log(decodeString);
+    const { exp, name } = JSON.parse(decodeString);
+    // Verificar se não está expirado
+    if (new Date(exp * 1000) > new Date()) {
+        return res = {
+            auth: true,
+            message: 'Valid signature',
+            expira: new Date(exp * 1000),
+            username: name
+        }
+    } else {
+        return res = {
+            auth: false,
+            message: 'The token has expired'
+        }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('access_token')
+    window.location.href = 'index';
+}
