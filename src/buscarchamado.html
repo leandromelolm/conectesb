@@ -35,9 +35,11 @@
     <!--MAIN CONTENT-->
     <div class="main__container">        
         <div id="divChamados">            
-            <div class="div_btn">            
-                <button id="btnLogout" class="btn btn-danger align-self-end" onclick="signOut()">Deslogar</button>                
-            </div>
+            <div class="div__logout">
+                <span>Logado:</span>
+                <span id="usuarioLogado">Usuario</span>
+                <button id="btnLogout" class="btn btn-danger align-self-end ms-1 rounded-pill" onclick="signOut()">Sair</button>                
+            </div>            
             <div id="atualizacaoPagina">
                 <p id="infoDivAtualizacaoPagina"></p>                
             </div>

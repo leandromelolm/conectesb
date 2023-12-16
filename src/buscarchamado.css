@@ -60,7 +60,7 @@ input {
     border-radius: 8px
 }
 
-.div_btn {
+.div__logout {
     margin-bottom: 10px;
     text-align: end;
 }

@@ -7,26 +7,28 @@ window.addEventListener('DOMContentLoaded', () =>{
     access_token = localStorage.getItem("access_token") || null;
     chamado_list = sessionStorage.getItem("chamado_list");
     let objChamado = JSON.parse(chamado_list);
-    if(access_token == null) {
+    if (access_token == null) {
         window.location.href = "user/sign-in";
     }
-    if(!checkTokenExpirationDate(access_token)){
+    let validToken = checkTokenExpirationDate(access_token);
+    if (!validToken) {
         window.location.href = "user/sign-in";
-    } else 
-    if (objChamado){
-       infoFetchChamados(urlFetch, access_token);
-       console.log('infoFetch');
+    }
+    document.getElementById("usuarioLogado").textContent = validToken.username;
+    if (objChamado) {        
+        infoFetchChamados(urlFetch, access_token);
         return handleResponseChamados(objChamado);
-    } else{
+    } else {
+        
         fetchChamados(urlFetch, access_token);
-    } 
+    }    
 })
 
 
 async function fetchChamados(url,token) {
     const response = await fetch(`${url}?authorization=${token}`);
     const data = await response.json();
-    console.log(`${url}?authorization=${token}`);
+    // console.log(`${url}?authorization=${token}`);
     sessionStorage.setItem("chamado_list", JSON.stringify(data));        
     handleResponseChamados(data);
     let loginDate = dateFormat(new Date());
@@ -39,7 +41,6 @@ function handleResponseChamados(data) {
     document.getElementsByClassName("btn__Atualizarchamados").disabled = false;
     document.getElementById("msgAguarde").classList.toggle("d-none", true);      
     if (data.token === "token valido"){
-        console.log("ok");
         document.getElementById("divChamados").classList.toggle("d-none", false);       
         preencherDivList(data.content);   
     } else {
