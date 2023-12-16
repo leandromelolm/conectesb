@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         window.location.href = "user/sign-in";
     }
     let validToken = checkTokenExpirationDate(access_token);
-    if (!validToken) {
+    if (!validToken.auth) {
         window.location.href = "user/sign-in";
     }
     document.getElementById("usuarioLogado").textContent = validToken.username;
