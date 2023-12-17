@@ -125,7 +125,8 @@ customElements.define('header-component', Header);
 function checkTokenExpirationDate(token) {
     let s = token.split('.');
     var decodeString = atob(s[1]);
-    console.log(decodeString);
+    // console.log(decodeString);
+    console.log("checkToken");
     const { exp, name } = JSON.parse(decodeString);
 
     if (new Date(exp * 1000) > new Date()) {

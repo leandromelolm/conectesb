@@ -29,7 +29,7 @@ function loginFetchAPI() {
 }
 
 function responseOK(data) {
-  console.log(data);
+  // console.log(data);
   localStorage.setItem("access_token", data.content.token);
   divSuccess();
 }
