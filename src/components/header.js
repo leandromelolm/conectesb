@@ -11,9 +11,9 @@ nav {
 }
 
 a {
-    font-size: x-small;
+    font-size: small;
     font-weight: 700;
-    margin: 0 10px;
+    margin: 0 5px;
     color: white !important;
     text-decoration: none;
 }
@@ -26,6 +26,11 @@ a:hover {
 .navbar-toggler-icon {
     filter: invert(1);
 }
+
+.div__user-login {
+    align-items: center;
+    font-size: 16px;
+}
 </style>
 <header>
     <div>
@@ -37,7 +42,7 @@ a:hover {
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page"  href="fazerpedido.html">Fazer Pedido</a>
                         <a class="nav-link active" href="pedidos.html">Buscar Pedido</a>
@@ -46,6 +51,9 @@ a:hover {
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-buscar?search=all"> Buscar Inventário</a>
                     </div>
+                    <div class="div__user-login d-flex flex-row-reverse d-none">
+                        <button class="btn-outline-dark ms-1 rounded-pill" onclick="logout()">Sair</button>             
+                    </div> 
                 </div>
             </div>
         </nav>
@@ -89,7 +97,53 @@ class Header extends HTMLElement {
                 collapseElement.classList.remove('show');
             });
         });
+        const usuarioLogadoElement = document.createElement('span');
+        usuarioLogadoElement.id = 'usuarioLogado';
+        usuarioLogadoElement.style.marginLeft = '10px';
+        usuarioLogadoElement.style.color = 'white';
+        shadowRoot.querySelector('.div__user-login').appendChild(usuarioLogadoElement);
+        let divUserLogin = shadowRoot.querySelector('.div__user-login');
+        this.load(usuarioLogadoElement, divUserLogin);
+    }
+
+    load(usuarioLogadoElement, divUserLogin) {
+        let token = localStorage.getItem('access_token');
+        let validToken;
+        if (token != null) {
+            validToken = checkTokenExpirationDate(token);
+            if (validToken.auth) {
+                console.log("valid token");
+                usuarioLogadoElement.innerHTML = validToken.username;
+                divUserLogin.classList.toggle("d-none", false);
+            }
+        }
     }
 }
 
 customElements.define('header-component', Header);
+
+function checkTokenExpirationDate(token) {
+    let s = token.split('.');
+    var decodeString = atob(s[1]);
+    console.log(decodeString);
+    const { exp, name } = JSON.parse(decodeString);
+
+    if (new Date(exp * 1000) > new Date()) {
+        return {
+            auth: true,
+            message: 'Valid signature',
+            expira: new Date(exp * 1000),
+            username: name
+        };
+    } else {
+        return {
+            auth: false,
+            message: 'The token has expired'
+        };
+    }
+}
+
+function logout() {
+    localStorage.removeItem('access_token')
+    window.location.href = 'index';
+}
