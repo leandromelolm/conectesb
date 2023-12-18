@@ -19,8 +19,8 @@ a {
 }
 
 a:hover {
-    padding-bottom: 5px;
     box-shadow: inset 0 -2px 0 0 #fff;
+    color: cyan !important;
 }
 
 .navbar-toggler-icon {
@@ -115,6 +115,8 @@ class Header extends HTMLElement {
                 console.log("valid token");
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
+            } else {
+                localStorage.removeItem('access_token');
             }
         }
     }
