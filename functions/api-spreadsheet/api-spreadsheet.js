@@ -1,5 +1,6 @@
 // import axios from "axios";
 const axios = require("axios");
+const apiLastRow = require('./api/lastRow.js');
 
 
 exports.handler = async function (event, context, callback) {
@@ -56,8 +57,15 @@ exports.handler = async function (event, context, callback) {
     let perPage = event.queryStringParameters.perPage;
     let startId = event.queryStringParameters.startId;
     let endId = event.queryStringParameters.endId;
-
-    console.log(id);
+    let lastRow = event.queryStringParameters.lastRow;
+    
+    if (lastRow) {
+      let res = await apiLastRow(lastRow, context);    
+      return {
+        statusCode: 200,
+        body: JSON.stringify({ res }),
+      };
+    }
    
     try {  
       let response = await axios.get(
