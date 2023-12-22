@@ -35,6 +35,13 @@ npm install axios
 ## instalar boostrap-icons
 npm i bootstrap-icons
 
+## instalar node-fetch
+## https://stackoverflow.com/questions/48433783/referenceerror-fetch-is-not-defined
+npm install node-fetch@2
+
+## desinstalar pacotes npm
+npm uninstall <package-name>
+
 ## Executar
 npm run dev 
 ``` 
