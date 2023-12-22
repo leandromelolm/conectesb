@@ -1,7 +1,7 @@
 // import axios from "axios";
 const axios = require("axios");
 const apiLastRow = require('./api/lastRow.js');
-const inventario = require('./api/inventario.js');
+const inventario = require('./api/api-inventario.js');
 const fetch = require('node-fetch');
 
 exports.handler = async function (event, context, callback) {
