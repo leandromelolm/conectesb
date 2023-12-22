@@ -317,8 +317,8 @@ function submitPostFunctionsNetlify(pedidoInfo) {
     }).then(function(response) {
         return response.json();
     }).then(function(data) {
-        console.log(data);       
-        responseFetch(data.numeroPedido, data.dataPedido);
+        console.log(data);
+        responseFetch(data);  
     }).catch(function(error) {
         alert(`
             Aconteceu um erro!
@@ -327,26 +327,60 @@ function submitPostFunctionsNetlify(pedidoInfo) {
             ${error}`
         )
         document.getElementById('divLoadingById').classList.add('d-none');
-        console.error('Erro na requisição:', error);
+        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
+        msgEnvioPedido.style.backgroundColor = '#f8d7da';
+        msgEnvioPedido.style.color = '#842029'
+        msgEnvioPedido.style.height = 'auto';
+        msgEnvioPedido.style.textAlign = 'center';
+        msgEnvioPedido.style.display = 'grid'
+        document.querySelector(
+            '#msgEnvioPedido').innerHTML =
+            `Erro no Envio!
+             Messagem do erro: <b>${error}</b>
+             `;
     });
 }
 
-function responseFetch(numeroPedido, instantePedido) {
+function responseFetch(data) {
+    if (data.success === false || data.numeroPedido === undefined) {
+        document.getElementById('divLoadingById').classList.add('d-none');
+        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
+        msgEnvioPedido.style.backgroundColor = '#f8d7da';
+        msgEnvioPedido.style.color = '#842029'
+        msgEnvioPedido.style.height = '35px';
+        msgEnvioPedido.style.textAlign = 'center';
+        msgEnvioPedido.style.display = 'grid'
+        document.querySelector(
+            '#msgEnvioPedido').innerHTML =
+            `Erro no Envio!
+             Messagem do erro: <b>${data.error}</b>`;
+        return alert(`
+        Erro: ${data.error}
+        `)
+    }
+
     limparTudo();
     document.getElementById('divLoadingById').classList.add('d-none');
     let msgEnvioPedido = document.getElementById('msgEnvioPedido');
     msgEnvioPedido.style.backgroundColor = '#4CAF50';
     msgEnvioPedido.style.color = 'white'
-    msgEnvioPedido.style.height = '35px';
+    msgEnvioPedido.style.height = 'auto';
     msgEnvioPedido.style.textAlign = 'center';
+    msgEnvioPedido.style.display = 'grid'
     document.querySelector(
         '#msgEnvioPedido').innerHTML =
-        `Pedido enviado com sucesso! Número Pedido:
-         <b>${numeroPedido}</b>. Momento: <b>${instantePedido}</b>`;
+        `Pedido enviado com sucesso! 
+        <div>
+            <span>Número Pedido: </span> <b>${data.numeroPedido}</b>
+        </div>
+        <div>
+            <span>Momento: </span> <b>${data.dataPedido}</b>
+        </div>         
+         `;
     alert(
         `Pedido enviado com sucesso!
-        Número Pedido: ${numeroPedido}
-        Momento: ${instantePedido}`
+        Número Pedido: ${data.numeroPedido}
+        Momento: ${data.dataPedido}`
     );
 }
 
