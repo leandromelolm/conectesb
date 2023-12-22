@@ -32,10 +32,99 @@ body {
 .justify-content-center {
     margin-top: 5%;
 }
+
+.div__container {
+    margin: 5px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.div__main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    margin: 10px;
+    max-width: 100%;
+}
+
+.a__link{
+    color: #0C326F;
+    font-family:sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.a__link:hover {
+    box-shadow: inset 0 -2px 0 0 #fff;
+    color: darkturquoise !important;
+}
+
+.div__title-header {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: #333;
+    font-weight: bold;
+    margin: 0;    
+    white-space: nowrap;
+}
+
+.div__title-header::before {
+    background: #ccc;
+    content: '';
+    height: 1px;
+    width: 100%;
+}
+
+.div__title-header::after {
+    background: #ccc;
+    content: '';
+    height: 1px;
+    width: 100%;
+}
+
+h3 {
+    padding: 0 24px;
+}
+
 </style>
 <body>
-    <header-component></header-component>    
-
+    <header-component></header-component>
+    
+    <div class="div__container">
+        <div class="div__main">
+            <div class="div__title-header">
+                <h3>Serviços</h3>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="fazerpedido.html" class="btn a__link">Fazer pedido</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="pedidos.html" class="btn a__link">Lista de pedidos</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="inventario-fazer.html" class="btn a__link">Fazer inventário</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="inventario-buscar?search=all" class="btn a__link">Lista de inventários</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="abrirchamado.html" class="btn a__link">Abrir chamado</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="buscarchamado.html" class="btn a__link">Buscar chamado</a>
+                </li>
+                <li class="list-group-item">
+                    <a href="https://conectesb.netlify.app/" class="btn a__link">Novo site: conectesb.netlify.app</a>
+                </li>
+            </ul>
+        </div>        
+    </div>
+<!--
     <div class="container-fluid">
         <div class="row d-flex justify-content-center">
             <div class="col-sm-3 my-3" style="width: 20rem;">
@@ -94,5 +183,6 @@ body {
             </div>
         </div>
     </div>  
+-->
 </body>
 </html>
