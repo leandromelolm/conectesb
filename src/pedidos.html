@@ -113,6 +113,12 @@
       border-width: initial;
       vertical-align: middle;
     }
+
+    .btn__atualizar {
+      /* float: inline-end; */
+      color: #808080 !important;
+      margin-top: 5px;
+    }
    
   </style>
   <script src="jquery/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
@@ -125,13 +131,21 @@
   <header-component></header-component>
 
   <div class="container-fluid main">
-    <div id="atualizacaoPagina">
-      <p id="ultimaAtualizacaoDaPagina"></p>
-      <p id="msgNovoPedido"></p>
-    </div>
-    <div class="resultadoPesquisado">
-      <span id="unidadeRequisitante"></span>
-      <span id="listaPedido"></span>
+    <div class="d-flex justify-content-between">
+      <div>
+        <div id="atualizacaoPagina">
+          <p id="ultimaAtualizacaoDaPagina"></p>
+          <p id="msgNovoPedido"></p>
+        </div>
+        <div class="resultadoPesquisado">
+          <span id="unidadeRequisitante"></span>
+          <span id="listaPedido"></span>
+        </div>
+      </div>    
+      <button class="btn btn link btn__atualizar" type="button" onclick="atualizarPagina()">
+        <img src="assets/arrow-clockwise.svg" alt="Atualizar">
+        Atualizar                    
+      </button>
     </div>
 
       <!--PESQUISA-->

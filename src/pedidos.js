@@ -343,3 +343,10 @@ function methodFetchFunctionNetlify(ultimoPedido, listaDePedidos) {
     } 
     ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
 }
+
+function atualizarPagina() {
+    // Valores setados para forçar a requisição
+    let ultimoPedido = 1; 
+    let listaDePedidos = null;
+    methodFetchFunctionNetlify(ultimoPedido, listaDePedidos);
+}
