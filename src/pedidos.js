@@ -42,17 +42,17 @@ function fetchGetSheetData(id, search, page, perPage, startId, endId){
 };
 
 function verificarDados(data){
-    if (data.responseData.result === "error") {        
+    if (data.responseDataPedidos.result === "error") {        
         hideLoading();
-        return document.getElementById('response__erro').innerHTML = data.responseData.error.message;
+        return document.getElementById('response__erro').innerHTML = data.responseDataPedidos.error.message;
     }
 
-    if (Array.isArray(data.responseData.results)) {
-        const itens = data.responseData.results;
+    if (Array.isArray(data.responseDataPedidos.results)) {
+        const itens = data.responseDataPedidos.results;
         preencherTabelaListaDePedidos(itens);
         hideLoading();
     } else {
-        mostrarPedido(data.responseData);
+        mostrarPedido(data.responseDataPedidos);
         hideLoading();
     }
 };
@@ -305,9 +305,9 @@ function methodFetch(listaDePedidos) {
                 return response.json();
             })
             .then(function(data) {
-                localStorage.setItem('listaDePedidos',JSON.stringify(data.responseData.data));
-                preencherTabelaListaDePedidos(data.responseData.data);
-                const dtUltPedido = dateFormat(data.responseData.data[0].dataPedido);
+                localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
+                preencherTabelaListaDePedidos(data.responseDataPedidos.data);
+                const dtUltPedido = dateFormat(data.responseDataPedidos.data[0].dataPedido);
                 console.log(dtUltPedido);
                 const dataUltimoPedido = dtUltPedido.split(' ')
                 msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
@@ -330,9 +330,9 @@ function methodFetchFunctionNetlify(ultimoPedido, listaDePedidos) {
             return response.json();
         })
         .then(function(data) {
-            localStorage.setItem('listaDePedidos',JSON.stringify(data.responseData.data));
-            preencherTabelaListaDePedidos(data.responseData.data);
-            const dtUltPedido = dateFormat(data.responseData.data[0].dataPedido);
+            localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
+            preencherTabelaListaDePedidos(data.responseDataPedidos.data);
+            const dtUltPedido = dateFormat(data.responseDataPedidos.data[0].dataPedido);
             const dataUltimoPedido = dtUltPedido.split(' ')
             msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
         })
