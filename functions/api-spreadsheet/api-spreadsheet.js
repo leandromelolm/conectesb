@@ -23,7 +23,6 @@ exports.handler = async function (event, context, callback) {
         throw new Error('Erro na requisição: ' + response.status);
       } else {
         const data = await response.text();
-        console.log(data);
         let obj = JSON.parse(data);
         const responseBody = JSON.stringify({ 
           message: 'Requisição bem-sucedida', 
@@ -53,9 +52,9 @@ exports.handler = async function (event, context, callback) {
     /* GET {domain}/.netlify/functions/api-spreadsheet/inventario/all */
     if (segments[1] === "all") {
       let response1 = await inventario();
-      console.log("RESPONSE1", response1.body);
+      // console.log("RESPONSE1", response1.body);
       let responseData = JSON.parse(response1.body);
-
+      
       // REQUISIÇÃO DIRETA
       // let response = await axios.get(`${process.env.API_GS_INVENTARIO}?search=all`);
       // console.log(JSON.stringify(response.data));
