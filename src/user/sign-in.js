@@ -59,7 +59,7 @@ function divSuccess() {
       </div>  
       <hr>
       <div class="d-grid gap-3">
-          <a href="../inventario-buscar?search=all" class="alert-link text-decoration-none">Lista de inventários</a>
+          <a href="../inventario-buscar?search=all" class="alert-link text-decoration-none">Buscar inventário por ID</a>
           <a href="../buscarchamado.html" class="alert-link text-decoration-none">Buscar chamado</a>
           <a href="../index.html" class="alert-link text-decoration-none">Voltar para o menu principal</a>
       </div>                    

@@ -2,26 +2,33 @@
 // http://localhost:8888/inventario-buscar?id=2
 
 window.addEventListener("DOMContentLoaded", () => {
-    let p =  obterParametrosDaURL();
-    if (p.search) {
-        getApi();        
-    }
-    if (p.id) {
-        getApiById(p.id);
-    }
-    
+
     try {
-        let validToken = checkTokenExpirationDate(localStorage.getItem('access_token'));
-        // console.log(validToken);
+        access_token = localStorage.getItem("access_token") || null;
+        if (access_token === null) {
+            window.location.href = "user/sign-in";
+        }
+        let validToken = checkTokenExpirationDate(access_token);       
         if (!validToken.auth) {
+            localStorage.removeItem('access_token');
             window.location.href = 'user/sign-in';
-        } else {
+        } 
+        if(validToken.auth) {
+            document.getElementById('divSectionContent').classList.toggle('d-none', false);        
+            document.getElementById("loggedUser").classList.toggle("d-none", false);
             document.getElementById("usuarioLogado").textContent = validToken.username;
-        }        
+            let p = obterParametrosDaURL();
+            if (p.search) {
+                getApi();
+            }
+            if (p.id) {
+                getApiById(p.id);
+            }
+        }
+
     } catch (error) {
         window.location.href = 'user/sign-in';
     }
-       
 
 })
 
@@ -33,13 +40,13 @@ function eventClickEnter(event) {
 
 function handleSearch() {
     let searchId = document.getElementById('search-input').value;
-    setarParametrosNaURL('all','', searchId);
+    setarParametrosNaURL('all', '', searchId);
     getApiById(searchId);
 }
 
 function clickElementkGroupList(id) {
     document.getElementById('search-input').value = id;
-    setarParametrosNaURL('all','', id);
+    setarParametrosNaURL('all', '', id);
     getApiById(id);
 }
 
@@ -56,28 +63,28 @@ function setarParametrosNaURL(search, protocolo, id) {
     const url = new URL(window.location.href);
     const parametros = new URLSearchParams(url.search);
     if (search !== null && search !== undefined) {
-      parametros.set('search', search);
+        parametros.set('search', search);
     }
     if (protocolo !== null && protocolo !== undefined) {
-      parametros.set('protocolo', protocolo);
+        parametros.set('protocolo', protocolo);
     }
     if (id !== null && id !== undefined) {
-      parametros.set('id', id);
+        parametros.set('id', id);
     }
-  
+
     window.history.replaceState({}, '', `${url.pathname}?${parametros}`);
-  }
+}
 
 function getApi() {
     const param = obterParametrosDaURL();
     let api = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec";
     apiParam = `${api}?search=${param.search}`
-    fetch(apiParam,{ 
+    fetch(apiParam, {
         method: "GET",
     })
-    .then(response =>response.json())
-    .then(data => divListGroup(data))
-    .catch(error => console.log(error));
+        .then(response => response.json())
+        .then(data => divListGroup(data))
+        .catch(error => console.log(error));
 }
 
 function getApiById(id) {
@@ -86,12 +93,12 @@ function getApiById(id) {
     // let api = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';
     let api = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec';
     let apiParam = `${api}?id=${id}&authorization=${localStorage.getItem('access_token')}`
-    fetch(apiParam,{ 
+    fetch(apiParam, {
         method: "GET",
     })
-    .then(response =>response.json())
-    .then(data => getByIdResponse(data))
-    .catch(error => msgErro(error));
+        .then(response => response.json())
+        .then(data => getByIdResponse(data))
+        .catch(error => msgErro(error));
 }
 
 function msgErro(error) {
@@ -101,7 +108,7 @@ function msgErro(error) {
     `)
 }
 
-function divListGroup(res){
+function divListGroup(res) {
     // console.log(res);
     let listGroupItem = document.getElementById('listGroupItem');
     let item = [];
@@ -126,7 +133,7 @@ function divListGroup(res){
 
 function getByIdResponse(res) {
     console.log(res.token.auth);
-    if (!res.token.auth){
+    if (!res.token.auth) {
         return window.location.href = 'user/sign-in'
     }
     document.getElementById('divLoadingById').classList.add('hidden')
@@ -152,7 +159,7 @@ function cabecalhoInventarioId(e) {
             <small class="text-muted">${e.responsavel}</small>
         </span>       
         `
-    document.getElementById('itemLoading').style.display = 'none';    
+    document.getElementById('itemLoading').style.display = 'none';
 }
 
 
@@ -176,7 +183,7 @@ function criarTabelaInventario(itensInventario) {
     });
 }
 
-function criarCardInformaçõesAdicionais(e){
+function criarCardInformaçõesAdicionais(e) {
     const strQuebraLinha = e.replace(/\n/g, '<br>');
     let informacoesAdicionais = document.getElementById('informacoesAdicionais');
     informacoesAdicionais.innerHTML = `
@@ -200,10 +207,10 @@ function copiarTodasInformacoesParaClipboard() {
     window.getSelection().addRange(range);
 
     try {
-      document.execCommand('copy');
-      alert('Informações copiada para a área de transferência!');
+        document.execCommand('copy');
+        alert('Informações copiada para a área de transferência!');
     } catch (error) {
-      console.error('Erro ao copiar tabela: ', error);
+        console.error('Erro ao copiar tabela: ', error);
     }
     window.getSelection().removeAllRanges();
 }
@@ -216,26 +223,26 @@ function copiarTabelaParaClipboard() {
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
     try {
-      document.execCommand('copy');
-      alert('Tabela copiada para a área de transferência!');
+        document.execCommand('copy');
+        alert('Tabela copiada para a área de transferência!');
     } catch (error) {
-      console.error('Erro ao copiar tabela: ', error);
+        console.error('Erro ao copiar tabela: ', error);
     }
     window.getSelection().removeAllRanges();
 }
 
-function dateFormat(data) {   
+function dateFormat(data) {
     const dataObj = new Date(data);
-    if (dataObj.toString() == "Invalid Date"){
+    if (dataObj.toString() == "Invalid Date") {
         return `Não foi possível verificar a data`;
-    }    
+    }
     const dia = String(dataObj.getDate()).padStart(2, '0');
     const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
     const ano = dataObj.getFullYear();
     const horas = String(dataObj.getHours()).padStart(2, '0');
     const minutos = String(dataObj.getMinutes()).padStart(2, '0');
     const segundos = String(dataObj.getSeconds()).padStart(2, '0');
-    
+
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
 
@@ -261,6 +268,6 @@ function checkTokenExpirationDate(token) {
 }
 
 function logout() {
-    localStorage.removeItem('access_token')
+    localStorage.removeItem('access_token');
     window.location.href = 'index';
 }

@@ -2,26 +2,36 @@ let urlFetch = "https://script.google.com/macros/s/AKfycbxWGEAZpZv2I5zV4NPcNCk99
 let access_token;
 let infoDivAtualizacaoPagina = document.getElementById('infoDivAtualizacaoPagina');
 
-window.addEventListener('DOMContentLoaded', () =>{
+window.addEventListener('DOMContentLoaded', () => {    
     
-    access_token = localStorage.getItem("access_token") || null;
-    chamado_list = sessionStorage.getItem("chamado_list");
-    let objChamado = JSON.parse(chamado_list);
-    if (access_token == null) {
-        window.location.href = "user/sign-in";
-    }
-    let validToken = checkTokenExpirationDate(access_token);
-    if (!validToken.auth) {
-        window.location.href = "user/sign-in";
-    }
-    document.getElementById("usuarioLogado").textContent = validToken.username;
-    if (objChamado) {        
-        infoFetchChamados(urlFetch, access_token);
-        return handleResponseChamados(objChamado);
-    } else {
+    try {
+        access_token = localStorage.getItem("access_token") || null; 
+        if (access_token === null) {
+            window.location.href = "user/sign-in";
+        }
+        let validToken = checkTokenExpirationDate(access_token);
+        if (!validToken.auth) {
+            localStorage.removeItem('access_token');
+            window.location.href = "user/sign-in";
+        }
+        if (validToken.auth) {
+            document.getElementById("loggedUser").classList.toggle("d-none", false);
+            document.getElementById("usuarioLogado").textContent = validToken.username;    
+        }
         
-        fetchChamados(urlFetch, access_token);
-    }    
+        chamado_list = sessionStorage.getItem("chamado_list");
+        let objChamado = JSON.parse(chamado_list);
+        if (objChamado) {        
+            infoFetchChamados(urlFetch, access_token);
+            return handleResponseChamados(objChamado);
+        } else {        
+            fetchChamados(urlFetch, access_token);
+        }    
+        
+    } catch (error) {
+        window.location.href = 'user/sign-in';
+    }
+
 })
 
 

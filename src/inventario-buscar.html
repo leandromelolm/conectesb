@@ -12,12 +12,12 @@
     <header-component></header-component>    
 
     <div class="main__container">
-        <div class="div__body">
-            <div class="flex-sm-column">
-                <div class="d-flex justify-content-end">
+        <div id="divSectionContent" class="div__section-content d-none">
+            <div  class="flex-sm-column">
+                <div id="loggedUser" class="d-flex justify-content-end align-items-center d-none">
                     <span>Logado:</span>
-                    <span id="usuarioLogado">Usuario</span>
-                    <button class="btn-danger ms-1 rounded-pill" onclick="logout()">Sair</button>             
+                    <span class="ms-1" id="usuarioLogado">Usuario</span>
+                    <button class="btn btn-light ms-1 rounded-pill" onclick="logout()">Sair</button>             
                 </div>              
                 <div>
                     <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário de instrumentais</a>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="div__list">
-                <h5>Buscar inventário</h5>
+                <h5>Buscar inventário Por ID</h5>
                 
                 <div id="listGroupd" class="list-group">
                     <div id="listGroupItem"></div>
