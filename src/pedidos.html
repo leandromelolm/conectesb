@@ -117,7 +117,16 @@
     .btn__atualizar {
       /* float: inline-end; */
       color: #808080 !important;
-      margin-top: 5px;
+      /* margin-top: 5px; */
+    }
+
+    .div__msg-aguarde {
+      color: #808080 !important;
+    }
+
+    .spinner-border {
+      height: 16px !important;
+      width: 16px !important;
     }
    
   </style>
@@ -142,10 +151,17 @@
           <span id="listaPedido"></span>
         </div>
       </div>    
-      <button class="btn btn link btn__atualizar" type="button" onclick="atualizarPagina()">
+      <button id="btnAtualizarPagina" class="btn btn link btn__atualizar" type="button" onclick="atualizarPagina()">
         <img src="assets/arrow-clockwise.svg" alt="Atualizar">
         Atualizar                    
       </button>
+      <div id="msgAguarde" class="div__msg-aguarde d-block mt-1 d-none">
+        <div class="d-flex justify-content-center align-items-center">
+            <div id="spinner" class="spinner-border" role="status">                 
+            </div>
+            <div id="mensagemAguarde" class="msg__aguarde ms-1">Aguarde...</div>
+        </div>
+      </div>
     </div>
 
       <!--PESQUISA-->

@@ -34,9 +34,9 @@ function fetchGetSheetData(id, search, page, perPage, startId, endId){
         verificarDados(response);
     })
     .catch(function (error) {
+        hideLoading();
         alert(`Erro na Requisição: ${error}`);
         document.getElementById('response__erro').innerHTML = "Pesquisa não encontrada. Insira um número de pedido válido.";
-        hideLoading();
         console.log("erro: ",error);
     });;    
 };
@@ -291,7 +291,7 @@ function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 };
 
-
+// Chamada get direta
 function methodFetch(listaDePedidos) {
     const API_LAST_ROW = 'API_GOOGLE_SCRIPT_LASTROW';
     fetch(API_LAST_ROW).then(response =>{
@@ -335,12 +335,18 @@ function methodFetchFunctionNetlify(ultimoPedido, listaDePedidos) {
             const dtUltPedido = dateFormat(data.responseDataPedidos.data[0].dataPedido);
             const dataUltimoPedido = dtUltPedido.split(' ')
             msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
+            document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
+            document.getElementById('msgAguarde').classList.toggle('d-none', true);
+            hideLoading();
         })
         .catch(function (error) {
+            document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
+            document.getElementById('msgAguarde').classList.toggle('d-none', true);
+            hideLoading();
             alert(error);
             console.log(error)
         });
-    } 
+    }
     ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
 }
 
@@ -348,5 +354,7 @@ function atualizarPagina() {
     // Valores setados para forçar a requisição
     let ultimoPedido = 1; 
     let listaDePedidos = null;
+    document.getElementById('btnAtualizarPagina').classList.toggle('d-none', true);
+    document.getElementById('msgAguarde').classList.toggle('d-none', false);
     methodFetchFunctionNetlify(ultimoPedido, listaDePedidos);
 }
