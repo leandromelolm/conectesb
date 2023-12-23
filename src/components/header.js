@@ -8,6 +8,11 @@ nav {
     align-items: center;
     justify-content: center;
     background-color:  #0051A2 !important;
+    padding-left: 0 !important;
+}
+
+.navbar-expand-md .navbar-nav .nav-link {
+    padding-left: 0 !important;
 }
 
 a {
@@ -45,14 +50,14 @@ a:hover {
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page"  href="fazerpedido.html">Fazer Pedido</a>
-                        <a class="nav-link active" href="pedidos.html">Buscar Pedido</a>
+                        <a class="nav-link active" href="pedidos.html">Lista de Pedidos</a>
                         <a class="nav-link active" href="abrirchamado.html">Abrir Chamado</a>
                         <a class="nav-link active" href="buscarchamado.html">Buscar Chamado</a>
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
-                        <a class="nav-link active" href="inventario-buscar?search=all"> Buscar Inventário</a>
+                        <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>
                     </div>
                     <div class="div__user-login d-flex flex-row-reverse d-none">
-                        <button class="btn-outline-dark ms-1 rounded-pill" onclick="logout()">Sair</button>             
+                        <button class="btn btn-light ms-1 rounded-pill" onclick="logout()">Sair</button>             
                     </div> 
                 </div>
             </div>
