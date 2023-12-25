@@ -1,100 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="components/header.js" type="text/javascript" defer></script>
 
-    
+
     <title>Conecte SB | Saude Bucal</title>
 </head>
 <style>
-body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-}
-
-.navbar {
-    padding-inline: 5%;
-}
-
-@media (max-width: 992px) {
-    .navbar {
-        padding-inline: 0%;
+    html {
+        height: 100vh;
+        height: 100%;
     }
-}
 
-.justify-content-center {
-    margin-top: 5%;
-}
+    body {
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
 
-.div__container {
-    margin: 5px 0 0 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
+    .navbar {
+        padding-inline: 5%;
+    }
 
-.div__main {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 800px;
-    margin: 10px;
-    max-width: 100%;
-}
+    @media (max-width: 992px) {
+        .navbar {
+            padding-inline: 0%;
+        }
+    }
 
-.a__link{
-    color: #0C326F;
-    font-family:sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-}
+    .justify-content-center {
+        margin-top: 5%;
+    }
 
-.a__link:hover {
-    box-shadow: inset 0 -2px 0 0 #fff;
-    color: darkturquoise !important;
-}
+    .div__container {
+        margin: 5px 0 0 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;        
+        padding-bottom: 2.5rem;
+    }
 
-.div__title-header {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: #333;
-    font-weight: bold;
-    margin: 0;    
-    white-space: nowrap;
-}
+    .div__main {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 800px;
+        margin: 10px;
+        max-width: 100%;
+    }
 
-.div__title-header::before {
-    background: #ccc;
-    content: '';
-    height: 1px;
-    width: 100%;
-}
+    .a__link {
+        color: #0C326F;
+        font-family: sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+    }
 
-.div__title-header::after {
-    background: #ccc;
-    content: '';
-    height: 1px;
-    width: 100%;
-}
+    .a__link:hover {
+        box-shadow: inset 0 -2px 0 0 #fff;
+        color: darkturquoise !important;
+    }
 
-h3 {
-    padding: 0 24px;
-    margin-bottom: 0;
-}
+    .div__title-header {
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        color: #333;
+        font-weight: bold;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .div__title-header::before {
+        background: #ccc;
+        content: '';
+        height: 1px;
+        width: 100%;
+    }
+
+    .div__title-header::after {
+        background: #ccc;
+        content: '';
+        height: 1px;
+        width: 100%;
+    }
+
+    h3 {
+        padding: 0 24px;
+        margin-bottom: 0;
+    }
+
+    .class__footer {
+        font-family: arial;
+        font-weight: bold;
+        font-size: 12px;
+        width: 100%;
+        margin-bottom: -40px;
+        clear: both;
+        height: 1.5rem;  
+    }
+
+    @media (max-height: 720px) {
+        .class__footer {
+            position: relative !important;
+            margin-top: 25% !important;
+        }
+    }
+
+    .span__author {
+        color: cornflowerblue;
+    }
+
+    .span__author:hover {
+        color: cyan;
+    }
 
 </style>
+
 <body>
     <header-component></header-component>
-    
+
     <div class="div__container">
         <div class="div__main">
             <div class="div__title-header">
@@ -117,10 +151,10 @@ h3 {
                     <a href="abrirchamado.html" class="btn a__link">Abrir chamado</a>
                 </li>
                 <li class="list-group-item">
-                    <a href="buscarchamado.html" class="btn a__link">Buscar chamado (fazer login)</a>
+                    <a href="buscarchamado.html" class="btn a__link">Buscar chamado (login)</a>
                 </li>
                 <li class="list-group-item">
-                    <a href="inventario-buscar?search=all" class="btn a__link">Buscar inventário por ID (fazer login)</a>
+                    <a href="inventario-buscar?search=all" class="btn a__link">Buscar inventário por ID (login)</a>
                 </li>
                 <li class="list-group-item">
                     <a href="https://conectesb.netlify.app/" class="btn a__link">Novo site: conectesb.netlify.app</a>
@@ -128,65 +162,15 @@ h3 {
             </ul>
         </div>        
     </div>
-<!--
-    <div class="container-fluid">
-        <div class="row d-flex justify-content-center">
-            <div class="col-sm-3 my-3" style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Fazer Pedido</h5>
-                        <p class="card-text">Abrir nota de requisição para pedir material.</p>
-                        <a href="fazerpedido.html" class="btn btn-primary">Clique aqui</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3 my-3" style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Fazer Inventário</h5>
-                        <p class="card-text">Abrir formulário para preencher itens do inventário.</p>
-                        <a href="inventario-fazer.html" class="btn btn-primary">Clique aqui</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3  my-3"  style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Abrir Chamado</h5>
-                        <p class="card-text">Solicitar a abertura de um chamado técnico.</p>
-                        <a href="abrirchamado.html" class="btn btn-primary justify-content-evenly">Clique aqui</a>
-                    </div>
-                </div>
-            </div>            
-            <div class="col-sm-3  my-3"  style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Buscar Pedido</h5>
-                        <p class="card-text">Fazer busca de pedido na lista de pedidos.</p>
-                        <a  href="pedidos.html" class="btn btn-primary">Clique aqui</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3  my-3"  style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Buscar Inventário</h5>
-                        <p class="card-text">lista dos inventários feitos e busca por ID (Login)</p>
-                        <a  href="inventario-buscar?search=all" class="btn btn-primary">Clique aqui</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3  my-3"  style="width: 20rem;">
-                <div class="card h-80 text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Novo site</h5>
-                        <p class="card-text">Novo link de acesso: conectesb.netlify.app</p>
-                        <a  href="https://conectesb.netlify.app/" class="btn btn-primary">Clique aqui</a>
-                    </div>
-                </div>
-            </div>
+
+    <footer class="class__footer mt-auto position-absolute bottom-0 start-50 translate-middle" >
+        <div class="text-center p-3" style="background-color:#0051A2">
+            <a class="text-light text-decoration-none Link" href="https://github.com/leandromelolm/requisicao-de-material" target="_blank">
+                <img src="assets/github.svg" alt="github" style="background-color: transparent;">
+                <span class="span__author">leandromelolm</span>
+            </a>
         </div>
-    </div>  
--->
+    </footer>
+    
 </body>
 </html>
