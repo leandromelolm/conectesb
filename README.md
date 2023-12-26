@@ -2,9 +2,13 @@
 
 Este projeto visa simplificar o processo de solicitação de insumos, materiais e instrumentais, substituindo o tradicional preenchimento manual feito em duas vias do documento de **NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAIS**. Através de uma página web acessível tanto em computadores quanto em dispositivos móveis, os usuários podem enviar pedidos e imprimir uma **NOTA DE REQUISIÇÃO** de forma fácil e rápida. A página é compatível com os principais navegadores, apresenta campos com preenchimento interativo e intuitivo, além de oferecer a funcionalidade de impressão, resultando na geração de um documento em duas vias. Também foi implementada a funcionalidade para exibir os pedidos feitos e realizar a busca por pedido.
 
-Projeto hospedado no Netlify: [sbpedido.netlify.app](https://sbpedido.netlify.app)
+Outras funcionalidades foram implementadas. O projeto não foi finalizado.
 
-### Executar projeto 
+Projeto hospedado no Netlify nos seguintes domínios: <br>
+[conectesb.netlify.app](https://conectesb.netlify.app) <br>
+[sbpedido.netlify.app](https://sbpedido.netlify.app)
+
+### Executar o projeto 
 ```sh
 ## instalar dependências
 npm install
@@ -12,7 +16,8 @@ npm install
 npm start
 ```
 
-### Comandos para configurar ambiente Node.js no projeto e hospedar no Netlify para usar variáveis de ambiente
+### Comandos usados para usar o ambiente Node.js e hospedar no Netlify
+As seguintes estratégias foram usadas para gerenciar as variáveis de ambiente.
 Projeto exportado para a pasta src, em seguida foi executado seguintes comandos:
 
 ```sh
@@ -46,14 +51,14 @@ npm uninstall <package-name>
 npm run dev 
 ``` 
 
-Criar pasta netlify.toml
+Criada pasta netlify.toml
 ```bash
 [build]
     functions = "functions"
     publish = "src"
 ```
 
-Criar Netlify Functions 
+Criada Netlify Functions 
 ```bash
 netlify function:create --name fetch-spreadsheet
 type: Serverless function (Node/Go)
