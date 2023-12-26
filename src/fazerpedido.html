@@ -701,7 +701,7 @@
                 <h5 class="mb-1">Enviado...</h5>                  
             </div>
 
-            <div id="msgEnvioPedido"></div>
+            <div id="messageValidateSending"></div>
 
             <div id="buttons">
                 <div class="tipo__pedido">
@@ -711,6 +711,9 @@
                     <span>Extra</span>
                     <input type="checkbox" id="extra" name="extra"/>
                 </div>
+
+                <div id="messageSuccess" class="message__success"></div>
+                <div id="messageError" class="message__error"></div>
                 <input type="button" id="btnSendSpreadsheet" onclick="sendToSpreadsheet()" value="Enviar Pedido">
                 
                 <div style="display: grid">

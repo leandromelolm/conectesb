@@ -477,8 +477,30 @@ text-transform: none;
     align-items: center;
 }
 
-#msgEnvioPedido {
+#messageValidateSending {
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.message__success {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: #0f5132; 
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    height: auto; 
+    text-align: center; 
+    display: grid;
+}
+
+.message__error {
+    background-color: #f8d7da;
+    color: #842029;
+    height: auto;
+    text-align: center; 
+    display: grid;
 }

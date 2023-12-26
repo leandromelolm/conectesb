@@ -46,15 +46,19 @@ function cloneDocPrint() {
 };
 
 function sendToSpreadsheet() {
+    document.querySelector('#messageSuccess').innerHTML = '';
+    document.querySelector('#messageError').innerHTML = '';
     if (document.getElementById('nomeUnidade').value === '') {
-        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
-        msgEnvioPedido.style.backgroundColor = '#FF6347';
-        msgEnvioPedido.style.color = 'white'
-        msgEnvioPedido.style.height = '35px';
-        msgEnvioPedido.style.textAlign = 'center';
+        let messageValidateSending = document.getElementById('messageValidateSending');
+        messageValidateSending.style.cssText = `
+            background-color: #f8d7da;
+            color: #842029;
+            height: 35px;
+            text-align: center        
+        `;
 
         return document.querySelector(
-            '#msgEnvioPedido').innerHTML =
+            '#messageValidateSending').innerHTML =
             `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
     }
     const dataAtual = new Date();
@@ -62,22 +66,25 @@ function sendToSpreadsheet() {
     const dataAnterior = new Date(dataAtual.getTime() - umDiaEmMilissegundos);
     const dataFornecida = new Date(document.getElementById('dataPedido').value);
     if (dataFornecida < dataAnterior) {
-        msgEnvioPedido.style.backgroundColor = '#FF6347';
-        msgEnvioPedido.style.color = 'white'
-        msgEnvioPedido.style.height = '35px';
-        msgEnvioPedido.style.textAlign = 'center';
+        messageValidateSending.style.cssText = `
+            background-color: #f8d7da;
+            color: #842029;
+            height: 35px;
+            text-align: center 
+        `;
         return document.querySelector(
-            '#msgEnvioPedido').innerHTML =
-            `Não é possível enviar pedido. A data não pode ser uma data passada.
+            '#messageValidateSending').innerHTML =
+            `Não é possível enviar o pedido. A data não pode ser uma data passada.
             Verifique o campo <b>Data</b> no formulário.`;
     } else { }
-    document.querySelector('#msgEnvioPedido').innerHTML = "";
-    msgEnvioPedido.style.backgroundColor = 'white';
-    msgEnvioPedido.style.height = '1px';
+    document.querySelector('#messageValidateSending').innerHTML = "";    
+    messageValidateSending.style.backgroundColor = 'white';
+    messageValidateSending.style.height = '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
-        fetchPostSaveSheetGoogle();        
-        desabilitarBotaoEnviar();
+        fetchPostSaveSheetGoogle();
+        document.getElementById('btnSendSpreadsheet').disabled = true;
+        // desabilitarBotaoEnviar();
         // printPage();
     }
 }
@@ -320,68 +327,83 @@ function submitPostFunctionsNetlify(pedidoInfo) {
         console.log(data);
         responseFetch(data);  
     }).catch(function(error) {
-        alert(`
-            Aconteceu um erro!
-            Pode ser que sua solicitação não tenha sido enviada.
-            Mensagem de Erro: 
-            ${error}`
-        )
-        document.getElementById('divLoadingById').classList.add('d-none');
-        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
-        msgEnvioPedido.style.backgroundColor = '#f8d7da';
-        msgEnvioPedido.style.color = '#842029'
-        msgEnvioPedido.style.height = 'auto';
-        msgEnvioPedido.style.textAlign = 'center';
-        msgEnvioPedido.style.display = 'grid'
-        document.querySelector(
-            '#msgEnvioPedido').innerHTML =
-            `Erro no Envio!
-             Messagem do erro: <b>${error}</b>
-             `;
+        catchError(error);
     });
 }
 
 function responseFetch(data) {
+    document.getElementById('btnSendSpreadsheet').disabled = false;
     if (data.success === false || data.numeroPedido === undefined) {
         document.getElementById('divLoadingById').classList.add('d-none');
-        let msgEnvioPedido = document.getElementById('msgEnvioPedido');
-        msgEnvioPedido.style.backgroundColor = '#f8d7da';
-        msgEnvioPedido.style.color = '#842029'
-        msgEnvioPedido.style.height = '35px';
-        msgEnvioPedido.style.textAlign = 'center';
-        msgEnvioPedido.style.display = 'grid'
-        document.querySelector(
-            '#msgEnvioPedido').innerHTML =
-            `Erro no Envio!
-             Messagem do erro: <b>${data.error}</b>`;
+        let messageError = document.getElementById('messageError');        
+        messageError.innerHTML =`
+            <h4>
+                <b>Erro no Envio!</b>
+            </h4>
+            <div>
+                Messagem do erro: <b>${data.error}</b>
+            </div>
+        `;
         return alert(`
         Erro: ${data.error}
         `)
-    }
-
-    limparTudo();
-    document.getElementById('divLoadingById').classList.add('d-none');
-    let msgEnvioPedido = document.getElementById('msgEnvioPedido');
-    msgEnvioPedido.style.backgroundColor = '#4CAF50';
-    msgEnvioPedido.style.color = 'white'
-    msgEnvioPedido.style.height = 'auto';
-    msgEnvioPedido.style.textAlign = 'center';
-    msgEnvioPedido.style.display = 'grid'
-    document.querySelector(
-        '#msgEnvioPedido').innerHTML =
-        `Pedido enviado com sucesso! 
+    } else {
+        limparTudo();
+        document.getElementById('divLoadingById').classList.add('d-none');
+        let messageSuccess = document.getElementById('messageSuccess');
+        messageSuccess.innerHTML =
+        `<h4>
+            <b>Pedido enviado com sucesso!</b>
+        </h4>
         <div>
             <span>Número Pedido: </span> <b>${data.numeroPedido}</b>
         </div>
         <div>
             <span>Momento: </span> <b>${data.dataPedido}</b>
         </div>         
-         `;
-    alert(
-        `Pedido enviado com sucesso!
-        Número Pedido: ${data.numeroPedido}
-        Momento: ${data.dataPedido}`
-    );
+        `;
+        alert(
+            `Pedido enviado com sucesso!
+            Número Pedido: ${data.numeroPedido}
+            Momento: ${data.dataPedido}`
+        );
+    }
+}
+
+function catchError(error) {
+    document.getElementById('btnSendSpreadsheet').disabled = false; // habilitar botão enviar
+
+    alert(`
+        Aconteceu um erro!
+        Pode ser que sua solicitação não tenha sido enviada.
+        Mensagem de Erro: 
+        ${error}
+    `);
+    
+    document.getElementById('divLoadingById').classList.add('d-none');
+    let messageValidateSending = document.getElementById('messageValidateSending');
+    messageValidateSending.style.cssText = `
+        background-color: #f8d7da;
+        color: #842029;
+        height: auto;
+        text-align: center;
+        display: grid;
+        border-radius: 5px;
+    `;
+
+    document.querySelector('#messageValidateSending').innerHTML = `
+        <h4>
+            <b>Erro no Envio!</b>
+        </h4>
+        <div>Tente novamente!</div>
+        <div>
+            Se o erro persistir, verifique a conexão com a internet ou tente novamente mais tarde.      
+        </div>
+        <div>Caso ainda continue a messagem de erro, contate o administrador e informe a menssagem de erro.</div>
+        <div>
+            Messagem do erro: <b>${error}</b>
+        </div>
+    `;
 }
 
 let botaoHabilitado = true;
@@ -439,7 +461,7 @@ function fetchPostTest(params){
 
 
 const userAgent = navigator.userAgent;
-// Verifica o agente do usuário e define o valor do atributo data-navegador
+// Verificar o navegador usado para testar em caso de erro
 if (userAgent.includes("Chrome")) {
     document.querySelector(".browser__style").setAttribute("data-navegador", "chrome");
 } else if (userAgent.includes("Firefox")) {
