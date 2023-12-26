@@ -185,7 +185,7 @@ function validarEmail() {
     }
 };
 
-function enviarChamado() {
+function validarAntesDeEnviar() {
     let validacaoCampos = validarCamposUnidadeSolicitante();
     if(validacaoCampos != "OK"){
         return alert(validacaoCampos);
@@ -205,15 +205,12 @@ function enviarChamado() {
         quantidadeListaChamado: quantidadeListaChamado,
         listaChamado: listaChamados
     };
-    sendFetchSpreadSheet(chamadoAberto);
-    // setTimeout(responseOKSubmitForm, 3000);
-    // sendFetchEmail(chamadoAberto);
-    // console.log("chAberto",chamadoAberto);
+    sendSheet(chamadoAberto);
 };
 
-function sendFetchSpreadSheet(chamadoAberto) {
+function sendSheet(chamadoAberto) {
     mostrarMsgAguardeEnvio();
-    let chamadoAbertoObj = chamadoAberto;
+    let objChamado = chamadoAberto;        
     chamadoAberto.listaChamado.forEach((chamado, index) => {
         objItemString = JSON.stringify(chamado)
         chamadoAberto.listaChamado[index] =  objItemString;    
@@ -230,13 +227,12 @@ function sendFetchSpreadSheet(chamadoAberto) {
         }
     })
     .then(response =>response.json())
-    .then(data => responseMsgSentToSpreadSheet(data, chamadoAbertoObj))
-    .catch(error => responseMsgSentToSpreadSheet(error, chamadoAbertoObj));
-};
+    .then(data => responseSuccess(data, objChamado))
+    .catch(error => responseError(error));
+}
 
-function responseMsgSentToSpreadSheet(data, chamadoAbertoObj) {
-    console.log(data);
-    removerMsgAguardarEnvio(); 
+function responseSuccess(data, objChamado) {
+    removerMsgAguardarEnvio();
     let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
     if (data.status == "success") {
            
@@ -244,22 +240,28 @@ function responseMsgSentToSpreadSheet(data, chamadoAbertoObj) {
         responseMsgSentToSpreadSheet.innerHTML = `
         <p><b>A solicitação para abrir o chamado foi enviada e registrada com sucesso!</b></p> 
         <p>Id: ${data.content[0]}</p>  
-        <p>Unidade: ${data.content[1]}</p> 
-        <p>Data: ${data.content[4]}</p>       
-        <p><a class="link-primary" href="abrirchamado.html">Abrir um novo chamado</a></p>  
-        <a class="link-primary" href="index.html">Voltar para o menu principal</a>
-        `
-        sendFetchEmail(chamadoAbertoObj);
-        localStorage.removeItem('listCall'); 
+        <p>Unidade: ${objChamado.unidade}</p> 
+        <p>Data: ${objChamado.data}</p>
+        <a href="/index"> Retornar para página inicial</a>
+        `;
+    sendEmail(objChamado);
+    
     } else {
-        responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
         responseMsgSentToSpreadSheet.innerHTML = `
-        Resposta: Erro no envio!        
+            <p><b>Erro no envio! Tente novamente!</b></p> `;
+    }
+}
+
+function responseError(error) {
+    let responseMsgSentToSpreadSheet = document.getElementById("responseMsgSentToSpreadSheet");
+    responseMsgSentToSpreadSheet.classList.toggle('hidden', false)
+        responseMsgSentToSpreadSheet.innerHTML = `
+        Resposta: Erro no envio!
+        <p>${error}</p>
         <p><a href="abrirchamado.html">Tentar Novamente</a></p>  
         <a class="link-primary" href="index.html">Voltar para o menu principal</a>
         `        
-    }
-};
+}
 
 function mostrarMsgAguardeEnvio(){
     document.getElementById('spinner').className = "spinner-border"
@@ -276,6 +278,35 @@ function removerMsgAguardarEnvio(){
     mensagemAguarde.style.display = "none";
 };
 
+function sendEmail(objChamado) {
+    let prod = "saudebucaldods5@gmail.com"
+    let dev = "us284sb2@gmail.com";    
+    const dominio = window.location.hostname;
+    if (dominio === "conectesb.netlify.app" || dominio === "sbpedido.netlify.app") {
+        objChamado.emailPara = prod; 
+    } else {
+        objChamado.emailPara = dev;        
+    }
+    let url = 'https://script.google.com/macros/s/AKfycby980iQM8r5gatSeGSnreI3iYDMAUMwmesuOZimz5qLvbqj0Kro8atrrRIa4syGg8c8/exec';
+    fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+        },   
+        body: JSON.stringify(objChamado)
+    })
+    .then(response => response.json())
+    .then(data => messageSendEmailSuccess(data))
+    .catch(error => console.log(error));
+}
+
+function messageSendEmailSuccess(data) {
+    localStorage.removeItem('listCall'); 
+    console.log("Sucesso", data);
+    document.getElementById("responseMessageSendEmail").innerHTML = data.htmlBody;
+}
+
+// FORMSUBMIT
 function sendFetchEmail(chamadoAbertoObj){
     mostrarMsgAguardeEnvio();
     let chamadoFormatado = {
