@@ -151,20 +151,19 @@ legend {
 
 #responseMsgSentToSpreadSheet {
     margin: 30px 0px 0px 0px;
-    background-color: #4CB050; /* verde */
-    color: #fff;
+    color: #0F5132;
+    background-color: #D1E7DD;
     font-weight: bold;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 80%;
+    width: auto;
     max-width: 100%;
     text-align: center;
 }
 
 #responseMsgSentToSpreadSheet a {
     text-decoration: none;
-    color: indigo;
 }
 
 .msg__aguarde {

@@ -210,11 +210,19 @@ function validarAntesDeEnviar() {
 
 function sendSheet(chamadoAberto) {
     mostrarMsgAguardeEnvio();
-    let objChamado = chamadoAberto;        
+    
     chamadoAberto.listaChamado.forEach((chamado, index) => {
         objItemString = JSON.stringify(chamado)
         chamadoAberto.listaChamado[index] =  objItemString;    
     })
+    
+    // Criar uma cópia superficial do objeto chamadoAberto
+    const objChamado = { ...chamadoAberto };
+
+    if (chamadoAberto.email) {
+        chamadoAberto.email = chamadoAberto.email.substring(0, 3) + "**";
+    }
+
     objPedidoString = JSON.stringify(chamadoAberto);
 
     let url = "https://script.google.com/macros/s/AKfycbx_grjTmeJxtEqmRRROj1No1LaesrSftV0Gvfi9EWaUi39-lhGpswlDnWCSZRvlrpUL/exec";
@@ -263,21 +271,6 @@ function responseError(error) {
         `        
 }
 
-function mostrarMsgAguardeEnvio(){
-    document.getElementById('spinner').className = "spinner-border"
-    const mensagemAguarde = document.getElementById("mensagemAguarde");
-    mensagemAguarde.style.display = "block";
-    document.getElementById("chamadoForm").classList.toggle("hidden", true);
-};
-
-function removerMsgAguardarEnvio(){
-    document.getElementById('spinner').className = "hidden"
-    // document.getElementById("msgResponse").classList.toggle("hidden", false);
-    const mensagemAguarde = document.getElementById("mensagemAguarde");
-    mensagemAguarde.style.display = "block";
-    mensagemAguarde.style.display = "none";
-};
-
 function sendEmail(objChamado) {
     let prod = "saudebucaldods5@gmail.com"
     let dev = "us284sb2@gmail.com";    
@@ -296,17 +289,74 @@ function sendEmail(objChamado) {
         body: JSON.stringify(objChamado)
     })
     .then(response => response.json())
-    .then(data => messageSendEmailSuccess(data))
-    .catch(error => console.log(error));
+    .then(data => responseMessageSendEmail(data))
+    .catch(error =>responseErrorMessageSendEmail(error));
 }
 
-function messageSendEmailSuccess(data) {
-    localStorage.removeItem('listCall'); 
-    console.log("Sucesso", data);
-    document.getElementById("responseMessageSendEmail").innerHTML = data.htmlBody;
+function responseMessageSendEmail(data) {
+    if (data.success === true){
+        localStorage.removeItem('listCall');
+        let responseMessageSendEmail = document.getElementById("responseMessageSendEmail");
+        responseMessageSendEmail.style.cssText = `
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            margin-top: 10px;
+            border-radius: 5px;
+            color: #0F5132;
+            background-color: #D1E7DD;
+            border-color: #BADBCC;
+            height: auto; 
+            text-align: left; 
+            display: grid;
+            padding: 20px;
+        `
+        responseMessageSendEmail.innerHTML = data.htmlBody;
+
+    } else {
+        console.log("responseMessageSendEmail: Error", data);
+    }
 }
 
-// FORMSUBMIT
+function responseErrorMessageSendEmail(error) {
+    console.log('responseErrorMessageSendEmail: ',error)
+}
+
+function mostrarMsgAguardeEnvio(){
+    document.getElementById('spinner').className = "spinner-border"
+    const mensagemAguarde = document.getElementById("mensagemAguarde");
+    mensagemAguarde.style.display = "block";
+    document.getElementById("chamadoForm").classList.toggle("hidden", true);
+};
+
+function removerMsgAguardarEnvio(){
+    document.getElementById('spinner').className = "hidden"
+    // document.getElementById("msgResponse").classList.toggle("hidden", false);
+    const mensagemAguarde = document.getElementById("mensagemAguarde");
+    mensagemAguarde.style.display = "block";
+    mensagemAguarde.style.display = "none";
+};
+
+function dateFormat(data) {   
+    const dataObj = new Date(data);
+    if (dataObj.toString() == "Invalid Date"){
+        return `Não foi possível verificar a data`;
+    }    
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const ano = dataObj.getFullYear();
+    const horas = String(dataObj.getHours()).padStart(2, '0');
+    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
+    const segundos = String(dataObj.getSeconds()).padStart(2, '0');
+    
+    return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
+};
+
+
+
+/* https://formsubmit.co/ */
+
+/* FORMSUBMIT */
 function sendFetchEmail(chamadoAbertoObj){
     mostrarMsgAguardeEnvio();
     let chamadoFormatado = {
@@ -361,6 +411,7 @@ PROBLEMA INFORMADO: ${chamado.problema_informado}
     .catch(error => responseErrorSubmitForm(error));    
 };
 
+/* FORMSUBMIT - RESPONSE SUCCESS*/
 function responseOKSubmitForm(data, chamadoFormatado){    
     removerMsgAguardarEnvio();
     document.getElementById("msgResponse").classList.toggle("hidden", false);
@@ -395,6 +446,7 @@ function responseOKSubmitForm(data, chamadoFormatado){
     }
 };
 
+/* FORMSUBMIT - RESPONSE ERROR*/
 function responseErrorSubmitForm(error){
     alert("Erro na Requisição: " + error)
     console.log(error);
@@ -405,19 +457,4 @@ function responseErrorSubmitForm(error){
     <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
     <a href="index.html">Voltar para o menu principal</a>
     `;
-};
-
-function dateFormat(data) {   
-    const dataObj = new Date(data);
-    if (dataObj.toString() == "Invalid Date"){
-        return `Não foi possível verificar a data`;
-    }    
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-    const ano = dataObj.getFullYear();
-    const horas = String(dataObj.getHours()).padStart(2, '0');
-    const minutos = String(dataObj.getMinutes()).padStart(2, '0');
-    const segundos = String(dataObj.getSeconds()).padStart(2, '0');
-    
-    return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
