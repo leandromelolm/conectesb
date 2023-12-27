@@ -30,8 +30,12 @@ function loginFetchAPI() {
 
 function responseOK(data) {
   // console.log(data);
-  localStorage.setItem("access_token", data.content.token);
-  divSuccess();
+  if (data.content.auth === false) {
+    messageError(data.content.message);
+  } else {
+    localStorage.setItem("access_token", data.content.token);
+    divSuccess();
+  }
 }
 
 function responseError(error) {
