@@ -298,17 +298,15 @@ function responseMessageSendEmail(data) {
         localStorage.removeItem('listCall');
         let responseMessageSendEmail = document.getElementById("responseMessageSendEmail");
         responseMessageSendEmail.style.cssText = `
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 5px;
-            margin-top: 10px;
+            margin: 5px 60px 90px 60px;
             border-radius: 5px;
             color: #0F5132;
             background-color: #D1E7DD;
             border-color: #BADBCC;
-            height: auto; 
-            text-align: left; 
-            display: grid;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            height: auto;
+            width: 100%;
+            text-align: left;
             padding: 20px;
         `
         responseMessageSendEmail.innerHTML = data.htmlBody;
