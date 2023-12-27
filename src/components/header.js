@@ -117,7 +117,7 @@ class Header extends HTMLElement {
         if (token != null) {
             validToken = checkTokenExpirationDate(token);
             if (validToken.auth) {
-                console.log("valid token");
+                console.log("token válido");
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
             } else {
@@ -130,23 +130,30 @@ class Header extends HTMLElement {
 customElements.define('header-component', Header);
 
 function checkTokenExpirationDate(token) {
-    let s = token.split('.');
-    var decodeString = atob(s[1]);
-    // console.log(decodeString);
-    console.log("checkToken");
-    const { exp, name } = JSON.parse(decodeString);
-
-    if (new Date(exp * 1000) > new Date()) {
-        return {
-            auth: true,
-            message: 'Valid signature',
-            expira: new Date(exp * 1000),
-            username: name
-        };
-    } else {
+    try {
+        let s = token.split('.');
+        var decodeString = atob(s[1]);
+        console.log("checkToken");
+        const { exp, name } = JSON.parse(decodeString);
+    
+        if (new Date(exp * 1000) > new Date()) {
+            return {
+                auth: true,
+                message: 'Valid signature',
+                expira: new Date(exp * 1000),
+                username: name
+            };
+        } else {
+            return {
+                auth: false,
+                message: 'The token has expired'
+            };
+        }        
+    } catch (error) {
+        console.log("token inválido:", error)
         return {
             auth: false,
-            message: 'The token has expired'
+            message: 'invalid token'
         };
     }
 }
