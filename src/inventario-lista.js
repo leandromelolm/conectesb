@@ -33,6 +33,7 @@ function setarParametrosNaURL(search, protocolo) {
   }
 
 async function getApiLastRow() {
+    document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
     const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
         method: "GET"
     });
@@ -45,7 +46,8 @@ async function getApiLastRow() {
         document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
         getApi();
         localStorage.setItem('inventario-lista-ultLinha', data.content);
-    } else {        
+    } else {
+        document.getElementById('divLoadingUpdatePage').classList.add('d-none');
         let ls =localStorage.getItem('inventario-lista_enviados');
         divListGroup(JSON.parse(ls));
     }

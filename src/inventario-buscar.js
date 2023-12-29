@@ -17,6 +17,12 @@ window.addEventListener("DOMContentLoaded", () => {
             document.getElementById('divSectionContent').classList.toggle('d-none', false);        
             document.getElementById("loggedUser").classList.toggle("d-none", false);
             document.getElementById("usuarioLogado").textContent = validToken.username;
+
+            let ls =localStorage.getItem('inventario-lista_enviados');
+            if (ls) {
+                divListGroup(JSON.parse(ls));
+            }
+            getApiLastRow();
             let p = obterParametrosDaURL();
             if (p.search) {
                 getApi();
@@ -31,6 +37,27 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
 })
+
+async function getApiLastRow() {
+    document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
+        method: "GET"
+    });
+    if (!response.ok) {
+    throw new Error('Erro na requisição: ' + response.status);
+    }  
+    const data = await response.json();
+    let lastRow = data.content;
+    if (lastRow > localStorage.getItem('inventario-lista-ultLinha')) {
+        document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
+        getApi();
+        localStorage.setItem('inventario-lista-ultLinha', data.content);
+    } else {
+        document.getElementById('divLoadingUpdatePage').classList.add('d-none');      
+        let ls =localStorage.getItem('inventario-lista_enviados');
+        divListGroup(JSON.parse(ls));
+    }
+}
 
 function eventClickEnter(event) {
     if (event.keyCode === 13) {
@@ -83,8 +110,26 @@ function getApi() {
         method: "GET",
     })
         .then(response => response.json())
-        .then(data => divListGroup(data))
-        .catch(error => console.log(error));
+        .then(data => messageSuccessGetApi(data))
+        .catch(error => messageErrorGetApi(error));
+}
+
+function messageErrorGetApi(error) {
+    document.getElementById('divLoadingUpdatePage').classList.add('d-none');
+    console.log(error);
+    alert(error);
+}
+
+function messageSuccessGetApi(data) {
+    document.getElementById('divLoadingUpdatePage').classList.add('d-none');
+    divListGroup(data);
+    salvarLocalStorageLista(data);    
+}
+
+function salvarLocalStorageLista(data) {
+    if (data.totalRows !== localStorage.getItem('inventario-lista-ultLinha')) {
+        localStorage.setItem('inventario-lista_enviados', JSON.stringify(data));
+    } 
 }
 
 function getApiById(id) {
