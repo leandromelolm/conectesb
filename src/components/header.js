@@ -55,6 +55,7 @@ a:hover {
                         <a class="nav-link active" href="buscarchamado.html">Buscar Chamado</a>
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>
+                        <a class="nav-link active d-none a__inventario-buscar" href="inventario-buscar?search=all">Buscar Inventários</a>
                     </div>
                     <div class="div__user-login d-flex flex-row-reverse d-none">
                         <button class="btn btn-light ms-1 rounded-pill" onclick="logout()">Sair</button>             
@@ -108,10 +109,11 @@ class Header extends HTMLElement {
         usuarioLogadoElement.style.color = 'white';
         shadowRoot.querySelector('.div__user-login').appendChild(usuarioLogadoElement);
         let divUserLogin = shadowRoot.querySelector('.div__user-login');
-        this.load(usuarioLogadoElement, divUserLogin);
+        let aInventarioBuscar = shadowRoot.querySelector('.a__inventario-buscar');
+        this.load(usuarioLogadoElement, divUserLogin, aInventarioBuscar);
     }
 
-    load(usuarioLogadoElement, divUserLogin) {
+    load(usuarioLogadoElement, divUserLogin, aInventarioBuscar) {
         let token = localStorage.getItem('access_token');
         let validToken;
         if (token != null) {
@@ -120,6 +122,7 @@ class Header extends HTMLElement {
                 console.log("token válido");
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
+                aInventarioBuscar.classList.toggle('d-none', false);
             } else {
                 localStorage.removeItem('access_token');
             }
