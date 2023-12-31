@@ -44,7 +44,7 @@
                                                 <input type="text" id="nomeUnidade" class="input_unidade" 
                                                     list="u-list"
                                                     maxlength="70"
-                                                    onchange="saveRequesterLocaStorage()"
+                                                    onchange="saveInfoRequesterInSessionStorage()"
                                                 />
                                                 <datalist id="u-list"></datalist>
                                             </div>
@@ -59,13 +59,13 @@
                                                     </span>
                                                     <input type="text" id="ds" class="input_distrito"
                                                         maxlength="1"
-                                                        onblur="saveRequesterLocaStorage()"
+                                                        onblur="saveInfoRequesterInSessionStorage()"
                                                     />
                                                 </div>
                                                 <div id="divDate" class="hidden-in-print">
                                                     <span>Data:</span>
                                                     <input type="date" id="dataPedido" class="input_data_pedido"
-                                                        onblur="saveRequesterLocaStorage()"
+                                                        onblur="saveInfoRequesterInSessionStorage()"
                                                     />
                                                 </div>
                                                 <div id="divDateShowPrint" class="show-in-print">
@@ -84,7 +84,7 @@
                                                 </div>
                                                 <input type="text" id="grupoMaterial" class="input_grupo" 
                                                     maxlength="25"
-                                                    onblur="saveRequesterLocaStorage()"
+                                                    onblur="saveInfoRequesterInSessionStorage()"
                                                 />
                                             </div>
                                         </th>
@@ -97,7 +97,7 @@
                                                 </div>
                                                 <input type="text" id="nomeResponsavel" class="input_funcionario"
                                                     maxlength="60"
-                                                    onblur="saveRequesterLocaStorage()"
+                                                    onblur="saveInfoRequesterInSessionStorage()"
                                                 />
                                             </div>
                                         </th>

@@ -12,6 +12,8 @@ let appEnv;
 
 window.onload = () => {
 
+    localStorage.removeItem("dadosRequerente");
+
     let itemArray = stringParaArray(itensStringConcatenado);
 
     itemArray.forEach(option => {
@@ -26,9 +28,16 @@ window.onload = () => {
         undlist.appendChild(optEl);
     });
 
-    recuperarDadosRequisitanteLocalStorage();
-    recuperarDadosItensLocalStorage();
-    visibilidadeDasLinhas();
+    recuperarDadosRequisitanteSessionStorage();
+
+    const itensRecuperados = recuperarDadosItensSessionStorage();
+    if(!itensRecuperados.itensDoPedidoExistem) {
+        recuperarDadosItensLocalStorage();
+        visibilidadeDasLinhas(retornarQuantidadeDeItensLocalStorage());
+    } else {
+        visibilidadeDasLinhas(itensRecuperados.quantityOfOrderedItems);
+    }
+
 };
 
 function updateTitleWithDate() {
@@ -116,28 +125,24 @@ function toggleRowVisibility() {
     });
 };
 
-function visibilidadeDasLinhas() {
-    let dadosJSON = localStorage.getItem('dadosItens');
+function visibilidadeDasLinhas(quantidadeItens) {
     const rows = document.querySelectorAll('.tr_hidden');
     const toggleButton = document.getElementById('toggleButton');
-    if (dadosJSON) {
-        let dadosObj = JSON.parse(dadosJSON);
-        if (dadosObj.length > 10) {
-            rows.forEach(row => {
-                row.style.display = 'table-row'; // EXIBIR
-            });
-            toggleButton.innerHTML = '<img src="assets/minus.svg" alt=""> Mostrar Menos Linhas';
-        }
-        if (dadosObj.length <= 10) {
-            rows.forEach(row => {
-                row.style.display = 'none'; // ESCONDER
-            });
-            toggleButton.innerHTML = '<img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas';
-        }
+    if (quantidadeItens > 10) {
+        rows.forEach(row => {
+            row.style.display = 'table-row'; // EXIBIR
+        });
+        toggleButton.innerHTML = '<img src="assets/minus.svg" alt=""> Mostrar Menos Linhas';
+    }
+    if (quantidadeItens <= 10) {
+        rows.forEach(row => {
+            row.style.display = 'none'; // ESCONDER
+        });
+        toggleButton.innerHTML = '<img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas';
     }
 }
 
-function saveRequesterLocaStorage() {
+function saveInfoRequesterInSessionStorage() {
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
         ds: document.getElementById('ds').value,
@@ -145,7 +150,7 @@ function saveRequesterLocaStorage() {
         grupoMaterial: document.getElementById('grupoMaterial').value,
         nomeResponsavel: document.getElementById('nomeResponsavel').value
     }
-    localStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
+    sessionStorage.setItem("dadosRequerente", JSON.stringify(dadosRequerente));
 };
 
 function saveDataItensLocalStorage() {
@@ -167,10 +172,12 @@ function saveDataItensLocalStorage() {
             dados.push(item);
             const celulaItem = cells[index + 1];
             celulaItem.textContent = index + 1;
-            visibilidadeDasLinhas();
+             
         }
     });
+    visibilidadeDasLinhas(dados.length);
     localStorage.setItem('dadosItens', JSON.stringify(dados));
+    sessionStorage.removeItem('dadosItens');
 };
 
 // Adiciona um evento 'input' para salvar os dados no Local Storage automaticamente
@@ -179,8 +186,8 @@ inputs.forEach(function (input) {
     input.addEventListener('input', saveDataItensLocalStorage);
 });
 
-function recuperarDadosRequisitanteLocalStorage() {
-    let requerenteJson = localStorage.getItem("dadosRequerente");
+function recuperarDadosRequisitanteSessionStorage() {
+    let requerenteJson = sessionStorage.getItem("dadosRequerente");    
     if (requerenteJson) {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
@@ -199,7 +206,7 @@ function recuperarDadosRequisitanteLocalStorage() {
 };
 
 function recuperarDadosItensLocalStorage() {
-    let dadosJSON = localStorage.getItem('dadosItens');
+    let dadosJSON = localStorage.getItem('dadosItens');    
     if (dadosJSON) {
         let dadosObj = JSON.parse(dadosJSON);
 
@@ -220,6 +227,44 @@ function recuperarDadosItensLocalStorage() {
                 }
             }
         });
+    }
+};
+
+function retornarQuantidadeDeItensLocalStorage() {
+    let dadosJSON = localStorage.getItem('dadosItens');
+    if (dadosJSON) {
+        let dadosObj = JSON.parse(dadosJSON);
+        return dadosObj.length;
+    } else {
+        return 0;
+    }
+}
+
+function recuperarDadosItensSessionStorage() {
+    let dadosJSON = sessionStorage.getItem('dadosItens');
+    if (dadosJSON) {
+        let dadosObj = JSON.parse(dadosJSON);
+
+        // Iterar pelos dados e preencher os inputs correspondentes
+        let linhas = document.querySelectorAll('#tableItens tbody tr');
+        linhas.forEach(function (linha, index) {
+            let inputEspecificacao = linha.querySelector('.td__especificacao input');
+            let inputQuantidade = linha.querySelector('.td__quant_pedida input');
+            const cells = document.querySelectorAll(".item");
+            if (index < dadosObj.length) {
+                const celulaItem = cells[index + 1];
+                celulaItem.textContent = index + 1;
+                if (inputEspecificacao) {
+                    inputEspecificacao.value = dadosObj[index].especificacao;
+                }
+                if (inputQuantidade) {
+                    inputQuantidade.value = dadosObj[index].quantidade;
+                }
+            }
+        });
+        return obj = {itensDoPedidoExistem: true, quantityOfOrderedItems: dadosObj.length};
+    } else {
+        return obj = {itensDoPedidoExistem: false};
     }
 };
 
@@ -251,6 +296,7 @@ function limparCamposInfoUnidade() {
     document.getElementById('grupoMaterial').value = '';
     document.getElementById('nomeResponsavel').value = '';
     localStorage.removeItem('dadosRequerente');
+    sessionStorage.removeItem('dadosRequerente');
 }
 
 function inputsItensClean() {
@@ -269,6 +315,7 @@ function limparCamposItens() {
         input.value = '';
     });
     localStorage.removeItem('dadosItens');
+    sessionStorage.removeItem('dadosItens');
     limparValoresDaColunaItem();
 }
 
@@ -299,7 +346,7 @@ function fetchPostSaveSheetGoogle() {
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade;
     let pedidoInfo = {
-        requerente: localStorage.getItem('dadosRequerente'),
+        requerente: sessionStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
         tipoPedido: localStorage.getItem('tipoPedido'),
         unidade: nUnid.toUpperCase(),

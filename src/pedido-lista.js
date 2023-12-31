@@ -219,9 +219,9 @@ function scrollToTop() {
 function abrirPedidoNoFormulario() {
     const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
     const itensDados = document.getElementById('listaPedido').value;
-    localStorage.setItem('dadosRequerente', unidadeRequisitante)
-    localStorage.setItem('dadosItens', itensDados);
-    // window.open('index.html', '_blank');
+    sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
+    sessionStorage.setItem('dadosItens', itensDados);
+    // window.open('pedido-fazer.html', '_blank');
     window.location.href = 'pedido-fazer.html';
 };
 
