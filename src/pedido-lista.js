@@ -222,7 +222,7 @@ function abrirPedidoNoFormulario() {
     localStorage.setItem('dadosRequerente', unidadeRequisitante)
     localStorage.setItem('dadosItens', itensDados);
     // window.open('index.html', '_blank');
-    window.location.href = 'fazerpedido.html';
+    window.location.href = 'pedido-fazer.html';
 };
 
 function limparCampos() {

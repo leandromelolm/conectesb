@@ -49,7 +49,7 @@ a:hover {
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page"  href="fazerpedido.html">Fazer Pedido</a>
+                        <a class="nav-link active" aria-current="page"  href="pedido-fazer.html">Fazer Pedido</a>
                         <a class="nav-link active" href="pedido-lista.html">Lista de Pedidos</a>
                         <a class="nav-link active" href="abrirchamado.html">Abrir Chamado</a>
                         <a class="nav-link active" href="buscarchamado.html">Buscar Chamado</a>
