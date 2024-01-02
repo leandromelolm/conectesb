@@ -57,6 +57,8 @@
 `Ctrl+L` Selecionar linha<br>
 `Ctrl+D` Selecionar todas as ocorrências<br>
 `Ctrl+Shift+.` Navegar no editor rapidamente entre as funções do arquivo de código<br>
+`F12` Ir para referência do valor que está selecionado no curso<br>
+`ALT+J` Exibir: Ativar/Desativar Painel Maximizado (alterado configuração em preferências: abrir atalhos de teclado)
 
 #### Navegador
 
