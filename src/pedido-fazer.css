@@ -432,6 +432,9 @@ td.td__quant_pedida input {
         padding: 0;
         border: 0;
     }
+    .div__margin-top_print_firefox {
+        margin-top: 45px;
+    }
 }
 
 input { 

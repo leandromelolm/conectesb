@@ -118,9 +118,13 @@ function toggleRowVisibility() {
         if (row.style.display === 'table-row') {
             row.style.display = 'none'; // Esconder a linha
             toggleButton.innerHTML = '<img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas';
+            document.querySelector('.div__margin-top_print_firefox').classList.add('d-none');
+            document.querySelector('.img-right').style.cssText = `margin-top: 0px;`
         } else {
             row.style.display = 'table-row'; // Mostrar a linha
             toggleButton.innerHTML = '<img src="assets/minus.svg" alt=""> Mostrar Menos Linhas';
+            document.querySelector('.div__margin-top_print_firefox').classList.remove('d-none');
+            document.querySelector('.img-right').style.cssText = `margin-top: 10px;`
         }
     });
 };
