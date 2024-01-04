@@ -51,8 +51,8 @@ a:hover {
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page"  href="pedido-fazer.html">Fazer Pedido</a>
                         <a class="nav-link active" href="pedido-lista.html">Lista de Pedidos</a>
-                        <a class="nav-link active" href="abrirchamado.html">Abrir Chamado</a>
-                        <a class="nav-link active" href="buscarchamado.html">Buscar Chamado</a>
+                        <a class="show_logged_in_only d-none nav-link active" href="abrirchamado.html">Abrir Chamado</a>
+                        <a class="show_logged_in_only d-none nav-link active" href="buscarchamado.html">Buscar Chamado</a>
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>
                         <a class="nav-link active d-none a__inventario-buscar" href="inventario-buscar?search=all">Buscar Inventários</a>
@@ -110,10 +110,11 @@ class Header extends HTMLElement {
         shadowRoot.querySelector('.div__user-login').appendChild(usuarioLogadoElement);
         let divUserLogin = shadowRoot.querySelector('.div__user-login');
         let aInventarioBuscar = shadowRoot.querySelector('.a__inventario-buscar');
-        this.load(usuarioLogadoElement, divUserLogin, aInventarioBuscar);
+        let showLinkLoggedInOnly = shadowRoot.querySelector('.show_logged_in_only');
+        this.load(usuarioLogadoElement, divUserLogin, aInventarioBuscar, showLinkLoggedInOnly);
     }
 
-    load(usuarioLogadoElement, divUserLogin, aInventarioBuscar) {
+    load(usuarioLogadoElement, divUserLogin, aInventarioBuscar, showLinkLoggedInOnly) {
         let token = localStorage.getItem('access_token');
         let validToken;
         if (token != null) {
@@ -123,6 +124,7 @@ class Header extends HTMLElement {
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
                 aInventarioBuscar.classList.toggle('d-none', false);
+                showLinkLoggedInOnly.classList.toggle('d-none', false);
             } else {
                 localStorage.removeItem('access_token');
             }
