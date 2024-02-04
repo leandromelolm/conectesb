@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="estoque-admin.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <title>Estoque</title>
+</head>
+<body>
+  <div class="main__container container d-flex justify-content-center">
+    <div>
+      <h1 class="text-center">GERENCIAMENTO DE ESTOQUE</h1>
+      <p class="text-center">Simples applicação. Em desenvolvimento<p>
+        <form>
+          <div class="row g-3">
+            <div class="col-sm">
+              <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly>
+            </div>
+            <div class="col-sm">
+              <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
+            </div>
+            <div class="col-sm-4">
+              <input name="item" id="item" type="text" class="form-control" placeholder="Item" aria-label="Item">
+            </div>
+            <div class="col-sm">
+              <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
+            </div>
+            <div class="col-sm">
+              <input name="validade" id="validade" type="text" class="form-control" placeholder="Validade" aria-label="Validade">
+            </div>
+            <div class="col-sm">
+              <input name="quantidade" id="quantidade" type="text" class="form-control" placeholder="Quant" aria-label="Quant">
+            </div>
+          </div>
+        </form>
+
+        <div id="loader"></div>
+
+        <p id="re"></p>
+        
+        <div class="text-center">
+          <div class="div__buttons">
+            <input type="button" onclick="salvar()" value="SALVAR"></input>
+            <input type="button" onclick="read_value()" value="RECARREGAR LISTA" />
+            <input type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
+
+            <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
+            <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>
+            <input type="button" onclick="update_value()" value="Update" class="d-none"/>
+            <!-- <input type="button" onclick="delete_value()" value="Delete" /> -->
+          </div>
+          <div>
+            <a href="" target="_blank">Click here to open Spread Sheet </a>
+          </div>
+        </div>
+
+        <div class="div__show-data" id="showData"></div>
+
+      </div>
+  </div>
+</body>
+<script src="estoque-admin.js"></script>
+</html>
