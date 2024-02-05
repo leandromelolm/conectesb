@@ -73,58 +73,30 @@ function read_value() {
     let url = script_url + "?action=read";
 
     $.getJSON(url, function (json) {
-        let table = document.createElement("table");
 
-        let header = table.createTHead();
-        let row = header.insertRow(0);
-        let cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-        let cell3 = row.insertCell(2);
-        let cell4 = row.insertCell(3);
-        let cell5 = row.insertCell(4);
-        let cell6 = row.insertCell(5);
-        let cell7 = row.insertCell(6);
-        let cell8 = row.insertCell(7);
-
-        cell1.innerHTML = `<b>ID</b>`;
-        cell2.innerHTML = "<b>CADUM</b>";
-        cell3.innerHTML = "<b>ITEM</b>";
-        cell4.innerHTML = "<b>MARCA</b>";
-        cell5.innerHTML = "<b>VALIDADE</b>";
-        cell6.innerHTML = "<b>QTD</b>";
-        cell7.innerHTML = "<b>Update</b>";
-        cell8.innerHTML = "<b>Delete</b>";
-
+        let listItem = document.getElementById('listItem');
+        let item = [];
+        
         json.records.reverse();
 
         for (let i = 0; i < json.records.length; i++) {
-
-            tr = table.insertRow(-1);
-            let tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].ID;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].CODIGO;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].ITEM;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].MARCA;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].VALIDADE;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].QUANTIDADE;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = `<button 
-                      class="updateButton" 
-                      data-record='${JSON.stringify(json.records[i])}'>Edit</button>`;
-            tabCell = tr.insertCell(-1);
-            // tabCell.innerHTML = `<button onclick="delete_value(${json.records[i].ID})">Del</button>`;
-            tabCell.innerHTML = `<button id="deleteButton_${json.records[i].ID}">Del</button>`;
-            
-        }
-
-        let divContainer = document.getElementById("showData");
-        divContainer.innerHTML = "";
-        divContainer.appendChild(table);
+            item.push(`            
+            <a href="#" class="list-group-item list-group-item-action" aria-current="true">                
+                <div>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">${json.records[i].ITEM}</h5>
+                        <small>${json.records[i].QUANTIDADE}</small>
+                    </div>
+                    <p class="mb-1">${json.records[i].CODIGO} | Marca:${json.records[i].MARCA}</p>
+                    <small> Validade: ${json.records[i].VALIDADE}</small>
+                </div>
+                <button class="updateButton" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
+                <button id="deleteButton_${json.records[i].ID}">Deletar</button>
+            </a>
+            `);            
+        };
+        listItem.innerHTML = item.join('');
+        
         document.getElementById("loader").style.visibility = "hidden";
         $("#re").css("visibility", "visible");
     });
@@ -134,6 +106,7 @@ document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('updateButton')) {
         const recordData = JSON.parse(event.target.dataset.record);
         preencherForm(recordData);
+        console.log("test");
     }
 });
 
@@ -141,6 +114,8 @@ document.addEventListener('click', function(event) {
     if (event.target && event.target.id.startsWith('deleteButton_')) {
         // Extrai o ID do botão e chama a função delete_value
         const id = event.target.id.split('_')[1];
+        let confirmar = confirm("Certeza que deseja apagar?");
+        if (confirmar)
         delete_value(id);
     }
 });
@@ -173,6 +148,10 @@ function preencherForm(data){
     $("#validade").val(data.VALIDADE);
     $("#quantidade").val(data.QUANTIDADE);
 }
+
+
+
+// FUNÇÕES DE TESTE
 
 async function insert_data_callback() {
     load();
@@ -216,4 +195,67 @@ function insert_value_ajax() {
     });
     console.log(request);
     reload_data();
+}
+
+function read_value_2() {
+    $("#re").css("visibility", "hidden");
+    document.getElementById("loader").style.visibility = "visible";
+    let url = script_url + "?action=read";
+
+    $.getJSON(url, function (json) {
+        let table = document.createElement("table");
+
+        let header = table.createTHead();
+        let row = header.insertRow(0);
+        // let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(0);
+        let cell3 = row.insertCell(1);
+        let cell4 = row.insertCell(2);
+        let cell5 = row.insertCell(3);
+        let cell6 = row.insertCell(4);
+        let cell7 = row.insertCell(5);
+        let cell8 = row.insertCell(6);
+
+        // cell1.innerHTML = `<b>ID</b>`;
+        cell2.innerHTML = "<b>CADUM</b>";
+        cell3.innerHTML = "<b>ITEM</b>";
+        cell4.innerHTML = "<b>MARCA</b>";
+        cell5.innerHTML = "<b>VALIDADE</b>";
+        cell6.innerHTML = "<b>QTD</b>";
+        cell7.innerHTML = "<b>Update</b>";
+        cell8.innerHTML = "<b>Delete</b>";
+
+        json.records.reverse();
+
+        for (let i = 0; i < json.records.length; i++) {
+
+            tr = table.insertRow(-1);
+            // let tabCell = tr.insertCell(-1);
+            // tabCell.innerHTML = json.records[i].ID;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = json.records[i].CODIGO;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = json.records[i].ITEM;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = json.records[i].MARCA;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = json.records[i].VALIDADE;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = json.records[i].QUANTIDADE;
+            tabCell = tr.insertCell(-1);
+            tabCell.innerHTML = `<button 
+                      class="updateButton" 
+                      data-record='${JSON.stringify(json.records[i])}'>Edit</button>`;
+            tabCell = tr.insertCell(-1);
+            // tabCell.innerHTML = `<button onclick="delete_value(${json.records[i].ID})">Del</button>`;
+            tabCell.innerHTML = `<button id="deleteButton_${json.records[i].ID}">Del</button>`;
+            
+        }
+
+        let divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+        document.getElementById("loader").style.visibility = "hidden";
+        $("#re").css("visibility", "visible");
+    });
 }
