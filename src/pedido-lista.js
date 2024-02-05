@@ -170,7 +170,7 @@ function mostrarPedido(pedido) {
     document.getElementById('labelPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
     // document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
     document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(pedido.dataPedido)}`;
-    document.getElementById('requisitante').innerHTML = `<b>Unidade Requisitante</b>: ${pedido.nomeUnidade}`;
+    document.getElementById('requisitante').innerHTML = `<b>Unidade</b>: ${pedido.nomeUnidade}`;
     document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
     document.getElementById('listaPedido').value = pedido.itensStr; 
     const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
