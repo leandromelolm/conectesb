@@ -16,23 +16,29 @@
       <p class="text-center">Simples applicação. Em desenvolvimento<p>
         <form>
           <div class="row g-3">
-            <div class="col-sm">
-              <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly>
+            <div class="col-sm form-floating mb-3">
+              <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly disabled>
+              <label for="floatingInput">ID</label>
             </div>
-            <div class="col-sm">
+            <div class="col-sm form-floating mb-3">
               <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
+              <label for="floatingInput">CADUM</label>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 form-floating mb-3">
               <input name="item" id="item" type="text" class="form-control" placeholder="Item" aria-label="Item">
+              <label for="floatingInput">ITEM</label>
             </div>
-            <div class="col-sm">
+            <div class="col-sm form-floating mb-3">
               <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
+              <label for="floatingInput">MARCA</label>
             </div>
-            <div class="col-sm">
-              <input name="validade" id="validade" type="text" class="form-control" placeholder="Validade" aria-label="Validade">
+            <div class="col-sm form-floating mb-3">
+              <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
+              <label for="floatingInput">VALIDADE</label>
             </div>
-            <div class="col-sm">
-              <input name="quantidade" id="quantidade" type="text" class="form-control" placeholder="Quant" aria-label="Quant">
+            <div class="col-sm form-floating mb-3">
+              <input name="quantidade" id="quantidade" type="number" min="0" class="form-control" placeholder="Quant" aria-label="Quant">
+              <label for="floatingInput">QUANTIDADE</label>
             </div>
           </div>
         </form>
@@ -42,10 +48,10 @@
         <p id="re"></p>
         
         <div class="text-center">
-          <div class="div__buttons">
-            <input type="button" onclick="salvar()" value="SALVAR"></input>
-            <input type="button" onclick="read_value()" value="RECARREGAR LISTA" />
-            <input type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
+          <div class="div__buttons row justify-content-md-center m-2">
+            <input class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR"></input>
+            <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />
+            <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
 
             <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
             <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>

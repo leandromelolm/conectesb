@@ -19,10 +19,12 @@ async function insert_value() {
     let codigo = $("#codigo").val();
     let item = $("#item").val();
     let marca = $("#marca").val();
-    let validade = $("#validade").val();
+
+    let validade = formatDate($("#validade").val());
+
     let quantidade = $("#quantidade").val();
     try {
-        const res = await fetch(script_url + "?id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + validade + "&quantidade=" + quantidade + "&action=insert");
+        const res = await fetch(script_url + "?id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&action=insert");
         if (res.ok) {
             const data = await res.json();
             console.log(data.content);
@@ -42,9 +44,9 @@ async function update_value() {
     let codigo = $("#codigo").val();
     let item = $("#item").val();
     let marca = $("#marca").val();
-    let validade = $("#validade").val();
+    let validade = formatDate($("#validade").val());
     let quantidade = $("#quantidade").val();
-    let url = script_url + "?callback=ctrlq&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + validade + "&quantidade=" + quantidade + "&id=" + id1 + "&action=update";
+    let url = script_url + "?callback=ctrlq&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&id=" + id1 + "&action=update";
 
     const res = await fetch(url);
 
@@ -85,13 +87,13 @@ function read_value() {
                 <div>
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">${json.records[i].ITEM}</h5>
-                        <small>${json.records[i].QUANTIDADE}</small>
+                        <h3>${json.records[i].QUANTIDADE}</h3>
                     </div>
                     <p class="mb-1">${json.records[i].CODIGO} | Marca:${json.records[i].MARCA}</p>
                     <small> Validade: ${json.records[i].VALIDADE}</small>
                 </div>
-                <button class="updateButton" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
-                <button id="deleteButton_${json.records[i].ID}">Deletar</button>
+                <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
+                <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
             </a>
             `);            
         };
@@ -106,7 +108,6 @@ document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('updateButton')) {
         const recordData = JSON.parse(event.target.dataset.record);
         preencherForm(recordData);
-        console.log("test");
     }
 });
 
@@ -147,6 +148,20 @@ function preencherForm(data){
     $("#marca").val(data.MARCA);
     $("#validade").val(data.VALIDADE);
     $("#quantidade").val(data.QUANTIDADE);
+}
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 
