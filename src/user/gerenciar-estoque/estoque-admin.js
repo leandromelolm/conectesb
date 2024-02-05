@@ -13,14 +13,6 @@ function salvar() {
     }
 }
 
-function clear_form() {
-    $("#id").val("");
-    $("#codigo").val("");
-    $("#item").val("");
-    $("#marca").val("");
-    $("#validade").val("");
-    $("#quantidade").val("");
-}
 async function insert_value() {
     load();
     let id = $("#id").val();
@@ -43,69 +35,6 @@ async function insert_value() {
     }
 }
 
-async function insert_data_callback() {
-    load();
-    let id = $("#id").val();
-    let codigo = $("#codigo").val();
-    let item = $("#item").val();
-    let marca = $("#marca").val();
-    let validade = $("#validade").val();
-    let quantidade = $("#quantidade").val();
-
-    let url = script_url + "?callback=ctrlq&id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + validade + "&quantidade=" + quantidade + "&action=insert";
-
-    try {
-        // ?callback=ctrlq
-        const res = await fetch(url);
-        if (res.ok) {
-            const text = await res.text();
-            const jsonString = text.match(/\(([^)]+)\)/)[1];
-            const data = JSON.parse(jsonString);
-            reload_data()
-        }
-    } catch (error) {
-        console.log("erro ao inserir", error);
-        reload_data()
-    }
-}
-
-async function delete_value(id) {
-    load();
-    try {
-        const res = await fetch(script_url + "?callback=ctrlq&id=" + id + "&action=delete");
-        console.log(res);
-        if (res.ok) {
-            reload_data();
-        }
-    } catch (error) {
-        console.log("erro ao deletar", error);
-    }
-}
-
-function load() {
-    $("#re").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
-    $('#mySpinner').addClass('spinner');
-}
-
-// Make an AJAX call to Google Script
-function insert_value_ajax() {
-    $("#re").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
-    $('#mySpinner').addClass('spinner');
-    let id1 = $("#id").val();
-    let item = $("#item").val();
-    let url = script_url + "?callback=ctrlq&item=" + item + "&id=" + id1 + "&action=insert";
-    let request = jQuery.ajax({
-        crossDomain: true,
-        url: url,
-        method: "GET",
-        dataType: "jsonp"
-    });
-    console.log(request);
-    reload_data();
-}
-
 async function update_value() {
     $("#re").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
@@ -125,9 +54,17 @@ async function update_value() {
     }
 }
 
-function reload_data() {
-    $("#re").css("visibility", "visible");
-    read_value();
+async function delete_value(id) {
+    load();
+    try {
+        const res = await fetch(script_url + "?callback=ctrlq&id=" + id + "&action=delete");
+        console.log(res);
+        if (res.ok) {
+            reload_data();
+        }
+    } catch (error) {
+        console.log("erro ao deletar", error);
+    }
 }
 
 function read_value() {
@@ -193,15 +130,6 @@ function read_value() {
     });
 }
 
-function preencherForm(data){
-    $("#id").val(data.ID);
-    $("#codigo").val(data.CODIGO);
-    $("#item").val(data.ITEM);
-    $("#marca").val(data.MARCA);
-    $("#validade").val(data.VALIDADE);
-    $("#quantidade").val(data.QUANTIDADE);
-}
-
 document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('updateButton')) {
         const recordData = JSON.parse(event.target.dataset.record);
@@ -216,3 +144,76 @@ document.addEventListener('click', function(event) {
         delete_value(id);
     }
 });
+
+function load() {
+    $("#re").css("visibility", "hidden");
+    document.getElementById("loader").style.visibility = "visible";
+    $('#mySpinner').addClass('spinner');
+}
+
+function reload_data() {
+    $("#re").css("visibility", "visible");
+    read_value();
+}
+
+function clear_form() {
+    $("#id").val("");
+    $("#codigo").val("");
+    $("#item").val("");
+    $("#marca").val("");
+    $("#validade").val("");
+    $("#quantidade").val("");
+}
+
+function preencherForm(data){
+    $("#id").val(data.ID);
+    $("#codigo").val(data.CODIGO);
+    $("#item").val(data.ITEM);
+    $("#marca").val(data.MARCA);
+    $("#validade").val(data.VALIDADE);
+    $("#quantidade").val(data.QUANTIDADE);
+}
+
+async function insert_data_callback() {
+    load();
+    let id = $("#id").val();
+    let codigo = $("#codigo").val();
+    let item = $("#item").val();
+    let marca = $("#marca").val();
+    let validade = $("#validade").val();
+    let quantidade = $("#quantidade").val();
+
+    let url = script_url + "?callback=ctrlq&id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + validade + "&quantidade=" + quantidade + "&action=insert";
+
+    try {
+        // ?callback=ctrlq
+        const res = await fetch(url);
+        if (res.ok) {
+            const text = await res.text();
+            const jsonString = text.match(/\(([^)]+)\)/)[1];
+            const data = JSON.parse(jsonString);
+            reload_data()
+        }
+    } catch (error) {
+        console.log("erro ao inserir", error);
+        reload_data()
+    }
+}
+
+// Make an AJAX call to Google Script
+function insert_value_ajax() {
+    $("#re").css("visibility", "hidden");
+    document.getElementById("loader").style.visibility = "visible";
+    $('#mySpinner').addClass('spinner');
+    let id1 = $("#id").val();
+    let item = $("#item").val();
+    let url = script_url + "?callback=ctrlq&item=" + item + "&id=" + id1 + "&action=insert";
+    let request = jQuery.ajax({
+        crossDomain: true,
+        url: url,
+        method: "GET",
+        dataType: "jsonp"
+    });
+    console.log(request);
+    reload_data();
+}
