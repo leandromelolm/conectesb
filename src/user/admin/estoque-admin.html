@@ -14,34 +14,68 @@
     <div>
       <h1 class="text-center">GERENCIAMENTO DE ESTOQUE</h1>
       <p class="text-center">Em desenvolvimento<p>
-        <form>
-          <div class="row g-3">
-            <div class="col-sm form-floating mb-3">
-              <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly disabled>
-              <label for="floatingInput">ID</label>
-            </div>
-            <div class="col-sm form-floating mb-3">
-              <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
-              <label for="floatingInput">CADUM</label>
-            </div>
-            <div class="col-sm-4 form-floating mb-3">
-              <input name="item" id="item" type="text" class="form-control" placeholder="Item" aria-label="Item">
-              <label for="floatingInput">ITEM</label>
-            </div>
-            <div class="col-sm form-floating mb-3">
-              <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
-              <label for="floatingInput">MARCA</label>
-            </div>
-            <div class="col-sm form-floating mb-3">
-              <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
-              <label for="floatingInput">VALIDADE</label>
-            </div>
-            <div class="col-sm form-floating mb-3">
-              <input name="quantidade" id="quantidade" type="number" min="0" class="form-control" placeholder="Quant" aria-label="Quant">
-              <label for="floatingInput">QUANTIDADE</label>
+
+        <!-- Modal -->
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tituloModal">Detalhes</h5>
+            <button type="button" class="close btn btn-transparent btn__close" 
+              data-dismiss="modal" aria-label="Close"
+              onclick="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button> 
+          </div>
+
+          <div class="container">   
+          </div>   
+                 
+          <div class="modal-body">
+            <form>
+              <div class="col g-3">
+                <div class="form-floating mb-3">
+                  <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly disabled>
+                  <label for="floatingInput">ID</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
+                  <label for="floatingInput">CADUM</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="item" id="item" type="text" class="form-control" placeholder="Item" aria-label="Item">
+                  <label for="floatingInput">ITEM</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
+                  <label for="floatingInput">MARCA</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
+                  <label for="floatingInput">VALIDADE</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="quantidade" id="quantidade" type="number" min="0" class="form-control" placeholder="Quant" aria-label="Quant">
+                  <label for="floatingInput">QUANTIDADE</label>
+                </div>
+              </div>
+            </form>
+            <div class="d-grid">
+              <button id="loadingSave" class="btn btn-outline-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>              
+              </button>        
+              <button class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
+              <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
             </div>
           </div>
-        </form>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
+              onclick="closeModal()">fechar
+            </button>              
+          </div>
+        </div>
+      </div>
+    </div>
 
         <div  id="loader" class="d-flex justify-content-center">
           <div class="spinner-border" role="status">
@@ -53,9 +87,9 @@
         
         <div class="text-center">
           <div class="div__buttons row justify-content-md-center m-2">
-            <input class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR"></input>
-            <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />
-            <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
+            
+            <input class="col-md-auto btn btn-outline-info" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
+            <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />            
 
             <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
             <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>

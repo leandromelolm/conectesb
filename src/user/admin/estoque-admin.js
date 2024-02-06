@@ -1,10 +1,12 @@
 let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GHSVpptldKfFSAkX1fk5_j-QMqIEMyX0MiDGkLZYAFitY6YMQ/exec";
 
 window.onload = () => {
-    reload_data()
+    reload_data();
+    document.getElementById("loadingSave").style.visibility = "hidden";
 }
 
 function salvar() {
+    document.getElementById("loadingSave").style.visibility = "visible";
     let id = $("#id").val();
     if (id.length == 0) {
         insert_value();
@@ -28,6 +30,8 @@ async function insert_value() {
             responseMessage(data.content, "adicionado", "success");
             reload_data();
             clear_form();
+            document.getElementById("loadingSave").style.visibility = "hidden";
+            closeModal();        
         }
     } catch (error) {
         console.log("erro ao inserir", error);
@@ -55,6 +59,8 @@ async function update_value() {
         responseMessage(data, "alterado", "warning");
         reload_data();
         clear_form();
+        document.getElementById("loadingSave").style.visibility = "hidden";
+        closeModal();
     }
 }
 
@@ -97,7 +103,7 @@ function read_value() {
                                 <small class="mb-1 text-black-50"> ${json.records[i].ID}</small>
                             </div>
                             <small class="mb-1">COD:${json.records[i].CODIGO} |</small>
-                            <small class="mb-1">MARCA:${json.records[i].MARCA} |</small>
+                            <small class="mb-1">MARCA:${json.records[i].MARCA} </small>
                             <div class="mb-1">
                                 <small>VALIDADE: ${formatDate(json.records[i].VALIDADE)}</small>
                             </div>
@@ -120,12 +126,28 @@ function read_value() {
     });
 }
 
+function abrirModalParaAdicionarItem() {
+    document.getElementById('tituloModal').innerHTML = "Adicionar Novo Item";
+    clear_form();
+    openModal();
+}
+
+function openModal() {
+    $('#modal').modal('show');
+}
+
+function closeModal() {
+    $('#modal').modal('hide');
+}
+
 document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('updateButton')) {
         const recordData = JSON.parse(event.target.dataset.record);
         preencherForm(recordData);
         const html = document.querySelector('html');
-        html.scrollTop = '0px';        
+        // html.scrollTop = '0px';
+        document.getElementById('tituloModal').innerHTML = "Editar";
+        openModal();
     }
 });
 
