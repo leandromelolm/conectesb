@@ -19,9 +19,7 @@ async function insert_value() {
     let codigo = $("#codigo").val();
     let item = $("#item").val();
     let marca = $("#marca").val();
-
-    let validade = formatDate($("#validade").val());
-
+    let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
     try {
         const res = await fetch(script_url + "?id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&action=insert");
@@ -44,7 +42,7 @@ async function update_value() {
     let codigo = $("#codigo").val();
     let item = $("#item").val();
     let marca = $("#marca").val();
-    let validade = formatDate($("#validade").val());
+    let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
     let url = script_url + "?callback=ctrlq&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&id=" + id1 + "&action=update";
 
@@ -96,8 +94,12 @@ function read_value() {
                         <h5 class="mb-1">${json.records[i].ITEM}</h5>
                         <h3>${json.records[i].QUANTIDADE}</h3>
                     </div>
-                    <p class="mb-1">${json.records[i].CODIGO} | Marca:${json.records[i].MARCA}</p>
-                    <small> Validade: ${json.records[i].VALIDADE}</small>
+                    </div>
+                    <small class="mb-1">CÓDIGO:${json.records[i].CODIGO} |</small>
+                    <small class="mb-1">MARCA:${json.records[i].MARCA} |</small>
+                    <p>
+                        <small class="mb-1">VALIDADE: ${formatDate(json.records[i].VALIDADE)}</small>
+                    </p>
                 </div>
                 <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
                 <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
@@ -159,18 +161,24 @@ function preencherForm(data){
     $("#quantidade").val(data.QUANTIDADE);
 }
 
-function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
+function formatDate(date) {   
+    let d = date.split("-");
+    let dt = [d[2], d[1], d[0]].join("/");
+    let du = daysUntil(date);
+    if (du >= 90)
+    return `<span class="text-success"> ${dt}. ${daysUntil(date)} dias de validade </span>`;
+    if (du < 120 && du > 0)
+    return ` <b class="text-danger"> ${dt}. Próximo do vencimento: ${daysUntil(date)} dia(s) </b>`;
+    if ( du < 0 )
+    return `<b class="text-secondary"> ${dt}. item vencido </b>`;
+}
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
+function daysUntil(targetDate) {
+    const target = new Date(targetDate);
+    const today = new Date();
+    const differenceInMilliseconds = target - today;
+    const differenceInDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+    return differenceInDays;
 }
 
 function responseMessage(data, op, typeAlert) {

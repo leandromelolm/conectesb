@@ -7,21 +7,12 @@ td {
   font: 15px Verdana;
 }
 
-th {
-  font-weight: bold;
+.list-group-item:hover {
+  background-color: paleturquoise;
 }
 
-#loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid blue;
-  border-bottom: 16px solid blue;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-  visibility: hidden;
-  margin: auto;
+th {
+  font-weight: bold;
 }
 
 .div__buttons {
@@ -32,24 +23,4 @@ th {
 .div__show-data {
     display: flex;
     justify-content: center
-}
-
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
