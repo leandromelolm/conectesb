@@ -91,18 +91,25 @@ function read_value() {
             <span  class="list-group-item list-group-item-action" aria-current="true">                
                 <div>
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">${json.records[i].ITEM}</h5>
-                        <h3>${json.records[i].QUANTIDADE}</h3>
+                        <div>
+                            <h5 class="mb-1">${json.records[i].ITEM}</h5>
+                            <div>
+                                <small class="mb-1 text-black-50"> ${json.records[i].ID}</small>
+                            </div>
+                            <small class="mb-1">COD:${json.records[i].CODIGO} |</small>
+                            <small class="mb-1">MARCA:${json.records[i].MARCA} |</small>
+                            <div class="mb-1">
+                                <small>VALIDADE: ${formatDate(json.records[i].VALIDADE)}</small>
+                            </div>
+                            <div>
+                                <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
+                                <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
+                            </div>
+                        </div>
+                        <h3 class="d-flex align-items-center">${json.records[i].QUANTIDADE}</h3>
                     </div>
-                    </div>
-                    <small class="mb-1">CÓDIGO:${json.records[i].CODIGO} |</small>
-                    <small class="mb-1">MARCA:${json.records[i].MARCA} |</small>
-                    <p>
-                        <small class="mb-1">VALIDADE: ${formatDate(json.records[i].VALIDADE)}</small>
-                    </p>
                 </div>
-                <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
-                <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
+                
             </span>
             `);            
         };
