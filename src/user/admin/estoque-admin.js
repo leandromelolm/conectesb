@@ -27,7 +27,7 @@ async function insert_value() {
         const res = await fetch(script_url + "?id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&action=insert");
         if (res.ok) {
             const data = await res.json();
-            console.log(data.content);
+            responseMessage(data.content, "adicionado", "success");
             reload_data();
             clear_form();
         }
@@ -38,7 +38,7 @@ async function insert_value() {
 }
 
 async function update_value() {
-    $("#re").css("visibility", "hidden");
+    $("#response").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
     let id1 = $("#id").val();
     let codigo = $("#codigo").val();
@@ -51,6 +51,10 @@ async function update_value() {
     const res = await fetch(url);
 
     if (res.ok) {
+        const text = await res.text();
+        const jsonString = text.match(/\(([^)]+)\)/)[1];
+        const data = JSON.parse(jsonString);
+        responseMessage(data, "alterado", "warning");
         reload_data();
         clear_form();
     }
@@ -60,8 +64,11 @@ async function delete_value(id) {
     load();
     try {
         const res = await fetch(script_url + "?callback=ctrlq&id=" + id + "&action=delete");
-        console.log(res);
         if (res.ok) {
+            const text = await res.text();
+            const jsonString = text.match(/\(([^)]+)\)/)[1];
+            const data = JSON.parse(jsonString);
+            responseMessage(data, "deletado", "danger");
             reload_data();
         }
     } catch (error) {
@@ -70,7 +77,7 @@ async function delete_value(id) {
 }
 
 function read_value() {
-    $("#re").css("visibility", "hidden");
+    $("#response").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
     let url = script_url + "?action=read";
 
@@ -83,7 +90,7 @@ function read_value() {
 
         for (let i = 0; i < json.records.length; i++) {
             item.push(`            
-            <a href="#" class="list-group-item list-group-item-action" aria-current="true">                
+            <span  class="list-group-item list-group-item-action" aria-current="true">                
                 <div>
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">${json.records[i].ITEM}</h5>
@@ -94,13 +101,13 @@ function read_value() {
                 </div>
                 <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
                 <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
-            </a>
+            </span>
             `);            
         };
         listItem.innerHTML = item.join('');
         
         document.getElementById("loader").style.visibility = "hidden";
-        $("#re").css("visibility", "visible");
+        $("#response").css("visibility", "visible");
     });
 }
 
@@ -108,6 +115,8 @@ document.addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('updateButton')) {
         const recordData = JSON.parse(event.target.dataset.record);
         preencherForm(recordData);
+        const html = document.querySelector('html');
+        html.scrollTop = '0px';        
     }
 });
 
@@ -122,13 +131,13 @@ document.addEventListener('click', function(event) {
 });
 
 function load() {
-    $("#re").css("visibility", "hidden");
+    $("#response").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
     $('#mySpinner').addClass('spinner');
 }
 
 function reload_data() {
-    $("#re").css("visibility", "visible");
+    $("#response").css("visibility", "visible");
     read_value();
 }
 
@@ -164,6 +173,22 @@ function formatDate(date) {
     return [year, month, day].join('-');
 }
 
+function responseMessage(data, op, typeAlert) {
+    if (op === "deletado"){
+        document.querySelector("#response").innerHTML = `
+        <div class="alert alert-${typeAlert}" role="alert">
+           Item ${op} com sucesso! Id: ${data.id}
+        </div>
+        `
+    } else {
+        document.querySelector("#response").innerHTML = `
+        <div class="alert alert-${typeAlert}" role="alert">
+           Item ${op} com sucesso! Id: ${data.id}. Instante: ${data.currentTime}
+        </div>
+        `
+    }
+}
+
 
 
 // FUNÇÕES DE TESTE
@@ -196,7 +221,7 @@ async function insert_data_callback() {
 
 // Make an AJAX call to Google Script
 function insert_value_ajax() {
-    $("#re").css("visibility", "hidden");
+    $("#response").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
     $('#mySpinner').addClass('spinner');
     let id1 = $("#id").val();
@@ -213,7 +238,7 @@ function insert_value_ajax() {
 }
 
 function read_value_2() {
-    $("#re").css("visibility", "hidden");
+    $("#response").css("visibility", "hidden");
     document.getElementById("loader").style.visibility = "visible";
     let url = script_url + "?action=read";
 
@@ -271,6 +296,6 @@ function read_value_2() {
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
         document.getElementById("loader").style.visibility = "hidden";
-        $("#re").css("visibility", "visible");
+        $("#response").css("visibility", "visible");
     });
 }
