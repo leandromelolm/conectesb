@@ -1,4 +1,4 @@
-const ID_SPREADSHEET = '';
+const ID_SPREADSHEET = '1Bge5QoWT6b1G5P6VfmSiS-mCQXaoCkh3jyTveJD74jg';
 
 function doGet(e) {
     Logger.log(e);
@@ -104,9 +104,14 @@ function update_value(request, sheet) {
     let quantidade = request.parameter.quantidade;
     let lr = sheet.getLastRow();
     let result;
+
+    let d = new Date();
+    let newCurrentTime = d.toLocaleString();
+
     for (let i = 1; i <= lr; i++) {
         let rid = sheet.getRange(i, 2).getValue();
         if (rid == id) {
+            sheet.getRange(i, 1).setValue(newCurrentTime)
             sheet.getRange(i, 3).setValue(codigo);
             sheet.getRange(i, 4).setValue(item);
             sheet.getRange(i, 5).setValue(marca);
@@ -119,12 +124,14 @@ function update_value(request, sheet) {
     if (flag == 0)
         result = "id not found";
 
-    result = JSON.stringify({
-        "result": result
+    response = JSON.stringify({
+      "message": result,
+      currentTime: newCurrentTime,
+      id: id
     });
 
     return ContentService
-        .createTextOutput(request.parameter.callback + "(" + result + ")")
+        .createTextOutput(request.parameter.callback + "(" + response + ")")
         .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -144,7 +151,8 @@ function delete_value(request, sheet) {
         var result = "id not found";
 
     result = JSON.stringify({
-        "result": result
+        "result": result,
+        "id": id
     });
 
     return ContentService
@@ -177,6 +185,7 @@ function adicionarZeros(numero) {
   }
   return "0".repeat(numeroZeros) + numeroString;
 }
+
 
 // javascript fetch
 /*
