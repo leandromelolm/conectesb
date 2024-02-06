@@ -19,8 +19,8 @@ async function insert_value() {
     load();
     let id = $("#id").val();
     let codigo = $("#codigo").val();
-    let item = $("#item").val();
-    let marca = $("#marca").val();
+    let item = encodeURI($("#item").val());
+    let marca = encodeURI($("#marca").val());
     let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
     try {
@@ -44,8 +44,8 @@ async function update_value() {
     document.getElementById("loader").style.visibility = "visible";
     let id1 = $("#id").val();
     let codigo = $("#codigo").val();
-    let item = $("#item").val();
-    let marca = $("#marca").val();
+    let item = encodeURI($("#item").val());
+    let marca = encodeURI($("#marca").val());
     let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
     let url = script_url + "?callback=ctrlq&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&id=" + id1 + "&action=update";
