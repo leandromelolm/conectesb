@@ -226,7 +226,7 @@ function formatDate(date) {
     if (du >= 90)
         return `<span class="text-success"> ${dt}. ${daysUntil(date)} dias de validade </span>`;
     if (du < 120 && du > 0)
-        return ` <b class="text-danger"> ${dt}. Próximo do vencimento: ${daysUntil(date)} dia(s) </b>`;
+        return ` <b class="text-danger"> ${dt}. Vence em ${daysUntil(date)} dias </b>`;
     if ( du < 0 )
         return `<b class="text-secondary"> ${dt}. Item vencido </b>`;
     if (du === 0)
