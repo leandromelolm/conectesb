@@ -33,3 +33,20 @@ th {
 .input__quantidade {
   text-align: center;
 }
+
+.ul__produtos li.selected {
+  background-color: rgb(58, 221, 218) !important;
+}
+
+li:hover {
+  background-color: DodgerBlue !important ;
+  color: #ffffff; 
+}
+
+.li__input-options-produtos {
+  cursor:pointer;
+}
+
+.li__input-options-produtos::marker {
+  color: black;
+}

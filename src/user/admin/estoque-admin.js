@@ -1,18 +1,10 @@
 let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GHSVpptldKfFSAkX1fk5_j-QMqIEMyX0MiDGkLZYAFitY6YMQ/exec";
 
 const produtoList = document.getElementById("produto-list")
-const inputItem = document.getElementById("item");
 
 window.onload = () => {
     reload_data();
     document.getElementById("loadingSave").style.visibility = "hidden";
-
-    produtos.forEach(p => {
-        const optEl = document.createElement("option");
-        optEl.value = p.NOME;
-        produtoList.appendChild(optEl);
-        console.log(p.NOME);
-    });
 }
 
 function salvar() {
@@ -217,6 +209,7 @@ function clear_form() {
     $("#marca").val("");
     $("#validade").val("");
     $("#quantidade").val("");
+    ulProdutos.innerHTML = '';
 }
 
 function preencherForm(data){
@@ -267,6 +260,76 @@ function responseMessage(data, op, typeAlert) {
         </div>
         `
     }
+}
+
+const ulProdutos = document.querySelector('.ul__produtos')
+
+let selectedIndex = -1;
+
+document.querySelector('.input__item').addEventListener('input', ({ target }) => {
+    const dadosDoCampo = target.value;
+
+    if (dadosDoCampo.length) {
+        const autoCompleteValores = autoComplete(dadosDoCampo);
+
+        ulProdutos.innerHTML = `
+            ${autoCompleteValores.map((value) => {
+                return (
+                    `<li class="li__input-options-produtos">
+                        <a onclick="preencherInput('${value.NOME}', '${value.CADUM}')">${value.NOME}</a>
+                    </li>`
+                );
+            }).join('')}
+        `;
+
+        selectedIndex = -1;
+    } else {
+        ulProdutos.innerHTML = '';
+    }
+});
+
+function preencherInput(nome, cadum) {
+    document.getElementById('codigo').value = cadum;
+    document.getElementById('item').value = nome;
+    ulProdutos.innerHTML = '';
+}
+
+function autoComplete(produtoNome) {    
+    return produtos.filter((p) => {
+        const valorMinusculo = p.NOME.toLowerCase()
+        const produtoNomeMinus = produtoNome.toLowerCase()
+
+        return valorMinusculo.includes(produtoNomeMinus)
+    })
+}
+
+document.querySelector('.input__item').addEventListener('keydown', (event) => {
+    const items = ulProdutos.querySelectorAll('li');
+
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateSelectedIndex(items);
+    } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateSelectedIndex(items);
+    } else if (event.key === 'Enter' && selectedIndex !== -1) {
+        event.preventDefault();
+        let produto = findCadumByName(items[selectedIndex].textContent.trim());
+        preencherInput(produto.NOME, produto.CADUM);
+    }
+});
+
+function findCadumByName(nomeProduto) {
+    const objetoEncontrado = produtos.find(p => p.NOME === nomeProduto);
+    return objetoEncontrado ? objetoEncontrado : null;
+}
+
+function updateSelectedIndex(items) {
+    items.forEach((item, index) => {
+        item.classList.toggle('selected', index === selectedIndex);
+    });
 }
 
 
