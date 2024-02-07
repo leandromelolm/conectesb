@@ -1,4 +1,4 @@
-const ID_SPREADSHEET = '1Bge5QoWT6b1G5P6VfmSiS-mCQXaoCkh3jyTveJD74jg';
+const ID_SPREADSHEET = "ID_DA_PLANILHA";
 
 function doGet(e) {
     Logger.log(e);
@@ -160,41 +160,28 @@ function delete_value(request, sheet) {
         .setMimeType(ContentService.MimeType.JSON);
 }
 
-
 function doPost(e) {
   return ContentService.createTextOutput(JSON.stringify({status: "success", "data": "my-data"})).setMimeType(ContentService.MimeType.JSON);
 }
 
-function gerarId(){
+function gerarId(){ 
+  return `${dateFormat()}${dateGetTimeMiliSeg()}${ultimoNumeroDaUltimaLinhaVazia()}`;
+}
+
+function dateFormat() {
+  let d = new Date();
+  return d.toISOString().split("T")[0].replaceAll("-", "").slice(2);
+}
+
+function dateGetTimeMiliSeg() {
+  let d = new Date();
+  return d.getTime().toString().substring(5,10);
+}
+
+function ultimoNumeroDaUltimaLinhaVazia() {
   let ss = SpreadsheetApp.open(DriveApp.getFileById(ID_SPREADSHEET));
   let sn = "Pagina1";
-  let sh = ss.getSheetByName(sn);
-  const lastRow = adicionarZeros(sh.getLastRow());
-  let d = new Date;
-  let idInicial = d.toISOString().replaceAll('-','').replace('T', '').replaceAll(':', '').replace('.', '').replace('Z','');
-  return idInicial + lastRow;
+  let sheet = ss.getSheetByName(sn);
+  let n = sheet.getLastRow() + 1;
+  return n.toString().slice(-1);
 }
-
-
-function adicionarZeros(numero) {
-  const casasDecimais = 4;
-  const numeroString = numero.toString();
-  const numeroZeros = casasDecimais - numeroString.length;
-  if (numeroZeros <= 0) {
-    return numeroString;
-  }
-  return "0".repeat(numeroZeros) + numeroString;
-}
-
-
-// javascript fetch
-/*
-fetch(URL, {
-      redirect: "follow",
-      method: "POST",
-      body: JSON.stringify(DATA),
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8",
-      },
-    })
-*/
