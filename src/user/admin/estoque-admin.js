@@ -225,10 +225,12 @@ function formatDate(date) {
     let du = daysUntil(date);
     if (du >= 90)
         return `<span class="text-success"> ${dt}. ${daysUntil(date)} dias de validade </span>`;
-    if (du < 120 && du > 0)
+    if (du < 120 && du > 1)
         return ` <b class="text-danger"> ${dt}. Vence em ${daysUntil(date)} dias </b>`;
     if ( du < 0 )
         return `<b class="text-secondary"> ${dt}. Item vencido </b>`;
+    if (du === 1)
+        return ` <b class="text-danger"> ${dt}. Vence amanhã </b>`;
     if (du === 0)
         return `<b class="text-danger"> Item vence hoje  </b>`; 
 }
