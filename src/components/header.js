@@ -52,7 +52,8 @@ a:hover {
                         <a class="nav-link active" aria-current="page"  href="pedido-fazer.html">Fazer Pedido</a>
                         <a class="nav-link active" href="pedido-lista.html">Lista de Pedidos</a>
                         <a class="show_logged_in_only d-none nav-link active" href="abrirchamado.html">Abrir Chamado</a>
-                        <a class="show_logged_in_only d-none nav-link active" href="buscarchamado.html">Buscar Chamado</a>
+                        <a class="a__buscar-chamado d-none nav-link active" href="buscarchamado.html">Buscar Chamado</a>
+                        <a class="a__gerenciar-estoque d-none nav-link active" href="user/admin/estoque-admin.html">Gerenciar Estoque</a>
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>
                         <a class="nav-link active d-none a__inventario-buscar" href="inventario-buscar?search=all">Buscar Inventários</a>
@@ -79,12 +80,20 @@ class Header extends HTMLElement {
         // Verificar se a página está na subpasta "user/sign-in"
         const currentPath = window.location.pathname;
         const isInLoginPage = currentPath.indexOf("/user/sign-in") !== -1;
+        const isInEstoquePage = currentPath.indexOf("/user/admin/estoque-admin") !== -1;
 
         if (isInLoginPage) {
             // Atualizar os links removendo "user/"
             const links = shadowRoot.querySelectorAll('a');
             links.forEach((link) => {
                 link.href = link.href.replace("/user/", "/");
+            });
+        }
+
+        if (isInEstoquePage) {
+            const links = shadowRoot.querySelectorAll('a');
+            links.forEach((link) => {
+                link.href = link.href.replace("/user/admin/", "/");
             });
         }
 
@@ -109,12 +118,14 @@ class Header extends HTMLElement {
         usuarioLogadoElement.style.color = 'white';
         shadowRoot.querySelector('.div__user-login').appendChild(usuarioLogadoElement);
         let divUserLogin = shadowRoot.querySelector('.div__user-login');
-        let aInventarioBuscar = shadowRoot.querySelector('.a__inventario-buscar');
+        let elInventarioBuscar = shadowRoot.querySelector('.a__inventario-buscar');
         let showLinkLoggedInOnly = shadowRoot.querySelector('.show_logged_in_only');
-        this.load(usuarioLogadoElement, divUserLogin, aInventarioBuscar, showLinkLoggedInOnly);
+        let elBuscarChamado = shadowRoot.querySelector('.a__buscar-chamado');
+        let elGerenciarEstoque = shadowRoot.querySelector('.a__gerenciar-estoque');
+        this.load(usuarioLogadoElement, divUserLogin, elInventarioBuscar, showLinkLoggedInOnly, elBuscarChamado, elGerenciarEstoque);
     }
 
-    load(usuarioLogadoElement, divUserLogin, aInventarioBuscar, showLinkLoggedInOnly) {
+    load(usuarioLogadoElement, divUserLogin, elInventarioBuscar, showLinkLoggedInOnly, elBuscarChamado, elGerenciarEstoque) {
         let token = localStorage.getItem('access_token');
         let validToken;
         if (token != null) {
@@ -123,8 +134,10 @@ class Header extends HTMLElement {
                 console.log("token válido");
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
-                aInventarioBuscar.classList.toggle('d-none', false);
+                elInventarioBuscar.classList.toggle('d-none', false);
                 showLinkLoggedInOnly.classList.toggle('d-none', false);
+                elBuscarChamado.classList.toggle('d-none', false);
+                elGerenciarEstoque.classList.toggle('d-none', false);
             } else {
                 localStorage.removeItem('access_token');
             }
