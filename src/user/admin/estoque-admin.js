@@ -224,11 +224,13 @@ function formatDate(date) {
     let dt = [d[2], d[1], d[0]].join("/");
     let du = daysUntil(date);
     if (du >= 90)
-    return `<span class="text-success"> ${dt}. ${daysUntil(date)} dias de validade </span>`;
+        return `<span class="text-success"> ${dt}. ${daysUntil(date)} dias de validade </span>`;
     if (du < 120 && du > 0)
-    return ` <b class="text-danger"> ${dt}. Próximo do vencimento: ${daysUntil(date)} dia(s) </b>`;
+        return ` <b class="text-danger"> ${dt}. Próximo do vencimento: ${daysUntil(date)} dia(s) </b>`;
     if ( du < 0 )
-    return `<b class="text-secondary"> ${dt}. item vencido </b>`;
+        return `<b class="text-secondary"> ${dt}. Item vencido </b>`;
+    if (du === 0)
+        return `<b class="text-danger"> Item vence hoje  </b>`; 
 }
 
 function daysUntil(targetDate) {
