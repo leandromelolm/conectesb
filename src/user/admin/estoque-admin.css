@@ -24,3 +24,12 @@ th {
     display: flex;
     justify-content: center
 }
+
+.btn__quantidade {
+  width: 56px;
+  height: 56px;
+}
+
+.input__quantidade {
+  text-align: center;
+}

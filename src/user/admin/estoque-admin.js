@@ -114,8 +114,7 @@ function read_value() {
                         </div>
                         <h3 class="d-flex align-items-center">${json.records[i].QUANTIDADE}</h3>
                     </div>
-                </div>
-                
+                </div>                
             </span>
             `);            
         };
@@ -126,9 +125,38 @@ function read_value() {
     });
 }
 
+let resultado;
+
+document.getElementById("somarBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+    somar();
+}, false);
+  
+document.getElementById("subtrairBtn").addEventListener("click", function(e) {
+    e.preventDefault()
+    subtrair(e);
+}, false);
+  
+function somar() {
+    resultado++;
+    atualizarResultado();
+}
+
+function subtrair() {
+    resultado--;
+    atualizarResultado();
+}
+
+function atualizarResultado() {
+    document.getElementById("quantidade").value = resultado;
+}
+  
+
 function abrirModalParaAdicionarItem() {
     document.getElementById('tituloModal').innerHTML = "Adicionar Novo Item";
     clear_form();
+    resultado = 0;
+    $("#quantidade").val(0);
     openModal();
 }
 
@@ -188,6 +216,7 @@ function preencherForm(data){
     $("#marca").val(data.MARCA);
     $("#validade").val(data.VALIDADE);
     $("#quantidade").val(data.QUANTIDADE);
+    resultado = data.QUANTIDADE;
 }
 
 function formatDate(date) {   

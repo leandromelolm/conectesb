@@ -54,9 +54,13 @@
                   <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
                   <label for="floatingInput">VALIDADE</label>
                 </div>
-                <div class="form-floating mb-3">
-                  <input name="quantidade" id="quantidade" type="number" min="0" class="form-control" placeholder="Quant" aria-label="Quant">
-                  <label for="floatingInput">QUANTIDADE</label>
+                <div class="row">
+                  <button id="subtrairBtn" class="col btn btn-danger btn__quantidade">-</button>
+                  <div class="col form-floating mb-3 d-flex align-items-center">
+                    <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
+                    <label for="floatingInput" class="ms-2">QUANTIDADE</label>
+                  </div>
+                  <button id="somarBtn" class="col btn btn-success btn__quantidade">+</button>
                 </div>
               </div>
             </form>
