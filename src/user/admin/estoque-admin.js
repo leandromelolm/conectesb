@@ -271,6 +271,7 @@ function responseMessage1(data, op, typeAlert) {
 }
 
 function responseMessage(data, op, typeAlert) {
+    document.querySelector(".div_message-response").style.display = "block";
     if (op === "deletado"){
         document.querySelector("#response").innerHTML = `
         <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
