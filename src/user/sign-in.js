@@ -48,27 +48,43 @@ function msgAguarde() {
   document.getElementById('btnLogin').classList.toggle('d-none', true);
 }
 
+let segundos = 3;
+
 function divSuccess() {
   document.getElementById("formLogin").classList.toggle("d-none", true);
   document.getElementById("msgAguarde").classList.toggle("d-none", true);
   document.getElementById("divSuccess").classList.toggle("d-none", false);
+  setInterval(timerDecrement, 1000); 
   document.getElementById('messageSuccess').innerHTML = `
   <div class="alert alert-success">
       <div class="d-block" role="alert">
           <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
           </svg>
           <div>
-              <h5 class="alert-heading">Login realizado com sucesso!</h5>
+              <h5 class="alert-heading text-center">Login realizado com sucesso!</h5>
           </div>
       </div>  
       <hr>
-      <div class="d-grid gap-3">
-          <a href="../inventario-buscar?search=all" class="alert-link text-decoration-none">Buscar inventário por ID</a>
-          <a href="../buscarchamado.html" class="alert-link text-decoration-none">Buscar chamado</a>
+      <div class="d-grid gap-3 text-center">
+        <div class="spinner-grow" style="place-self:center" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <div>
+          <span>Aguarde... Você será redirecionado para Página Inicial.</span>         
+        </div>
+        <div id="contadorDecrementado">3</div>
           <a href="../index.html" class="alert-link text-decoration-none">Voltar para o menu principal</a>
       </div>                    
   </div>
   `
+}
+
+function timerDecrement() {
+  segundos--;
+  document.getElementById("contadorDecrementado").innerHTML = segundos;
+  if (segundos < 1) { 
+      window.location.replace("../index.html");
+  }
 }
 
 function messageError(error = 'Verifique a conexão da internet, contate o administrador ou tente novamente mais tarde.') {
