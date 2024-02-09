@@ -50,3 +50,16 @@ li:hover {
 .li__input-options-produtos::marker {
   color: black;
 }
+
+.div_message-response {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 5px;
+  z-index: 2
+}
+
+.inner-message {
+  margin: 0 auto;
+}
