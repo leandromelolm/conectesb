@@ -20,7 +20,6 @@ function salvar() {
 }
 
 async function insert_value() {
-    load();
     let id = $("#id").val();
     let codigo = $("#codigo").val();
     let item = encodeURI($("#item").val());
@@ -46,7 +45,6 @@ async function insert_value() {
 
 async function update_value() {
     $("#response").css("visibility", "hidden");
-    modalLoading.show();
     let id1 = $("#id").val();
     let codigo = $("#codigo").val();
     let item = encodeURI($("#item").val());
@@ -250,17 +248,41 @@ function daysUntil(targetDate) {
     return differenceInDays;
 }
 
+function responseMessage1(data, op, typeAlert) {
+    if (op === "deletado"){
+        document.querySelector("#response").innerHTML = `
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+        `
+    } else {
+        document.querySelector("#response").innerHTML = `
+        <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                Hello, world! This is a toast message.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+        `
+    }
+}
+
 function responseMessage(data, op, typeAlert) {
     if (op === "deletado"){
         document.querySelector("#response").innerHTML = `
-        <div class="alert alert-${typeAlert}" role="alert">
-           Item ${op} com sucesso! Id: ${data.id}
+        <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
+           Item ${op} com sucesso! Id: <strong> ${data.id}</strong>.
+           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         `
     } else {
         document.querySelector("#response").innerHTML = `
-        <div class="alert alert-${typeAlert}" role="alert">
-           Item ${op} com sucesso! Id: ${data.id}. Instante: ${data.currentTime}
+        <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
+           Item ${op} com sucesso! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}
+           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         `
     }
