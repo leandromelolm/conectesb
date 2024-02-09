@@ -69,10 +69,10 @@
               </div>
             </form>
             <div class="d-grid">
-              <button id="loadingSave" class="btn btn-outline-primary" type="button" disabled>
+              <button id="btnLoadingSave" class="btn btn-outline-primary" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>              
               </button>        
-              <button class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
+              <button id="btnSalvar" class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
               <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
             </div>
           </div>
@@ -83,11 +83,17 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>        
 
-        <div  id="loader" class="d-flex justify-content-center">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Carregando...</span>
+        <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+            <div class="modal-content" style="background: none !important; border: none;">
+              <div class="modal-body" style="background: none !important; text-align: center;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

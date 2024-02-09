@@ -1,14 +1,16 @@
 let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GHSVpptldKfFSAkX1fk5_j-QMqIEMyX0MiDGkLZYAFitY6YMQ/exec";
 
-const produtoList = document.getElementById("produto-list")
+const produtoList = document.getElementById("produto-list");
+const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 
 window.onload = () => {
     reload_data();
-    document.getElementById("loadingSave").style.visibility = "hidden";
+    document.getElementById("btnLoadingSave").style.display = "none";   
 }
 
 function salvar() {
-    document.getElementById("loadingSave").style.visibility = "visible";
+    document.getElementById("btnSalvar").style.display = "none";
+    document.getElementById("btnLoadingSave").style.display = "block";
     let id = $("#id").val();
     if (id.length == 0) {
         insert_value();
@@ -32,8 +34,9 @@ async function insert_value() {
             responseMessage(data.content, "adicionado", "success");
             reload_data();
             clear_form();
-            document.getElementById("loadingSave").style.visibility = "hidden";
-            closeModal();        
+            closeModal();
+            document.getElementById("btnSalvar").style.display = "block";
+            document.getElementById("btnLoadingSave").style.display = "none";
         }
     } catch (error) {
         console.log("erro ao inserir", error);
@@ -43,7 +46,7 @@ async function insert_value() {
 
 async function update_value() {
     $("#response").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
+    modalLoading.show();
     let id1 = $("#id").val();
     let codigo = $("#codigo").val();
     let item = encodeURI($("#item").val());
@@ -61,8 +64,9 @@ async function update_value() {
         responseMessage(data, "alterado", "warning");
         reload_data();
         clear_form();
-        document.getElementById("loadingSave").style.visibility = "hidden";
         closeModal();
+        document.getElementById("btnSalvar").style.display = "block";
+        document.getElementById("btnLoadingSave").style.display = "none";
     }
 }
 
@@ -83,8 +87,9 @@ async function delete_value(id) {
 }
 
 function read_value() {
+    modalLoading.show();
     $("#response").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
+    modalLoading.show();
     let url = script_url + "?action=read";
 
     $.getJSON(url, function (json) {
@@ -120,9 +125,9 @@ function read_value() {
             </span>
             `);            
         };
-        listItem.innerHTML = item.join('');
-        
-        document.getElementById("loader").style.visibility = "hidden";
+        listItem.innerHTML = item.join('');        
+
+        modalLoading.hide();
         $("#response").css("visibility", "visible");
     });
 }
@@ -193,8 +198,7 @@ document.addEventListener('click', function(event) {
 
 function load() {
     $("#response").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
-    $('#mySpinner').addClass('spinner');
+    modalLoading.show();
 }
 
 function reload_data() {
@@ -365,8 +369,7 @@ async function insert_data_callback() {
 // Make an AJAX call to Google Script
 function insert_value_ajax() {
     $("#response").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
-    $('#mySpinner').addClass('spinner');
+    modalLoading.show();
     let id1 = $("#id").val();
     let item = $("#item").val();
     let url = script_url + "?callback=ctrlq&item=" + item + "&id=" + id1 + "&action=insert";
@@ -382,7 +385,7 @@ function insert_value_ajax() {
 
 function read_value_2() {
     $("#response").css("visibility", "hidden");
-    document.getElementById("loader").style.visibility = "visible";
+    modalLoading.show();
     let url = script_url + "?action=read";
 
     $.getJSON(url, function (json) {
@@ -438,7 +441,7 @@ function read_value_2() {
         let divContainer = document.getElementById("showData");
         divContainer.innerHTML = "";
         divContainer.appendChild(table);
-        document.getElementById("loader").style.visibility = "hidden";
+        modalLoading.show();
         $("#response").css("visibility", "visible");
     });
 }
