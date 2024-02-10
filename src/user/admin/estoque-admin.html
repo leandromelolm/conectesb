@@ -18,6 +18,23 @@
       <h5 class="text-center">GERENCIAMENTO DE ESTOQUE</h5>
       <p id="sheetName" class="text-center">Em desenvolvimento<p>
 
+        <div class="row mt-1 mb-5 mb-2 mx-5 p-0" id="divInputUrl">
+          <div class="col-md-12  p-0">
+              <div class="input-group div__input-url">
+                  <input class="form-control border border-end-0 border-info" type="search"
+                    placeholder="Codigo da Página" 
+                    id="inputUrl"  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                  <span class="input-group-append">
+                    <button id="btn-search" 
+                      class="p-3 bg-white btn-outline-transparent border border-info border-start-0 rounded-end btn__search"
+                      type="button" onclick="atualizarParametroURL()">
+                        <img src="../../assets/arrow-right-circle-fill.svg">
+                    </button>
+                  </span>                     
+              </div>                  
+          </div>
+        </div>
+
         <!-- Modal -->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">

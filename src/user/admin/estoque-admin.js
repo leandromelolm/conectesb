@@ -10,6 +10,11 @@ window.onload = () => {
     sheetName =  obterParametroDaURL().sheet || "PaginaTest";
     document.getElementById("sheetName").innerHTML = sheetName;
     reload_data();
+
+    if(obterParametroDaURL().sheet) {
+        console.log(obterParametroDaURL().sheet);
+        document.getElementById("divInputUrl").style.display = "none";
+    }
 }
 
 function salvar() {
@@ -124,7 +129,10 @@ async function read_value() {
             console.log("Erro na solicitação dos dados");
         }
     } catch (error) {
-        alert(`Verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `)
+        alert(`Verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `);
+        // window.history.back();
+        // window.location.replace("../../");
+        window.location.replace("estoque-admin.html");
     }    
 }
 
@@ -468,6 +476,22 @@ function obterParametroDaURL() {
     const sheet = parametros.get('sheet');
     return { sheet };
 }
+
+function atualizarParametroURL() {
+    var novoValor = document.getElementById('inputUrl').value;
+    if (novoValor.trim() !== '') {
+      var urlAtual = new URL(window.location.href);
+      urlAtual.searchParams.set('sheet', novoValor);
+      window.history.replaceState({}, '', urlAtual.href);
+      window.location.href = urlAtual.href;
+    }
+  }
+
+  document.getElementById('inputUrl').addEventListener('keyup', function (event) {
+    if (event.key === 'Enter') {
+      atualizarParametroURL();
+    }
+  });
 
 
 /*
