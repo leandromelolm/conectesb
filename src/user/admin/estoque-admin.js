@@ -3,10 +3,13 @@ let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GH
 const produtoList = document.getElementById("produto-list");
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 let listObj;
-
+let sheetName;
+// ../user/admin/estoque-admin.html?sheet={NOME_DA_FOLHA_DA_PLANILHA}
 window.onload = () => {
+    document.getElementById("btnLoadingSave").style.display = "none";
+    sheetName =  obterParametroDaURL().sheet || "PaginaTest";
+    document.getElementById("sheetName").innerHTML = sheetName;
     reload_data();
-    document.getElementById("btnLoadingSave").style.display = "none";   
 }
 
 function salvar() {
@@ -27,8 +30,9 @@ async function insert_value() {
     let marca = encodeURI($("#marca").val());
     let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&codigo=${codigo}&item=${item}&marca=${marca}&validade='${validade}&quantidade=${quantidade}&action=insert`;
     try {
-        const res = await fetch(script_url + "?id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&action=insert");
+        const res = await fetch(url);
         if (res.ok) {
             const data = await res.json();
             responseMessage(data.content, "adicionado", "success");
@@ -40,38 +44,48 @@ async function insert_value() {
         }
     } catch (error) {
         console.log("erro ao inserir", error);
-        reload_data();
-    }
-}
-
-async function update_value() {
-    let id1 = $("#id").val();
-    let codigo = $("#codigo").val();
-    let item = encodeURI($("#item").val());
-    let marca = encodeURI($("#marca").val());
-    let validade = $("#validade").val();
-    let quantidade = $("#quantidade").val();
-    let url = script_url + "?callback=ctrlq&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + "'" + validade + "&quantidade=" + quantidade + "&id=" + id1 + "&action=update";
-
-    const res = await fetch(url);
-
-    if (res.ok) {
-        const text = await res.text();
-        const jsonString = text.match(/\(([^)]+)\)/)[1];
-        const data = JSON.parse(jsonString);
-        responseMessage(data, "alterado", "warning");
-        reload_data();
-        clear_form();
+        alert(`erro ao inserir: ${error}`);
         closeModal();
+        reload_data();
         document.getElementById("btnSalvar").style.display = "block";
         document.getElementById("btnLoadingSave").style.display = "none";
     }
 }
 
+async function update_value() {
+    let id = $("#id").val();
+    let codigo = $("#codigo").val();
+    let item = encodeURI($("#item").val());
+    let marca = encodeURI($("#marca").val());
+    let validade = $("#validade").val();
+    let quantidade = $("#quantidade").val();
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&callback=ctrlq&codigo=${codigo}&item=${item}&marca=${marca}&validade='${validade}&quantidade=${quantidade}&id=${id}&action=update`;
+    try {
+        const res = await fetch(url);
+        if (res.ok) {
+            const text = await res.text();
+            const jsonString = text.match(/\(([^)]+)\)/)[1];
+            const data = JSON.parse(jsonString);
+            responseMessage(data, "alterado", "warning");
+            reload_data();
+            clear_form();
+            closeModal();
+            document.getElementById("btnSalvar").style.display = "block";
+            document.getElementById("btnLoadingSave").style.display = "none";
+        }
+    } catch (error) {
+        console.log("erro ao atualizar", error);
+        alert(`erro ao atualizar: ${error}`);
+        closeModal();
+        reload_data();
+    }
+}
+
 async function delete_value(id) {
     modalLoading.show();
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&callback=ctrlq&id=${id}&action=delete`;
     try {
-        const res = await fetch(script_url + "?callback=ctrlq&id=" + id + "&action=delete");
+        const res = await fetch(url);
         if (res.ok) {
             const text = await res.text();
             const jsonString = text.match(/\(([^)]+)\)/)[1];
@@ -81,20 +95,37 @@ async function delete_value(id) {
         }
     } catch (error) {
         console.log("erro ao deletar", error);
+        alert(`erro ao deletar: ${error}`);
+        closeModal();
     }
 }
 
-function read_value() {
+async function read_value() {
     modalLoading.show();
-    let url = script_url + "?action=read";
-
-    $.getJSON(url, function (json) {        
-        listObj = json.records.reverse();        
-        // cloneListObj(listObj);
-        sortList(selectSort.value, listObj);
-        modalLoading.hide();
-        $("#response").css("visibility", "visible");
-    });
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&action=read`;
+    try {
+        // $.getJSON(url, function (json) {        
+        //     listObj = json.records.reverse();        
+        //     // cloneListObj(listObj);
+        //     sortList(selectSort.value, listObj);
+        //     modalLoading.hide();
+        //     $("#response").css("visibility", "visible");
+        // });
+        const res = await fetch(url);
+        if (res.ok) {
+            const data = await res.json();
+            const recordsArray = data.records;
+            listObj = recordsArray.reverse(); 
+            sortList(selectSort.value, listObj);
+            modalLoading.hide();
+            $("#response").css("visibility", "visible")
+        } else {
+            modalLoading.hide();
+            console.log("Erro na solicitação dos dados");
+        }
+    } catch (error) {
+        alert(`Verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `)
+    }    
 }
 
 function loadInPageListItem(list) {
@@ -106,8 +137,8 @@ function loadInPageListItem(list) {
         <span  class="list-group-item list-group-item-action" aria-current="true">                
             <div>
                 <div class="d-flex w-100 justify-content-between">
-                    <div>
-                        <h5 class="mb-1">${list[i].ITEM}</h5>
+                    <div>                        
+                        <h6 class="mb-1">${list[i].ITEM}</h6>                    
                         <div>
                             <small class="mb-1 text-black-50"> ${list[i].ID}</small>
                         </div>
@@ -431,7 +462,18 @@ function updateSelectedIndex(items) {
     });
 }
 
+function obterParametroDaURL() {
+    const url = new URL(window.location.href);
+    const parametros = new URLSearchParams(url.search);
+    const sheet = parametros.get('sheet');
+    return { sheet };
+}
 
+
+/*
+  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
+  Função para Fazer um clone da lista de objetos retornado no get.
+*/
 function cloneListObj(listObj) {
     let listClone = [];
     // listClone = Object.assign({}, listObj);
@@ -444,9 +486,9 @@ function cloneListObj(listObj) {
 }
 
 
-
-// FUNÇÕES DE TESTE
-
+/*
+  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
+*/
 async function insert_data_callback() {
     modalLoading.show();
     let id = $("#id").val();
@@ -473,7 +515,10 @@ async function insert_data_callback() {
     }
 }
 
-// Make an AJAX call to Google Script
+/*
+  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
+  AJAX call to Google Script
+*/
 function insert_value_ajax() {
     $("#response").css("visibility", "hidden");
     modalLoading.show();
@@ -490,6 +535,9 @@ function insert_value_ajax() {
     reload_data();
 }
 
+/*
+  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
+*/
 function read_value_2() {
     $("#response").css("visibility", "hidden");
     modalLoading.show();

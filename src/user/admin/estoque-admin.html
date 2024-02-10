@@ -16,7 +16,7 @@
   <div class="main__container container d-flex justify-content-center">
     <div>
       <h5 class="text-center">GERENCIAMENTO DE ESTOQUE</h5>
-      <p class="text-center">Em desenvolvimento<p>
+      <p id="sheetName" class="text-center">Em desenvolvimento<p>
 
         <!-- Modal -->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
@@ -133,8 +133,8 @@
               <option value="quantidade">Ordem de item com menor quantidade</option>
             </select>
             
-            <input class="col-md-auto btn btn-outline-info mb-2" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
-            <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />            
+            <input class="col-md-auto btn btn-outline-info mb-2 mx-1" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
+            <input class="col-md-auto btn btn-outline-info mb-2 mx-1" type="button" onclick="read_value()" value="RECARREGAR LISTA" />            
 
             <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
             <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>
