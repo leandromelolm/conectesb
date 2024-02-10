@@ -39,30 +39,30 @@
               <div class="col g-3">
                 <div class="form-floating mb-3">
                   <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly disabled>
-                  <label for="floatingInput">ID</label>
+                  <label for="id">ID</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
-                  <label for="floatingInput">CADUM</label>
+                  <label for="codigo">CADUM</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item" aria-label="Item">
                   <ul class="ul__produtos"></ul>
-                  <label for="floatingInput">ITEM</label>
+                  <label for="item">ITEM</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
-                  <label for="floatingInput">MARCA</label>
+                  <label for="marca">MARCA</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
-                  <label for="floatingInput">VALIDADE</label>
+                  <label for="validade">VALIDADE</label>
                 </div>
                 <div class="row">
                   <button id="subtrairBtn" class="col btn btn-danger btn__quantidade">-</button>
                   <div class="col form-floating mb-3 d-flex align-items-center">
                     <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
-                    <label for="floatingInput" class="ms-2">QUANTIDADE</label>
+                    <label for="quantidade" class="ms-2">QUANTIDADE</label>
                   </div>
                   <button id="somarBtn" class="col btn btn-success btn__quantidade">+</button>
                 </div>
@@ -106,15 +106,34 @@
         <div class="text-center">
           <div class="div__buttons row justify-content-md-center m-2">
 
-            <select class="form-select" id="selectSort">
-              <option value="insercao">Ordem de inserção (mais recentes)</option>
+            <!--PESQUISA-->
+            <div class="row mt-2 mb-2 p-0">
+              <div class="col-md-12 mx-auto p-0">
+                  <div class="small fw-light">Pesquisa</div>
+                  <div class="input-group">
+                      <input class="form-control border" type="search"
+                        placeholder="nome do produto" 
+                        id="inputSearch" onkeydown="eventClickEnter(event)">
+                      <span class="input-group-append">
+                        <button id="btn-search" 
+                          class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
+                          type="button" onclick="handleSearch()">
+                            <img src="/src/assets/search.svg">
+                        </button>
+                      </span>                     
+                  </div>
+              </div>
+            </div>
+
+            <select class="form-select mb-2" id="selectSort">
               <option value="alteracao">Ordem de alteração (edição mais recentes)</option>
+              <option value="insercao">Ordem de inserção (mais recentes)</option>
               <option value="alfabetica">Ordem alfabética (A-Z)</option>
               <option value="vencimento">Ordem de vencimento mais próximo</option>
-              <option value="quantidade">Ordem menor quantidade de itens</option>
+              <option value="quantidade">Ordem de item com menor quantidade</option>
             </select>
             
-            <input class="col-md-auto btn btn-outline-info" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
+            <input class="col-md-auto btn btn-outline-info mb-2" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
             <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />            
 
             <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>

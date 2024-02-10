@@ -3,7 +3,7 @@ let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GH
 const produtoList = document.getElementById("produto-list");
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 let listObj;
-let listClone =[];
+let listClone = [];
 
 window.onload = () => {
     reload_data();
@@ -100,7 +100,6 @@ function read_value() {
         };
         // document.getElementById("selectSort").value = "insercao";
         // loadInPageListItem(listObj);
-        console.log(selectSort.value);
         sortList(selectSort.value, listObj);
 
         modalLoading.hide();
@@ -141,14 +140,17 @@ function loadInPageListItem(list) {
     listItem.innerHTML = item.join('');
 }
 
+let listaFiltrada;
+let listaCloneFiltrada; // lista que preserva a ordem original de retorno
+
 let selectSort = document.getElementById("selectSort");
-selectSort.addEventListener("change", function(){
-    sortList(selectSort.value, listObj);
-})
+selectSort.addEventListener("change", () => {
+    sortList(selectSort.value, listaFiltrada || listObj);
+});
 
 function sortList(sort, list) {    
     if (sort === "insercao") {
-        loadInPageListItem(listClone);
+        loadInPageListItem(listaCloneFiltrada || listClone);
     }
     if (sort === "alteracao") {
         let lista = list.sort(function(a, b) { 
@@ -184,6 +186,39 @@ function sortList(sort, list) {
             return a.QUANTIDADE - b.QUANTIDADE;
         })
         loadInPageListItem(lista);
+    }
+}
+
+let inputSearch = document.getElementById("inputSearch");
+inputSearch.addEventListener("input", () => {
+    filterList(inputSearch.value);
+});
+
+function filterList(inputValue) {
+    inputValue = inputValue.toLowerCase();
+    let filteredList;
+    if (selectSort.value == "insercao") {
+        filteredList = listClone.filter(item => {
+            return item.ITEM.toLowerCase().includes(inputValue);
+        });
+        listaCloneFiltrada = filteredList;
+    } else {
+        listaCloneFiltrada = "";
+        filteredList = listObj.filter(item => {
+            return item.ITEM.toLowerCase().includes(inputValue);
+        });
+        listaFiltrada = filteredList;
+    }
+    sortList(selectSort.value, filteredList);
+}
+
+function handleSearch() {
+    filterList(inputSearch.value);
+}
+
+function eventClickEnter(event) {
+    if (event.keyCode === 13) {
+        handleSearch();
     }
 }
 
