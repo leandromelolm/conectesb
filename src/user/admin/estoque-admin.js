@@ -3,7 +3,6 @@ let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GH
 const produtoList = document.getElementById("produto-list");
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 let listObj;
-let listClone = [];
 
 window.onload = () => {
     reload_data();
@@ -41,7 +40,7 @@ async function insert_value() {
         }
     } catch (error) {
         console.log("erro ao inserir", error);
-        reload_data()
+        reload_data();
     }
 }
 
@@ -90,18 +89,9 @@ function read_value() {
     let url = script_url + "?action=read";
 
     $.getJSON(url, function (json) {        
-        listObj = json.records.reverse();
-
-        // listClone = Object.assign({}, listObj);
-        // listClone = {...listObj};
-        i = -1;
-        while (++i < listObj.length) {
-            listClone[i] = listObj[i];
-        };
-        // document.getElementById("selectSort").value = "insercao";
-        // loadInPageListItem(listObj);
+        listObj = json.records.reverse();        
+        // cloneListObj(listObj);
         sortList(selectSort.value, listObj);
-
         modalLoading.hide();
         $("#response").css("visibility", "visible");
     });
@@ -141,7 +131,6 @@ function loadInPageListItem(list) {
 }
 
 let listaFiltrada;
-let listaCloneFiltrada; // lista que preserva a ordem original de retorno
 
 let selectSort = document.getElementById("selectSort");
 selectSort.addEventListener("change", () => {
@@ -150,7 +139,10 @@ selectSort.addEventListener("change", () => {
 
 function sortList(sort, list) {    
     if (sort === "insercao") {
-        loadInPageListItem(listaCloneFiltrada || listClone);
+        let lista = list.sort(function(a, b) { 
+            return b.ID - a.ID;
+        })
+        loadInPageListItem(lista);
     }
     if (sort === "alteracao") {
         let lista = list.sort(function(a, b) { 
@@ -197,18 +189,10 @@ inputSearch.addEventListener("input", () => {
 function filterList(inputValue) {
     inputValue = inputValue.toLowerCase();
     let filteredList;
-    if (selectSort.value == "insercao") {
-        filteredList = listClone.filter(item => {
-            return item.ITEM.toLowerCase().includes(inputValue);
-        });
-        listaCloneFiltrada = filteredList;
-    } else {
-        listaCloneFiltrada = "";
-        filteredList = listObj.filter(item => {
-            return item.ITEM.toLowerCase().includes(inputValue);
-        });
-        listaFiltrada = filteredList;
-    }
+    filteredList = listObj.filter(item => {
+        return item.ITEM.toLowerCase().includes(inputValue);
+    });
+    listaFiltrada = filteredList;
     sortList(selectSort.value, filteredList);
 }
 
@@ -445,6 +429,18 @@ function updateSelectedIndex(items) {
     items.forEach((item, index) => {
         item.classList.toggle('selected', index === selectedIndex);
     });
+}
+
+
+function cloneListObj(listObj) {
+    let listClone = [];
+    // listClone = Object.assign({}, listObj);
+    // listClone = {...listObj};
+    i = -1;
+    while (++i < listObj.length) {
+        listClone[i] = listObj[i];
+    }
+    return listClone;
 }
 
 
