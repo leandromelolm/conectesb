@@ -105,6 +105,14 @@
         
         <div class="text-center">
           <div class="div__buttons row justify-content-md-center m-2">
+
+            <select class="form-select" id="selectSort">
+              <option value="insercao">Ordem de inserção (mais recentes)</option>
+              <option value="alteracao">Ordem de alteração (edição mais recentes)</option>
+              <option value="alfabetica">Ordem alfabética (A-Z)</option>
+              <option value="vencimento">Ordem de vencimento mais próximo</option>
+              <option value="quantidade">Ordem menor quantidade de itens</option>
+            </select>
             
             <input class="col-md-auto btn btn-outline-info" type="button" onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
             <input class="col-md-auto btn btn-outline-info" type="button" onclick="read_value()" value="RECARREGAR LISTA" />            
@@ -112,11 +120,7 @@
             <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
             <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>
             <input type="button" onclick="update_value()" value="Update" class="d-none"/>
-            <!-- <input type="button" onclick="delete_value()" value="Delete" /> -->
-          </div>
-          <div>
-            <a href="" target="_blank">Click here to open Spread Sheet </a>
-          </div>
+          </div>          
         </div>
 
         <div class="list-group">

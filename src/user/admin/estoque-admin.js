@@ -2,6 +2,8 @@ let script_url = "https://script.google.com/macros/s/AKfycbwinNzlcMVLXIwArbLb7GH
 
 const produtoList = document.getElementById("produto-list");
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
+let listObj;
+let listClone =[];
 
 window.onload = () => {
     reload_data();
@@ -44,7 +46,6 @@ async function insert_value() {
 }
 
 async function update_value() {
-    $("#response").css("visibility", "hidden");
     let id1 = $("#id").val();
     let codigo = $("#codigo").val();
     let item = encodeURI($("#item").val());
@@ -69,7 +70,7 @@ async function update_value() {
 }
 
 async function delete_value(id) {
-    load();
+    modalLoading.show();
     try {
         const res = await fetch(script_url + "?callback=ctrlq&id=" + id + "&action=delete");
         if (res.ok) {
@@ -86,48 +87,104 @@ async function delete_value(id) {
 
 function read_value() {
     modalLoading.show();
-    $("#response").css("visibility", "hidden");
-    modalLoading.show();
     let url = script_url + "?action=read";
 
-    $.getJSON(url, function (json) {
+    $.getJSON(url, function (json) {        
+        listObj = json.records.reverse();
 
-        let listItem = document.getElementById('listItem');
-        let item = [];
-        
-        json.records.reverse();
-
-        for (let i = 0; i < json.records.length; i++) {
-            item.push(`            
-            <span  class="list-group-item list-group-item-action" aria-current="true">                
-                <div>
-                    <div class="d-flex w-100 justify-content-between">
-                        <div>
-                            <h5 class="mb-1">${json.records[i].ITEM}</h5>
-                            <div>
-                                <small class="mb-1 text-black-50"> ${json.records[i].ID}</small>
-                            </div>
-                            <small class="mb-1">COD:${json.records[i].CODIGO} |</small>
-                            <small class="mb-1">MARCA:${json.records[i].MARCA} </small>
-                            <div class="mb-1">
-                                <small>VALIDADE: ${formatDate(json.records[i].VALIDADE)}</small>
-                            </div>
-                            <div>
-                                <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(json.records[i])}'>Editar</button>
-                                <button class="btn btn-outline-danger" id="deleteButton_${json.records[i].ID}">Deletar</button>
-                            </div>
-                        </div>
-                        <h3 class="d-flex align-items-center">${json.records[i].QUANTIDADE}</h3>
-                    </div>
-                </div>                
-            </span>
-            `);            
+        // listClone = Object.assign({}, listObj);
+        // listClone = {...listObj};
+        i = -1;
+        while (++i < listObj.length) {
+            listClone[i] = listObj[i];
         };
-        listItem.innerHTML = item.join('');        
+        // document.getElementById("selectSort").value = "insercao";
+        // loadInPageListItem(listObj);
+        console.log(selectSort.value);
+        sortList(selectSort.value, listObj);
 
         modalLoading.hide();
         $("#response").css("visibility", "visible");
     });
+}
+
+function loadInPageListItem(list) {
+    let listItem = document.getElementById('listItem');
+    let item = [];
+
+    for (let i = 0; i < list.length; i++) {
+        item.push(`            
+        <span  class="list-group-item list-group-item-action" aria-current="true">                
+            <div>
+                <div class="d-flex w-100 justify-content-between">
+                    <div>
+                        <h5 class="mb-1">${list[i].ITEM}</h5>
+                        <div>
+                            <small class="mb-1 text-black-50"> ${list[i].ID}</small>
+                        </div>
+                        <small class="mb-1">COD:${list[i].CODIGO} |</small>
+                        <small class="mb-1">MARCA:${list[i].MARCA} </small>
+                        <div class="mb-1">
+                            <small>VALIDADE: ${formatDate(list[i].VALIDADE)}</small>
+                        </div>
+                        <div>
+                            <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(list[i])}'>Editar</button>
+                            <button class="btn btn-outline-danger" id="deleteButton_${list[i].ID}">Deletar</button>
+                        </div>
+                    </div>
+                    <h3 class="d-flex align-items-center">${list[i].QUANTIDADE}</h3>
+                </div>
+            </div>                
+        </span>
+        `);            
+    };
+    listItem.innerHTML = item.join('');
+}
+
+let selectSort = document.getElementById("selectSort");
+selectSort.addEventListener("change", function(){
+    sortList(selectSort.value, listObj);
+})
+
+function sortList(sort, list) {    
+    if (sort === "insercao") {
+        loadInPageListItem(listClone);
+    }
+    if (sort === "alteracao") {
+        let lista = list.sort(function(a, b) { 
+            return b.currentTime.localeCompare(a.currentTime);
+        })
+        loadInPageListItem(lista);        
+    }
+    if (sort === "alfabetica") {
+        let lista = list.sort(function(a, b) { 
+            return a.ITEM.localeCompare(b.ITEM);
+        })
+        loadInPageListItem(lista);
+    }
+    if (sort === "vencimento") {
+        let lista = list.sort(function(a, b) {
+            if (a.VALIDADE !== "" && b.VALIDADE !== "") {
+                return a.VALIDADE.localeCompare(b.VALIDADE);
+            } else if (a.VALIDADE === "" && b.VALIDADE !== "") {
+                // b deve ser classificado antes de a
+                return 1;
+            } else if (a.VALIDADE !== "" && b.VALIDADE === "") {
+                // a deve ser classificado antes de b
+                return -1;
+            } else {
+                // são considerados iguais em termos de classificação
+                return 0;
+            }
+        });    
+        loadInPageListItem(lista);
+    }    
+    if (sort === "quantidade") {
+        let lista = list.sort(function(a, b) { 
+            return a.QUANTIDADE - b.QUANTIDADE;
+        })
+        loadInPageListItem(lista);
+    }
 }
 
 let resultado;
@@ -167,6 +224,7 @@ function abrirModalParaAdicionarItem() {
 
 function openModal() {
     $('#modal').modal('show');
+    $("#response").css("visibility", "hidden");
 }
 
 function closeModal() {
@@ -193,11 +251,6 @@ document.addEventListener('click', function(event) {
         delete_value(id);
     }
 });
-
-function load() {
-    $("#response").css("visibility", "hidden");
-    modalLoading.show();
-}
 
 function reload_data() {
     $("#response").css("visibility", "visible");
@@ -364,7 +417,7 @@ function updateSelectedIndex(items) {
 // FUNÇÕES DE TESTE
 
 async function insert_data_callback() {
-    load();
+    modalLoading.show();
     let id = $("#id").val();
     let codigo = $("#codigo").val();
     let item = $("#item").val();
