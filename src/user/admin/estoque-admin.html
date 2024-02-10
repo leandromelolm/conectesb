@@ -111,22 +111,22 @@
               <div class="col-md-12 mx-auto p-0">
                   <div class="small fw-light">Pesquisa</div>
                   <div class="input-group">
-                      <input class="form-control border" type="search"
+                      <input class="form-control border border-end-0 border-info" type="search"
                         placeholder="nome do produto" 
                         id="inputSearch" onkeydown="eventClickEnter(event)">
                       <span class="input-group-append">
                         <button id="btn-search" 
-                          class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
+                          class="p-3 bg-white btn-outline-transparent border border-info border-start-0 rounded-end btn__search"
                           type="button" onclick="handleSearch()">
-                            <img src="/src/assets/search.svg">
+                            <img src="../../assets/search.svg">
                         </button>
                       </span>                     
-                  </div>
+                  </div>                  
               </div>
             </div>
 
             <select class="form-select mb-2" id="selectSort">
-              <option value="alteracao">Ordem de alteração (edição mais recentes)</option>
+              <option value="alteracao">Ordem de edição (mais recentes)</option>
               <option value="insercao">Ordem de inserção (mais recentes)</option>
               <option value="alfabetica">Ordem alfabética (A-Z)</option>
               <option value="vencimento">Ordem de vencimento mais próximo</option>
