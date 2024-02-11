@@ -15,7 +15,40 @@ window.onload = () => {
         console.log(obterParametroDaURL().sheet);
         document.getElementById("divInputUrl").style.display = "none";
     }
+    selectShowData(document.getElementById("selectShowData").value)
 }
+
+let elSelectShowData = document.getElementById("selectShowData");
+elSelectShowData.addEventListener("change", () => {
+    selectShowData(elSelectShowData.value);
+})
+
+function selectShowData(s) {
+    if (s === "showlist") {
+        document.getElementById("showDataInList").style.display = "block";
+        document.getElementById("showDataInTable").style.display = "none";
+    }
+    if (s === "showtable") {
+        document.getElementById("showDataInList").style.display = "none";
+        document.getElementById("showDataInTable").style.display = "block";
+    }
+}
+
+function ajustarVisualizacao() {
+    const larguraDaJanela = window.innerWidth;
+    if (larguraDaJanela < 768) {
+        document.getElementById("showDataInList").style.display = "block";
+        document.getElementById("showDataInTable").style.display = "none";
+        document.getElementById("selectShowData").value = "showlist";
+    } else {
+        document.getElementById("showDataInList").style.display = "none";
+        document.getElementById("showDataInTable").style.display = "block";
+        document.getElementById("selectShowData").value = "showtable";
+    }
+}
+ajustarVisualizacao();
+window.addEventListener("resize", ajustarVisualizacao);
+
 
 function salvar() {
     document.getElementById("btnSalvar").style.display = "none";
@@ -109,13 +142,6 @@ async function read_value() {
     modalLoading.show();
     let url = `${script_url}?sheet=${encodeURI(sheetName)}&action=read`;
     try {
-        // $.getJSON(url, function (json) {        
-        //     listObj = json.records.reverse();        
-        //     // cloneListObj(listObj);
-        //     sortList(selectSort.value, listObj);
-        //     modalLoading.hide();
-        //     $("#response").css("visibility", "visible");
-        // });
         const res = await fetch(url);
         if (res.ok) {
             const data = await res.json();
@@ -123,7 +149,8 @@ async function read_value() {
             listObj = recordsArray.reverse(); 
             sortList(selectSort.value, listObj);
             modalLoading.hide();
-            $("#response").css("visibility", "visible")
+            $("#response").css("visibility", "visible");
+            createTableElementWithData(listObj);
         } else {
             modalLoading.hide();
             console.log("Erro na solicitação dos dados");
@@ -493,6 +520,129 @@ function atualizarParametroURL() {
     }
   });
 
+let txtSearchDataTable;
+
+function createTableElementWithData(data) {
+    $("#response").css("visibility", "hidden");
+    modalLoading.show();
+
+    let table = document.createElement("table");
+    table.id = "productTable";
+    table.className = "table table-bordered table-striped";
+    table.setAttribute('data-page-length', '50');
+    table.setAttribute('data-order', '[[2, "asc"]]');
+
+    const thead = document.createElement('thead');
+    const theadRow = document.createElement('tr');
+
+    const th1 = document.createElement('th');
+    const th2 = document.createElement('th');
+    const th3 = document.createElement('th');
+    const th4 = document.createElement('th');
+    const th5 = document.createElement('th');
+    const th6 = document.createElement('th');
+    const th7 = document.createElement('th');
+    const th8 = document.createElement('th');
+    const th9 = document.createElement('th');
+    const th10 = document.createElement('th');
+
+    th1.textContent = '#ID';
+    th2.textContent = 'CADUM';
+    th3.textContent = 'ITEM';
+    th4.textContent = 'MARCA';
+    th5.textContent = 'QTD';
+    th6.textContent = 'VALIDADE';
+    th7.textContent = 'VENCE EM (DIAS)';
+    th8.textContent = 'edit';
+    th9.textContent = 'del';
+    th10.textContent = 'MODIFICADO EM';
+
+    theadRow.appendChild(th1);
+    theadRow.appendChild(th2);
+    theadRow.appendChild(th3);
+    theadRow.appendChild(th4);
+    theadRow.appendChild(th5);
+    theadRow.appendChild(th6);
+    theadRow.appendChild(th7);
+    theadRow.appendChild(th8);
+    theadRow.appendChild(th9);
+    theadRow.appendChild(th10);
+
+    thead.appendChild(theadRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    for (let i = 0; i < data.length; i++) {
+
+        let tr = tbody.insertRow(-1);
+        let tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].ID;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].CODIGO;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].ITEM;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].MARCA;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].QUANTIDADE;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].VALIDADE;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = `<button 
+                    class="updateButton" 
+                    data-record='${JSON.stringify(data[i])}'>Edit</button>`;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = `<button id="deleteButton_${data[i].ID}">Del</button>`;
+        tabCell = tr.insertCell(-1);
+        let d = new Date(data[i].currentTime)
+        tabCell.innerHTML = d.toLocaleString();        
+    }
+
+    table.appendChild(tbody);
+
+    let divContainer = document.getElementById("showDataInTable");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);
+    modalLoading.hide();
+    $("#response").css("visibility", "visible");
+
+    if ($.fn.DataTable.isDataTable('#productTable')) {
+        $('#productTable').DataTable().destroy();
+    }
+
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            "aaSorting": [],
+            "search": {
+                "search": txtSearchDataTable
+            }
+        });
+
+        $('#productTable_filter input').on('keyup', function () {
+            txtSearchDataTable = this.value;
+        });
+    });      
+}
+
+function prazoDeValidade(date) {   
+    if (date == "")
+        return "-"
+    let du = daysUntil(date);
+    if (du >= 90)
+        return `<span class="text-success">${daysUntil(date)}</span>`;
+    if (du < 120 && du > 1)
+        return ` <b class="text-danger">${daysUntil(date)}</b>`;
+    if ( du < 0 )
+        return `<b class="text-secondary">VENCIDO</b>`;
+    if (du === 1)
+        return ` <b class="text-danger">${daysUntil(date)}</b>`;
+    if (du === 0)
+        return `<b class="text-danger">HOJE</b>`;
+}
+
 
 /*
   Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
@@ -557,72 +707,6 @@ function insert_value_ajax() {
     });
     console.log(request);
     reload_data();
-}
-
-/*
-  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
-*/
-function read_value_2() {
-    $("#response").css("visibility", "hidden");
-    modalLoading.show();
-    let url = script_url + "?action=read";
-
-    $.getJSON(url, function (json) {
-        let table = document.createElement("table");
-
-        let header = table.createTHead();
-        let row = header.insertRow(0);
-        // let cell1 = row.insertCell(0);
-        let cell2 = row.insertCell(0);
-        let cell3 = row.insertCell(1);
-        let cell4 = row.insertCell(2);
-        let cell5 = row.insertCell(3);
-        let cell6 = row.insertCell(4);
-        let cell7 = row.insertCell(5);
-        let cell8 = row.insertCell(6);
-
-        // cell1.innerHTML = `<b>ID</b>`;
-        cell2.innerHTML = "<b>CADUM</b>";
-        cell3.innerHTML = "<b>ITEM</b>";
-        cell4.innerHTML = "<b>MARCA</b>";
-        cell5.innerHTML = "<b>VALIDADE</b>";
-        cell6.innerHTML = "<b>QTD</b>";
-        cell7.innerHTML = "<b>Update</b>";
-        cell8.innerHTML = "<b>Delete</b>";
-
-        json.records.reverse();
-
-        for (let i = 0; i < json.records.length; i++) {
-
-            tr = table.insertRow(-1);
-            // let tabCell = tr.insertCell(-1);
-            // tabCell.innerHTML = json.records[i].ID;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].CODIGO;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].ITEM;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].MARCA;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].VALIDADE;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = json.records[i].QUANTIDADE;
-            tabCell = tr.insertCell(-1);
-            tabCell.innerHTML = `<button 
-                      class="updateButton" 
-                      data-record='${JSON.stringify(json.records[i])}'>Edit</button>`;
-            tabCell = tr.insertCell(-1);
-            // tabCell.innerHTML = `<button onclick="delete_value(${json.records[i].ID})">Del</button>`;
-            tabCell.innerHTML = `<button id="deleteButton_${json.records[i].ID}">Del</button>`;
-            
-        }
-
-        let divContainer = document.getElementById("showData");
-        divContainer.innerHTML = "";
-        divContainer.appendChild(table);
-        modalLoading.show();
-        $("#response").css("visibility", "visible");
-    });
 }
 
 
