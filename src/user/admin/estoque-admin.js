@@ -182,7 +182,7 @@ function loadInPageListItem(list) {
 
     for (let i = 0; i < list.length; i++) {
         item.push(`            
-        <span  class="list-group-item list-group-item-action" aria-current="true">                
+        <span  class="span__list-group-item" aria-current="true">                
             <div>
                 <div class="d-flex w-100 justify-content-between">
                     <div>                        
@@ -343,8 +343,8 @@ document.addEventListener('click', function(event) {
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id.startsWith('deleteButton_')) {
         // Extrai o ID do botão e chama a função delete_value
-        const id = event.target.id.split('_')[1];
-        let confirmar = confirm("Certeza que deseja apagar?");
+        const id = event.target.id.split('_')[1];        
+        let confirmar = confirm(`ID ${id}. Certeza que deseja apagar?`);
         if (confirmar)
         delete_value(id);
     }
@@ -400,7 +400,7 @@ function daysUntil(targetDate) {
 }
 
 function responseMessage(data, op, typeAlert) {
-    document.querySelector(".div_message-response").style.display = "block";
+    document.querySelector(".div__message-response").style.display = "block";
     if (op === "deletado"){
         document.querySelector("#response").innerHTML = `
         <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
@@ -582,11 +582,17 @@ function createTableElementWithData(data) {
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
         tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = `<button 
-                    class="updateButton" 
-                    data-record='${JSON.stringify(data[i])}'>Edit</button>`;
+        tabCell.innerHTML = `
+        <button class="btn updateButton" data-record='${JSON.stringify(data[i])}'>
+            <i class="bi bi-pencil-square updateButton" data-record='${JSON.stringify(data[i])}' aria-hidden="true"></i>
+            <span class="visually-hidden">Editar</span>
+        </button>`;
         tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = `<button id="deleteButton_${data[i].ID}">Del</button>`;
+        tabCell.innerHTML = `
+        <button class="btn" id="deleteButton_${data[i].ID}">
+            <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${data[i].ID}"></i>
+            <span class="visually-hidden">Deletar</span>
+        </button>`;
         tabCell = tr.insertCell(-1);
         let d = new Date(data[i].currentTime)
         tabCell.innerHTML = d.toLocaleString();        
