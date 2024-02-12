@@ -15,7 +15,8 @@ window.onload = () => {
         console.log(obterParametroDaURL().sheet);
         document.getElementById("divInputUrl").style.display = "none";
     }
-    selectShowData(document.getElementById("selectShowData").value)
+    selectShowData(document.getElementById("selectShowData").value);
+    ajustarVisualizacao();
 }
 
 let elSelectShowData = document.getElementById("selectShowData");
@@ -46,9 +47,7 @@ function ajustarVisualizacao() {
         document.getElementById("selectShowData").value = "showtable";
     }
 }
-ajustarVisualizacao();
-window.addEventListener("resize", ajustarVisualizacao);
-
+// window.addEventListener("resize", ajustarVisualizacao);
 
 function salvar() {
     document.getElementById("btnSalvar").style.display = "none";
