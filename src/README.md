@@ -29,9 +29,9 @@
 
 <br>
 
-## MEUS ATALHOS
+## ATALHOS PARA MELHOR PRODUTIVIDADE
 
-#### VSCode Atalhos
+#### VSCode
 
 `ctrl+PageUp` - Alternar abas (editor e terminal)</br>
 `ctrl+J ou ctrl+Shift+´ ` - Abrir terminal</br>
@@ -73,5 +73,8 @@
 lsof -i :8888
 
 kill -9 <PID>
+
+## Executar projeto
+netlify dev --context production
 
 ```

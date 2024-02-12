@@ -1,4 +1,4 @@
-# requisicao-de-material
+# conectesb
 
 Este projeto visa simplificar o processo de solicitação de insumos, materiais e instrumentais, substituindo o tradicional preenchimento manual feito em duas vias do documento de **NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAIS**. Através de uma página web acessível tanto em computadores quanto em dispositivos móveis, os usuários podem enviar pedidos e imprimir uma **NOTA DE REQUISIÇÃO** de forma fácil e rápida. A página é compatível com os principais navegadores, apresenta campos com preenchimento interativo e intuitivo, além de oferecer a funcionalidade de impressão, resultando na geração de um documento em duas vias. Também foi implementada a funcionalidade para exibir os pedidos feitos e realizar a busca por pedido.
 
