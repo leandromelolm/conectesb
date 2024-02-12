@@ -6,6 +6,19 @@ let listObj;
 let sheetName;
 // ../user/admin/estoque-admin.html?sheet={NOME_DA_FOLHA_DA_PLANILHA}
 window.onload = () => {
+
+    // verificar validade do token - função checkAuth de service/auth.service.js
+    // se o usuario não estiver autenticado checkAuth retorna false.
+    // se for false esconde o input e redireciona para 
+    // {hostname}/user/admin/estoque-admin.html
+    if (!checkAuth()) {
+        document.getElementById("divInputUrl").style.display = "none";
+        if(obterParametroDaURL().sheet) {
+            const urlSemParametros = window.location.href.split('?')[0];  
+            window.location.href = urlSemParametros;
+        }
+    }
+
     document.getElementById("btnLoadingSave").style.display = "none";
     sheetName =  obterParametroDaURL().sheet || "PaginaTest";
     document.getElementById("sheetName").innerHTML = sheetName;
@@ -16,7 +29,7 @@ window.onload = () => {
         document.getElementById("divInputUrl").style.display = "none";
     }
     selectShowData(document.getElementById("selectShowData").value);
-    ajustarVisualizacao();
+    ajustarVisualizacao();    
 }
 
 let elSelectShowData = document.getElementById("selectShowData");
@@ -155,7 +168,8 @@ async function read_value() {
             console.log("Erro na solicitação dos dados");
         }
     } catch (error) {
-        alert(`Verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `);
+        alert(`Verifique se você está logado ou
+verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `);
         // window.history.back();
         // window.location.replace("../../");
         window.location.replace("estoque-admin.html");
@@ -383,28 +397,6 @@ function daysUntil(targetDate) {
     const differenceInMilliseconds = target - today;
     const differenceInDays = Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
     return differenceInDays;
-}
-
-function responseMessage1(data, op, typeAlert) {
-    if (op === "deletado"){
-        document.querySelector("#response").innerHTML = `
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-        `
-    } else {
-        document.querySelector("#response").innerHTML = `
-        <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                Hello, world! This is a toast message.
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-        `
-    }
 }
 
 function responseMessage(data, op, typeAlert) {
