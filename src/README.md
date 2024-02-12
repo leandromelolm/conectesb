@@ -69,12 +69,31 @@
 #### Matar um processo via terminal
 
 ```sh
+## Executar projeto
+netlify dev
+# ou
+netlify dev --context production
+
+## Matar execução do projeto
+ctrl + c
+
 ## Exemplo para matar um processo executando na porta 8888
 lsof -i :8888
-
 kill -9 <PID>
 
-## Executar projeto
-netlify dev --context production
+## Parar execução
+ctrl + z
+
+## Listar todos os processos com nome netlify e encontrar o ID
+ps aux | grep netlify
+
+## Retornar a execução do processo em segundo plano (background)
+bg
+
+## Listar os trabalhos em segundo plano
+jobs
+# matar o trabalho em segundo plano substituindo "n" pelo número do trabalho associado ao processo que você deseja encerrar.
+kill %n
+
 
 ```
