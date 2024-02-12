@@ -1,4 +1,5 @@
 const headerTemplate = document.createElement('template');
+let booleanPaginaEstoque = false;
 
 headerTemplate.innerHTML = `
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -73,6 +74,8 @@ class Header extends HTMLElement {
         super();
     }
 
+    
+
     connectedCallback() {
         const shadowRoot = this.attachShadow({ mode: 'closed' });
         shadowRoot.appendChild(headerTemplate.content);
@@ -91,6 +94,7 @@ class Header extends HTMLElement {
         }
 
         if (isInEstoquePage) {
+            booleanPaginaEstoque = isInEstoquePage;
             const links = shadowRoot.querySelectorAll('a');
             links.forEach((link) => {
                 link.href = link.href.replace("/user/admin/", "/");
@@ -131,7 +135,6 @@ class Header extends HTMLElement {
         if (token != null) {
             validToken = checkTokenExpirationDate(token);
             if (validToken.auth) {
-                console.log("token válido");
                 usuarioLogadoElement.innerHTML = validToken.username;
                 divUserLogin.classList.toggle("d-none", false);
                 elInventarioBuscar.classList.toggle('d-none', false);
@@ -148,10 +151,10 @@ class Header extends HTMLElement {
 customElements.define('header-component', Header);
 
 function checkTokenExpirationDate(token) {
+    // console.log("checkToken");
     try {
         let s = token.split('.');
         var decodeString = atob(s[1]);
-        console.log("checkToken");
         const { exp, name } = JSON.parse(decodeString);
     
         if (new Date(exp * 1000) > new Date()) {
@@ -177,6 +180,10 @@ function checkTokenExpirationDate(token) {
 }
 
 function logout() {
-    localStorage.removeItem('access_token')
-    window.location.href = 'index';
+    localStorage.removeItem('access_token');
+    if (booleanPaginaEstoque) {
+        window.location.href = '../../';
+    } else {
+        window.location.href = 'index';
+    }    
 }
