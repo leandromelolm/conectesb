@@ -45,6 +45,7 @@ li:hover {
 
 .li__input-options-produtos {
   cursor:pointer;
+  border-bottom: groove;
 }
 
 .li__input-options-produtos::marker {
