@@ -343,10 +343,19 @@ document.addEventListener('click', function(event) {
 document.addEventListener('click', function(event) {
     if (event.target && event.target.id.startsWith('deleteButton_')) {
         // Extrai o ID do botão e chama a função delete_value
-        const id = event.target.id.split('_')[1];        
-        let confirmar = confirm(`ID ${id}. Certeza que deseja apagar?`);
-        if (confirmar)
-        delete_value(id);
+        const id = event.target.id.split('_')[1];
+        
+        document.querySelector("#modalAlertBody").innerHTML = `
+            ID ${id}. Certeza que deseja apagar?
+        `;
+        
+        const modalAlert = new bootstrap.Modal(document.getElementById('modalAlert'));
+        modalAlert.show();        
+
+        document.getElementById('btnConfirmarExcluir').addEventListener('click', function() {
+            delete_value(id);
+            modalAlert.hide();
+        });
     }
 });
 
