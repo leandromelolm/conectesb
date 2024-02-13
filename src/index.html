@@ -124,6 +124,14 @@
         color: cyan;
     }
 
+    .li__check-auth {
+        display: none;
+    }
+
+    .li__show {
+        display: block;
+    }
+
 </style>
 
 <body>
@@ -147,20 +155,26 @@
                 <li class="list-group-item">
                     <a href="inventario-lista?search=all" class="btn a__link">Lista de inventários</a>
                 </li>
-                <!-- <li class="list-group-item">
-                    <a href="abrirchamado.html" class="btn a__link">Abrir chamado</a>
-                </li> -->
-                <!-- <li class="list-group-item">
-                    <a href="buscarchamado.html" class="btn a__link">Buscar chamado (login)</a>
-                </li> -->
-                <li class="list-group-item">
-                    <a href="inventario-buscar?search=all" class="btn a__link">Buscar inventário por ID (login)</a>
+
+                <li class="list-group-item li__check-auth logged_out">
+                    <a href="user/sign-in" class="btn a__link">Fazer login</a>
                 </li>
+
+                <li class="list-group-item li__check-auth logged_in">
+                    <a href="user/admin/estoque-admin.html" class="btn a__link">Gerenciar estoque</a>
+                </li>
+                <li class="list-group-item li__check-auth logged_in">
+                    <a href="abrirchamado.html" class="btn a__link">Abrir chamado</a>
+                </li>
+                <li class="list-group-item li__check-auth logged_in">
+                    <a href="buscarchamado.html" class="btn a__link">Buscar chamado (logado)</a>
+                </li>
+                <li class="list-group-item li__check-auth logged_in">
+                    <a href="inventario-buscar?search=all" class="btn a__link">Buscar inventário por ID (logado)</a>
+                </li>
+                
                 <li class="list-group-item">
                     <a href="https://conectesb.netlify.app/" class="btn a__link">conectesb.netlify.app</a>
-                </li>
-                <li class="list-group-item">
-                    <a href="user/sign-in" class="btn a__link">Fazer login</a>
                 </li>
             </ul>
         </div>        
@@ -168,12 +182,25 @@
 
     <footer class="class__footer mt-auto position-absolute bottom-0 start-50 translate-middle" >
         <div class="text-center p-3" style="background-color:#0051A2">
-            <a class="text-light text-decoration-none Link" href="https://github.com/leandromelolm/requisicao-de-material" target="_blank">
+            <a class="text-light text-decoration-none Link" href="https://github.com/leandromelolm/conectesb" target="_blank">
                 <img src="assets/github.svg" alt="github" style="background-color: transparent;">
                 <span class="span__author">leandromelolm</span>
             </a>
         </div>
     </footer>
-    
+    <script src="services/auth.service.js"></script>
+    <script>
+        window.onload = () => {
+            if (checkAuth()) {
+                document.querySelectorAll(".logged_in").forEach(function(element) {
+                    element.classList.add("li__show");
+                });
+            } else {
+                document.querySelectorAll(".logged_out").forEach(function(element) {
+                    element.classList.add("li__show");
+                });
+            }
+        }
+    </script>
 </body>
 </html>
