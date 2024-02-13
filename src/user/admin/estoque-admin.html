@@ -82,21 +82,22 @@
                   <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
                   <label for="validade">VALIDADE</label>
                 </div>
-                <div class="row">
-                  <button id="subtrairBtn" class="col btn btn-danger btn__quantidade">-</button>
-                  <div class="col form-floating mb-3 d-flex align-items-center">
-                    <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
-                    <label for="quantidade" class="ms-2">QUANTIDADE</label>
-                  </div>
-                  <button id="somarBtn" class="col btn btn-success btn__quantidade">+</button>
-                </div>
+
+                <div class="div__quantidade mb-3 d-flex">                  
+                    <button id="subtrairBtn" class="col btn__quantidade">-</button>
+                    <div class="col">
+                      <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
+                    </div>
+                    <button id="somarBtn" class="col btn__quantidade">+</button>                  
+                </div>               
+                  
               </div>
             </form>
             <div class="d-grid">
-              <button id="btnLoadingSave" class="btn btn-outline-primary" type="button" disabled>
+              <button id="btnLoadingSave" class="btn btn-outline-primary  mb-3" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>              
               </button>        
-              <button id="btnSalvar" class="col-md-auto btn btn-outline-primary" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
+              <button id="btnSalvar" class="col-md-auto btn btn-outline-primary mb-3" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
               <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
             </div>
           </div>

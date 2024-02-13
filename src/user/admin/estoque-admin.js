@@ -297,19 +297,27 @@ document.getElementById("subtrairBtn").addEventListener("click", function(e) {
     subtrair(e);
 }, false);
   
-function somar() {
+function somar() {   
     resultado++;
     atualizarResultado();
 }
 
 function subtrair() {
-    resultado--;
+    if(resultado > 0){
+        resultado--;
+    } else {
+        resultado = 0
+    }
     atualizarResultado();
 }
 
 function atualizarResultado() {
     document.getElementById("quantidade").value = resultado;
 }
+
+document.getElementById("quantidade").addEventListener('input', () =>{
+    resultado = document.getElementById("quantidade").value;
+})
   
 
 function abrirModalParaAdicionarItem() {

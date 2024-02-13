@@ -1,4 +1,4 @@
-table,
+table,none
 th,
 td {
   margin: 10px 0;
@@ -25,13 +25,42 @@ th {
     justify-content: center
 }
 
-.btn__quantidade {
-  width: 56px;
-  height: 56px;
+.div__quantidade {
+  /* background: green; */
+  border-radius: 5px;
+  border: solid 1px;
+  border-color: #dee2e6;
+  margin: 0px 0px;
+  height: 58px;
+  align-items: center;
 }
 
 .input__quantidade {
   text-align: center;
+  border: none;
+}
+
+/* remover botões de incremento/decremento que aparecem automaticamente em campos de input do tipo number */
+.input__quantidade::-webkit-inner-spin-button,
+.input__quantidade::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.btn__quantidade {
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
+}
+
+.btn__quantidade:active {
+  border: none;
+  outline: none;
+}
+
+.btn__quantidade:focus-visible {
+  border: none;
+  outline: none;
 }
 
 .ul__produtos li.selected {
