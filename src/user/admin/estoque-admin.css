@@ -25,6 +25,11 @@ th {
     justify-content: center
 }
 
+.modal-body label {
+  color: rgba(var(--bs-body-color-rgb),.65);
+  transform: scale(.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
 .div__quantidade {
   /* background: green; */
   border-radius: 5px;

@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal Add and Update -->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
@@ -66,13 +66,13 @@
                   <label for="id">ID</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
-                  <label for="codigo">CADUM</label>
-                </div>
-                <div class="form-floating mb-3">
                   <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item" aria-label="Item">
                   <ul class="ul__produtos"></ul>
                   <label for="item">ITEM</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
+                  <label for="codigo">CADUM</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
@@ -89,18 +89,19 @@
                       <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
                     </div>
                     <button id="somarBtn" class="col btn__quantidade">+</button>                  
-                </div>               
-                  
+                </div>    
               </div>
             </form>
+
             <div class="d-grid">
               <button id="btnLoadingSave" class="btn btn-outline-primary  mb-3" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>              
               </button>        
-              <button id="btnSalvar" class="col-md-auto btn btn-outline-primary mb-3" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
+              <button id="btnSalvar" class="col-md-auto btn btn-primary mb-3" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
               <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
             </div>
           </div>
+          
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" 
               onclick="closeModal()">fechar
@@ -132,7 +133,7 @@
               </div>
               <div class="modal-body" id="modalAlertBody"></div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-danger" id="btnConfirmarExcluir">Excluir</button>
               </div>
             </div>
@@ -151,7 +152,7 @@
         </select>
 
         <div class="div__buttons row justify-content-md-center m-2">
-          <input class="col-md-auto btn btn-outline-info mb-2 mx-1" type="button" onclick="abrirModalParaAdicionarItem()"
+          <input class="col-md-auto btn btn-outline-primary mb-2 mx-1" type="button" onclick="abrirModalParaAdicionarItem()"
           value="ADICIONAR ITEM" />
           <input class="col-md-auto btn btn-outline-info mb-2 mx-1" type="button" onclick="read_value()"
           value="RECARREGAR LISTA" />
