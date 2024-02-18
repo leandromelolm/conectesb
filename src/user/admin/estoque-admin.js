@@ -188,10 +188,7 @@ function loadInPageListItem(list) {
               <div style="border-bottom: groove;">
                   <div class="d-flex w-100 justify-content-between">
                       <div>                        
-                          <h6 class="mb-1">${list[i].ITEM}</h6>                
-                          <div>
-                              <h5 class="d-flex align-items-center mb-0 text-success ps-2">${list[i].QUANTIDADE} </h5>                              
-                          </div>
+                          <h6 class="mb-1">${list[i].ITEM}</h6>
                           <div class="">
                               <small>VALIDADE: ${formatDate(list[i].VALIDADE)} </small>
                           </div>
@@ -207,6 +204,9 @@ function loadInPageListItem(list) {
                           </div>
                       </div>
                       <div class="align-self-center">
+                        <div>
+                            <h6 class="mb-0 text-success text-center">${list[i].QUANTIDADE} </h6>                              
+                        </div>
                         <button class="btn__update btn btn-outline-link d-flex align-items-center" data-record='${JSON.stringify(list[i])}'><i class="bi bi-three-dots-vertical"></i></button>
                         <button class="btn" id="deleteButton_${list[i].ID}">
                             <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${list[i].ID}"></i>
