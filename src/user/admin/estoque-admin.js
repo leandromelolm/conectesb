@@ -182,33 +182,55 @@ function loadInPageListItem(list) {
     let item = [];
 
     for (let i = 0; i < list.length; i++) {
-        item.push(`            
-        <span  class="span__list-group-item" aria-current="true">                
-            <div>
-                <div class="d-flex w-100 justify-content-between">
-                    <div>                        
-                        <h6 class="mb-1">${list[i].ITEM}</h6>                    
-                        <div>
-                            <small class="mb-1 text-black-50"> ${list[i].ID}</small>
-                        </div>
-                        <small class="mb-1">COD:${list[i].CODIGO} |</small>
-                        <small class="mb-1">MARCA:${list[i].MARCA} </small>
-                        <div class="mb-1">
-                            <small>VALIDADE: ${formatDate(list[i].VALIDADE)}</small>
-                        </div>
-                        <div>
-                            <button class="updateButton btn btn-outline-success" data-record='${JSON.stringify(list[i])}'>Editar</button>
-                            <button class="btn btn-outline-danger" id="deleteButton_${list[i].ID}">Deletar</button>
-                        </div>
-                    </div>
-                    <h3 class="d-flex align-items-center">${list[i].QUANTIDADE}</h3>
-                </div>
-            </div>                
-        </span>
-        `);            
+        item.push(`
+        <div class="list-group">
+            <span  class="span__list-group-item" aria-current="true">                
+              <div style="border-bottom: groove;">
+                  <div class="d-flex w-100 justify-content-between">
+                      <div>                        
+                          <h6 class="mb-1">${list[i].ITEM}</h6>                
+                          <div>
+                              <h5 class="d-flex align-items-center mb-0 text-success">${list[i].QUANTIDADE} </h5>                              
+                          </div>
+                          <div class="">
+                              <small>VALIDADE: ${formatDate(list[i].VALIDADE)} </small>
+                          </div>
+                          <div class="mb-1">
+                              <small class="text-black-50"> ID ${list[i].ID} </small>
+                              <small class=""> COD ${list[i].CODIGO} </small>
+                              <small class=""> MARCA:${list[i].MARCA} </small>
+                          </div>
+                      </div>
+                      <div class="align-self-center">
+                        <button class="btn__update btn btn-outline-link d-flex align-items-center" data-record='${JSON.stringify(list[i])}'><i class="bi bi-three-dots-vertical"></i></button>
+                        <button class="btn" id="deleteButton_${list[i].ID}">
+                            <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${list[i].ID}"></i>
+                            <span class="visually-hidden">Deletar</span>
+                        </button>
+                      </div>
+                        
+                      
+                  </div>
+              </div>                
+          </span>
+        </div>        
+        `);         
     };
     listItem.innerHTML = item.join('');
 }
+
+document.addEventListener('click', function(event) {
+    const btn__update = event.target.closest('.btn__update');
+
+    if (btn__update) {
+        const recordData = JSON.parse(btn__update.dataset.record);
+        preencherForm(recordData);
+        const html = document.querySelector('html');
+        // html.scrollTop = '0px';
+        document.getElementById('tituloModal').innerHTML = "Editar";
+        openModal();
+    }
+});
 
 let listaFiltrada;
 
@@ -337,17 +359,6 @@ function openModal() {
 function closeModal() {
     $('#modal').modal('hide');
 }
-
-document.addEventListener('click', function(event) {
-    if (event.target && event.target.classList.contains('updateButton')) {
-        const recordData = JSON.parse(event.target.dataset.record);
-        preencherForm(recordData);
-        const html = document.querySelector('html');
-        // html.scrollTop = '0px';
-        document.getElementById('tituloModal').innerHTML = "Editar";
-        openModal();
-    }
-});
 
 let deletarItemId;
 const modalAlert = new bootstrap.Modal(document.getElementById('modalAlert'));
@@ -611,8 +622,8 @@ function createTableElementWithData(data) {
         tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = `
-        <button class="btn updateButton" data-record='${JSON.stringify(data[i])}'>
-            <i class="bi bi-pencil-square updateButton" data-record='${JSON.stringify(data[i])}' aria-hidden="true"></i>
+        <button class="btn btn__update" data-record='${JSON.stringify(data[i])}'>
+            <i class="bi bi-pencil-square btn__update" data-record='${JSON.stringify(data[i])}' aria-hidden="true"></i>
             <span class="visually-hidden">Editar</span>
         </button>`;
         tabCell = tr.insertCell(-1);
@@ -734,3 +745,29 @@ function insert_value_ajax() {
     console.log(request);
     reload_data();
 }
+
+/*
+<span  class="span__list-group-item" aria-current="true">                
+    <div>
+        <div class="d-flex w-100 justify-content-between">
+            <div>                        
+                <h6 class="mb-1">${list[i].ITEM}</h6>                    
+                <div>
+                    <small class="mb-1 text-black-50"> ${list[i].ID}</small>
+                </div>
+                <small class="mb-1">COD:${list[i].CODIGO} |</small>
+                <small class="mb-1">MARCA:${list[i].MARCA} </small>
+                <div class="mb-1">
+                    <small>VALIDADE: ${formatDate(list[i].VALIDADE)}</small>
+                </div>
+                <div>
+                    <button class="btn__update btn btn-outline-success" data-record='${JSON.stringify(list[i])}'>Editar</button>
+                    <button class="btn btn-outline-danger" id="deleteButton_${list[i].ID}">Deletar</button>
+                </div>
+            </div>
+            <h3 class="d-flex align-items-center">${list[i].QUANTIDADE}</h3>
+        </div>
+    </div>                
+</span>
+
+*/

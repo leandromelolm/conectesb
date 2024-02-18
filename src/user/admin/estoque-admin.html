@@ -1,123 +1,137 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
+
   <link rel="stylesheet" href="estoque-admin.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js" defer></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js" defer></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" defer></script> 
-  
+  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js" defer></script>
+
   <script src="../../components/header.js" type="text/javascript" defer></script>
   <title>Estoque</title>
 </head>
+
 <body>
   <header-component></header-component>
 
   <div class="main__container container d-flex justify-content-center">
     <div>
       <h5 class="text-center">GERENCIAMENTO DE ESTOQUE</h5>
-      <p id="sheetName" class="text-center">Em desenvolvimento<p>
+      <p id="sheetName" class="text-center">Em desenvolvimento
+      <p>
 
-        <div class="row mt-1 mb-5 mb-2 mx-5 p-0" id="divInputUrl">
-          <div class="col-md-12  p-0">
-              <div class="input-group div__input-url">
-                  <input class="form-control border border-end-0 border-info" type="search"
-                    placeholder="Nome da planilha (folha)" 
-                    id="inputUrl"  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                  <span class="input-group-append">
-                    <button id="btn-search" 
-                      class="p-3 bg-white btn-outline-transparent border border-info border-start-0 rounded-end btn__search"
-                      type="button" onclick="atualizarParametroURL()">
-                        <img src="../../assets/arrow-right-circle-fill.svg">
-                    </button>
-                  </span>                     
-              </div>                  
-          </div>
-        </div>
-
-        <!-- Modal Add and Update -->
-      <div class="modal fade" id="modal" tabindex="-1" role="dialog"  aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tituloModal">Detalhes</h5>
-            <button type="button" class="close btn btn-transparent btn__close" 
-              data-dismiss="modal" aria-label="Close"
-              onclick="closeModal()">
-              <span aria-hidden="true">&times;</span>
-            </button> 
-          </div>
-
-          <div class="container">   
-          </div>   
-                 
-          <div class="modal-body">
-            <form>
-              <div class="col g-3">
-                <div class="form-floating mb-3">
-                  <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly disabled>
-                  <label for="id">ID</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item" aria-label="Item">
-                  <ul class="ul__produtos"></ul>
-                  <label for="item">ITEM</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM" aria-label="Código">
-                  <label for="codigo">CADUM</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca" aria-label="Marca">
-                  <label for="marca">MARCA</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade" aria-label="Validade">
-                  <label for="validade">VALIDADE</label>
-                </div>
-
-                <div class="div__quantidade mb-3 d-flex">                  
-                    <button id="subtrairBtn" class="col btn__quantidade">-</button>
-                    <div class="col">
-                      <input name="quantidade" id="quantidade" type="number" min="0" class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
-                    </div>
-                    <button id="somarBtn" class="col btn__quantidade">+</button>                  
-                </div>    
-              </div>
-            </form>
-
-            <div class="d-grid">
-              <button id="btnLoadingSave" class="btn btn-outline-primary  mb-3" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>              
-              </button>        
-              <button id="btnSalvar" class="col-md-auto btn btn-primary mb-3" type="button" onclick="salvar()" value="SALVAR">SALVAR</button>            
-              <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()" value="LIMPAR FORMULÁRIO" />
-            </div>
-          </div>
-          
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" 
-              onclick="closeModal()">fechar
-            </button>              
+      <div class="row mt-1 mb-5 mb-2 mx-5 p-0" id="divInputUrl">
+        <div class="col-md-12  p-0">
+          <div class="input-group div__input-url">
+            <input class="form-control border border-end-0 border-info" type="search"
+              placeholder="Nome da planilha (folha)" id="inputUrl" aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm">
+            <span class="input-group-append">
+              <button id="btn-search"
+                class="p-3 bg-white btn-outline-transparent border border-info border-start-0 rounded-end btn__search"
+                type="button" onclick="atualizarParametroURL()">
+                <img src="../../assets/arrow-right-circle-fill.svg">
+              </button>
+            </span>
           </div>
         </div>
       </div>
-    </div>        
 
-        <!-- Modal Loading -->
-        <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+      <!-- Modal Add and Update -->
+      <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="tituloModal">Detalhes</h5>
+              <button type="button" class="close btn btn-transparent btn__close" data-dismiss="modal" aria-label="Close"
+                onclick="closeModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="container">
+            </div>
+
+            <div class="modal-body">              
+              <form>
+                <div class="col g-3">
+                  <div class="form-floating mb-3">
+                    <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly
+                      disabled>
+                    <label for="id">ID</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item"
+                      aria-label="Item">
+                    <ul class="ul__produtos"></ul>
+                    <label for="item">ITEM</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM"
+                      aria-label="Código">
+                    <label for="codigo">CADUM</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca"
+                      aria-label="Marca">
+                    <label for="marca">MARCA</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade"
+                      aria-label="Validade">
+                    <label for="validade">VALIDADE</label>
+                  </div>
+
+                  <div class="div__quantidade mb-3 d-flex">
+                    <button id="subtrairBtn" class="col btn__quantidade">-</button>
+                    <div class="col">
+                      <input name="quantidade" id="quantidade" type="number" min="0"
+                        class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
+                    </div>
+                    <button id="somarBtn" class="col btn__quantidade">+</button>
+                  </div>
+                </div>
+              </form>
+
+              <div class="d-grid">
+                <button id="btnLoadingSave" class="btn btn-outline-primary  mb-3" type="button" disabled>
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                </button>
+                <button id="btnSalvar" class="col-md-auto btn btn-primary mb-3" type="button" onclick="salvar()"
+                  value="SALVAR">SALVAR</button>
+                <input class="col-md-auto btn btn-outline-secondary" type="button" onclick="clear_form()"
+                  value="LIMPAR FORMULÁRIO" />
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Loading -->
+      <div>
+        <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1">
           <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
             <div class="modal-content" style="background: none !important; border: none;">
               <div class="modal-body" style="background: none !important; text-align: center;">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                  <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
             </div>
@@ -139,7 +153,7 @@
               </div>
             </div>
           </div>
-        </div>   
+        </div>
 
         <!-- Alert Response Message -->
         <div class="div__message-response">
@@ -148,27 +162,30 @@
           </div>
         </div>
 
+        <!-- Selecionar visualização em lista ou tabela -->
         <select class="form-select justify-content-md-center select__show-data mb-5" id="selectShowData">
           <option value="showlist">Exibir em lista</option>
           <option value="showtable" selected>Exibir em tabela</option>
         </select>
 
+        <!-- Botões Adicionar item e Atualizar lista -->
         <div class="div__buttons row justify-content-md-center m-2">
-          <input class="col-md-auto btn btn-outline-primary mb-2 mx-1" type="button" onclick="abrirModalParaAdicionarItem()"
-          value="ADICIONAR ITEM" />
+          <input class="col-md-auto btn btn-outline-primary mb-2 mx-1" type="button"
+            onclick="abrirModalParaAdicionarItem()" value="ADICIONAR ITEM" />
           <input class="col-md-auto btn btn-outline-info mb-2 mx-1" type="button" onclick="read_value()"
-          value="RECARREGAR LISTA" />
+            value="RECARREGAR LISTA" />
         </div>
-        
+
+        <!-- Itens exibidos em lista - Mobile -->
         <div id="showDataInList">
           <div class="text-center">
-            <div class="div__buttons row justify-content-md-center m-2">        
+            <div class="div__buttons row justify-content-md-center m-2">
               <!--PESQUISA-->
               <div class="row mt-2 mb-2 p-0">
                 <div class="col-md-12 mx-auto p-0">
                   <div class="input-group">
-                    <input class="form-control border border-end-0 border-info" type="search" placeholder="pesquisar item"
-                      id="inputSearch" onkeydown="eventClickEnter(event)">
+                    <input class="form-control border border-end-0 border-info" type="search"
+                      placeholder="pesquisar item" id="inputSearch" onkeydown="eventClickEnter(event)">
                     <span class="input-group-append">
                       <button id="btn-search"
                         class="p-3 bg-white btn-outline-transparent border border-info border-start-0 rounded-end btn__search"
@@ -178,33 +195,33 @@
                     </span>
                   </div>
                 </div>
-              </div>   
-                   
+              </div>
+
               <select class="form-select mb-2" id="selectSort">
                 <option value="alteracao">Ordem de edição (mais recentes)</option>
                 <option value="insercao">Ordem de inserção (mais recentes)</option>
                 <option value="alfabetica">Ordem alfabética (A-Z)</option>
                 <option value="vencimento">Ordem de vencimento mais próximo</option>
                 <option value="quantidade">Ordem de item com menor quantidade</option>
-              </select>   
+              </select>
 
               <input type="button" onclick="insert_value()" value="Insert" class="d-none"></input>
               <input type="button" onclick="insert_data_callback()" value="Insert test" class="d-none"></input>
               <input type="button" onclick="update_value()" value="Update" class="d-none" />
             </div>
-          </div>
-        
-          <div class="list-group">
-            <div id="listItem"></div>
-          </div>
+          </div>          
+          <div id="listItem"></div>
         </div>
-
-        <div class="div__show-data" id="showDataInTable"></div>
-
       </div>
+
+      <!-- Itens em tabela - PC -->
+      <div class="div__show-data" id="showDataInTable"></div>
+
+    </div>
   </div>
 </body>
 <script src="../../services/auth.service.js"></script>
 <script src="produto-lista.js"></script>
 <script src="estoque-admin.js"></script>
+
 </html>

@@ -113,3 +113,8 @@ li:hover {
   width: 180px;
   margin-inline: auto;
 }
+
+.btn__update {
+  background-color: transparent;
+  border: transparent;
+}
