@@ -158,8 +158,9 @@ async function read_value() {
         if (res.ok) {
             const data = await res.json();
             const recordsArray = data.records;
-            listObj = recordsArray.reverse(); 
+            listObj = recordsArray.reverse();
             sortList(selectSort.value, listObj);
+            // localStorage.setItem("lista_estoque", JSON.stringify(listObj));
             modalLoading.hide();
             $("#response").css("visibility", "visible");
             createTableElementWithData(listObj);
@@ -425,20 +426,24 @@ function daysUntil(targetDate) {
 function responseMessage(data, op, typeAlert) {
     document.querySelector(".div__message-response").style.display = "block";
     if (op === "deletado"){
-        document.querySelector("#response").innerHTML = `
-        <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
-           Item ${op} com sucesso! Id: <strong> ${data.id}</strong>.
-           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        `
+        data["currentTime"] = new Date().toLocaleString();
+        appendAlert(op, typeAlert, data);
     } else {
-        document.querySelector("#response").innerHTML = `
-        <div class="alert alert-${typeAlert} alert-dismissible fade show" role="alert">
-           Item ${op} com sucesso! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}
-           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        `
+        appendAlert(op, typeAlert, data);
     }
+}
+
+const alertResponseMessage = document.getElementById('response')
+const appendAlert = (op, type, data) => {
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = [
+    `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+    `    Item ${op} com sucesso! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}`,
+    '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+    '</div>'
+  ].join('')
+
+  alertResponseMessage.append(wrapper)
 }
 
 const ulProdutos = document.querySelector('.ul__produtos')
@@ -626,6 +631,7 @@ function createTableElementWithData(data) {
     let divContainer = document.getElementById("showDataInTable");
     divContainer.innerHTML = "";
     divContainer.appendChild(table);
+
     modalLoading.hide();
     $("#response").css("visibility", "visible");
 
