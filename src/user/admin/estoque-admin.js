@@ -190,15 +190,20 @@ function loadInPageListItem(list) {
                       <div>                        
                           <h6 class="mb-1">${list[i].ITEM}</h6>                
                           <div>
-                              <h5 class="d-flex align-items-center mb-0 text-success">${list[i].QUANTIDADE} </h5>                              
+                              <h5 class="d-flex align-items-center mb-0 text-success ps-2">${list[i].QUANTIDADE} </h5>                              
                           </div>
                           <div class="">
                               <small>VALIDADE: ${formatDate(list[i].VALIDADE)} </small>
                           </div>
                           <div class="mb-1">
-                              <small class="text-black-50"> ID ${list[i].ID} </small>
-                              <small class=""> COD ${list[i].CODIGO} </small>
-                              <small class=""> MARCA:${list[i].MARCA} </small>
+                            <div>
+                                <small class="text-secondary"> ID </small>
+                                <small class="text-black-50">${list[i].ID} </small>
+                                <small class="text-secondary"> CODIGO: </small>
+                                <small class=""> ${list[i].CODIGO} </small>
+                            </div>
+                            <small class="text-secondary"> MARCA:</small>
+                            <small class=""> ${list[i].MARCA} </small>                              
                           </div>
                       </div>
                       <div class="align-self-center">
@@ -410,7 +415,10 @@ function preencherForm(data){
     resultado = data.QUANTIDADE;
 }
 
-function formatDate(date) {   
+function formatDate(date) {
+    if (date == "") {
+        return ""
+    }
     let d = date.split("-");
     let dt = [d[2], d[1], d[0]].join("/");
     let du = daysUntil(date);
