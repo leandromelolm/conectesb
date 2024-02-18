@@ -176,7 +176,7 @@ verifique se o endereço está digitado corretamente na url do navegador. Parâm
         window.location.replace("estoque-admin.html");
     }    
 }
-
+{/* <h6 class="mb-0 text-success text-center">${list[i].QUANTIDADE} </h6> */}
 function loadInPageListItem(list) {
     let listItem = document.getElementById('listItem');
     let item = [];
@@ -187,7 +187,7 @@ function loadInPageListItem(list) {
             <span  class="span__list-group-item" aria-current="true">                
               <div style="border-bottom: groove;">
                   <div class="d-flex w-100 justify-content-between">
-                      <div>                        
+                        <div>                        
                           <h6 class="mb-1">${list[i].ITEM}</h6>
                           <div class="">
                               <small>VALIDADE: ${formatDate(list[i].VALIDADE)} </small>
@@ -202,24 +202,20 @@ function loadInPageListItem(list) {
                             <small class="text-secondary"> MARCA:</small>
                             <small class=""> ${list[i].MARCA} </small>                              
                           </div>
-                      </div>
-                      <div class="align-self-center">
-                        <div>
-                            <h6 class="mb-0 text-success text-center">${list[i].QUANTIDADE} </h6>                              
                         </div>
-                        <button class="btn__update btn btn-outline-link d-flex align-items-center" data-record='${JSON.stringify(list[i])}'><i class="bi bi-three-dots-vertical"></i></button>
-                        <button class="btn" id="deleteButton_${list[i].ID}">
-                            <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${list[i].ID}"></i>
-                            <span class="visually-hidden">Deletar</span>
-                        </button>
-                      </div>
-                        
-                      
-                  </div>
-              </div>                
-          </span>
+                        <div class="align-self-center text-center">
+                            <h6 class="badge bg-success rounded-pill">${list[i].QUANTIDADE}</h6>
+                            <button class="btn__update btn btn-outline-link d-flex align-items-center" data-record='${JSON.stringify(list[i])}'><i class="bi bi-three-dots-vertical"></i></button>
+                            <button class="btn" id="deleteButton_${list[i].ID}">
+                                <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${list[i].ID}"></i>
+                                <span class="visually-hidden">Deletar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>                
+            </span>
         </div>        
-        `);         
+        `);
     };
     listItem.innerHTML = item.join('');
 }
