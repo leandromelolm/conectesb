@@ -35,7 +35,7 @@ th {
   border-radius: 5px;
   border: solid 1px;
   border-color: #dee2e6;
-  margin: 0px 0px;
+  /* margin: 0px 0px; */
   height: 58px;
   align-items: center;
 }
@@ -43,6 +43,7 @@ th {
 .input__quantidade {
   text-align: center;
   border: none;
+  width: 100px;
 }
 
 /* remover botões de incremento/decremento que aparecem automaticamente em campos de input do tipo number */

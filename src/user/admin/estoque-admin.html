@@ -50,7 +50,7 @@
 
       <!-- Modal Add and Update -->
       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="tituloModal">Detalhes</h5>
@@ -65,35 +65,35 @@
 
             <div class="modal-body">              
               <form>
-                <div class="col g-3">
-                  <div class="form-floating mb-3">
+                <div class="row g-1">
+                  <div class="form-floating mb-3 col-7">
                     <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly
                       disabled>
                     <label for="id">ID</label>
                   </div>
-                  <div class="form-floating mb-3">
-                    <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item"
-                      aria-label="Item">
-                    <ul class="ul__produtos"></ul>
-                    <label for="item">ITEM</label>
-                  </div>
-                  <div class="form-floating mb-3">
+                  <div class="form-floating col-5">
                     <input name="codigo" id="codigo" type="text" class="form-control" placeholder="CADUM"
                       aria-label="Código">
                     <label for="codigo">CADUM</label>
                   </div>
+                  <div class="form-floating">
+                    <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item"
+                      aria-label="Item">
+                    <ul class="ul__produtos"></ul>
+                    <label for="item">ITEM</label>
+                  </div>                  
                   <div class="form-floating mb-3">
                     <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca"
                       aria-label="Marca">
                     <label for="marca">MARCA</label>
                   </div>
-                  <div class="form-floating mb-3">
+                  <div class="form-floating mb-3 col-6">
                     <input name="validade" id="validade" type="date" class="form-control" placeholder="Validade"
                       aria-label="Validade">
                     <label for="validade">VALIDADE</label>
                   </div>
 
-                  <div class="div__quantidade mb-3 d-flex">
+                  <div class="form-floating div__quantidade mb-3 d-flex col-6">
                     <button id="subtrairBtn" class="col btn__quantidade">-</button>
                     <div class="col">
                       <input name="quantidade" id="quantidade" type="number" min="0"
