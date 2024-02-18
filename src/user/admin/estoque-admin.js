@@ -461,7 +461,7 @@ const appendAlert = (op, type, data) => {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = [
     `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-    `    Item ${op} com sucesso! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}`,
+    `    Item ${op}! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}`,
     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
     '</div>'
   ].join('')
