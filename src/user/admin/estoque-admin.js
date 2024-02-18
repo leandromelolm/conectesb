@@ -37,6 +37,10 @@ elSelectShowData.addEventListener("change", () => {
     selectShowData(elSelectShowData.value);
 })
 
+const loadingData = (attrib) => {
+    document.getElementById("loadingData").style.display = attrib;
+}
+
 function selectShowData(s) {
     if (s === "showlist") {
         document.getElementById("showDataInList").style.display = "block";
@@ -132,7 +136,8 @@ async function update_value() {
 }
 
 async function delete_value(id) {
-    modalLoading.show();
+    // modalLoading.show();
+    loadingData("block");
     let url = `${script_url}?sheet=${encodeURI(sheetName)}&callback=ctrlq&id=${id}&action=delete`;
     try {
         const res = await fetch(url);
@@ -151,7 +156,8 @@ async function delete_value(id) {
 }
 
 async function read_value() {
-    modalLoading.show();
+    // modalLoading.show();
+    loadingData("block");
     let url = `${script_url}?sheet=${encodeURI(sheetName)}&action=read`;
     try {
         const res = await fetch(url);
@@ -161,11 +167,13 @@ async function read_value() {
             listObj = recordsArray.reverse();
             sortList(selectSort.value, listObj);
             // localStorage.setItem("lista_estoque", JSON.stringify(listObj));
-            modalLoading.hide();
+            // modalLoading.hide();
+            loadingData("none");
             $("#response").css("visibility", "visible");
             createTableElementWithData(listObj);
         } else {
-            modalLoading.hide();
+            // modalLoading.hide();
+            loadingData("none");
             console.log("Erro na solicitação dos dados");
         }
     } catch (error) {
@@ -204,7 +212,7 @@ function loadInPageListItem(list) {
                           </div>
                         </div>
                         <div class="align-self-center text-center">
-                            <h6 class="badge bg-success rounded-pill">${list[i].QUANTIDADE}</h6>
+                            <h5 class="rounded-pill text-success-emphasis bg-success-subtle border border-success-subtle">${list[i].QUANTIDADE}</h5>
                             <button class="btn__update btn btn-outline-link d-flex align-items-center" data-record='${JSON.stringify(list[i])}'><i class="bi bi-three-dots-vertical"></i></button>
                             <button class="btn" id="deleteButton_${list[i].ID}">
                                 <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${list[i].ID}"></i>
@@ -558,7 +566,8 @@ let txtSearchDataTable;
 
 function createTableElementWithData(data) {
     $("#response").css("visibility", "hidden");
-    modalLoading.show();
+    // modalLoading.show();
+    loadingData("block");
 
     let table = document.createElement("table");
     table.id = "productTable";
@@ -647,7 +656,8 @@ function createTableElementWithData(data) {
     divContainer.innerHTML = "";
     divContainer.appendChild(table);
 
-    modalLoading.hide();
+    // modalLoading.hide();
+    loadingData("none");
     $("#response").css("visibility", "visible");
 
     if ($.fn.DataTable.isDataTable('#productTable')) {
@@ -705,7 +715,8 @@ function cloneListObj(listObj) {
   Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
 */
 async function insert_data_callback() {
-    modalLoading.show();
+    // modalLoading.show();
+    loadingData("block");
     let id = $("#id").val();
     let codigo = $("#codigo").val();
     let item = $("#item").val();
@@ -736,7 +747,8 @@ async function insert_data_callback() {
 */
 function insert_value_ajax() {
     $("#response").css("visibility", "hidden");
-    modalLoading.show();
+    // modalLoading.show();
+    loadingData("block");
     let id1 = $("#id").val();
     let item = $("#item").val();
     let url = script_url + "?callback=ctrlq&item=" + item + "&id=" + id1 + "&action=insert";

@@ -102,6 +102,18 @@ li:hover {
   margin: 0 auto;
 }
 
+.div__loading-data {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  padding: 5px;
+  margin-top: 30px;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+}
+
 .btn__search:focus {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
