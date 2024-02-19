@@ -29,7 +29,12 @@ window.onload = () => {
         document.getElementById("divInputUrl").style.display = "none";
     }
     selectShowData(document.getElementById("selectShowData").value);
-    ajustarVisualizacao();    
+    ajustarVisualizacao();
+    
+    let ss = localStorage.getItem("estoque-admin_select_sort");
+    if(ss != null || ss != undefined) {
+        document.getElementById("selectSort").value = ss;
+    }
 }
 
 let elSelectShowData = document.getElementById("selectShowData");
@@ -245,30 +250,29 @@ let listaFiltrada;
 
 let selectSort = document.getElementById("selectSort");
 selectSort.addEventListener("change", () => {
+    localStorage.setItem("estoque-admin_select_sort", selectSort.value);
     sortList(selectSort.value, listaFiltrada || listObj);
 });
 
-function sortList(sort, list) {    
+function sortList(sort, list) {
+    let lista;
     if (sort === "insercao") {
-        let lista = list.sort(function(a, b) { 
+        lista = list.sort(function(a, b) { 
             return b.ID - a.ID;
         })
-        loadInPageListItem(lista);
     }
     if (sort === "alteracao") {
-        let lista = list.sort(function(a, b) { 
+        lista = list.sort(function(a, b) { 
             return b.currentTime.localeCompare(a.currentTime);
-        })
-        loadInPageListItem(lista);        
+        })    
     }
     if (sort === "alfabetica") {
-        let lista = list.sort(function(a, b) { 
+        lista = list.sort(function(a, b) { 
             return a.ITEM.localeCompare(b.ITEM);
         })
-        loadInPageListItem(lista);
     }
     if (sort === "vencimento") {
-        let lista = list.sort(function(a, b) {
+        lista = list.sort(function(a, b) {
             if (a.VALIDADE !== "" && b.VALIDADE !== "") {
                 return a.VALIDADE.localeCompare(b.VALIDADE);
             } else if (a.VALIDADE === "" && b.VALIDADE !== "") {
@@ -281,15 +285,14 @@ function sortList(sort, list) {
                 // são considerados iguais em termos de classificação
                 return 0;
             }
-        });    
-        loadInPageListItem(lista);
+        });
     }    
     if (sort === "quantidade") {
-        let lista = list.sort(function(a, b) { 
+        lista = list.sort(function(a, b) { 
             return a.QUANTIDADE - b.QUANTIDADE;
         })
-        loadInPageListItem(lista);
     }
+    loadInPageListItem(lista);
 }
 
 let inputSearch = document.getElementById("inputSearch");
