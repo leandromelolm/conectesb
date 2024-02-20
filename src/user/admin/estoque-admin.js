@@ -643,11 +643,25 @@ function createTableElementWithData(data) {
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = data[i].MARCA;
         tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = data[i].QUANTIDADE;
+        tabCell.innerHTML = `<b class="text-success">${data[i].QUANTIDADE}</b>`;        
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = data[i].VALIDADE;
         tabCell = tr.insertCell(-1);
+
         tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
+        let _prazoDeValidade = daysUntil(data[i].VALIDADE);
+        console.log(_prazoDeValidade);
+        if (_prazoDeValidade >= 120){
+            tabCell.style.cssText= `
+                background-color: #D1E7DD; 
+            `;
+        }
+        if (_prazoDeValidade < 120 && _prazoDeValidade >= 0) {
+            tabCell.style.cssText= `
+                background-color: #F8D7DA; 
+            `;
+        }  
+
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = `
         <button class="btn btn__update" data-record='${JSON.stringify(data[i])}'>
@@ -684,6 +698,21 @@ function createTableElementWithData(data) {
             "aaSorting": [],
             "search": {
                 "search": txtSearchDataTable
+            },
+            "language": {
+                "search": "Pesquisar:",
+                "searchPlaceholder": "Digite para pesquisar...",
+                "lengthMenu": "Mostrar _MENU_ itens por página",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ itens",
+                "infoEmpty": "Mostrando 0 a 0 de 0 itens",
+                "infoFiltered": "(filtrado de _MAX_ itens no total)",
+                "zeroRecords": "Nenhum registro correspondente encontrado",
+                "paginate": {
+                    "first": "Primeiro",
+                    "previous": "Anterior",
+                    "next": "Próximo",
+                    "last": "Último"
+                }
             }
         });
 
@@ -697,8 +726,8 @@ function prazoDeValidade(date) {
     if (date == "")
         return "-"
     let du = daysUntil(date);
-    if (du >= 90)
-        return `<span class="text-success">${daysUntil(date)}</span>`;
+    if (du >= 120)
+        return `<span class="text-success red-bg-subtle">${daysUntil(date)}</span>`;
     if (du < 120 && du > 1)
         return ` <b class="text-danger">${daysUntil(date)}</b>`;
     if ( du < 0 )

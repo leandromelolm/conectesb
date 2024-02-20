@@ -135,3 +135,10 @@ li:hover {
 table.dataTable thead>tr>th.sorting {
   font-size: xx-small;
 }
+
+#productTable  
+th:nth-child(5), td:nth-child(5),
+th:nth-child(7), td:nth-child(7) {
+  text-align: center;
+  font-family: monospace;
+}
