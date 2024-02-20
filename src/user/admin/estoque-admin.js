@@ -350,7 +350,7 @@ function atualizarResultado() {
     document.getElementById("quantidade").value = resultado;
 }
 
-document.getElementById("quantidade").addEventListener('input', () =>{
+document.getElementById("quantidade").addEventListener('change', () =>{
     resultado = document.getElementById("quantidade").value;
 })
   
@@ -476,7 +476,8 @@ const ulProdutos = document.querySelector('.ul__produtos')
 
 let selectedIndex = -1;
 
-document.querySelector('.input__item').addEventListener('input', ({ target }) => {
+document.querySelector('#item').addEventListener('input', ({ target }) => {
+    console.log("item input", target.value);
     const dadosDoCampo = target.value;
 
     if (dadosDoCampo.length) {
@@ -485,9 +486,13 @@ document.querySelector('.input__item').addEventListener('input', ({ target }) =>
         ulProdutos.innerHTML = `
             ${autoCompleteValores.map((value) => {
                 return (
-                    `<li class="li__input-options-produtos">
-                        <a onclick="preencherInput('${value.NOME}', '${value.CADUM}')">${value.NOME}</a>
-                    </li>`
+                    `
+                        <a onclick="preencherInput('${value.NOME}', '${value.CADUM}')">
+                            <li class="li__input-options-produtos">
+                                ${value.NOME}
+                            </li>
+                        </a>
+                    `
                 );
             }).join('')}
         `;
@@ -504,7 +509,7 @@ function preencherInput(nome, cadum) {
     ulProdutos.innerHTML = '';
 }
 
-function autoComplete(produtoNome) {    
+function autoComplete(produtoNome) {
     return produtos.filter((p) => {
         const valorMinusculo = p.NOME.toLowerCase()
         const produtoNomeMinus = produtoNome.toLowerCase()
@@ -541,6 +546,13 @@ function updateSelectedIndex(items) {
         item.classList.toggle('selected', index === selectedIndex);
     });
 }
+
+document.getElementById("item").addEventListener("blur", (e) => {
+    console.log("teste", e.value);
+    setTimeout( ()=> {
+        ulProdutos.innerHTML = '';
+    },500);    
+})
 
 function obterParametroDaURL() {
     const url = new URL(window.location.href);
@@ -599,8 +611,8 @@ function createTableElementWithData(data) {
     th5.textContent = 'QTD';
     th6.textContent = 'VALIDADE';
     th7.textContent = 'VENCE EM (DIAS)';
-    th8.textContent = 'edit';
-    th9.textContent = 'del';
+    th8.textContent = 'editar';
+    th9.textContent = 'excluir';
     th10.textContent = 'MODIFICADO EM';
 
     theadRow.appendChild(th1);

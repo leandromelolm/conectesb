@@ -75,7 +75,7 @@ th {
 
 li:hover {
   background-color: DodgerBlue !important ;
-  color: #ffffff; 
+  color: #ffffff !important; 
 }
 
 .li__input-options-produtos {
@@ -83,9 +83,9 @@ li:hover {
   border-bottom: groove;
 }
 
-.li__input-options-produtos::marker {
+/* .li__input-options-produtos::marker {
   color: black;
-}
+} */
 
 .div__message-response {
   display: none;
@@ -130,4 +130,8 @@ li:hover {
 .btn__update {
   background-color: transparent;
   border: transparent;
+}
+
+table.dataTable thead>tr>th.sorting {
+  font-size: xx-small;
 }

@@ -64,7 +64,7 @@
             </div>
 
             <div class="modal-body">              
-              <form>
+              <form id="formModalItem">
                 <div class="row g-1">
                   <div class="form-floating mb-3 col-7">
                     <input name="id" id="id" type="text" class="form-control" placeholder="ID" aria-label="ID" readonly
@@ -94,12 +94,12 @@
                   </div>
 
                   <div class="form-floating div__quantidade mb-3 d-flex col-6">
-                    <button id="subtrairBtn" class="col btn__quantidade">-</button>
+                    <button id="subtrairBtn" class="col btn__quantidade" type="button">-</button>
                     <div class="col">
                       <input name="quantidade" id="quantidade" type="number" min="0"
                         class="form-control input__quantidade" placeholder="qtd" aria-label="Quant">
                     </div>
-                    <button id="somarBtn" class="col btn__quantidade">+</button>
+                    <button id="somarBtn" class="col btn__quantidade" type="button">+</button>
                   </div>
                 </div>
               </form>
