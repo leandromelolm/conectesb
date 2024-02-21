@@ -587,7 +587,7 @@ function createTableElementWithData(data) {
     let table = document.createElement("table");
     table.id = "productTable";
     table.className = "table table-bordered table-striped";
-    table.setAttribute('data-page-length', '50');
+    table.setAttribute('data-page-length', '100');
     table.setAttribute('data-order', '[[2, "asc"]]');
 
     const thead = document.createElement('thead');
@@ -608,12 +608,12 @@ function createTableElementWithData(data) {
     th2.textContent = 'CADUM';
     th3.textContent = 'ITEM';
     th4.textContent = 'MARCA';
-    th5.textContent = 'QTD';
-    th6.textContent = 'VALIDADE';
+    th5.textContent = 'QTD ESTOQUE';
+    th6.textContent = 'DATA DE VALIDADE';
     th7.textContent = 'VENCE EM (DIAS)';
-    th8.textContent = 'editar';
-    th9.textContent = 'excluir';
-    th10.textContent = 'MODIFICADO EM';
+    th8.textContent = 'MODIFICADO EM';
+    th9.textContent = '';
+    th10.textContent = '';
 
     theadRow.appendChild(th1);
     theadRow.appendChild(th2);
@@ -643,24 +643,40 @@ function createTableElementWithData(data) {
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = data[i].MARCA;
         tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = `<b class="text-success">${data[i].QUANTIDADE}</b>`;        
-        tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = data[i].VALIDADE;
-        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = `<b class="text-success">${data[i].QUANTIDADE}</b>`;
 
+        let dv = "";
+        if(data[i].VALIDADE.trim().length === 10){
+            dv = new Date(data[i].VALIDADE).toLocaleDateString();
+        }
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = dv;
+
+        tabCell = tr.insertCell(-1);
         tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
-        let _prazoDeValidade = daysUntil(data[i].VALIDADE);
-        console.log(_prazoDeValidade);
-        if (_prazoDeValidade >= 120){
+        let pv = daysUntil(data[i].VALIDADE);
+        if (pv >= 120){
             tabCell.style.cssText= `
-                background-color: #D1E7DD; 
+                background-color: #D1E7DD;
+                color: #0F5132
             `;
         }
-        if (_prazoDeValidade < 120 && _prazoDeValidade >= 0) {
+        if (pv < 120 && pv >= 0) {
             tabCell.style.cssText= `
-                background-color: #F8D7DA; 
+                background-color: #FFF3CD;
+                color: #664D03
             `;
-        }  
+        }
+        if (pv < 0) {
+            tabCell.style.cssText= `
+                background-color: #F8D7DA;
+                color: #842029
+            `;
+        }
+
+        tabCell = tr.insertCell(-1);
+        let d = new Date(data[i].currentTime)
+        tabCell.innerHTML = d.toLocaleString();
 
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = `
@@ -674,9 +690,6 @@ function createTableElementWithData(data) {
             <i class="bi bi-trash3" aria-hidden="true" id="deleteButton_${data[i].ID}"></i>
             <span class="visually-hidden">Deletar</span>
         </button>`;
-        tabCell = tr.insertCell(-1);
-        let d = new Date(data[i].currentTime)
-        tabCell.innerHTML = d.toLocaleString();        
     }
 
     table.appendChild(tbody);
@@ -727,15 +740,15 @@ function prazoDeValidade(date) {
         return "-"
     let du = daysUntil(date);
     if (du >= 120)
-        return `<span class="text-success red-bg-subtle">${daysUntil(date)}</span>`;
+        return du;
     if (du < 120 && du > 1)
-        return ` <b class="text-danger">${daysUntil(date)}</b>`;
+        return du;
     if ( du < 0 )
-        return `<b class="text-secondary">VENCIDO</b>`;
+        return 0;
     if (du === 1)
-        return ` <b class="text-danger">${daysUntil(date)}</b>`;
+        return du;
     if (du === 0)
-        return `<b class="text-danger">HOJE</b>`;
+        return du;
 }
 
 
