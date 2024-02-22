@@ -6,15 +6,14 @@ function checkAuth() {
             return false;
             // window.location.href = "../../index.html";
         }
-        let validToken = checkTokenExpirationDate(access_token);       
+        let validToken = checkToken(access_token);       
         if (!validToken.auth) {
             localStorage.removeItem('access_token');
             return false;
             // window.location.href = '../../index.html';
         } 
         if(validToken.auth) {
-            console.log("token válido");
-            return true;
+            return {auth:true, id: validToken.id};
         }
 
     } catch (error) {
@@ -25,17 +24,18 @@ function checkAuth() {
 }
 
 
-function checkTokenExpirationDate(token) {
+function checkToken(token) {
     try {
         let s = token.split('.');
         let decodeString = atob(s[1]);
-        const { exp, name } = JSON.parse(decodeString);
+        const { exp, name, userId } = JSON.parse(decodeString);
         if (new Date(exp * 1000) > new Date()) {
             return res = {
                 auth: true,
-                message: 'Valid signature',
+                message: 'Assinatura válida',
                 expira: new Date(exp * 1000),
-                username: name
+                username: name,
+                id: userId
             }
         } else {
             return res = {

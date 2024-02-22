@@ -6,18 +6,24 @@ let listObj;
 let sheetName;
 // ../user/admin/estoque-admin.html?sheet={NOME_DA_FOLHA_DA_PLANILHA}
 window.onload = () => {
+    document.getElementById("divInputUrl").style.display = "none";
 
     // verificar validade do token - função checkAuth de service/auth.service.js
     // se o usuario não estiver autenticado checkAuth retorna false.
     // se for false esconde o input e redireciona para 
     // {hostname}/user/admin/estoque-admin.html
+
     if (!checkAuth()) {
-        document.getElementById("divInputUrl").style.display = "none";
+        console.log("Usuário não está logado");
         if(obterParametroDaURL().sheet) {
             const urlSemParametros = window.location.href.split('?')[0];  
             window.location.href = urlSemParametros;
         }
     }
+    
+    if(checkAuth()) {
+        getUserSheet(checkAuth().id);
+    }  
 
     document.getElementById("btnLoadingSave").style.display = "none";
     sheetName =  obterParametroDaURL().sheet || "PaginaTest";
@@ -25,15 +31,33 @@ window.onload = () => {
     reload_data();
 
     if(obterParametroDaURL().sheet) {
-        console.log(obterParametroDaURL().sheet);
         document.getElementById("divInputUrl").style.display = "none";
     }
+
     selectShowData(document.getElementById("selectShowData").value);
     ajustarVisualizacao();
     
     let ss = localStorage.getItem("estoque-admin_select_sort");
     if(ss != null || ss != undefined) {
         document.getElementById("selectSort").value = ss;
+    }
+}
+
+async function getUserSheet(id) {
+    let res = await fetch(`${script_url}?authuser=true&id=${id}`);
+    const data = await res.json();
+    let paramUrl = obterParametroDaURL();
+    if(paramUrl.sheet === null && paramUrl.sheet !== data.content.sheet)
+        setParametroUrl(data.content.sheet);    
+}
+
+function setParametroUrl(param) {
+    let novoValor = param;
+    if (novoValor.trim() !== '') {
+        let urlAtual = new URL(window.location.href);
+        urlAtual.searchParams.set('sheet', novoValor);
+        window.history.replaceState({}, '', urlAtual.href);
+        window.location.href = urlAtual.href;
     }
 }
 
