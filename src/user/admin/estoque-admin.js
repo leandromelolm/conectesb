@@ -647,7 +647,9 @@ function createTableElementWithData(data) {
 
         let dv = "";
         if(data[i].VALIDADE.trim().length === 10){
-            dv = new Date(data[i].VALIDADE).toLocaleDateString();
+            const [ano, mes, dia] = data[i].VALIDADE.split('-');
+            const dataValidade = new Date(ano, mes - 1, dia);
+            dv = dataValidade.toLocaleDateString('pt-BR');
         }
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = dv;
