@@ -10,30 +10,32 @@ window.onload = () => {
 
     // verificar validade do token - função checkAuth de service/auth.service.js
     // se o usuario não estiver autenticado checkAuth retorna false.
-    // se for false esconde o input e redireciona para 
-    // {hostname}/user/admin/estoque-admin.html
-
-    if (!checkAuth()) {
+    // se for false redireciona para {hostname}/user/admin/estoque-admin.html
+    if (!checkAuth().auth) {
         console.log("Usuário não está logado");
+        // reload_data();
         if(obterParametroDaURL().sheet) {
             const urlSemParametros = window.location.href.split('?')[0];  
             window.location.href = urlSemParametros;
         }
+        document.getElementById("btnLoadingSave").style.display = "none";
+        sheetName =  obterParametroDaURL().sheet || "PaginaTest";
+        document.getElementById("sheetName").innerHTML = sheetName;
+        reload_data();
     }
     
-    if(checkAuth()) {
+    const checkUser = checkAuth();
+    if (checkUser.auth) {
+        modalLoading.show();
         getUserSheet(checkAuth().id);
-    }  
-
+    }
+    
     document.getElementById("btnLoadingSave").style.display = "none";
     sheetName =  obterParametroDaURL().sheet || "PaginaTest";
     document.getElementById("sheetName").innerHTML = sheetName;
-    reload_data();
+    // reload_data();
 
-    if(obterParametroDaURL().sheet) {
-        document.getElementById("divInputUrl").style.display = "none";
-    }
-
+    
     selectShowData(document.getElementById("selectShowData").value);
     ajustarVisualizacao();
     
@@ -41,14 +43,20 @@ window.onload = () => {
     if(ss != null || ss != undefined) {
         document.getElementById("selectSort").value = ss;
     }
+
+    // if(obterParametroDaURL().sheet) {
+    //     document.getElementById("divInputUrl").style.display = "none";
+    // }
 }
 
 async function getUserSheet(id) {
     let res = await fetch(`${script_url}?authuser=true&id=${id}`);
     const data = await res.json();
     let paramUrl = obterParametroDaURL();
+    modalLoading.hide();
+    reload_data();
     if(paramUrl.sheet === null && paramUrl.sheet !== data.content.sheet)
-        setParametroUrl(data.content.sheet);    
+        setParametroUrl(data.content.sheet);
 }
 
 function setParametroUrl(param) {
@@ -206,8 +214,9 @@ async function read_value() {
             console.log("Erro na solicitação dos dados");
         }
     } catch (error) {
-        alert(`Verifique se você está logado ou
-verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `);
+        console.log(error);
+//         alert(`Verifique se você está logado ou
+// verifique se o endereço está digitado corretamente na url do navegador. Parâmetro usado: ${sheetName} `);
         // window.history.back();
         // window.location.replace("../../");
         window.location.replace("estoque-admin.html");

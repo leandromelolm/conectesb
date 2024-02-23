@@ -191,7 +191,7 @@
     <script src="services/auth.service.js"></script>
     <script>
         window.onload = () => {
-            if (checkAuth()) {
+            if (checkAuth().auth) {
                 document.querySelectorAll(".logged_in").forEach(function(element) {
                     element.classList.add("li__show");
                 });
