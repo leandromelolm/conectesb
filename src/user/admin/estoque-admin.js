@@ -138,13 +138,11 @@ async function update_value() {
     let marca = encodeURI($("#marca").val());
     let validade = $("#validade").val();
     let quantidade = $("#quantidade").val();
-    let url = `${script_url}?sheet=${encodeURI(sheetName)}&callback=ctrlq&codigo=${codigo}&item=${item}&marca=${marca}&validade='${validade}&quantidade=${quantidade}&id=${id}&action=update`;
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&codigo=${codigo}&item=${item}&marca=${marca}&validade='${validade}&quantidade=${quantidade}&id=${id}&action=update`;
     try {
         const res = await fetch(url);
         if (res.ok) {
-            const text = await res.text();
-            const jsonString = text.match(/\(([^)]+)\)/)[1];
-            const data = JSON.parse(jsonString);
+            const data = await res.json();
             responseMessage(data, "alterado", "warning");
             reload_data();
             clear_form();
@@ -163,13 +161,11 @@ async function update_value() {
 async function delete_value(id) {
     // modalLoading.show();
     loadingData("block");
-    let url = `${script_url}?sheet=${encodeURI(sheetName)}&callback=ctrlq&id=${id}&action=delete`;
+    let url = `${script_url}?sheet=${encodeURI(sheetName)}&id=${id}&action=delete`;
     try {
         const res = await fetch(url);
         if (res.ok) {
-            const text = await res.text();
-            const jsonString = text.match(/\(([^)]+)\)/)[1];
-            const data = JSON.parse(jsonString);
+            const data = await res.json();
             responseMessage(data, "deletado", "danger");
             reload_data();
         }
@@ -485,7 +481,7 @@ const appendAlert = (op, type, data) => {
   const wrapper = document.createElement('div')
   wrapper.innerHTML = [
     `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-    `    Item ${op}! Id: <strong> ${data.id}</strong>. Instante: ${data.currentTime}`,
+    `    Item ${op}! Id: <strong> ${data.id}</strong>. Data: ${data.currentTime}`,
     '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
     '</div>'
   ].join('')
@@ -790,57 +786,6 @@ function cloneListObj(listObj) {
     return listClone;
 }
 
-
-/*
-  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
-*/
-async function insert_data_callback() {
-    // modalLoading.show();
-    loadingData("block");
-    let id = $("#id").val();
-    let codigo = $("#codigo").val();
-    let item = $("#item").val();
-    let marca = $("#marca").val();
-    let validade = $("#validade").val();
-    let quantidade = $("#quantidade").val();
-
-    let url = script_url + "?callback=ctrlq&id=" + id + "&codigo=" + codigo + "&item=" + item + "&marca=" + marca + "&validade=" + validade + "&quantidade=" + quantidade + "&action=insert";
-
-    try {
-        // ?callback=ctrlq
-        const res = await fetch(url);
-        if (res.ok) {
-            const text = await res.text();
-            const jsonString = text.match(/\(([^)]+)\)/)[1];
-            const data = JSON.parse(jsonString);
-            reload_data()
-        }
-    } catch (error) {
-        console.log("erro ao inserir", error);
-        reload_data()
-    }
-}
-
-/*
-  Esta função não está atualmente em uso, mas está mantida no código para eventual uso no futuro.
-  AJAX call to Google Script
-*/
-function insert_value_ajax() {
-    $("#response").css("visibility", "hidden");
-    // modalLoading.show();
-    loadingData("block");
-    let id1 = $("#id").val();
-    let item = $("#item").val();
-    let url = script_url + "?callback=ctrlq&item=" + item + "&id=" + id1 + "&action=insert";
-    let request = jQuery.ajax({
-        crossDomain: true,
-        url: url,
-        method: "GET",
-        dataType: "jsonp"
-    });
-    console.log(request);
-    reload_data();
-}
 
 /*
 <span  class="span__list-group-item" aria-current="true">                
