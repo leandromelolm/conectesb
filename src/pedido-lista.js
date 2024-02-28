@@ -4,7 +4,7 @@ let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario')
 let id = "";
 let search = "";
 let page = 1;
-let perPage = 20;
+let perPage = 30;
 let startId = 1; // startId e endId apenas são validos na pesquisa quando search for atribuido o valor 'pesquisarIntervalo'
 let endId = 1;
 let ultimoPedidoFeito;
