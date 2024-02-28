@@ -7,35 +7,26 @@ let sheetName;
 // ../user/admin/estoque-admin.html?sheet={NOME_DA_FOLHA_DA_PLANILHA}
 window.onload = () => {
     document.getElementById("divInputUrl").style.display = "none";
+    document.getElementById("btnLoadingSave").style.display = "none";
 
-    // verificar validade do token - função checkAuth de service/auth.service.js
-    // se o usuario não estiver autenticado checkAuth retorna false.
-    // se for false redireciona para {hostname}/user/admin/estoque-admin.html
-    if (!checkAuth().auth) {
-        console.log("Usuário não está logado");
-        // reload_data();
-        if(obterParametroDaURL().sheet) {
-            const urlSemParametros = window.location.href.split('?')[0];  
-            window.location.href = urlSemParametros;
-        }
-        document.getElementById("btnLoadingSave").style.display = "none";
-        sheetName =  obterParametroDaURL().sheet || "PaginaTest";
-        document.getElementById("sheetName").innerHTML = sheetName;
-        reload_data();
-    }
-    
     const checkUser = checkAuth();
+
     if (checkUser.auth) {
         modalLoading.show();
         getUserSheet(checkAuth().id);
+    }     
+    if (!checkUser.auth) {
+        sheetName =  "PaginaTest";
+        console.log( typeof window.location.href.split('?')[1]);
+        if (typeof window.location.href.split('?')[1] !== "undefined") {
+            if(window.location.href.split('?')[1] !== "") {
+                window.location.href = window.location.href.split('?')[0];
+            }            
+        }        
+        document.getElementById("sheetName").innerHTML = sheetName;
+        reload_data();
     }
-    
-    document.getElementById("btnLoadingSave").style.display = "none";
-    sheetName =  obterParametroDaURL().sheet || "PaginaTest";
-    document.getElementById("sheetName").innerHTML = sheetName;
-    // reload_data();
-
-    
+        
     selectShowData(document.getElementById("selectShowData").value);
     ajustarVisualizacao();
     
@@ -43,10 +34,6 @@ window.onload = () => {
     if(ss != null || ss != undefined) {
         document.getElementById("selectSort").value = ss;
     }
-
-    // if(obterParametroDaURL().sheet) {
-    //     document.getElementById("divInputUrl").style.display = "none";
-    // }
 }
 
 async function getUserSheet(id) {
@@ -54,18 +41,19 @@ async function getUserSheet(id) {
     const data = await res.json();
     let paramUrl = obterParametroDaURL();
     modalLoading.hide();
+    sheetName =  data.content.sheet;
+    document.getElementById("sheetName").innerHTML = sheetName;
     reload_data();
     if(paramUrl.sheet === null && paramUrl.sheet !== data.content.sheet)
-        setParametroUrl(data.content.sheet);
+        setParameterUrl(data.content.sheet);
 }
 
-function setParametroUrl(param) {
+function setParameterUrl(param) {
     let novoValor = param;
     if (novoValor.trim() !== '') {
         let urlAtual = new URL(window.location.href);
         urlAtual.searchParams.set('sheet', novoValor);
         window.history.replaceState({}, '', urlAtual.href);
-        window.location.href = urlAtual.href;
     }
 }
 
