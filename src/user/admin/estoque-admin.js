@@ -695,6 +695,7 @@ function createTableElementWithData(data) {
 
         tabCell = tr.insertCell(-1);
         let d = new Date(data[i].currentTime)
+        tabCell.style.cssText= `background-color: ${verificarAlteracaoRecente(new Date(data[i].currentTime))}`;
         tabCell.innerHTML = d.toLocaleString();
 
         tabCell = tr.insertCell(-1);
@@ -768,6 +769,22 @@ function prazoDeValidade(date) {
         return du;
     if (du === 0)
         return du;
+}
+
+function verificarAlteracaoRecente(dataString) {
+    const dataAtual = new Date();
+    const dataAlteracao = new Date(dataString);
+    const diferencaEmMilissegundos = dataAtual - dataAlteracao;
+    const diferencaEmMinutos = diferencaEmMilissegundos / (1000 * 60);
+    const limiteDeMinutos = 30;
+    console.log(diferencaEmMinutos);
+    if (diferencaEmMinutos < 0.1) { // 6 segundos
+        return "palegreen";
+    }
+    if (diferencaEmMinutos < 720 ) // 12 horas
+        return "lightyellow";
+    else
+        return ""
 }
 
 
