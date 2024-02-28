@@ -47,25 +47,14 @@ function insert_value(request, sheet) {
     currentTime: currentTime,
     id: id
   };
-  let callback = request.parameters.callback;
-  if (callback === undefined) {
-    output.setContent(JSON.stringify(data));
-  } else {
-    output.setContent(callback + "(" + JSON.stringify(data) + ")").setMimeType(ContentService.MimeType.JSON);
-  }
+  output.setContent(JSON.stringify(data));
   return output;
 }
 
 function read_value(request, ss, sheetName) {
   var output = ContentService.createTextOutput(), data = {};
   data.records = readData_(ss, sheetName);
-
-  var callback = request.parameters.callback;
-  if (callback === undefined) {
-    output.setContent(JSON.stringify(data));
-  } else {
-    output.setContent(callback + "(" + JSON.stringify(data) + ")").setMimeType(ContentService.MimeType.JSON);
-  }
+  output.setContent(JSON.stringify(data));
   return output;
 }
 
@@ -149,7 +138,7 @@ function update_value(request, sheet) {
   });
 
   return ContentService
-    .createTextOutput(request.parameter.callback + "(" + response + ")")
+    .createTextOutput(response)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
@@ -174,7 +163,7 @@ function delete_value(request, sheet) {
   });
 
   return ContentService
-    .createTextOutput(request.parameter.callback + "(" + result + ")")
+    .createTextOutput(result)
     .setMimeType(ContentService.MimeType.JSON);
 }
 
