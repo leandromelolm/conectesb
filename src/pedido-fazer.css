@@ -396,7 +396,8 @@ td.td__quant_pedida input {
     }
 }
 
-@media screen and (max-width: 600px) {
+/* esconde coluna unid codigo */
+@media screen and (max-width: 2600px) {
     #tableItens 
     th:nth-child(2), td:nth-child(2),
     th:nth-child(3), td:nth-child(3) {
@@ -404,11 +405,11 @@ td.td__quant_pedida input {
     }
 }
 
-@media screen and (max-width: 800px) {
+/* @media screen and (max-width: 800px) {
     #divLeft, #divControleEstoque{
         display: none;
     }
-}
+} */
 
 @page {
     size: A4;
