@@ -1,8 +1,11 @@
 const ID_SPREADSHEET = getEnvIdSpreadSheet();
+const USER_SHEETNAME = getEnvSheetNameUser();
 
 function doGet(e) {
   Logger.log(e);
   let op = e.parameter.action;
+  let userid = e.parameter.id;
+  let authUser = e.parameter.authuser;
   let ss = SpreadsheetApp.open(DriveApp.getFileById(ID_SPREADSHEET));
   let sn = e.parameter.sheet || "PaginaTest";
   let sheet = ss.getSheetByName(sn);
@@ -19,6 +22,8 @@ function doGet(e) {
   if (op == "delete")
     return delete_value(e, sheet);
 
+  if (authUser == "true")
+    return user_auth(userid);
 }
 
 function insert_value(request, sheet) {
@@ -93,12 +98,6 @@ function getDataRows_(ss, sheetName) {
   try {
     return sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues();
   } catch (error) {
-    // let output = ContentService.createTextOutput(), data = {};
-    // data.content = {
-    //   statusCode: 404,
-    //   message: "O recurso solicitado não foi encontrado. " + error
-    // };
-    // return output.setContent(JSON.stringify(data));
     return error;
   }
 }
@@ -202,4 +201,72 @@ function ultimoNumeroDaUltimaLinhaVazia(sn) {
   let sheet = ss.getSheetByName(sn);
   let n = sheet.getLastRow() + 1;
   return n.toString().slice(-1);
+}
+
+/* Verificar autorização de usuario */
+function user_auth(id) {
+  let output = ContentService.createTextOutput(), data = {};
+  const usser = encontrarValorNaColuna(id);
+  data.content = {
+    statusCode:usser.statusCode,
+    message: usser.message,
+    sheet: usser.sheetuser,
+    success: usser.success,
+    id: usser.id,
+    role: usser.role
+  };
+  return output.setContent(JSON.stringify(data));
+}
+
+function encontrarValorNaColuna(str) {
+  let objeto = {}
+
+  try{
+    let planilha = SpreadsheetApp.openById(ID_SPREADSHEET);
+    let guia = planilha.getSheetByName(USER_SHEETNAME);  
+    let colunaParaPesquisar = "A";  
+    let textoParaEncontrar = str;
+    let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar).createTextFinder(textoParaEncontrar);
+    let resultados = textFinder.findAll();
+
+    if (resultados.length == 0){
+      return objeto = {
+        id: "",
+        role: "",
+        success: false,
+        message:"Não encontrado",
+        statusCode: 404 
+      }
+    }
+
+    for (let i = 0; i < resultados.length; i++) {
+      let resultado = resultados[i];
+      let linha = resultado.getRow();
+      if (linha == 1) {
+        continue; // Pule a linha de cabeçalho
+      }
+      if(guia.getRange("A" + linha).getValue() === textoParaEncontrar) {
+        let valorColunaA = guia.getRange("A" + linha).getValue();
+        let valorColunaE = guia.getRange("E" + linha).getValue();
+        let valorColunaF = guia.getRange("F" + linha).getValue();
+
+        objeto = {
+          id: valorColunaA,
+          role: valorColunaE,
+          sheetuser: valorColunaF,
+          success: true,
+          message: "Usuario encontrado",
+          statusCode: 200
+        };
+      }
+    }
+    return objeto;
+
+  } catch (e) {
+    return  objeto = {
+        success: false,
+        message: `Erro na pesquisa. ${e}`,
+        statusCode: 500
+      }
+  }
 }
