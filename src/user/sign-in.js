@@ -48,7 +48,7 @@ function msgAguarde() {
   document.getElementById('btnLogin').classList.toggle('d-none', true);
 }
 
-let segundos = 3;
+let segundos = 2;
 
 function divSuccess() {
   document.getElementById("formLogin").classList.toggle("d-none", true);
@@ -72,7 +72,7 @@ function divSuccess() {
         <div>
           <span>Aguarde... Você será redirecionado para Página Inicial.</span>         
         </div>
-        <div id="contadorDecrementado">3</div>
+        <div id="contadorDecrementado">2</div>
           <a href="../index.html" class="alert-link text-decoration-none">Voltar para o menu principal</a>
       </div>                    
   </div>
