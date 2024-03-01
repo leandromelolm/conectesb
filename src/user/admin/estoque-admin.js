@@ -92,14 +92,26 @@ function ajustarVisualizacao() {
 // window.addEventListener("resize", ajustarVisualizacao);
 
 function salvar() {
-    document.getElementById("btnSalvar").style.display = "none";
-    document.getElementById("btnLoadingSave").style.display = "block";
-    let id = $("#id").val();
-    if (id.length == 0) {
-        insert_value();
-    } else {
-        update_value();
+    if(validarForm()){
+        document.getElementById("btnSalvar").style.display = "none";
+        document.getElementById("btnLoadingSave").style.display = "block";
+        let id = $("#id").val();
+        if (id.length == 0) {
+            insert_value();
+        } else {
+            update_value();
+        }
     }
+}
+
+function validarForm() {
+    var item = document.getElementById("item").value;
+    if (item.trim() === "") {
+        document.getElementById("validInputItem").innerHTML = "Por favor, preencha o campo item.";
+        return false; 
+    }
+    document.getElementById("validInputItem").innerHTML = "";
+    return true;
 }
 
 async function insert_value() {
@@ -432,7 +444,7 @@ function clear_form() {
 function preencherForm(data){
     $("#id").val(data.ID);
     $("#codigo").val(data.CODIGO);
-    $("#item").val(data.ITEM);
+    $("#item").val(data.ITEM.toUpperCase());
     $("#marca").val(data.MARCA);
     $("#validade").val(data.VALIDADE);
     $("#quantidade").val(data.QUANTIDADE);
@@ -486,7 +498,11 @@ const appendAlert = (op, type, data) => {
     '</div>'
   ].join('')
 
-  alertResponseMessage.append(wrapper)
+  alertResponseMessage.append(wrapper);
+
+  setTimeout(() => {
+    wrapper.remove();
+  }, 10000);
 }
 
 const ulProdutos = document.querySelector('.ul__produtos')
@@ -494,7 +510,8 @@ const ulProdutos = document.querySelector('.ul__produtos')
 let selectedIndex = -1;
 
 document.querySelector('#item').addEventListener('input', ({ target }) => {
-    console.log("item input", target.value);
+    // console.log(target.value);
+    document.getElementById("validInputItem").innerHTML = "";
     const dadosDoCampo = target.value;
 
     if (dadosDoCampo.length) {
@@ -565,7 +582,6 @@ function updateSelectedIndex(items) {
 }
 
 document.getElementById("item").addEventListener("blur", (e) => {
-    console.log("teste", e.value);
     setTimeout( ()=> {
         ulProdutos.innerHTML = '';
     },500);    
@@ -695,7 +711,9 @@ function createTableElementWithData(data) {
 
         tabCell = tr.insertCell(-1);
         let d = new Date(data[i].currentTime)
-        tabCell.style.cssText= `background-color: ${verificarAlteracaoRecente(new Date(data[i].currentTime))}`;
+        let o = verificarModificacaoDeItem(d);
+        tabCell.style.cssText= `background-color: ${o.bgColor}`;
+        tr.classList.add(o.clsName);
         tabCell.innerHTML = d.toLocaleString();
 
         tabCell = tr.insertCell(-1);
@@ -771,20 +789,18 @@ function prazoDeValidade(date) {
         return du;
 }
 
-function verificarAlteracaoRecente(dataString) {
+function verificarModificacaoDeItem(dataString) {
     const dataAtual = new Date();
     const dataAlteracao = new Date(dataString);
     const diferencaEmMilissegundos = dataAtual - dataAlteracao;
     const diferencaEmMinutos = diferencaEmMilissegundos / (1000 * 60);
-    const limiteDeMinutos = 30;
-    console.log(diferencaEmMinutos);
     if (diferencaEmMinutos < 0.1) { // 6 segundos
-        return "palegreen";
+        return {bgColor: "lightgreen", clsName: "tr__modificado"};
     }
     if (diferencaEmMinutos < 720 ) // 12 horas
-        return "lightyellow";
+        return {bgColor: "lightyellow", clsName: "table-default"};
     else
-        return ""
+        return {bgColor: "", clsName: "table-default"}
 }
 
 

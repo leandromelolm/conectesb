@@ -78,9 +78,10 @@
                   </div>
                   <div class="form-floating">
                     <input name="item" id="item" type="text" class="input__item form-control" placeholder="Item"
-                      aria-label="Item">
-                    <ul class="ul__produtos"></ul>
+                    aria-label="Item" oninput="this.value = this.value.toUpperCase()" required>
                     <label for="item">ITEM</label>
+                    <div class="text-danger" id="validInputItem"></div>
+                    <ul class="ul__produtos"></ul>
                   </div>                  
                   <div class="form-floating mb-3">
                     <input name="marca" id="marca" type="text" class="form-control" placeholder="Marca"

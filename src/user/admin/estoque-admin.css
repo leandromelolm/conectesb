@@ -142,3 +142,7 @@ th:nth-child(7), td:nth-child(7) {
   text-align: center;
   font-family: monospace;
 }
+
+.tr__modificado {
+  --bs-table-bg: lightgreen;
+}
