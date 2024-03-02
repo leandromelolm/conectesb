@@ -146,3 +146,11 @@ th:nth-child(7), td:nth-child(7) {
 .tr__modificado {
   --bs-table-bg: lightgreen;
 }
+
+.input__pesquisar-item:focus {
+  box-shadow: unset;
+}
+
+.btn__search:focus {
+  box-shadow: unset;
+}
