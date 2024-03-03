@@ -14,13 +14,16 @@ function doGet(e) {
     return insert_value(e, sheet);
 
   if (op == "read")
-    return read_value(e, ss, sn);
+    return read_value(e, sheet);
 
   if (op == "update")
     return update_value(e, sheet);
 
   if (op == "delete")
     return delete_value(e, sheet);
+
+  if (op == "find")
+    return find_value(e, sheet);
 
   if (authUser == "true")
     return user_auth(userid);
@@ -43,7 +46,7 @@ function insert_value(request, sheet) {
   data.content =
   {
     statusCode: 200,
-    message: "insert success",
+    message: "Inserido com sucesso",
     currentTime: currentTime,
     id: id
   };
@@ -51,26 +54,28 @@ function insert_value(request, sheet) {
   return output;
 }
 
-function read_value(request, ss, sheetName) {
-  var output = ContentService.createTextOutput(), data = {};
-  data.records = readData_(ss, sheetName);
+function read_value(request, sheet) {
+  let output = ContentService.createTextOutput(), data = {};
+  data.records = readData_(request, sheet);
   output.setContent(JSON.stringify(data));
   return output;
 }
 
 
-function readData_(ss, sheetName, properties) {
-  try {
-    if (typeof properties == "undefined") {
-      properties = getHeaderRow_(ss, sheetName);
-      properties = properties.map(function (p) { return p.replace(/\s+/g, '_'); });
-    }
-    var rows = getDataRows_(ss, sheetName),
+function readData_(request, sheet) {
+  try {    
+    properties = getHeaderRow_(sheet);
+    properties = properties.map(
+      function (p) { 
+        return p.replace(/\s+/g, '_'); 
+      });
+
+    let rows = getDataRows_(sheet),
       data = [];
-    for (var r = 0, l = rows.length; r < l; r++) {
-      var row = rows[r],
+    for (let r = 0, l = rows.length; r < l; r++) {
+      let row = rows[r],
         record = {};
-      for (var p in properties) {
+      for (let p in properties) {
         record[properties[p]] = row[p];
       }
       data.push(record);
@@ -82,20 +87,17 @@ function readData_(ss, sheetName, properties) {
   }
 }
 
-function getDataRows_(ss, sheetName) {
-  var sh = ss.getSheetByName(sheetName);
+function getDataRows_(sheet) {
   try {
-    return sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues();
+    return sheet.getRange(2, 1, sheet.getLastRow() - 1, sheet.getLastColumn()).getValues();
   } catch (error) {
     return error;
   }
 }
 
-
-function getHeaderRow_(ss, sheetName) {
-  var sh = ss.getSheetByName(sheetName);
+function getHeaderRow_(sheet) {
   try {
-    return sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+    return sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
   } catch (error) {
     return error;
   }
@@ -124,12 +126,12 @@ function update_value(request, sheet) {
       sheet.getRange(i, 5).setValue(marca);
       sheet.getRange(i, 6).setValue(validade);
       sheet.getRange(i, 7).setValue(quantidade);
-      result = "value updated successfully";
+      result = "Atualizado com sucesso";
       flag = 1;
     }
   }
   if (flag == 0)
-    result = "id not found";
+    result = "Id não encontrado";
 
   response = JSON.stringify({
     "message": result,
@@ -143,19 +145,20 @@ function update_value(request, sheet) {
 }
 
 function delete_value(request, sheet) {
-  var id = request.parameter.id;
-  var flag = 0;
-  var lr = sheet.getLastRow();
-  for (var i = 1; i <= lr; i++) {
-    var rid = sheet.getRange(i, 2).getValue();
+  let id = request.parameter.id;
+  let flag = 0;
+  let lr = sheet.getLastRow();
+  let result = "";
+  for (let i = 1; i <= lr; i++) {
+    let rid = sheet.getRange(i, 2).getValue();
     if (rid == id) {
       sheet.deleteRow(i);
-      var result = "value deleted successfully";
+      result = "Deletado com sucesso";
       flag = 1;
     }
   }
   if (flag == 0)
-    var result = "id not found";
+    result = "Id não encontrado";
 
   result = JSON.stringify({
     "result": result,
@@ -165,6 +168,13 @@ function delete_value(request, sheet) {
   return ContentService
     .createTextOutput(result)
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function find_value(req, sheet) {
+  let output = ContentService.createTextOutput(), data = {};
+  data.records = readDataSearch_(sheet, req.parameter.column, req.parameter.value);
+  output.setContent(JSON.stringify(data));
+  return output;
 }
 
 function doPost(e) {
@@ -207,14 +217,14 @@ function user_auth(id) {
   return output.setContent(JSON.stringify(data));
 }
 
-function encontrarValorNaColuna(str) {
+function encontrarValorNaColuna(userId) {
   let objeto = {}
 
   try{
     let planilha = SpreadsheetApp.openById(ID_SPREADSHEET);
     let guia = planilha.getSheetByName(USER_SHEETNAME);  
     let colunaParaPesquisar = "A";  
-    let textoParaEncontrar = str;
+    let textoParaEncontrar = userId;
     let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar).createTextFinder(textoParaEncontrar);
     let resultados = textFinder.findAll();
 
@@ -223,7 +233,7 @@ function encontrarValorNaColuna(str) {
         id: "",
         role: "",
         success: false,
-        message:"Não encontrado",
+        message:" Usuário não encontrado",
         statusCode: 404 
       }
     }
@@ -244,7 +254,7 @@ function encontrarValorNaColuna(str) {
           role: valorColunaE,
           sheetuser: valorColunaF,
           success: true,
-          message: "Usuario encontrado",
+          message: "Usuário encontrado",
           statusCode: 200
         };
       }
@@ -259,3 +269,46 @@ function encontrarValorNaColuna(str) {
       }
   }
 }
+
+function readDataSearch_(sheet, searchColumn, searchValue) {
+  try {
+    const headerRow = getHeaderRow_(sheet);
+    const columnIndex = headerRow.indexOf(searchColumn);
+
+    if (columnIndex === -1) {
+      return {
+        status: "error",
+        code: 404,
+        message: `Erro: Coluna '${searchColumn}' não encontrada na linha do cabeçalho.`,
+      };
+    }
+
+    const dataRows = getDataRows_(sheet);
+    const results = [];
+
+    for (const row of dataRows) {
+      if (row[columnIndex] === searchValue) {
+        const result = {};
+        for (let i = 0; i < row.length; i++) {
+          result[headerRow[i]] = row[i];
+        }
+        results.push(result);
+      }
+    }
+
+    if(results < 1) {
+      return {
+        status: "error",
+        code: 404,
+        message: `Nenhum resultado encontrado para a consulta.`,
+        detailsMessage: `O item pesquisado não foi encontrado: ${searchValue}` ,
+        content: results
+      }
+    }
+    
+    return results;
+  } catch (error) {
+    return error;
+  }
+}
+
