@@ -53,14 +53,35 @@
                                     <tr>
                                         <th class="th__distrito_date">
                                             <div id="headerDistritoDate">
-                                                <div id="divDistrito">
-                                                    <span>
-                                                        Distrito Sanitário:
-                                                    </span>
-                                                    <input type="text" id="ds" class="input_distrito"
-                                                        maxlength="1"
-                                                        onblur="saveInfoRequesterInSessionStorage()"
-                                                    />
+                                                <div class="div__equipe_distrito">
+                                                    <div id="divEquipe" class="d-none">
+                                                        <span>
+                                                            Equipe:
+                                                        </span>
+                                                        <select type="text" id="equipe" name="equipe" class="input_equipe"
+                                                            maxlength="5"
+                                                            onblur="saveInfoRequesterInSessionStorage()">
+                                                            <option value="-">-</option>
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="todas">todas</option>
+                                                        </select>
+                                                    </div>
+                                                    <div id="divDistrito">
+                                                        <span>
+                                                            Distrito Sanitário:
+                                                        </span>
+                                                        <input type="text" id="ds" class="input_distrito"
+                                                            maxlength="1"
+                                                            onblur="saveInfoRequesterInSessionStorage()"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div id="divDate" class="hidden-in-print">
                                                     <span>Data:</span>

@@ -149,6 +149,7 @@ function visibilidadeDasLinhas(quantidadeItens) {
 function saveInfoRequesterInSessionStorage() {
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
+        equipe: document.getElementById('equipe').value,
         ds: document.getElementById('ds').value,
         dataPedido: document.getElementById('dataPedido').value,
         grupoMaterial: document.getElementById('grupoMaterial').value,
@@ -195,17 +196,16 @@ function recuperarDadosRequisitanteSessionStorage() {
     if (requerenteJson) {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
-        document.getElementById('ds').value = requerente.ds;
+        document.getElementById('equipe').value = requerente.equipe || "-";
+        document.getElementById('ds').value = requerente.ds || "";
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
-        if (requerente.dataPedido) {
-            document.getElementById('dataPedido').value = requerente.dataPedido;
-        } else {
-            document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
-        }
+        document.getElementById('dataPedido').value = 
+            requerente.dataPedido ? requerente.dataPedido : formatarDataParaYYYYMMDD(new Date());
     } else {
         document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
         document.getElementById('grupoMaterial').value = 'SAÚDE BUCAL';
+        document.getElementById('ds').value = 'V';
     }
 };
 
@@ -283,7 +283,8 @@ function formatarDataParaYYYYMMDD(dataAtual) {
 function inputsRequestorClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
 Essa ação apagará os campos: 
-UNIDADE REQUISITANTE, 
+UNIDADE REQUISITANTE,
+EQUIPE,
 DISTRITO, 
 GRUPO DE MATERIAL 
 E FUNCIONÁRIO RESPONSÁVEL
@@ -295,6 +296,7 @@ E FUNCIONÁRIO RESPONSÁVEL
 
 function limparCamposInfoUnidade() {
     document.getElementById('nomeUnidade').value = '';
+    document.getElementById('equipe').value = '-';
     document.getElementById('ds').value = '';
     document.getElementById('dataPedido').value = '';
     document.getElementById('grupoMaterial').value = '';

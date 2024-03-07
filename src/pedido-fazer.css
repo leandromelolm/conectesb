@@ -80,9 +80,16 @@ input.input_unidade {
     height: -webkit-fill-available;
 }
 
+input.input_equipe {
+    margin-left: 3px;
+    width: 50%;
+    text-transform: uppercase;
+    height: -webkit-fill-available;
+}
+
 input.input_distrito {
     margin-left: 3px;
-    width: 20%;
+    width: 20px;
     text-transform: uppercase;
     height: -webkit-fill-available;
 }
@@ -193,8 +200,23 @@ th.th__distrito_date {
     position: absolute;
 }
 
+.div__equipe_distrito {
+    display: flex;
+    width: 230px
+}
+
+#divEquipe {
+    width: 160px;
+    display: flex;
+    place-items: center;
+    margin-right: 2px
+}
+#divEquipe > select {
+    height: 23px
+}
+
 #divDistrito {
-    width: 40%;
+    width: 200px;
     display: flex;
     place-items: center;
 }
@@ -202,7 +224,7 @@ th.th__distrito_date {
 #divDate {
     display: flex;
     place-items: center;
-    margin-left: 5%;
+    /* margin-left: 5%; */
     border-left: solid 1px;
     padding-left: 3px;
 }
