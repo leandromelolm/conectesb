@@ -267,6 +267,31 @@ td.td__quant_pedida input {
     text-align: center;
 }
 
+.input__quantidade {
+    width: 100%;
+    text-align: center;
+}
+
+.btn__quant {
+    background-color: cornsilk;
+    height: 18px;
+    border: none;
+    padding: 0px 0px;
+    width: 30px;
+}
+
+/* remover botões de incremento/decremento que aparecem automaticamente em campos de input do tipo number */
+.input__quantidade::-webkit-inner-spin-button,
+.input__quantidade::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* remover botões de incremento/decremento no firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 .q_fornecida {
     width: 1%;
 }

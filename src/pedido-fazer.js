@@ -528,6 +528,32 @@ if (userAgent.includes("Chrome")) {
 }
 
 
+$(document).ready(function () {
+    $('.div__quant_pedida').on('click', '.subtrairBtn', function () {
+        let inputQuantidade = $(this).siblings('.input__quantidade');        
+        subtrair(inputQuantidade);
+    });
+
+    $('.div__quant_pedida').on('click', '.somarBtn', function () {
+        let inputQuantidade = $(this).siblings('.input__quantidade');
+        somar(inputQuantidade);
+    });
+});
+  
+function somar(inputQuantidade) {
+    let resultado = parseInt(inputQuantidade.val()) || 0;
+    resultado++;
+    inputQuantidade.val(resultado);
+    saveDataItensLocalStorage();
+}
+
+function subtrair(inputQuantidade) {
+    let resultado = parseInt(inputQuantidade.val()) || 0;
+    resultado = (resultado > 0) ? resultado - 1 : 0;
+    inputQuantidade.val(resultado);
+    saveDataItensLocalStorage();
+}
+
 const nomesUnidades = [
     'US 117 USF GASPAR REGUEIRA COSTA (BARRO)',
     'US 142 CS BIDU KRAUSE',
