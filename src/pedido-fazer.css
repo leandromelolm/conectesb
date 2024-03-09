@@ -46,11 +46,11 @@ body {
     height: auto;
 }
 
-#divRight {
+#divRequisitante {
     width: 100%;
 }
 
-#divLeft {
+#divFornecedor {
     padding-left: 3px;
 }
 
@@ -438,7 +438,7 @@ input[type="number"] {
         border-style: none;
         background-color: transparent;
     }
-    #divLeft {
+    #divFornecedor {
         display: block !important;
     }
 }
@@ -453,7 +453,7 @@ input[type="number"] {
 }
 
 /* @media screen and (max-width: 800px) {
-    #divLeft, #divControleEstoque{
+    #divFornecedor, #divControleEstoque{
         display: none;
     }
 } */
@@ -489,12 +489,12 @@ input {
     text-transform: uppercase;
 }
 
-#divLeft {
+#divFornecedor {
     display: none;
 }
 
 @media screen and (min-height: 690px) and (max-height: 700px) {
-    #divLeft {
+    #divFornecedor {
         display: block;
     }
 }
