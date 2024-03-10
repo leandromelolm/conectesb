@@ -70,13 +70,13 @@ function handleSearch() {
 };
 
 document.getElementById("search-input").addEventListener("input", (e) =>{
+    const btnClear = document.getElementById("btn-clear");
+    e.target.value.length > 0 ? btnClear.classList.remove("d-none") : btnClear.classList.add("d-none");    
+});
+
+document.getElementById("search-input").addEventListener("change", (e) =>{
     console.log(e.target.value);
-    if (e.target.value.length > 0)
-        document.getElementById("btn-clear").classList.remove("d-none")
-    else
-        document.getElementById("btn-clear").classList.add("d-none")
-    
-})
+});
 
 function searchTxt(txtSearch){
     document.getElementById('response__erro').innerHTML = '';
@@ -155,6 +155,7 @@ function preencherTabelaListaDePedidos(arr) {
             document.getElementById("search-input").value = item.id;                    
             searchTxt(item.id);
             scrollToTop();
+            document.getElementById("btn-clear").classList.remove("d-none");
         });
         cell3.appendChild(linkUnid);
 
