@@ -33,47 +33,45 @@
     }
 
     input {
-      width: 320px;
-      height: 37px;
-      margin: 10px 10px 10px 0px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 5px;
-    }    
-    
+      border: 0;
+      border-radius: 10px;
+    }
+
+    .div__search {
+      border: solid 2px darkgray;
+      border-radius: 10px;
+    }
+
+    .input__search {
+      width: 100%;
+    }
+
     .btn__search {
-      border-top-left-radius: 0px !important;
-      border-bottom-left-radius: 0px !important;
-      border-top-right-radius: 0px !important;
-      border-bottom-right-radius: 0px !important;
-      width: 40px !important;
-      height: 37px !important;
+      border-radius: 8px !important;
+    }
+
+    .btn__search:focus {
+      background-color: lightblue !important;
     }
     
-    .btn__search:active {
+    .btn__search:active, .btn__search:disabled {
       background-color: grey !important;
-      color: black;
     }
 
-    .btn__search:disabled {
-      background-color: grey !important
-    }
-
-    .btn__clear {
-      border-top-left-radius: 0px !important;
-      border-bottom-left-radius: 0px !important;
-      width: 40px !important;
-      height: 37px !important;
+    .btn__clear:focus {
+      background-color: lightcoral !important;
+      border-radius: 8px;
     }
 
     .btn__clear:active {
       background-color: grey !important;
       color: black;
+      border-radius: 10px;
     }
 
     button:focus, input:focus, textarea:focus {
         outline: none;
-        box-shadow: 0 0 2px 2px rgba(210, 214, 215, 0.5) !important;  
+        box-shadow: 0 0 0 0 !important;  
     }
 
     #abrirPedidonoFormulario  {
@@ -172,23 +170,21 @@
       <div class="row mt-2">
         <div class="col-md-12 mx-auto">
             <div class="small fw-light">Pesquisa</div>
-            <div class="input-group">
-                <input class="form-control border" type="search"
-                  placeholder="ID do pedido ou nome da unidade" 
-                  id="search-input" onkeydown="eventClickEnter(event)">
-                <span class="input-group-append">
-                  <button id="btn-search" 
-                    class="btn btn-outline-transparent bg-white border-start-0 border ms-n5 btn__search" 
-                    type="button" onclick="handleSearch()">
-                      <img src="assets/search.svg">
-                  </button>
-                </span>
-                <span class="input-group-append">
-                  <button class="btn bg-white border border-start-0 ms-n5 btn__clear" 
+            <div class="div__search">
+              <div class="d-flex justify-content-between">
+                <input id="search-input" class="input__search" type="text" placeholder="ID pedido ou nome da unidade" onkeydown="eventClickEnter(event)">
+                <div class="d-flex">                  
+                  <button id="btn-clear" class="btn btn__clear d-none" 
                     type="button" onclick="limparTodosCampos()">
                       <img src="assets/x.svg">
                   </button>
-              </span>
+                    <button id="btn-search" 
+                      class="btn btn-outline-transparent bg-transparent btn__search" 
+                      type="button" onclick="handleSearch()">
+                        <img src="assets/search.svg">
+                    </button>
+                </div>
+              </div>
             </div>
         </div>
       </div>

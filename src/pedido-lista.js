@@ -69,6 +69,15 @@ function handleSearch() {
     desabilitarBotaoPesquisa();
 };
 
+document.getElementById("search-input").addEventListener("input", (e) =>{
+    console.log(e.target.value);
+    if (e.target.value.length > 0)
+        document.getElementById("btn-clear").classList.remove("d-none")
+    else
+        document.getElementById("btn-clear").classList.add("d-none")
+    
+})
+
 function searchTxt(txtSearch){
     document.getElementById('response__erro').innerHTML = '';
     if (!txtSearch) {
@@ -228,6 +237,7 @@ function abrirPedidoNoFormulario() {
 function limparCampos() {
     document.getElementById('unidadeRequisitante').value = '';
     document.getElementById('listaPedido').value = '';
+    document.getElementById("btn-clear").classList.add("d-none");
 };
 
 function limparTodosCampos(){
