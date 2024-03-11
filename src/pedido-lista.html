@@ -83,7 +83,7 @@
       width: 56px
     }
 
-    .loading-message {
+    .div__loading-message {
       display: none; /* Inicialmente, oculta a mensagem de carregamento */
       font-size: 18px;
       text-align: center;
@@ -189,7 +189,13 @@
         </div>
       </div>
 
-      <div class="loading-message" id="loading-message">Carregando...</div>
+      <div class="div__loading-message">
+        <div class="d-flex align-items-center">
+          <strong>Buscando...</strong>
+          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+      </div>
+
       <div id="content"></div>
 
       <div id="response__erro"></div>

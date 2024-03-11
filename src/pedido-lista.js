@@ -276,12 +276,12 @@ function desabilitarBotaoPesquisa() {
 };
 
 function showLoading() {
-    document.getElementById("loading-message").style.display = "block";
+    document.querySelector(".div__loading-message").style.display = "block";
     document.getElementById("content").style.display = "none";
 };
 
 function hideLoading() {
-    document.getElementById("loading-message").style.display = "none";
+    document.querySelector(".div__loading-message").style.display = "none";
     document.getElementById("content").style.display = "block";
 };
 
