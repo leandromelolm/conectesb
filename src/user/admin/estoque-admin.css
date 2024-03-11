@@ -140,11 +140,11 @@ table.dataTable thead>tr>th.sorting {
 th:nth-child(5), td:nth-child(5),
 th:nth-child(7), td:nth-child(7) {
   text-align: center;
-  font-family: monospace;
+  font-family: sans-serif;
 }
 
 .tr__modificado {
-  --bs-table-bg: lightgreen;
+  --bs-table-bg: papayawhip;
 }
 
 .input__pesquisar-item:focus {

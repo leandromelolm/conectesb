@@ -678,6 +678,7 @@ function createTableElementWithData(data) {
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = `<b class="text-success">${data[i].QUANTIDADE}</b>`;
 
+        // DATA DE VALIDADE
         let dv = "";
         if(data[i].VALIDADE.trim().length === 10){
             const [ano, mes, dia] = data[i].VALIDADE.split('-');
@@ -687,6 +688,7 @@ function createTableElementWithData(data) {
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = dv;
 
+        // VENCE EM (DIAS)
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = prazoDeValidade(data[i].VALIDADE);
         let pv = daysUntil(data[i].VALIDADE);
@@ -709,6 +711,7 @@ function createTableElementWithData(data) {
             `;
         }
 
+        // MODIFICADO EM
         tabCell = tr.insertCell(-1);
         let d = new Date(data[i].currentTime)
         let o = verificarModificacaoDeItem(d);
@@ -794,8 +797,8 @@ function verificarModificacaoDeItem(dataString) {
     const dataAlteracao = new Date(dataString);
     const diferencaEmMilissegundos = dataAtual - dataAlteracao;
     const diferencaEmMinutos = diferencaEmMilissegundos / (1000 * 60);
-    if (diferencaEmMinutos < 0.1) { // 6 segundos
-        return {bgColor: "lightgreen", clsName: "tr__modificado"};
+    if (diferencaEmMinutos < 0.12) { // 9 segundos
+        return {bgColor: "papayawhip", clsName: "tr__modificado"};
     }
     if (diferencaEmMinutos < 720 ) // 12 horas
         return {bgColor: "lightyellow", clsName: "table-default"};
