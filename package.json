@@ -4,7 +4,7 @@
   "description": "fazer requisição de insumos",
   "main": "main.js",
   "scripts": {
-    "start": "netlify dev",
+    "start": "netlify dev --context production",
     "dev": "http-server src -p 8080",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "netlify dev --inspect"
