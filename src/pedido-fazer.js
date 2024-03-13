@@ -356,7 +356,7 @@ function fetchPostSaveSheetGoogle() {
         itens: localStorage.getItem('dadosItens'),
         tipoPedido: localStorage.getItem('tipoPedido'),
         unidade: nUnid.toUpperCase(),
-        navegador: userAgent,
+        navegador: "-", // userAgent
         date: instantePedido,
         requisicao: "salvar",
         Date: ''
