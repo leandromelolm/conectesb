@@ -52,8 +52,8 @@ a:hover {
                     <div class="navbar-nav">
                         <a class="nav-link active" aria-current="page"  href="pedido-fazer.html">Fazer Pedido</a>
                         <a class="nav-link active" href="pedido-lista.html">Lista de Pedidos</a>
-                        <a class="show_logged_in_only d-none nav-link active" href="abrirchamado.html">Abrir Chamado</a>
-                        <a class="a__buscar-chamado d-none nav-link active" href="buscarchamado.html">Buscar Chamado</a>
+                        <a class="show_logged_in_only d-none nav-link active" href="chamado-abrir.html">Abrir Chamado</a>
+                        <a class="a__buscar-chamado d-none nav-link active" href="chamado-buscar.html">Buscar Chamado</a>
                         <a class="a__gerenciar-estoque d-none nav-link active" href="user/admin/estoque-admin.html">Gerenciar Estoque</a>
                         <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>

@@ -266,7 +266,7 @@ function responseError(error) {
         responseMsgSentToSpreadSheet.innerHTML = `
         Resposta: Erro no envio!
         <p>${error}</p>
-        <p><a href="abrirchamado.html">Tentar Novamente</a></p>  
+        <p><a href="chamado-abrir.html">Tentar Novamente</a></p>  
         <a class="link-primary" href="index.html">Voltar para o menu principal</a>
         `        
 }
@@ -452,7 +452,7 @@ function responseErrorSubmitForm(error){
     document.getElementById("msgResponse").classList.toggle("hidden", false);
     document.getElementById('msgResponse').innerHTML = `
     Erro no envio, Verifique a conexão da internet! 
-    <p><a href="abrirchamado.html">Tentar Novamente</a></p>    
+    <p><a href="chamado-abrir.html">Tentar Novamente</a></p>    
     <a href="index.html">Voltar para o menu principal</a>
     `;
 };
