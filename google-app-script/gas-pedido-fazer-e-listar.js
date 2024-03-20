@@ -220,7 +220,7 @@ function encontrarTextoNaColuna(str) {
 function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   let lastRow = sheet.getLastRow();
   let totalPaginas = Math.ceil(lastRow / elementosPorPagina);
-  if (paginaAtual < 1 || paginaAtual > totalPaginas || paginaAtual < 0) {    
+  if (paginaAtual < 1 || paginaAtual > totalPaginas) {    
      throw  error = {
       statusCode: 404,
       message: `Página fora do limite. Página: ${paginaAtual}`,
@@ -230,8 +230,8 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   }
   let maxFim = lastRow - (paginaAtual - 1) * elementosPorPagina;
   let maxInicio = maxFim - elementosPorPagina + 1;
-  // Certificar que os índices não ultrapassem o primeiro elemento
-  maxInicio = Math.max(maxInicio, 1);
+
+  maxInicio = Math.max(maxInicio, 2); // inicia na linha 2 se maxInicio for menor que 2.
 
   let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 4);
   let values = range.getValues();

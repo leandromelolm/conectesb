@@ -44,6 +44,7 @@
 
     .input__search {
       width: 100%;
+      padding: 0px 5px;
     }
 
     .btn__search {
@@ -124,18 +125,27 @@
       place-self: center;
     }
 
-    .spinner-border {
+    .div__spinner-border {
       height: 14px !important;
       width: 14px !important;
       border: 0.14rem solid currentColor !important;
       border-right-color: transparent !important;
     }
+
+    .div__pagination_buttons{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
    
   </style>
-  <script src="jquery/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+ 
+  <script src="jquery/jquery-3.5.1/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <script src="components/header.js" type="text/javascript" defer></script>
+
   <title>Conecte SB | Pedidos</title>
 </head>
 <body>
@@ -159,7 +169,7 @@
       </button>
       <div id="msgAguarde" class="div__msg-aguarde d-block d-none">
         <div class="d-flex justify-content-center align-items-center">
-            <div id="spinner" class="spinner-border" role="status">                 
+            <div id="spinner" class="spinner-border div__spinner-border" role="status">                 
             </div>
             <div id="mensagemAguarde" class="msg__aguarde ms-1">Aguarde...</div>
         </div>
@@ -192,16 +202,32 @@
       <div class="div__loading-message">
         <div class="d-flex align-items-center">
           <strong>Buscando...</strong>
-          <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+          <div class="spinner-border div__spinner-border ms-auto" role="status" aria-hidden="true"></div>
         </div>
       </div>
 
       <div id="content"></div>
 
+      <!-- Modal Loading -->
+      <div>
+        <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+            <div class="modal-content" style="background: none !important; border: none;">
+              <div class="modal-body" style="text-align: center;">
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       <div id="response__erro"></div>
 
       <div id="divDataUnidade">
         <div id="divListaPedido"></div>
+        <div id="paginationButtons" class="div__pagination_buttons"></div>
       </div>  
 
       <!-- Modal -->
