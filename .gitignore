@@ -1,6 +1,5 @@
 src/config.json
 src/config.js
-src/google-code_v1.gs.js
 src/example/**
 
 node_modules
@@ -9,10 +8,3 @@ node_modules
 
 # Local Netlify folder
 .netlify
-
-test-abrir-chamado
-abrirchamado
-src/crypto-js.js
-src/example/app-script-abrirchamado_v27.gs.js
-src/inventario-fazer-copy.html
-src/components/header copy.js
