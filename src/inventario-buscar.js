@@ -40,7 +40,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 async function getApiLastRow() {
     document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec', {
         method: "GET"
     });
     if (!response.ok) {
@@ -104,7 +104,7 @@ function setarParametrosNaURL(search, protocolo, id) {
 
 function getApi() {
     const param = obterParametrosDaURL();
-    let api = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec";
+    let api = "https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec";
     apiParam = `${api}?search=${param.search}`
     fetch(apiParam, {
         method: "GET",
@@ -135,7 +135,6 @@ function salvarLocalStorageLista(data) {
 function getApiById(id) {
     // findById
     document.getElementById('divLoadingById').classList.remove('hidden');
-    // let api = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';
     let api = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec';
     let apiParam = `${api}?id=${id}&authorization=${localStorage.getItem('access_token')}`
     fetch(apiParam, {

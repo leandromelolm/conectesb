@@ -219,7 +219,6 @@ closeButton.addEventListener("click", function() {
     closeModal();
 });
 
-
 function scrollToTop() {
     window.scrollTo({
         top:0,
@@ -267,7 +266,6 @@ function dateFormat(data) {
     
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
-
 
 function desabilitarBotaoPesquisa() {
     document.getElementById('btn-search').disabled = true;
@@ -346,7 +344,6 @@ function buildPaginationButtons(totalPages, currentPage) {
     });
     paginationContainer.appendChild(nextButton);
 }
-
 
 function fetchData(pageNumber) {
     getListaPedidos(pageNumber);

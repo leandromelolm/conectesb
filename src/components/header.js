@@ -155,14 +155,14 @@ function checkTokenExpirationDate(token) {
     try {
         let s = token.split('.');
         var decodeString = atob(s[1]);
-        const { exp, name, userId } = JSON.parse(decodeString);
+        const { exp, username, userId } = JSON.parse(decodeString);
     
         if (new Date(exp * 1000) > new Date()) {
             return {
                 auth: true,
                 message: 'Valid signature',
                 expira: new Date(exp * 1000),
-                username: name,
+                username: username,
                 id: userId
             };
         } else {

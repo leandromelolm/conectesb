@@ -4,25 +4,17 @@ let sheetName = '';
 let sheetName1 = '';
 const sheets = SpreadsheetApp.openByUrl(spreadsheetUrl);
 const sheet = sheets.getSheetByName(sheetName1);
-const key_jwt = '';
 
-// INVENTÁRIO
+/**
+ * INVENTARIO
+*/
 
 function doPost(e) {
+  const lock = LockService.getScriptLock();
+  lock.tryLock(10000);
   let dados = null;
   if (typeof e !== 'undefined') {
       dados = JSON.parse(e.postData.contents);     
-  }
-
-  if (dados.loginPage) {
-    let accessToken = signinUser(dados);
-    Logger.log(accessToken);
-    return ContentService.createTextOutput(
-      JSON.stringify({
-          page: "login", 
-          authorization: accessToken
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
   }
 
   if (
@@ -43,46 +35,40 @@ function doPost(e) {
               message: "Tamanho das strings inválido!"
           })
         ).setMimeType(ContentService.MimeType.JSON);
-    }
-    // let spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-    // let sheet = spreadsheet.getSheets()[3]; // Aba Número 4
-    // let sheet = spreadsheet.getSheetName("Inventario1");
-    // const id = sheet.getLastRow() + 1;
-
-    const valorUltimoId = obterUltimoValorColunaA();
-    const id = valorUltimoId + 1;
-
-    let codigo = `${converterDataParaProtocolo(dados.data)}${id}`;
-
-    let chamado = [
-      id, 
-      codigo,
-      dados.unidade, 
-      dados.solicitante, 
-      dados.email, 
-      dados.data, 
-      dados.quantidadeLista, 
-      dados.observacao, 
-      dados.listaInventario
-    ];
-    
-    sheet.appendRow(chamado);
-    return ContentService.createTextOutput(
-      JSON.stringify({
-          status: "success", 
-          message: "Inventário registrado com sucesso!",
-          content: chamado
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
+    } else {
+      const valorUltimoId = obterUltimoValorColunaA();
+      const id = valorUltimoId + 1;
+      let protocolo = gerarProtocolo(dados.data, id);
+      let inventario = [
+        id, 
+        protocolo,
+        dados.unidade, 
+        dados.solicitante, 
+        dados.email, 
+        dados.data, 
+        dados.quantidadeLista, 
+        dados.observacao, 
+        dados.listaInventario
+      ];      
+      sheet.appendRow(inventario);
+      return ContentService.createTextOutput(
+        JSON.stringify({
+            status: "success", 
+            message: "Inventário registrado com sucesso!",
+            content: {id: inventario.id, data: inventario.data}
+        })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }    
   } else {  
     return ContentService.createTextOutput(
       JSON.stringify({
           status: "error", 
-          message: "Parâmetros inválidos!",
+          message: "Parâmetros estão faltando ou incorretos!",
           content: dados
       })
     ).setMimeType(ContentService.MimeType.JSON);
   }
+  lock.releaseLock();
 }
 
 function doGet(e) {
@@ -91,106 +77,73 @@ function doGet(e) {
   let token = null;
   let data = [];
   try {
-
-    const protocolo = e.parameter['protocolo'] || "";
     const search = e.parameter['search'] || "";
-
+    const id = e.parameter['id'] || "";
+    const protocolo = e.parameter['protocolo'] || "";
+    const authToken = e.parameter['authorization'] || "null";    
 
     if (search == "all"){
       let response = itensPaginadosOrdemInversa(1, 50);
       return ContentService.createTextOutput(
-      JSON.stringify({
-        content: response
-      })
-    ).setMimeType(ContentService.MimeType.JSON);
+        JSON.stringify({
+          content: response
+        })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (protocolo != ''){
+      let res = findByProtocolo(protocolo);
+      return ContentService.createTextOutput(
+        JSON.stringify({
+          content:res
+        })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    if (id != ""){
+      // VALIDAR TOKEN
+      let validacaoToken = validarToken(authToken);      
+      if (!validacaoToken.auth){
+        return ContentService.createTextOutput(
+          JSON.stringify({
+            token: validacaoToken,
+          })
+        ).setMimeType(ContentService.MimeType.JSON);    
+      }
+      let response = findById(id);
+      return ContentService.createTextOutput(
+        JSON.stringify({
+          content: response,
+          token: validacaoToken,
+        })
+      ).setMimeType(ContentService.MimeType.JSON);
     }
 
     const { parameter } = e;
     const { authorization, name } = parameter;
 
+    let lastRow = sheet.getLastRow();
+
     return ContentService.createTextOutput(
       JSON.stringify({
-        content: e
+        content: lastRow
       })
     ).setMimeType(ContentService.MimeType.JSON);
-
-    
+  
   } catch (error) {
     return ContentService.createTextOutput(
       JSON.stringify({
-        error: "Parâmetro de autorização inválido",
+        error: "Erro na requisição Get. Parâmetros estão faltando ou incorretos!",
         token: token,
         content: data
       })
     ).setMimeType(ContentService.MimeType.JSON);
-  }
+  }  
+  lock.releaseLock();
 }
 
-
-function gerarToken(username) {
-  return generateAccessToken(username);
-}
-
-function verificarJwtToken(token) {
-  return  verifyJwtTokenReturn(token,key_jwt);
-  // return parseJwt(token, key);
-}
-
-function signinUser(dados){  
-  Logger.log("Tentativa de login");
-  let userPesquisado = encontrarTextoNaColuna(dados.username);
-  let token;
-  let reqPassword = sha256(dados.password);
-  if( userPesquisado[0].password === reqPassword && userPesquisado[0].username === dados.username ){
-    Logger.log("senha iguais");
-    token = gerarToken(userPesquisado[0].username);
-  }else {
-    Logger.log("usuario ou senha incorreto");
-    token = null;
-  }
-  return token;
-}
-
-function encontrarTextoNaColuna(str) {
-  let planilha = SpreadsheetApp.openById(spreadsheetId);
-  let guia = planilha.getSheetByName(sheetName);  
-  let colunaParaPesquisar = "C";  
-  let textoParaEncontrar = str;
-  let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar)
-      .createTextFinder(textoParaEncontrar);
-  let resultados = textFinder.findAll();
-  if (resultados.length == 0){   
-    let arr = [];
-    let obj = {
-      id: "",
-      user: "",
-      username: "",
-      password: ""
-    }
-    arr.push(obj);
-    return arr;
-  }
-  let listaDeObjetos = [];
-  for (let i = 0; i < resultados.length; i++) {
-    let resultado = resultados[i];
-    let linha = resultado.getRow();
-    if (linha == 1) {
-      continue; // Pule a linha de cabeçalho
-    }
-    let valorColunaA = guia.getRange("A" + linha).getValue();
-    let valorColunaB = guia.getRange("B" + linha).getValue();
-    let valorColunaC = guia.getRange("C" + linha).getValue();
-    let valorColunaD = guia.getRange("D" + linha).getValue();
-    let objeto = {
-      id: valorColunaA,
-      user: valorColunaB,
-      username: valorColunaC,
-      password: valorColunaD
-    };   
-    Logger.log('Resultado Pesquisa: '+ valorColunaA+' : '+valorColunaC +' : '+ valorColunaD);
-    listaDeObjetos.push(objeto);    
-  }
-  return listaDeObjetos;
+function validarToken(token) {
+  return  validateJwtToken(token);
 }
 
 function itensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
@@ -234,16 +187,39 @@ function itensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
   };
 }
 
-function converterDataParaProtocolo(dataString) {
-    const data = new Date(dataString);
-    const ano = data.getFullYear();
-    const mes = (data.getMonth() + 1).toString().padStart(2, '0');
-    const dia = data.getDate().toString().padStart(2, '0');
-    const horas = data.getHours().toString().padStart(2, '0');
-    const minutos = data.getMinutes().toString().padStart(2, '0');
-    const segundos = data.getSeconds().toString().padStart(2, '0');
-    const formatoDesejado = `${ano}${mes}${dia}${horas}${minutos}${segundos}00`;
-    return formatoDesejado;
+function gerarParteInicialDoProtocolo(dataString) {
+    const partesDataHora = dataString.split(' ');
+    const partesData = partesDataHora[0].split('-');
+    const ano = partesData[2].slice(2);
+    const mes = partesData[1].padStart(2, '0');
+    const dia = partesData[0].padStart(2, '0');
+    const protocoloInicio = `${ano}${mes}${dia}`;
+    return protocoloInicio;
+}
+
+function gerarParteFinalDoProtocolo(n) {
+    const numeroString = n.toString();
+    const zerosFaltando = 4 - numeroString.length;
+    if (zerosFaltando > 0) {
+        return '0'.repeat(zerosFaltando) + numeroString;
+    } else {
+        return numeroString;
+    }
+}
+
+function gerarNumerosAleatorios(min, max) {
+  const numeros = [];
+  for (let i = 0; i < 4; i++) {
+    numeros.push(Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+  return numeros;
+}
+
+function gerarProtocolo(data, id) {
+  let i = gerarParteInicialDoProtocolo(data);
+  let m = gerarStringAleatoriaDeNumeros();
+  let f = gerarParteFinalDoProtocolo(id);
+  return `${i}${m}${f}`;
 }
 
 function formatarData(dataString) {
@@ -270,4 +246,56 @@ function obterUltimoValorColunaA() {
 function obterPrimeirosTresCaracteres(txt) {
     t = txt.substring(0, 3)
     return `${t}**`;
+}
+
+function findById(id) {
+  let sheetData = sheet.getRange('A:A').getValues();  
+  for (let i = 1; i < sheetData.length; i++) {
+    let rowData = sheetData[i][0]; // A célula na coluna A
+    if (rowData == id) {
+      let linha = i + 1; // Adiciona 1 porque i começa em 0 e as linhas na planilha começam em 1
+      return obterDadosDaLinha(linha);
+    }
+  }
+  return null;
+}
+
+function findByProtocolo(protocolo) {
+  let sheetData = sheet.getRange('B:B').getValues();
+  
+  for (let i = 1; i < sheetData.length; i++) {
+    let rowData = sheetData[i][0];
+    if (rowData == protocolo) {
+      let linha = i + 1;
+      return obterDadosDaLinha(linha);
+    }
+  }
+  return null;
+}
+
+function obterDadosDaLinha(linha) {
+  let valores = sheet.getRange(linha, 1, 1, 9).getValues()[0];
+  
+  return {
+    id: valores[0],
+    protocolo: valores[1],
+    unidade: valores[2],
+    responsavel: valores[3],
+    data: valores[5],
+    informacoesAdicionais: valores[7],
+    itensInventario: valores[8]
+  };
+}
+
+function getLastRow() {
+  return sheet.getLastRow();
+}
+
+function gerarStringAleatoriaDeNumeros() {
+  const numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const numerosAleatorios = [];
+  for (let i = 0; i < 4; i++) {
+    numerosAleatorios.push(numeros[Math.floor(Math.random() * numeros.length)]);
+  }
+  return numerosAleatorios.join('');
 }

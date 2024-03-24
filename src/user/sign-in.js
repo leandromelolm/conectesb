@@ -14,14 +14,10 @@ function capturarDadosDoFormulario() {
 function loginFetchAPI() {
   let user = capturarDadosDoFormulario();
   msgAguarde();
-  let urlFetch = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec'; // v24
+  let urlFetch = 'https://script.google.com/macros/s/AKfycbzsT8KTg4U0FAhL6lp-NSOByrNufvZv6ZdCwpo6ZZbAaQD2n-YN3_aX16jG5rCEkiYptA/exec'; // gas sign-in
   fetch(urlFetch,{
-      redirect: "follow",
       method: "POST",
-      body: user,
-      headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-      }
+      body: user,      
   })
   .then(response => response.json())
   .then(data => responseOK(data))

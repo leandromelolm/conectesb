@@ -34,7 +34,7 @@ function setarParametrosNaURL(search, protocolo) {
 
 async function getApiLastRow() {
     document.getElementById('divLoadingUpdatePage').classList.remove('d-none');
-    const response = await fetch('https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec', {
         method: "GET"
     });
     if (!response.ok) {
@@ -56,7 +56,7 @@ async function getApiLastRow() {
 function getApi(){
     console.log('getApi');
     const param = obterParametrosDaURL();
-    let api = "https://script.google.com/macros/s/AKfycbzz7_n2zVB7XlDmIATenuP5j89uqTPypFnJmfRRi0Dql2-tnWf53IFHoDINUdO2PQ3uqw/exec"
+    let api = "https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec"
     apiParam = `${api}?search=${param.search}`
     fetch(apiParam,{ 
         method: "GET",
@@ -119,7 +119,7 @@ function handleSearch() {
 function getApiByProtocolo(protocolo) {
     document.getElementById('divLoadingById').classList.remove('d-none');
     // const param = obterParametrosDaURL();
-    let api = "https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec";
+    let api = "https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec";
     apiParam = `${api}?protocolo=${protocolo}`
     fetch(apiParam,{ 
         method: "GET",
