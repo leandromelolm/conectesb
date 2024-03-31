@@ -15,6 +15,7 @@ function doPost(e) {
       if (typeof e !== 'undefined') {
           data = JSON.parse(e.postData.contents);     
       }
+
       if (data.loginPage) {
       let accessToken = signinUser(data);
       return ContentService.createTextOutput(
@@ -37,22 +38,48 @@ function doPost(e) {
   }
 
   function doGet(e) {
-    return test_read(e);
+    return read(e);
   }
 
-  function test_read(e){
+  function read(e){
+    // ..exec/auth?token={TOKEN}
+    if(e.pathInfo === "auth")
+      return validarToken(e.parameter.token);
+    // ..exec/refresh_token?token={TOKEN}
+    if(e.pathInfo === "refresh_token")
+      return revalidarToken(e.parameter.token)
+
     return ContentService.createTextOutput(
-      JSON.stringify({ content: e})
+      JSON.stringify({content: e})
     ).setMimeType(ContentService.MimeType.JSON)
   }
 
-  function signinUser(data){
-  let userPesquisado = encontrarTextoNaColuna(data.username);
+  function validarToken(token) {
+    let validToken = {info: validateJwtToken(token), token: token}
+    return createTextOutput(validToken);
+  }
+
+  function revalidarToken(token) {
+    const res = checkToken(token);
+    if (res.auth)
+      return createTextOutput({token:generateAccessToken(res.id, res.username)});
+    else
+      return createTextOutput({error: "erro na autenticação"});
+  }
+
+  function createTextOutput(content) {
+    return ContentService.createTextOutput(
+      JSON.stringify({ content })
+    ).setMimeType(ContentService.MimeType.JSON)
+  }
+
+  function signinUser(data) {
+  let userPesquisado = encontrarUserNameNaColuna(data.username);
   let token;
   let reqPassword = sha256(data.password);
   try{
     if( userPesquisado[0].password === reqPassword && userPesquisado[0].username === data.username ){
-      token = gerarToken(userPesquisado[0].id,userPesquisado[0].username);
+      token = generateAccessToken(userPesquisado[0].id,userPesquisado[0].username);
       let refreshToken = generateRefreshToken(userPesquisado[0].id, Utilities.getUuid());
       return obj = {
         auth: true,
@@ -66,18 +93,16 @@ function doPost(e) {
         token: null,
         message: 'usuario e senha incorreto'
       }
-    }  
-
+    }
   } catch(e){
-    console.log(e)
     return e;
   }
 }
 
-function encontrarTextoNaColuna(str) {
+function encontrarUserNameNaColuna(str) {
   let planilha = SpreadsheetApp.openById(spreadsheetId);
   let guia = planilha.getSheetByName(sheetName);  
-  let colunaParaPesquisar = "C";  
+  let colunaParaPesquisar = "C"; // coluna username
   let textoParaEncontrar = str;
   let textFinder = guia.getRange(colunaParaPesquisar + ":" + colunaParaPesquisar)
       .createTextFinder(textoParaEncontrar);
@@ -114,12 +139,4 @@ function encontrarTextoNaColuna(str) {
     listaDeObjetos.push(objeto);    
   }
   return listaDeObjetos;
-}
-
-function gerarToken(id, username) {
-  return generateAccessToken(id, username);
-}
-
-function validarToken(token) {
-  return  validateJwtToken(token);
 }
