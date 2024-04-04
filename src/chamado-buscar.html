@@ -5,19 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="chamado-buscar.css">
-    <script src="components/header.js" type="text/javascript" defer></script>
+    <script src="components/header.js" type="module" defer></script>
     <title>Conecte SB | Buscar Chamado</title>
 </head>
 <body>
     <header-component></header-component>
     <!--MAIN CONTENT-->
     <div class="main__container">        
-        <div id="divChamados">            
-            <div id="loggedUser" class="div__logout d-flex justify-content-end align-items-center d-none">
-                <span>Logado:</span>
-                <span class="ms-1" id="usuarioLogado">Usuario</span>
-                <button id="btnLogout" class="btn btn-light ms-1 rounded-pill" onclick="signOut()">Sair</button>                
-            </div>            
+        <div id="divChamados">
+
+            <div class="d-none">
+                <div id="loggedUser" class="div__logout d-flex justify-content-end align-items-center d-none">
+                    <span>Logado:</span>
+                    <span class="ms-1" id="usuarioLogado">Usuario</span>
+                    <button id="btnLogout" class="btn btn-light ms-1 rounded-pill" onclick="signOut()">Sair</button>                
+                </div>            
+            </div>
+            
             <div id="atualizacaoPagina">
                 <p id="infoDivAtualizacaoPagina"></p>                
             </div>

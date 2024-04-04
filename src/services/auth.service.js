@@ -35,14 +35,14 @@ function checkToken(token) {
         } else {
             return res = {
                 auth: false,
-                message: 'Token expirado'
+                message: 'Erro na validação do token'
             }
         }        
     } catch (error) {       
         console.log(error);
         return res = {
             auth: false,
-            message: `Erro na verificação do token, ${error}`
+            message: 'Erro na validação do token'
         }
     }
 }

@@ -1,0 +1,133 @@
+body { 
+    font-family: var(--bs-font-sans-serif)!important;
+  }
+
+  .navbar {
+    padding-inline: 5%;
+  }
+
+  @media (max-width: 992px) {
+    .navbar {
+      padding-inline: 0%;
+    }
+  }
+
+  a {
+    text-decoration: none !important;
+  }
+
+  .main {
+    width: 70% !important;
+  }
+
+  @media (max-width: 768px) {
+      .main {
+          width: 100% !important;
+      }
+  }
+
+  input {
+    border: 0;
+    border-radius: 10px;
+  }
+
+  .div__search {
+    border: solid 2px darkgray;
+    border-radius: 10px;
+  }
+
+  .input__search {
+    width: 100%;
+    padding: 0px 5px;
+  }
+
+  .btn__search {
+    border-radius: 8px !important;
+  }
+
+  .btn__search:focus {
+    background-color: lightblue !important;
+  }
+  
+  .btn__search:active, .btn__search:disabled {
+    background-color: grey !important;
+  }
+
+  .btn__clear:focus {
+    background-color: lightcoral !important;
+    border-radius: 8px;
+  }
+
+  .btn__clear:active {
+    background-color: grey !important;
+    color: black;
+    border-radius: 10px;
+  }
+
+  button:focus, input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 0 !important;  
+  }
+
+  #abrirPedidonoFormulario  {
+    margin: 10px 0 0px 0px!important;
+    width: 260px;
+  }
+
+  button.navbar-toggler {
+    width: 56px
+  }
+
+  .div__loading-message {
+    display: none; /* Inicialmente, oculta a mensagem de carregamento */
+    font-size: 18px;
+    text-align: center;
+    margin: 0 12px;
+  }
+
+  #divPedidoBuscado {
+    margin-top: 10px;
+  }
+
+  #atualizacaoPagina p {
+    margin: 0px;
+    color: gray;
+    font-size: 14px;
+  }
+
+  .btn__close {
+    width: 40px;
+    height: 37px;
+  }
+
+  tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: initial;
+    vertical-align: middle;
+  }
+
+  .btn__atualizar {
+    /* float: inline-end; */
+    color: #808080 !important;
+    /* margin-top: 5px; */
+  }
+
+  .div__msg-aguarde {
+    color: #808080 !important;
+    padding: 6px 12px;
+    place-self: center;
+  }
+
+  .div__spinner-border {
+    height: 14px !important;
+    width: 14px !important;
+    border: 0.14rem solid currentColor !important;
+    border-right-color: transparent !important;
+  }
+
+  .div__pagination_buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

@@ -1,3 +1,5 @@
+import {checkToken} from '../services/auth.js';
+
 const headerTemplate = document.createElement('template');
 let booleanPaginaEstoque = false;
 
@@ -60,7 +62,7 @@ a:hover {
                         <a class="nav-link active d-none a__inventario-buscar" href="inventario-buscar?search=all">Buscar Inventários</a>
                     </div>
                     <div class="div__user-login d-flex flex-row-reverse d-none">
-                        <button class="btn btn-light ms-1 rounded-pill" onclick="logout()">Sair</button>             
+                        <button class="btn btn-light ms-1 rounded-pill" id="buttonLogout">Sair</button>             
                     </div> 
                 </div>
             </div>
@@ -72,9 +74,7 @@ a:hover {
 class Header extends HTMLElement {
     constructor() {
         super();
-    }
-
-    
+    }    
 
     connectedCallback() {
         const shadowRoot = this.attachShadow({ mode: 'closed' });
@@ -126,7 +126,11 @@ class Header extends HTMLElement {
         let showLinkLoggedInOnly = shadowRoot.querySelector('.show_logged_in_only');
         let elBuscarChamado = shadowRoot.querySelector('.a__buscar-chamado');
         let elGerenciarEstoque = shadowRoot.querySelector('.a__gerenciar-estoque');
+
         this.load(usuarioLogadoElement, divUserLogin, elInventarioBuscar, showLinkLoggedInOnly, elBuscarChamado, elGerenciarEstoque);
+
+        const logoutButton = shadowRoot.querySelector('#buttonLogout');
+        logoutButton.addEventListener('click', this.logoutUser.bind(this));
     }
 
     load(usuarioLogadoElement, divUserLogin, elInventarioBuscar, showLinkLoggedInOnly, elBuscarChamado, elGerenciarEstoque) {
@@ -146,45 +150,20 @@ class Header extends HTMLElement {
             }
         }
     }
+
+    logoutUser() {
+        localStorage.removeItem('access_token');
+        if (booleanPaginaEstoque) {
+            window.location.href = '../../';
+        } else {
+            window.location.href = 'index';
+        }    
+    }
 }
 
 customElements.define('header-component', Header);
 
-function checkTokenExpirationDate(token) {
-    // console.log("checkToken");
-    try {
-        let s = token.split('.');
-        var decodeString = atob(s[1]);
-        const { exp, username, userId } = JSON.parse(decodeString);
-    
-        if (new Date(exp * 1000) > new Date()) {
-            return {
-                auth: true,
-                message: 'Valid signature',
-                expira: new Date(exp * 1000),
-                username: username,
-                id: userId
-            };
-        } else {
-            return {
-                auth: false,
-                message: 'The token has expired'
-            };
-        }        
-    } catch (error) {
-        console.log("token inválido:", error)
-        return {
-            auth: false,
-            message: 'invalid token'
-        };
-    }
-}
 
-function logout() {
-    localStorage.removeItem('access_token');
-    if (booleanPaginaEstoque) {
-        window.location.href = '../../';
-    } else {
-        window.location.href = 'index';
-    }    
+function checkTokenExpirationDate(token) {
+    return checkToken(token);
 }
