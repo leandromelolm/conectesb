@@ -21,6 +21,8 @@ function checkAuth() {
 
 function checkToken(token) {
     try {
+        if (!token)
+            return res = {auth: false, message: 'Token nulo'}
         let s = token.split('.');
         let decodeString = atob(s[1]);
         const { exp, username, id } = JSON.parse(decodeString);

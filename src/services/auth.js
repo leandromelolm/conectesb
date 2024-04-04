@@ -1,5 +1,7 @@
 export function checkToken(token) {
     try {
+        if (!token)
+            return {auth: false, message: 'Token nulo'}
         let s = token.split('.');
         var decodeString = atob(s[1]);
         const { exp, username, userId } = JSON.parse(decodeString);
@@ -19,7 +21,6 @@ export function checkToken(token) {
             };
         }        
     } catch (error) {
-        console.log("Erro na validação do token:", error)
         return {
             auth: false,
             message: 'Erro na validação do token'
