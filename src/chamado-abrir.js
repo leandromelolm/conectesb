@@ -225,7 +225,7 @@ function sendSheet(chamadoAberto) {
 
     objPedidoString = JSON.stringify(chamadoAberto);
 
-    let url = "https://script.google.com/macros/s/AKfycbx_grjTmeJxtEqmRRROj1No1LaesrSftV0Gvfi9EWaUi39-lhGpswlDnWCSZRvlrpUL/exec";
+    let url = "https://script.google.com/macros/s/AKfycbxWGEAZpZv2I5zV4NPcNCk999dj-VD4eegbxyrvqrfGklo14EZpYWxU5q1sHtNNVDH6/exec";
     fetch(url,{
         redirect: "follow",
         method: "POST",
