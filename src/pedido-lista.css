@@ -1,5 +1,6 @@
 body { 
     font-family: var(--bs-font-sans-serif)!important;
+    background-color: #f4f4f4 !important;
   }
 
   .navbar {
@@ -33,16 +34,19 @@ body {
 
   .div__search {
     border: solid 2px darkgray;
-    border-radius: 10px;
+    border-radius: 20px;
+    background-color: white;
   }
 
   .input__search {
     width: 100%;
     padding: 0px 5px;
+    margin-left: 12px;
   }
 
   .btn__search {
-    border-radius: 8px !important;
+    border-radius: 18px !important;
+    background-color: white;
   }
 
   .btn__search:focus {
@@ -53,15 +57,17 @@ body {
     background-color: grey !important;
   }
 
+  .btn__clear {
+    border-radius: 18px !important;
+  }
+
   .btn__clear:focus {
     background-color: lightcoral !important;
-    border-radius: 8px;
   }
 
   .btn__clear:active {
     background-color: grey !important;
     color: black;
-    border-radius: 10px;
   }
 
   button:focus, input:focus, textarea:focus {
