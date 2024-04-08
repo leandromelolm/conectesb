@@ -80,11 +80,17 @@ input.input_unidade {
     height: -webkit-fill-available;
 }
 
-input.input_equipe {
-    margin-left: 3px;
-    width: 50%;
-    text-transform: uppercase;
-    height: -webkit-fill-available;
+.select_distrito {
+    border: transparent;
+    background-color: cornsilk;
+    width: 50px;
+    height: 90% !important;
+    margin-left: 5px;
+    /* text-align: center; */
+}
+
+.select_distrito:focus-visible{
+    outline: none;
 }
 
 input.input_distrito {
@@ -92,6 +98,18 @@ input.input_distrito {
     width: 20px;
     text-transform: uppercase;
     height: -webkit-fill-available;
+}
+
+.select_equipe {
+    border: transparent;
+    background-color: cornsilk;
+    height: 100% !important;
+    margin-left: 2px;
+    text-align: center;
+}
+
+.select_equipe:focus-visible{
+    outline: none;
 }
 
 input.input_data_pedido {
@@ -209,7 +227,7 @@ th.th__distrito_date {
     width: 160px;
     display: flex;
     place-items: center;
-    margin-right: 2px
+    margin-right: 10px
 }
 #divEquipe > select {
     height: 23px

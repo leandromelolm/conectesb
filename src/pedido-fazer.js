@@ -2,7 +2,8 @@
 document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
 const datalist = document.getElementById("item-list");
-const undlist = document.getElementById("u-list")
+const undlist = document.getElementById("u-list");
+// const dslist = document.getElementById("ds-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
 let requerenteForm;
@@ -27,6 +28,12 @@ window.onload = () => {
         optEl.value = opt;
         undlist.appendChild(optEl);
     });
+
+    // distritos.forEach(o => {
+    //     const optElem = document.createElement("option");
+    //     optElem.value = o;
+    //     dslist.appendChild(optElem);
+    // });
 
     recuperarDadosRequisitanteSessionStorage();
 
@@ -57,6 +64,7 @@ function cloneDocPrint() {
 function sendToSpreadsheet() {
     document.querySelector('#messageSuccess').innerHTML = '';
     document.querySelector('#messageError').innerHTML = '';
+
     if (document.getElementById('nomeUnidade').value === '') {
         let messageValidateSending = document.getElementById('messageValidateSending');
         messageValidateSending.style.cssText = `
@@ -70,6 +78,21 @@ function sendToSpreadsheet() {
             '#messageValidateSending').innerHTML =
             `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
     }
+
+    if (document.getElementById('ds').value === '-') {
+        let messageValidateSending = document.getElementById('messageValidateSending');
+        messageValidateSending.style.cssText = `
+            background-color: #f8d7da;
+            color: #842029;
+            height: 35px;
+            text-align: center        
+        `;
+
+        return document.querySelector(
+            '#messageValidateSending').innerHTML =
+            `Preencha o campo <b>Distrito Sanitário</b> para poder enviar o pedido.`;
+    }
+
     const dataAtual = new Date();
     const umDiaEmMilissegundos = 86400000;
     const dataAnterior = new Date(dataAtual.getTime() - umDiaEmMilissegundos);
@@ -146,7 +169,11 @@ function visibilidadeDasLinhas(quantidadeItens) {
     }
 }
 
+
 function saveInfoRequesterInSessionStorage() {
+    let selectDs = document.getElementById("dsSelect").value;
+    console.log(selectDs);
+    document.getElementById('ds').value = selectDs;
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
         equipe: document.getElementById('equipe').value,
@@ -197,15 +224,16 @@ function recuperarDadosRequisitanteSessionStorage() {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
         document.getElementById('equipe').value = requerente.equipe || "-";
-        document.getElementById('ds').value = requerente.ds || "";
+        document.getElementById('ds').value = requerente.ds || "5";
+        document.getElementById('dsSelect').value = requerente.ds || "5";
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
         document.getElementById('dataPedido').value = 
             requerente.dataPedido ? requerente.dataPedido : formatarDataParaYYYYMMDD(new Date());
     } else {
         document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
-        document.getElementById('grupoMaterial').value = 'SAÚDE BUCAL';
-        document.getElementById('ds').value = 'V';
+        document.getElementById('grupoMaterial').value = requerente.ds ||'';
+        document.getElementById('ds').value = '';
     }
 };
 
@@ -579,6 +607,8 @@ const nomesUnidades = [
     'US 399 USF UPINHA DIA NOVO JIQUIÁ',
 ];
 
+const distritos = ['1', '5'];
+
 const itensStringConcatenado =
     `
 ÓXIDO DE ZINCO
@@ -615,6 +645,12 @@ FLÚOR GEL
 PAPEL GRAU CIRÚRGICO P ( rolo - 15CM X 100M)
 PAPEL GRAU CIRÚRGICO M ( rolo - 25CM X 100M)
 PAPEL GRAU CIRÚRGICO G ( rolo - 40CM X 100M)
+
+preservativo masculino 49mm
+preservativo masculo 52mm
+preservativo masculino de 55 mm
+preservativos femininos 
+gel lubrificante
 
 ALAVANCA RETA
 ALAVANCA CURVA DIREITA

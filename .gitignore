@@ -8,3 +8,8 @@ node_modules
 
 # Local Netlify folder
 .netlify
+
+
+src/components/index.js
+src/components/lista_insumos.js
+src/components/lista_unidades.js

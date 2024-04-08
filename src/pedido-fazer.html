@@ -53,34 +53,23 @@
                                     <tr>
                                         <th class="th__distrito_date">
                                             <div id="headerDistritoDate">
-                                                <div class="div__equipe_distrito">
-                                                    <div id="divEquipe" class="d-none">
-                                                        <span>
-                                                            Equipe:
-                                                        </span>
-                                                        <select type="text" id="equipe" name="equipe" class="input_equipe"
-                                                            maxlength="5"
-                                                            onblur="saveInfoRequesterInSessionStorage()">
-                                                            <option value="-">-</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                            <option value="6">6</option>
-                                                            <option value="7">7</option>
-                                                            <option value="8">8</option>
-                                                            <option value="todas">todas</option>
-                                                        </select>
-                                                    </div>
+                                                <div class="div__equipe_distrito">                                                    
                                                     <div id="divDistrito">
                                                         <span>
                                                             Distrito Sanitário:
                                                         </span>
-                                                        <input type="text" id="ds" class="input_distrito"
-                                                            maxlength="1"
-                                                            onblur="saveInfoRequesterInSessionStorage()"
+                                                        <select type="text" id="dsSelect" name="ds" class="select_distrito hidden-in-print"
+                                                            maxlength="5"
+                                                            onchange="saveInfoRequesterInSessionStorage()">
+                                                            <option value="-" selected>-</option>
+                                                            <option value="1">1</option>
+                                                            <option value="5">5</option>                                                     
+                                                        </select>
+
+                                                        <input type="text" id="ds" name="ds" class="select_distrito show-in-print"                                                            
+                                                            maxlength="2"                                                    
                                                         />
+                                                        <!-- <datalist id="ds-list"></datalist> -->
                                                     </div>
                                                 </div>
                                                 <div id="divDate" class="hidden-in-print">
@@ -100,6 +89,27 @@
                                     <tr>
                                         <th>
                                             <div class="div__label_input">
+                                                <div id="divEquipe" class="d-none">
+                                                    <span>
+                                                        Equipe:
+                                                    </span>
+                                                    <select type="text" id="equipe" name="equipe" class="select_equipe"
+                                                        maxlength="5"
+                                                        onblur="saveInfoRequesterInSessionStorage()">
+                                                        <option value="-">-</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="manha">manha</option>
+                                                        <option value="tarde">tarde</option>
+                                                        <option value="todas">todas</option>
+                                                    </select>
+                                                </div>
                                                 <div class="div__label">
                                                     Grupo de Material:
                                                 </div>
