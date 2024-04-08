@@ -74,6 +74,7 @@ input {
 }
 
 input.input_unidade {
+    margin-left: 2px;
     width: 100%;
     text-transform: uppercase;
     font-weight: bold;
@@ -120,12 +121,14 @@ input.input_data_pedido {
 }
 
 input.input_grupo {
+    margin-left: 2px;
     width: 100%;
     text-transform: uppercase;
     height: -webkit-fill-available;
 }
 
 input.input_funcionario {
+    margin-left: 2px;
     width: 100%;
     text-transform: uppercase;
     height: -webkit-fill-available;
@@ -525,6 +528,9 @@ input {
     #docPrint {
         width: 60%;
     }
+    #messageValidateSending {
+        margin: 0 20%;
+    }
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */
@@ -550,6 +556,7 @@ text-transform: none;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    border-radius: 3px;
 }
 
 .message__success {

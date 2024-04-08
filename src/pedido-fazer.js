@@ -65,32 +65,9 @@ function sendToSpreadsheet() {
     document.querySelector('#messageSuccess').innerHTML = '';
     document.querySelector('#messageError').innerHTML = '';
 
-    if (document.getElementById('nomeUnidade').value === '') {
-        let messageValidateSending = document.getElementById('messageValidateSending');
-        messageValidateSending.style.cssText = `
-            background-color: #f8d7da;
-            color: #842029;
-            height: 35px;
-            text-align: center        
-        `;
-
-        return document.querySelector(
-            '#messageValidateSending').innerHTML =
-            `Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.`;
-    }
-
-    if (document.getElementById('ds').value === '-') {
-        let messageValidateSending = document.getElementById('messageValidateSending');
-        messageValidateSending.style.cssText = `
-            background-color: #f8d7da;
-            color: #842029;
-            height: 35px;
-            text-align: center        
-        `;
-
-        return document.querySelector(
-            '#messageValidateSending').innerHTML =
-            `Preencha o campo <b>Distrito Sanitário</b> para poder enviar o pedido.`;
+    const messageValidateSending = validarPreenchimentoDeCampos();
+    if (messageValidateSending.innerHTML.trim() !== '') {
+        return;
     }
 
     const dataAtual = new Date();
@@ -119,6 +96,28 @@ function sendToSpreadsheet() {
         // desabilitarBotaoEnviar();
         // printPage();
     }
+}
+
+function validarPreenchimentoDeCampos(){
+    let messageValidateSending = document.getElementById('messageValidateSending');
+    let mensagens = [];
+    messageValidateSending.style.cssText = `
+        background-color: #f8d7da;
+        color: #842029; 
+        text-align: center        
+    `;
+
+    if (document.getElementById('nomeUnidade').value === '')      
+        mensagens.push(`Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.</br>`);    
+    
+    if (document.getElementById('ds').value === '-')
+        mensagens.push(`Preencha o campo <b>Distrito Sanitário</b> para poder enviar o pedido.</br>`);     
+    
+    if (document.getElementById('grupoMaterial').value === '')
+        mensagens.push(`Preencha o campo <b>Grupo de Material</b> para poder enviar o pedido.</br>`); 
+
+    messageValidateSending.innerHTML =   mensagens.join("");
+    return messageValidateSending;
 }
 
 function printPage() {
@@ -171,9 +170,8 @@ function visibilidadeDasLinhas(quantidadeItens) {
 
 
 function saveInfoRequesterInSessionStorage() {
-    let selectDs = document.getElementById("dsSelect").value;
-    console.log(selectDs);
-    document.getElementById('ds').value = selectDs;
+    let selectDS = document.getElementById("dsSelect").value;
+    document.getElementById('ds').value = selectDS;
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
         equipe: document.getElementById('equipe').value,
