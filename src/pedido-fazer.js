@@ -232,7 +232,7 @@ function recuperarDadosRequisitanteSessionStorage() {
             requerente.dataPedido ? requerente.dataPedido : formatarDataParaYYYYMMDD(new Date());
     } else {
         document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
-        document.getElementById('grupoMaterial').value = requerente.ds ||'';
+        document.getElementById('grupoMaterial').value = '';
         document.getElementById('ds').value = '';
     }
 };
