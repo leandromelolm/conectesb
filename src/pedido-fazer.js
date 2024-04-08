@@ -116,7 +116,7 @@ function validarPreenchimentoDeCampos(){
     if (document.getElementById('grupoMaterial').value === '')
         mensagens.push(`Preencha o campo <b>Grupo de Material</b> para poder enviar o pedido.</br>`); 
 
-    messageValidateSending.innerHTML =   mensagens.join("");
+    messageValidateSending.innerHTML = mensagens.join("");
     return messageValidateSending;
 }
 
