@@ -454,7 +454,7 @@ async function findByDistrito(distrito) {
             const res = await result.json();
             preencherTabelaListaDePedidos(res.responseDataPedidos.data);   
             let paginationContainer = document.getElementById("paginationButtons");
-            paginationContainer.innerHTML = `O filtro distrito retorna no máximo os últimos 60 pedidos. Distrito filtrado: ${distrito}`;
+            paginationContainer.innerHTML = `O filtro por distrito retorna no máximo os últimos 60 pedidos. Distrito Sanitário filtrado: ${distrito}`;
             modalLoading.hide();   
         }        
     } catch (error) {
