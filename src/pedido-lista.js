@@ -16,6 +16,7 @@ window.onload = async () => {
     ultimoPedidoFeito = localStorage.getItem('ultimoPedido');
     let listaDePedidos = localStorage.getItem('listaDePedidos');
     if(listaDePedidos){
+        // console.log(listaDePedidos);
         preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
         let totalPages = localStorage.getItem("lista-pedidos-totalPages");
         totalPages = totalPages === null ? 0 : totalPages;
@@ -47,6 +48,10 @@ document.getElementById("search-input").addEventListener("input", (e) =>{
 document.getElementById("search-input").addEventListener("change", (e) =>{
     console.log(e.target.value);
 });
+
+document.querySelector("#selectDistrito").addEventListener('change', (e) =>{
+    console.log(e.target.value);
+})
 
 function searchTxt(txtSearch){
     document.getElementById('response__erro').innerHTML = '';
@@ -95,7 +100,7 @@ function verificarDados(data){
         return document.getElementById('response__erro').innerHTML = data.responseDataPedidos.error.message;
     }
     if (Array.isArray(data.responseDataPedidos.results)) {
-        const itens = data.responseDataPedidos.results;
+        const itens = data.responseDataPedidos.results;       
         preencherTabelaListaDePedidos(itens);
         hideLoading();
     } 
@@ -121,10 +126,16 @@ function preencherTabelaListaDePedidos(arr) {
     dataHeader.textContent = 'Data';
     const unidadeHeader = document.createElement('th');
     unidadeHeader.textContent = 'Unidade';
+    const distritoHeader = document.createElement('th');
+    distritoHeader.textContent = 'DS';
+    // const grupoHeader = document.createElement('th');
+    // grupoHeader.textContent = 'Grupo Material';
 
     theadRow.appendChild(ordemHeader);
     theadRow.appendChild(dataHeader);
     theadRow.appendChild(unidadeHeader);
+    theadRow.appendChild(distritoHeader);
+    // theadRow.appendChild(grupoHeader);
     thead.appendChild(theadRow);
     table.appendChild(thead);    
 
@@ -148,12 +159,12 @@ function preencherTabelaListaDePedidos(arr) {
         cell2.textContent = dateFormat(item.dataPedido);
 
         const cell3 = row.insertCell();
+        cell3.style.cssText = `display: grid`;
         const linkUnid = document.createElement('a');
         linkUnid.textContent = item.nomeUnidade; 
         linkUnid.href = 'javascript:void(0)';
         linkUnid.style.textDecoration = 'none';
         linkUnid.style.fontSize = '15px';
-
         linkUnid.addEventListener('click', function () {
             document.getElementById("search-input").value = item.id;                    
             searchTxt(item.id);
@@ -161,18 +172,27 @@ function preencherTabelaListaDePedidos(arr) {
             document.getElementById("btn-clear").classList.remove("d-none");
         });
         cell3.appendChild(linkUnid);
+        const spanGrupoMaterial = document.createElement('span');
+        spanGrupoMaterial.style.cssText = `font-size: small; color: dimgrey;`;
+        spanGrupoMaterial.innerHTML = `${item.grupoMaterial}`;
+        cell3.appendChild(spanGrupoMaterial);
 
         linkUnid.addEventListener('mouseenter', function () {
             linkUnid.style.color = 'blue';                    
         });           
         linkUnid.addEventListener('mousedown', function () {
-            linkUnid.style.color = 'gray'; 
-            
+            linkUnid.style.color = 'gray';            
         });
         linkUnid.addEventListener('mouseleave', function () {
             linkUnid.style.color = ''; 
             linkUnid.style.backgroundColor = '';                    
         });
+
+        const cell4 = row.insertCell();
+        cell4.textContent = item.distrito;
+
+        // const cell5 = row.insertCell();
+        // cell5.textContent = item.grupoMaterial;
     }); 
     tabelaDiv.appendChild(table);
 };

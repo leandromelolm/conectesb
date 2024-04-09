@@ -84,6 +84,8 @@ exports.handler = async function (event, context, callback) {
     let startId = event.queryStringParameters.startId;
     let endId = event.queryStringParameters.endId;
     let lastRow = event.queryStringParameters.lastRow;
+    let distrito = event.queryStringParameters.distrito || "";
+    let grupo = event.queryStringParameters.grupo || "";
     
     /* GET {domain}/.netlify/functions/api-spreadsheet?lastRow=true */
     if (lastRow) {
@@ -97,7 +99,7 @@ exports.handler = async function (event, context, callback) {
     /* GET {domain}/.netlify/functions/api-spreadsheet?id=&search=&page=&perPage=&startId=&endId=&search_key= */
     try {  
       let response = await axios.get(
-        `${script}?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}`
+        `${script}?id=${id}&search=${search}&page=${page}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}&grupo=${grupo}`
         );
       let responseDataPedidos = response.data;
       return {

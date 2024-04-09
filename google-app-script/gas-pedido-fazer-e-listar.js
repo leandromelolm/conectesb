@@ -1,10 +1,13 @@
+/** v17 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
 const sheets = SpreadsheetApp.openByUrl(urlSpreadSheet);
 const sheet = sheets.getSheetByName(sheetName);
 const spreadsheetId = SpreadsheetApp.openById(spreadSheetID);
-const sheetUser = sheets.getSheetByName(infoPlanilha().folhaDeUsuarios)
+
+const sheetUser = sheets.getSheetByName(infoPlanilha().folhaDeUsuarios);
+
 
 // POST
 const doPost = (e) => {
@@ -63,6 +66,8 @@ function doGet(e) {
   const inicial = parseInt(e.parameter['startId'] || 1);
   const final = parseInt(e.parameter['endId'] || 1);  
   const searchKey = e.parameter['search_key'] || "";
+  const distrito = e.parameter['distrito'] || '';
+  const grupoMaterial = e.parameter['grupo'] || '';
 
   if(searchKey === sheetUser.getRange("F2").getValue()){
     let encontrado = encontrarTextoNaFolha(pesquisaTxt)
@@ -81,7 +86,7 @@ function doGet(e) {
   }
 
   if (pesquisaTxt == "" || pesquisaTxt === null) {
-    let listPage = retornarItensPaginadosOrdemInversa(page, perPage);
+    let listPage = retornarItensPaginadosOrdemInversa(page, perPage, distrito, grupoMaterial);
     Logger.log(JSON.stringify(listPage));
     return ContentService.createTextOutput(
       JSON.stringify(listPage)).setMimeType(ContentService.MimeType.JSON);
@@ -216,48 +221,93 @@ function encontrarTextoNaColuna(str) {
   return listaDeObjetos;
 }
 
-// Função Principal que retonar a lista de pedidos
-function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina) {
-  let lastRow = sheet.getLastRow();
-  let totalPaginas = Math.ceil(lastRow / elementosPorPagina);
-  if (paginaAtual < 1 || paginaAtual > totalPaginas) {    
-     throw  error = {
-      statusCode: 404,
-      message: `Página fora do limite. Página: ${paginaAtual}`,
-      status: "Not Found",
-      details: ""
+/** 
+ * Função Principal que retonar a lista de pedidos 
+ * */
+function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, distrito, grupoMaterial) {
+  let ultimoElemento = sheet.getLastRow();
+  let { totalElementos, totalPaginas, maxInicio, maxFim } = calcularPaginacao(paginaAtual, elementosPorPagina, ultimoElemento - 1);
+
+  let result = [];
+  if (distrito === "" && grupoMaterial === "") {
+    let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 4);    
+    let values = range.getValues();
+    for (let row = 0; row < values.length; row++) {
+      let unidadeRequisitante = JSON.parse(values[row][3]);    
+      let rowData = {};
+      rowData.id = values[row][0];
+      rowData.dataPedido = values[row][1];
+      rowData.nomeUnidade = values[row][2];
+      rowData.equipe = unidadeRequisitante.equipe || "-";
+      rowData.distrito = unidadeRequisitante.ds || '';
+      rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+      result.push(rowData);
+    }
+    result.sort((a, b) => b.id - a.id);
+    return {
+      pageNumber: paginaAtual,
+      totalPages: totalPaginas,
+      pageSize: elementosPorPagina,
+      totalElements: totalElementos,
+      data: result
+    };
+  } 
+
+  if (distrito !== "") {
+    // getRange(row, column, numRows, numColumns);
+    let range = sheet.getRange(2, 1, ultimoElemento -1, 4);
+    let values = range.getValues();
+      for (let row = 0; row < values.length; row++) {
+        let unidadeRequisitante = JSON.parse(values[row][3]); 
+        if(distrito === unidadeRequisitante.ds){
+          let rowData = {};
+          rowData.id = values[row][0];
+          rowData.dataPedido = values[row][1];
+          rowData.nomeUnidade = values[row][2];
+          rowData.equipe = unidadeRequisitante.equipe || "-";
+          rowData.distrito = unidadeRequisitante.ds || '';
+          rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+          result.push(rowData);
+        }
+    }
+    result.sort((a, b) => b.id - a.id);
+    return {  
+      totalElements: totalElementos,
+      totalElementsFound: result.length,
+      data: result
     };
   }
-  let maxFim = lastRow - (paginaAtual - 1) * elementosPorPagina;
-  let maxInicio = maxFim - elementosPorPagina + 1;
 
-  maxInicio = Math.max(maxInicio, 2); // inicia na linha 2 se maxInicio for menor que 2.
-
-  let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 4);
-  let values = range.getValues();
-  let result = [];
-  for (let row = 0; row < values.length; row++) {
-    let rowData = {};
-    rowData.id = values[row][0];
-    rowData.dataPedido = values[row][1];
-    rowData.nomeUnidade = values[row][2];
-    rowData.equipe = JSON.parse(values[row][3]).equipe || "-";
-    result.push(rowData);
-  }
-  result.sort((a, b) => b.id - a.id);
-  return {
-    pageNumber: paginaAtual,
-    totalPages: totalPaginas,
-    pageSize: elementosPorPagina,
-    totalRows: lastRow,
-    data: result
-  };
+  if (grupoMaterial !== "") {
+    let range = sheet.getRange(2, 1, ultimoElemento -1, 4);
+    let values = range.getValues();
+    for (let row = 0; row < values.length; row++) {
+      let unidadeRequisitante = JSON.parse(values[row][3]); 
+      if(grupoMaterial === unidadeRequisitante.grupoMaterial){
+        let rowData = {};
+        rowData.id = values[row][0];
+        rowData.dataPedido = values[row][1];
+        rowData.nomeUnidade = values[row][2];
+        rowData.equipe = unidadeRequisitante.equipe || "-";
+        rowData.distrito = unidadeRequisitante.ds || '';
+        rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+        result.push(rowData);
+      } 
+    }
+    result.sort((a, b) => b.id - a.id);
+    return {  
+      totalElements: totalElementos,
+      totalElementsFound: result.length,
+      data: result
+    };
+  }  
 }
 
-function retornarItensPaginados(paginaAtual, elementosPorPagina) {
-  let lastRow = sheet.getLastRow();
-  let totalPaginas = Math.ceil(lastRow / elementosPorPagina);
-  if (paginaAtual < 1 || paginaAtual > totalPaginas || paginaAtual < 0) {
+function calcularPaginacao(paginaAtual, elementosPorPagina, totalElementos) {
+  let totalPaginas, maxFim, maxInicio;  
+
+  totalPaginas = Math.ceil(totalElementos / elementosPorPagina);
+  if (paginaAtual < 1 || paginaAtual > totalPaginas) {    
     throw  error = {
       statusCode: 404,
       message: `Página fora do limite. Página: ${paginaAtual}`,
@@ -265,26 +315,16 @@ function retornarItensPaginados(paginaAtual, elementosPorPagina) {
       details: ""
     };
   }
-  let maxInicio = (paginaAtual - 1) * elementosPorPagina + 1;
-  let maxFim = maxInicio + elementosPorPagina - 1;
-  // Certificar de que os índices não ultrapassem o último elemento
-  maxFim = Math.min(maxFim, lastRow);
-  let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 3);
-  let values = range.getValues();
-  let result = [];
-  for (let row = 0; row < values.length; row++) {
-    let rowData = {};
-    rowData.id = values[row][0];
-    rowData.dataPedido = values[row][1];
-    rowData.nomeUnidade = values[row][2];
-    result.push(rowData);
-  }
-  return {   
-    paginaAtual: paginaAtual,
+  maxFim = totalElementos - (paginaAtual - 1) * elementosPorPagina;
+  maxInicio = maxFim - elementosPorPagina + 1;
+
+  maxInicio = Math.max(maxInicio, 2); // inicia na linha 2 se maxInicio for menor que 2. 
+
+  return {
+    totalElementos: totalElementos,
     totalPaginas: totalPaginas,
-    elementosPorPagina: elementosPorPagina,
-    totalElementos: lastRow,
-    data: result
+    maxInicio: maxInicio,
+    maxFim: maxFim
   };
 }
 
