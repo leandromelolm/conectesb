@@ -21,8 +21,7 @@ window.onload = async () => {
         let totalPages = localStorage.getItem("lista-pedidos-totalPages");
         totalPages = totalPages === null ? 0 : totalPages;
         buildPaginationButtons(totalPages, pageNumber);
-    }    
-    // getLastRow(listaDePedidos); // fetch lastRow feito direto a api_google_script    
+    }
     const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
     .then(res => res.json());
     getListaPedidosAtualizar(responseLastRow.res.body.lastRow,listaDePedidos);
@@ -38,6 +37,7 @@ function handleSearch() {
     var txtSearch = document.getElementById('search-input').value;
     searchTxt(txtSearch);
     desabilitarBotaoPesquisa();
+    document.querySelector("#selectDistrito").value = "todos";
 };
 
 document.getElementById("search-input").addEventListener("input", (e) =>{
@@ -308,6 +308,7 @@ function hideLoading() {
 
 function atualizarPagina() {
     // Valores setados para forçar a requisição
+    document.querySelector("#selectDistrito").value = "todos";
     let ultimoPedido = 1; 
     let listaDePedidos = null;
     document.getElementById('btnAtualizarPagina').classList.toggle('d-none', true);
@@ -411,35 +412,6 @@ function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
         });
     }
     ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
-}
-
-// Não em uso - get do ultimo pedido feita diretamente a api google
-function getLastRow(listaDePedidos) {
-    const API_LAST_ROW = 'API_GOOGLE_SCRIPT_LASTROW';
-    fetch(API_LAST_ROW).then(response =>{
-        return response.json();
-    })
-    .then(data => {        
-        if ( data.lastRow != ultimoPedidoFeito || ultimoPedidoFeito == null || listaDePedidos == null){
-            localStorage.setItem('ultimoPedido', data.lastRow);
-            fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
-                preencherTabelaListaDePedidos(data.responseDataPedidos.data);
-                const dtUltPedido = dateFormat(data.responseDataPedidos.data[0].dataPedido);
-                const dataUltimoPedido = dtUltPedido.split(' ')
-                msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
-            })
-            .catch(function (error) {
-                alert(error);
-                console.error(error)
-            });
-        } 
-        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
-    })
 }
 
 async function findByDistrito(distrito) {
