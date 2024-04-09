@@ -1,4 +1,4 @@
-/** v18 **/
+/** v20 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -221,7 +221,7 @@ function findByColumn(str) {
       tipoPedido: colF,
       equipe: requerente.equipe,
       distrito: requerente.ds,
-      grupo: requerente.grupoMaterial
+      grupoMaterial: requerente.grupoMaterial
     };
     listaDeObjetos.push(objeto);    
   }
@@ -233,11 +233,11 @@ function findByColumn(str) {
  * */
 function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, distrito, grupoMaterial) {
   let ultimoElemento = sheet.getLastRow();
-  let { totalElementos, totalPaginas, maxInicio, maxFim } = calcularPaginacao(paginaAtual, elementosPorPagina, ultimoElemento);
+  let { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacao(paginaAtual, elementosPorPagina, ultimoElemento);
 
   let result = [];
   if (distrito === "" && grupoMaterial === "") {
-    let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 4);    
+    let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 4);    
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
       let unidadeRequisitante = JSON.parse(values[row][3]);    
@@ -278,10 +278,13 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
         }
     }
     result.sort((a, b) => b.id - a.id);
-    return {  
+    const resultLimitado = listaComQuantidadeLimitada(result,60);
+    return {
+      findDistrito: distrito,
       totalElements: totalElementos -1,
       totalElementsFound: result.length,
-      data: result
+      returnTotalElements: resultLimitado.length,
+      data: resultLimitado
     };
   }
 
@@ -303,16 +306,19 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
       } 
     }
     result.sort((a, b) => b.id - a.id);
-    return {  
+    const resultLimitado = listaComQuantidadeLimitada(result,60);
+    return {
+      findGrupoMaterial: grupoMaterial,   
       totalElements: totalElementos -1,
       totalElementsFound: result.length,
-      data: result
+      returnTotalElements: resultLimitado.length,
+      data: resultLimitado
     };
   }  
 }
 
 function calcularPaginacao(paginaAtual, elementosPorPagina, totalElementos) {
-  let totalPaginas, maxFim, maxInicio;  
+  let totalPaginas, elemFim, elemInicio;  
 
   totalPaginas = Math.ceil(totalElementos / elementosPorPagina);
   if (paginaAtual < 1 || paginaAtual > totalPaginas) {    
@@ -323,37 +329,44 @@ function calcularPaginacao(paginaAtual, elementosPorPagina, totalElementos) {
       details: ""
     };
   }
-  maxFim = totalElementos - (paginaAtual - 1) * elementosPorPagina;
-  maxInicio = maxFim - elementosPorPagina + 1;
+  elemFim = totalElementos - (paginaAtual - 1) * elementosPorPagina;
+  elemInicio = elemFim - elementosPorPagina + 1;
 
-  maxInicio = Math.max(maxInicio, 2); // inicia na linha 2 se maxInicio for menor que 2. 
+  elemInicio = Math.max(elemInicio, 2); // inicia na linha 2 se elemInicio for menor que 2. 
 
   return {
+    paginaAtual: paginaAtual,
     totalElementos: totalElementos,
     totalPaginas: totalPaginas,
-    maxInicio: maxInicio,
-    maxFim: maxFim
+    elemInicio: elemInicio,
+    elemFim: elemFim
   };
+}
+
+function listaComQuantidadeLimitada(result, limiteResultado) {
+    if (result.length < limiteResultado)
+        return result;    
+    return result.slice(0, limiteResultado);
 }
 
 function retornarItensIntervalo(inicio, fim) {
   let lastRow = sheet.getLastRow();
-  let maxInicio = Math.min(inicio, lastRow);
-  let maxFim = Math.min(fim, lastRow);
-  if (maxInicio > maxFim) {
+  let elemInicio = Math.min(inicio, lastRow);
+  let elemFim = Math.min(fim, lastRow);
+  if (elemInicio > elemFim) {
      throw  error = {
       statusCode: 422,
       message: 
-      `O parâmetro inicio (startId) não pode ser maior que o parâmetro fim (endId), inicio: ${maxInicio}, fim: ${maxFim}`,
+      `O parâmetro inicio (startId) não pode ser maior que o parâmetro fim (endId), inicio: ${elemInicio}, fim: ${elemFim}`,
       status: "Unprocessable Entity",
       details: ""
     };
   }
-  if (maxInicio == 1) {
-    maxInicio = lastRow - 9;
-    maxFim = lastRow;
+  if (elemInicio == 1) {
+    elemInicio = lastRow - 9;
+    elemFim = lastRow;
   }  
-  let range = sheet.getRange(maxInicio, 1, maxFim - maxInicio + 1, 4);
+  let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 4);
   let values = range.getValues();
   let result = [];
   for (let row = 0; row < values.length; row++) {
