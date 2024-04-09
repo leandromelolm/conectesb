@@ -50,7 +50,7 @@ document.getElementById("search-input").addEventListener("change", (e) =>{
 });
 
 document.querySelector("#selectDistrito").addEventListener('change', (e) =>{
-    console.log(e.target.value);
+    findByDistrito(e.target.value);
 })
 
 function searchTxt(txtSearch){
@@ -67,6 +67,7 @@ function searchTxt(txtSearch){
 
     }
     if (!isPositiveInteger(txtSearch)){
+        document.querySelector("#selectDistrito").value = "todos";
         return getFindPedido("", txtSearch,"","","","");
     }
     desabilitarBotaoPesquisa(); // desabilita por 3 seg
@@ -263,6 +264,7 @@ function limparCampos() {
 
 function limparTodosCampos(){
     limparCampos();
+    document.querySelector("#selectDistrito").value = "todos";
     document.getElementById('divListaPedido').innerHTML = "";
     document.getElementById("search-input").value = "";
     divPedidoBuscado = document.getElementById('divPedidoBuscado');
@@ -438,4 +440,24 @@ function getLastRow(listaDePedidos) {
         } 
         ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
     })
+}
+
+async function findByDistrito(distrito) {
+    try {
+        document.getElementById("search-input").value = "";
+        if(distrito === "todos"){
+            buildPaginationButtons(localStorage.getItem("lista-pedidos-totalPages"), 1);
+            preencherTabelaListaDePedidos(JSON.parse(localStorage.getItem('listaDePedidos')));
+        } else {
+            modalLoading.show()
+            const result = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}`)
+            const res = await result.json();
+            preencherTabelaListaDePedidos(res.responseDataPedidos.data);   
+            let paginationContainer = document.getElementById("paginationButtons");
+            paginationContainer.innerHTML = `O filtro distrito retorna no máximo os últimos 60 pedidos. Distrito filtrado: ${distrito}`;
+            modalLoading.hide();   
+        }        
+    } catch (error) {
+        modalLoading.hide();
+    }
 }

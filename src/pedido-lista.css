@@ -76,7 +76,14 @@ body {
   }
 
   .div__filtro {
-    margin: 10px 0 0 10px;
+    margin: 10px 0 0 6px;
+  }
+
+  .select__distrito {
+    border-radius: 16px;
+    height: 38px;
+    background-color: white;
+    text-align: center;
   }
 
   #abrirPedidonoFormulario  {
@@ -140,4 +147,5 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
