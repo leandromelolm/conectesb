@@ -110,9 +110,11 @@
                                                 <div class="div__label">
                                                     Grupo de Material:
                                                 </div>
-                                                <input type="text" id="grupoMaterial" class="input_grupo" maxlength="25"
+                                                <input type="search" id="grupoMaterial" class="input_grupo" maxlength="25"
+                                                    list="grupo-list"
                                                     onblur="saveInfoRequesterInSessionStorage()"
                                                 />
+                                                <datalist id="grupo-list"></datalist>
                                             </div>
                                         </th>
                                     </tr>

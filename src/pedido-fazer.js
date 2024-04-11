@@ -4,6 +4,7 @@ document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SA
 const datalist = document.getElementById("item-list");
 const undlist = document.getElementById("u-list");
 // const dslist = document.getElementById("ds-list");
+const grupoList = document.getElementById("grupo-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
 let requerenteForm;
@@ -34,6 +35,12 @@ window.onload = () => {
     //     optElem.value = o;
     //     dslist.appendChild(optElem);
     // });
+
+    grupos.forEach(opt => {
+        const optEl = document.createElement("option");
+        optEl.value = opt;
+        grupoList.appendChild(optEl);
+    });
 
     recuperarDadosRequisitanteSessionStorage();
 
@@ -606,6 +613,8 @@ const nomesUnidades = [
 ];
 
 const distritos = ['1', '5'];
+
+const grupos = ['SAÚDE BUCAL', 'SAÚDE DA MULHER'];
 
 const itensStringConcatenado =
     `
