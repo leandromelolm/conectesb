@@ -80,14 +80,14 @@ body {
   }
 
   .select__distrito {
-    border-radius: 16px;
+    border-radius: 12px;
     height: 38px;
     background-color: white;
     text-align: center;
   }
 
   #abrirPedidonoFormulario  {
-    margin: 10px 0 0px 0px!important;
+    margin: 0px 0 0px 0px!important;
     width: 260px;
   }
 
@@ -149,3 +149,12 @@ body {
     align-items: center;
     text-align: center;
   }
+
+  .modal-header {
+    padding: 5px 12px !important;
+  }
+
+  #tableItensPedido th:nth-child(3),
+  #tableItensPedido tbody td:nth-child(3) {
+    text-align: center;
+}

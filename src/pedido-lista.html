@@ -67,7 +67,7 @@
       <div class="div__filtro">
         <span>Filtrar por Distrito</span>
         <select name="selectDistrito" id="selectDistrito" class="select__distrito">
-          <option value="todos">todos</option>
+          <option value="todos">Selecionar Distrito</option>
           <option value="1">1</option>
           <option value="5">5</option>
         </select>
@@ -110,7 +110,8 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="labelPedido">Pedido</h5>
+              <span class="modal-title" id="labelPedido">Pedido</span>
+              
               <button type="button" class="close btn btn-transparent btn__close" 
                 data-dismiss="modal" aria-label="Close"
                 onclick="closeModal()">
@@ -119,24 +120,16 @@
             </div>
 
             <div class="container">
-              <!-- <div id="idPedido"></div> -->
-              <div id="dataPedido"></div>
-              <div id="requisitante"></div>
-              <button id="abrirPedidonoFormulario" onclick="abrirPedidoNoFormulario()">
-                Abrir pedido no formulário
-              </button>
+              <div id="requisitante"></div> 
             </div>
             
               <div class="modal-body">              
-              <div id="divPedidoBuscado" class="d-none">
-                <div id="idPedido"></div>
-                <div id="dataPedido"></div>
-                <div id="requisitante"></div>
-                <table class="table table-striped" id="data-table">
+              <div id="divPedidoBuscado" class="d-none">                
+                <table class="table table-striped" id="tableItensPedido">
                   <thead>
                     <tr>
-                      <th>item</th>
-                      <th>Produto</th>
+                      <th>#</th>
+                      <th>ITEM</th>
                       <th>QTD</th>
                     </tr>
                   </thead>
@@ -146,6 +139,9 @@
               </div>
             </div>
             <div class="modal-footer">
+              <button id="abrirPedidonoFormulario" onclick="abrirPedidoNoFormulario()">
+                Abrir pedido no formulário
+              </button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" 
                 onclick="closeModal()">fechar
               </button>              

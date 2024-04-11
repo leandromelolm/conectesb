@@ -106,7 +106,7 @@ function verificarDados(data){
         hideLoading();
     } 
     else {
-        mostrarPedido(data.responseDataPedidos);
+        mostrarDetalhesDoPedidoNoModal(data.responseDataPedidos);
         hideLoading();
     }
 };
@@ -198,16 +198,23 @@ function preencherTabelaListaDePedidos(arr) {
     tabelaDiv.appendChild(table);
 };
 
-function mostrarPedido(pedido) {
+function mostrarDetalhesDoPedidoNoModal(pedido) {
     abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
     document.getElementById('divPedidoBuscado').className = 'card';
-    document.getElementById('labelPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
-    // document.getElementById('idPedido').innerHTML = `<b>Número Pedido</b>: ${pedido.id}`;
-    document.getElementById('dataPedido').innerHTML = `<b>Data Pedido</b>: ${dateFormat(pedido.dataPedido)}`;
-    document.getElementById('requisitante').innerHTML = `<b>Unidade</b>: ${pedido.nomeUnidade}`;
+    document.getElementById('labelPedido').innerHTML = `<b>${pedido.id}</b> | <b>Data:</b> ${dateFormat(pedido.dataPedido)} `;
+    document.getElementById('requisitante').innerHTML = 
+    `<div style="display:grid">
+        <div>
+            <span><b>Unidade:</b> ${pedido.nomeUnidade}</span>        
+        </div>
+        <div>
+            <span style="font-size:small"> <b>Grupo de Material:</b> ${pedido.requisitante.grupoMaterial}</span>
+        </div>
+    </div>
+    `;
     document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
     document.getElementById('listaPedido').value = pedido.itensStr; 
-    const tabela = document.getElementById("data-table").getElementsByTagName('tbody')[0];
+    const tabela = document.getElementById("tableItensPedido").getElementsByTagName('tbody')[0];
     while (tabela.firstChild) {
         tabela.removeChild(tabela.firstChild);
     }
