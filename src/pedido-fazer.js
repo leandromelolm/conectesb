@@ -177,8 +177,8 @@ function visibilidadeDasLinhas(quantidadeItens) {
 
 
 function saveInfoRequesterInSessionStorage() {
-    let selectDS = document.getElementById("dsSelect").value;
-    document.getElementById('ds').value = selectDS;
+    document.getElementById('ds').value = document.getElementById("dsSelect").value;;    
+    document.getElementById('equipe').value =  document.getElementById('equipeSelect').value;
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
         equipe: document.getElementById('equipe').value,
@@ -228,9 +228,10 @@ function recuperarDadosRequisitanteSessionStorage() {
     if (requerenteJson) {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
-        document.getElementById('equipe').value = requerente.equipe || "-";
         document.getElementById('ds').value = requerente.ds || "5";
         document.getElementById('dsSelect').value = requerente.ds || "5";
+        document.getElementById('equipe').value = requerente.equipe || "-";
+        document.getElementById('equipeSelect').value = requerente.equipe || "-";
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
         document.getElementById('dataPedido').value = 
@@ -427,7 +428,8 @@ function responseFetch(data) {
                 <b>Erro no Envio!</b>
             </h4>
             <div>
-                Messagem do erro: <b>${data.error}</b>
+                <span>tente novamente, se o erro repetir contate o administrador.</span>
+                <!-- Messagem do erro: <b>${data.error}</b> -->
             </div>
         `;
         return alert(`

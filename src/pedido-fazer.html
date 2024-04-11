@@ -91,7 +91,7 @@
                                             <div class="div__label_input">
                                                 <div id="divEquipe">
                                                     <span>Equipe:</span>
-                                                    <select type="text" id="equipe" name="equipe" class="select_equipe" maxlength="5"
+                                                    <select type="text" id="equipeSelect" class="select_equipe hidden-in-print" maxlength="5"
                                                         onblur="saveInfoRequesterInSessionStorage()">
                                                         <option value="-">-</option>
                                                         <option value="1">1</option>
@@ -106,6 +106,7 @@
                                                         <option value="tarde">tarde</option>
                                                         <option value="todas">todas</option>
                                                     </select>
+                                                    <input type="text" id="equipe" class="select_equipe show-in-print" maxlength="5"/>
                                                 </div>
                                                 <div class="div__label">
                                                     Grupo de Material:
