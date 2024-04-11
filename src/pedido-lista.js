@@ -173,6 +173,10 @@ function preencherTabelaListaDePedidos(arr) {
             document.getElementById("btn-clear").classList.remove("d-none");
         });
         cell3.appendChild(linkUnid);
+        const spanEquipe = document.createElement('span');
+        spanEquipe.style.cssText = `font-size: small; color: dimgrey;`;
+        spanEquipe.innerHTML = `Equipe: ${item.equipe}`;
+        cell3.appendChild(spanEquipe);
         const spanGrupoMaterial = document.createElement('span');
         spanGrupoMaterial.style.cssText = `font-size: small; color: dimgrey;`;
         spanGrupoMaterial.innerHTML = `${item.grupoMaterial}`;
@@ -205,9 +209,10 @@ function mostrarDetalhesDoPedidoNoModal(pedido) {
     document.getElementById('requisitante').innerHTML = 
     `<div style="display:grid">
         <div>
-            <span><b>Unidade:</b> ${pedido.nomeUnidade}</span>        
+            <span style="font-size:small"><b>Unidade:</b> ${pedido.nomeUnidade}</span>        
         </div>
         <div>
+            <span style="font-size:small"> <b>Equipe:</b> ${pedido.requisitante.equipe}</span>
             <span style="font-size:small"> <b>Grupo de Material:</b> ${pedido.requisitante.grupoMaterial}</span>
         </div>
     </div>
