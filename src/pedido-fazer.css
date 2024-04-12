@@ -104,7 +104,7 @@ input.input_distrito {
 .select_equipe {
     border: transparent;
     background-color: cornsilk;
-    height: 100% !important;
+    height: 90% !important;
     margin-left: 2px;
     text-align: center;
 }
