@@ -77,22 +77,6 @@ function sendToSpreadsheet() {
         return;
     }
 
-    const dataAtual = new Date();
-    const umDiaEmMilissegundos = 86400000;
-    const dataAnterior = new Date(dataAtual.getTime() - umDiaEmMilissegundos);
-    const dataFornecida = new Date(document.getElementById('dataPedido').value);
-    if (dataFornecida < dataAnterior) {
-        messageValidateSending.style.cssText = `
-            background-color: #f8d7da;
-            color: #842029;
-            height: 35px;
-            text-align: center 
-        `;
-        return document.querySelector(
-            '#messageValidateSending').innerHTML =
-            `Não é possível enviar o pedido. A data não pode ser uma data passada.
-            Verifique o campo <b>Data</b> no formulário.`;
-    } else { }
     document.querySelector('#messageValidateSending').innerHTML = "";    
     messageValidateSending.style.backgroundColor = 'white';
     messageValidateSending.style.height = '1px';
@@ -114,14 +98,20 @@ function validarPreenchimentoDeCampos(){
         text-align: center        
     `;
 
-    if (document.getElementById('nomeUnidade').value === '')      
-        mensagens.push(`Preencha o campo <b>Unidade Requisitante</b> para poder enviar o pedido.</br>`);    
+    let dataInput = new Date(document.getElementById('dataPedido').value);
+    dataInput.setTime(dataInput.getTime() + dataInput.getTimezoneOffset() * 60 * 1000);
+
+    if (dataInput.toLocaleDateString() < new Date().toLocaleDateString())
+        mensagens.push(`O campo <b>Data</b> não pode ser uma data passada.</br>`);
     
-    if (document.getElementById('ds').value === '-')
-        mensagens.push(`Preencha o campo <b>Distrito Sanitário</b> para poder enviar o pedido.</br>`);     
+    if (document.getElementById('nomeUnidade').value === '')      
+        mensagens.push(`O campo <b>Unidade Requisitante</b> precisa ser preenchido.</br>`);    
+    
+    if (document.getElementById('ds').value === '-' || document.getElementById('ds').value === '')
+        mensagens.push(`O campo <b>Distrito Sanitário</b> precisa ser preenchido.</br>`);     
     
     if (document.getElementById('grupoMaterial').value === '')
-        mensagens.push(`Preencha o campo <b>Grupo de Material</b> para poder enviar o pedido.</br>`); 
+        mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`); 
 
     messageValidateSending.innerHTML = mensagens.join("");
     return messageValidateSending;
@@ -331,7 +321,9 @@ E FUNCIONÁRIO RESPONSÁVEL
 function limparCamposInfoUnidade() {
     document.getElementById('nomeUnidade').value = '';
     document.getElementById('equipe').value = '-';
+    document.getElementById('equipeSelect').value = "-";
     document.getElementById('ds').value = '';
+    document.getElementById('dsSelect').value = '-';
     document.getElementById('dataPedido').value = '';
     document.getElementById('grupoMaterial').value = '';
     document.getElementById('nomeResponsavel').value = '';
