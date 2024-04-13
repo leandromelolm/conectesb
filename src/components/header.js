@@ -44,7 +44,7 @@ a:hover {
     <div>
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">ConecteSB</a>
+                <a class="navbar-brand" href="/">ConecteSB</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -52,12 +52,12 @@ a:hover {
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page"  href="pedido-fazer.html">Fazer Pedido</a>
-                        <a class="nav-link active" href="pedido-lista.html">Lista de Pedidos</a>
-                        <a class="show_logged_in_only d-none nav-link active" href="chamado-abrir.html">Abrir Chamado</a>
-                        <a class="a__buscar-chamado d-none nav-link active" href="chamado-buscar.html">Buscar Chamado</a>
-                        <a class="a__gerenciar-estoque d-none nav-link active" href="estoque/estoque-admin.html">Gerenciar Estoque</a>
-                        <a class="nav-link active" href="inventario-fazer.html"> Fazer Inventário</a>
+                        <a class="nav-link active" aria-current="page"  href="pedido-fazer">Fazer Pedido</a>
+                        <a class="nav-link active" href="pedido-lista">Lista de Pedidos</a>
+                        <a class="show_logged_in_only d-none nav-link active" href="chamado-abrir">Abrir Chamado</a>
+                        <a class="a__buscar-chamado d-none nav-link active" href="chamado-buscar">Buscar Chamado</a>
+                        <a class="a__gerenciar-estoque d-none nav-link active" href="estoque/estoque-admin">Gerenciar Estoque</a>
+                        <a class="nav-link active" href="inventario-fazer"> Fazer Inventário</a>
                         <a class="nav-link active" href="inventario-lista?search=all"> Lista de Inventários</a>
                         <a class="nav-link active d-none a__inventario-buscar" href="inventario-buscar?search=all">Buscar Inventários</a>
                     </div>
