@@ -87,7 +87,7 @@ input.input_unidade {
     width: 50px;
     height: 90% !important;
     margin-left: 5px;
-    /* text-align: center; */
+    text-align: center;
 }
 
 .select_distrito:focus-visible{
