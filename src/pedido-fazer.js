@@ -103,6 +103,9 @@ function validarPreenchimentoDeCampos(){
 
     if (dataInput.toLocaleDateString() < new Date().toLocaleDateString())
         mensagens.push(`O campo <b>Data</b> não pode ser uma data passada.</br>`);
+
+    if (dataInput.toLocaleDateString() ==="Invalid Date")
+        mensagens.push(`O campo <b>Data</b> precisa ser preenchido.</br>`);
     
     if (document.getElementById('nomeUnidade').value === '')      
         mensagens.push(`O campo <b>Unidade Requisitante</b> precisa ser preenchido.</br>`);    
