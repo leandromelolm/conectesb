@@ -1,4 +1,3 @@
 [build]
     functions = "functions"
     publish = "src"
-    command = "node main.js"

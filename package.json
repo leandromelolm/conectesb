@@ -2,7 +2,7 @@
   "name": "requisicao-de-material",
   "version": "1.0.0",
   "description": "fazer requisição de insumos",
-  "main": "main.js",
+  "main": "",
   "scripts": {
     "start": "netlify dev --context production",
     "dev": "http-server src -p 8080",
