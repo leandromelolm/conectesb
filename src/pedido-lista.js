@@ -205,7 +205,7 @@ function preencherTabelaListaDePedidos(arr) {
 function mostrarDetalhesDoPedidoNoModal(pedido) {
     abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
     document.getElementById('divPedidoBuscado').className = 'card';
-    document.getElementById('labelPedido').innerHTML = `<b>${pedido.id}</b> | <b>Data:</b> ${dateFormat(pedido.dataPedido)} `;
+    document.getElementById('labelPedido').innerHTML = `<b style="color:#0051A2">${pedido.id}</b> | <b>Data:</b> ${dateFormat(pedido.dataPedido)} `;
     document.getElementById('requisitante').innerHTML = 
     `<div style="display:grid">
         <div>
