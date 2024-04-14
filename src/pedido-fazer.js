@@ -78,7 +78,7 @@ function sendToSpreadsheet() {
     }
 
     document.querySelector('#messageValidateSending').innerHTML = "";    
-    messageValidateSending.style.backgroundColor = 'white';
+    messageValidateSending.style.backgroundColor = 'transparent';
     messageValidateSending.style.height = '1px';
     let ok = confirm(`Clique em OK para confirmar o envio?`);
     if (ok) {
