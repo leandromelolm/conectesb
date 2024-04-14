@@ -90,15 +90,17 @@ function divListGroup(res){
     let item = [];
     res.content.data.forEach(e => {
         item.push(`
-        <a href="#divSearch" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <strong class="mb-1">${e.unidade}</strong>
-                <small class="text-muted">${e.id}</small>
-            </div>
-            <p class="mb-1">${e.data}</p>
-            <small class="text-muted">${e.funcionario}</small>
-        </a>        
-        `)        
+        <div class="div__card-item">
+            <a href="#divSearch" class="a__item">
+                <div class="div__unidade-id d-flex w-100 justify-content-between">
+                    <strong class="strong__und">${e.unidade}</strong>
+                    <small class="text-muted">${e.id}</small>
+                </div>
+                <p class="mb-1 text-muted">${e.data}</p>
+                <small class="text-muted">${e.funcionario}</small>
+            </a>
+        </div>        
+        `)
     });
     listGroupItem.innerHTML = item.join('');
     document.getElementById('itemLoading').style.display = 'none';

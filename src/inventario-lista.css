@@ -429,3 +429,24 @@ table {
     border-radius: 18px;
     margin-right: 1px;
 }
+
+.div__card-item {
+    border: solid 1px lightgrey;
+    margin: 5px 0px;
+    padding: 0px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.div__unidade-id {
+    min-height: 40px;
+}
+
+.strong__und {
+    font-size: small;
+}
+
+.a__item {
+    text-decoration: none;
+    color: black;
+}
