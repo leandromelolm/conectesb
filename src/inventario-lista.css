@@ -119,7 +119,6 @@ label {
 
 input {
     width: 100%;
-    padding: 8px;
     /* margin-bottom: 16px; */
     box-sizing: border-box;
     font-size: medium;
@@ -346,10 +345,10 @@ legend {
     margin-bottom: 20px !important;
 }
 
-.btn__search {
+/* .btn__search {
     border-top-left-radius: 0px !important;
     border-bottom-left-radius: 0px !important;
-}
+} */
 
 tbody, td, tfoot, th, thead, tr {
     border-color: inherit;
@@ -395,4 +394,38 @@ table {
 
 .spinner-border {
     color: cornflowerblue;
+}
+
+#inventarioUnidade {
+    min-height: 80px;
+}
+
+.div__input-search {
+    display: flex;
+    border: solid 1px;
+    border-radius: 18px;
+    padding-left: 8px;
+}
+
+.input__search,
+.input__search:hover,
+.input__search:focus-visible {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.btn__search,
+.btn__search:hover,
+.btn__search:focus-visible {
+    background-color: transparent;
+    border: none;
+    vertical-align: text-bottom;
+    outline: none;
+}
+
+.btn__search:focus-visible {
+    background-color: aqua;
+    border-radius: 18px;
+    margin-right: 1px;
 }

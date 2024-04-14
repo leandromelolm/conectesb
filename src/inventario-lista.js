@@ -111,13 +111,39 @@ function eventClickEnter(event) {
 }
 
 function handleSearch() {
-    let protocolo = document.getElementById('search-input').value;
+    let protocolo = document.getElementById('input-search').value;
     setarParametrosNaURL('all',protocolo);
-    getApiByProtocolo(protocolo);
+    document.getElementById('divBtn').classList.add('d-none');
+    if(verificarInput(protocolo))
+        getApiByProtocolo(protocolo);    
+}
+
+function verificarInput(protocolo){
+    if(!protocolo){
+        document.querySelector("#messageSearch").innerHTML = `Insira o protocolo no campo "Ver detalhes do inventário".`;
+        document.querySelector("#inventarioUnidade").innerHTML = `
+        <div id="headerInventary"></div>
+            <table id="tabelaInventario"></table>
+        <div id="informacoesAdicionais"></div>
+        `;
+        return false;
+    }
+    if(protocolo.length < 10 || protocolo.length >20){
+        document.querySelector("#messageSearch").innerHTML = `Protocolo inválido.`;
+        document.querySelector("#inventarioUnidade").innerHTML = `
+        <div id="headerInventary"></div>
+            <table id="tabelaInventario"></table>
+        <div id="informacoesAdicionais"></div>
+        `;
+        return false;
+
+    }
+    return true;
 }
 
 function getApiByProtocolo(protocolo) {
     document.getElementById('divLoadingById').classList.remove('d-none');
+    document.querySelector("#messageSearch").innerHTML = ``;
     // const param = obterParametrosDaURL();
     let api = "https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec";
     apiParam = `${api}?protocolo=${protocolo}`
@@ -131,13 +157,21 @@ function getApiByProtocolo(protocolo) {
 
 function msgErro(error) {
     console.log(error);
-    alert(`
-    Erro ao buscar. Protocolo pesquisado talvez não exista.
-    `)
+    document.querySelector("#messageSearch").innerHTML = `
+        <span>Erro ao buscar. Protocolo pesquisado talvez não exista.</span>
+    `;
+    document.querySelector("#inventarioUnidade").innerHTML = `
+        <div id="headerInventary"></div>
+            <table id="tabelaInventario"></table>
+        <div id="informacoesAdicionais"></div>
+    `;
 }
 
 function getByProtocoloResponse(res) {
+    document.getElementById('itemLoading').style.display = 'none';   
     document.getElementById('divLoadingById').classList.add('d-none')
+    if(res.content === null)
+        return msgErro("requisição retornou nulo");
     let itensInventario = JSON.parse(res.content.itensInventario);
     criarTabelaInventario(itensInventario);
     cabecalhoInventario(res.content);
@@ -158,8 +192,7 @@ function cabecalhoInventario(e) {
             <p class="mb-1">${dataFormatada}</p>
             <small class="text-muted">${e.responsavel}</small>
         </span>       
-        `
-    document.getElementById('itemLoading').style.display = 'none';    
+        `     
 }
 
 function criarTabelaInventario(itensInventario) {
