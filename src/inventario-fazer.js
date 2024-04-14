@@ -5,6 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     instrumentais_list;
     criarFormulario();
     carregarValoresSalvosNoLocalStorage();
+    document.getElementById("btn-to-bottom").style.display = "block";
 })
 
 function criarFormulario() {
@@ -210,8 +211,7 @@ function sendSpreadSheet(objIventario) {
     
     let objInventarioStr = JSON.stringify(objIventario);
 
-    // script-google v22
-    let url = 'https://script.google.com/macros/s/AKfycbyBWMDtbaUzoaWZ1tI7g70e5gNvDdsEIRhGu0fPDvMaW454TvUv8tCB626H5d9tTwm5Ag/exec';   
+    let url = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec';   
     fetch(url,{
         redirect: "follow",
         method: "POST",
@@ -250,7 +250,7 @@ function msgErrorSentToSpreadSheet(error) {
 }
 
 function msgResponseSendToSheet(data, objIventario) {
-    // console.log(data, objIventario);
+    console.log(data, objIventario);
     removerMsgAguardarEnvio();
     if (data.status == "success") {
 
@@ -263,11 +263,10 @@ function msgResponseSendToSheet(data, objIventario) {
                 <div>
                     <h5 class="alert-heading">Inventário foi enviada e registrada com sucesso!</h5>
                 </div>
-            </div>
-            <p><strong>Id: </strong>${data.content[0]}</p>                    
-            <p><strong>Protocolo: </strong>${data.content[1]}</p>                    
-            <p><strong>Unidade: </strong>${data.content[2]}</p> 
-            <p><strong>Data:</strong> ${data.content[5]}</p>       
+            </div>                  
+            <p><strong>Protocolo: </strong>${data.protocolo}</p>                    
+            <p><strong>Unidade: </strong>${objIventario.unidade}</p> 
+            <p><strong>Data:</strong> ${data.data}</p>       
             <hr>
             <div class="d-grid gap-3">
                 <a href="inventario-lista?search=all" class="alert-link text-decoration-none">Ver lista de unidades que já enviaram o inventário</a>
