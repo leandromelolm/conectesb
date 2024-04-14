@@ -338,11 +338,12 @@ function buildPaginationButtons(totalPages, currentPage) {
     // prevButton.textContent = "Anterior";
     prevButton.disabled = currentPage === 1;
 
-    let img = document.createElement("img");
-    img.src = "assets/arrow-left-circle-fill.svg";
-    img.alt = "Anterior";
+    let imgLeft = document.createElement("img");
+    // img.src = "assets/arrow-left-circle-fill.svg";
+    imgLeft.src = "assets/chevron-left.svg";
+    imgLeft.alt = "Anterior";
 
-    prevButton.appendChild(img);
+    prevButton.appendChild(imgLeft);
 
     prevButton.addEventListener("click", function() {
         if (currentPage > 1) {
@@ -355,7 +356,7 @@ function buildPaginationButtons(totalPages, currentPage) {
     // paginaAtual/todasPaginas  
     let elspan = document.createElement("span");
     elspan.className = "span__current-page";
-    elspan.textContent = `página ${currentPage} de ${totalPages}`;    
+    elspan.textContent = `${currentPage} de ${totalPages}`;    
     paginationContainer.appendChild(elspan);
     
 
@@ -366,7 +367,8 @@ function buildPaginationButtons(totalPages, currentPage) {
     nextButton.disabled = currentPage === totalPages;
 
     let imgRight = document.createElement("img");
-    imgRight.src = "assets/arrow-right-circle-fill.svg";
+    // imgRight.src = "assets/arrow-right-circle-fill.svg";
+    imgRight.src = "assets/chevron-right.svg";
     imgRight.alt = "Próximo";
 
     nextButton.appendChild(imgRight);
