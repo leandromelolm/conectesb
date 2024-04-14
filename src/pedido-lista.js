@@ -387,13 +387,18 @@ function fetchData(pageNumber) {
 }
 
 async function getListaPedidos(pageNumber) {
-    modalLoading.show();    
-    const url = `/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    preencherTabelaListaDePedidos(data.responseDataPedidos.data);
-    buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
-    modalLoading.hide();
+    try {
+        modalLoading.show();    
+        const url = `/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        preencherTabelaListaDePedidos(data.responseDataPedidos.data);
+        buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
+        modalLoading.hide();        
+    } catch (error) {
+        alert("Erro na requisição de dados.");
+        modalLoading.hide();
+    }
 }
 
 function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
