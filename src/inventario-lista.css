@@ -327,8 +327,16 @@ legend {
     margin-top: 20px;
 }
 
-.btn__atualizar {
+.btn__atualizar,
+.btn__atualizar:hover {
+    color: #0d6efd;
+    background-color: transparent;
     border-color: transparent !important;
+}
+
+.btn__atualizar:active {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 .div__search {
