@@ -5,59 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="inventario-lista.css">
-    <script src="components/header.js" type="module" defer></script>
+    <script src="components/header.js" type="module" defer></script>    
+    <script src="inventario-lista.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <title>Conecte SB | Inventário</title>
 </head>
 <body>
     <header-component></header-component>  
 
-    <!-- <div id="divLoadingUpdatePage" class="d-flex mt-3 justify-content-center d-none">
-        <div class="spinner-border" role="status">
-          <span class="sr-only"></span>
-        </div>
-    </div> -->
-
     <div id="divLoadingUpdatePage" class="float-container">
         <div class="spinner-border" role="status">
             <span class="sr-only"></span>
         </div>
-    </div>
+    </div>    
 
     <div class="div__container">
         <div class="div__main">
 
-            <div class="d-grid gap-2 d-md-flex justify-content-end div__atualizar">
-                <button class="btn__atualizar" type="button" onclick="atualizarPagina()">
-                    <img src="assets/arrow-clockwise.svg" alt="Atualizar">
-                    Atualizar                    
-                </button>
-            </div>
+            <div class="d-flex justify-content-between">                
+                <div class="flex-sm-column">                
+                    <div>
+                        <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário de instrumentais</a>
+                    </div>
+                    <div>
+                        <a href="#divSearch" class="text-decoration-none">Ver detalhes do Inventário</a>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-end div__atualizar">
+                    <button class="btn__atualizar" type="button" onclick="atualizarPagina()">
+                        <img src="assets/arrow-clockwise.svg" alt="Atualizar">
+                        Atualizar                    
+                    </button>
+                </div>
+            </div>            
 
-            <div class="flex-sm-column">                
-                <div>
-                    <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário de instrumentais</a>
-                </div>
-                <div>
-                    <a href="#divSearch" class="text-decoration-none">Ver detalhes do Inventário</a>
-                </div>
-            </div>
             <div class="div__list">
                 <h5>Lista de unidades que já enviaram o inventário</h5>
-
                 <div id="listGroupd" class="list-group">
-                    <div id="listGroupItem"></div>                  
-                    
+                    <div id="listGroupItem"></div>
                     <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
                       <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Loading...</h5>
                         <small class="text-muted">Loading...</small>
                       </div>
-                      <div class="spinner-grow text-secondary" role="status">
+                      <div class="text-secondary" role="status">
                         <span class="visually-hidden">Loading...</span>
+                      </div>
+                      <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
                       </div>
                       <small class="text-muted">Loading...</small>
                     </a>
-                  </div>
+                </div>
             </div>
 
             <!-- PESQUISAR DETALHES DO INVENTÁRIO -->
@@ -96,10 +95,7 @@
                 <button class="btn btn-outline-primary" onclick="copiarTabelaParaClipboard()">Copiar Tabela</button>
             </div>
         </div>     
-    </div>
-    
-    <script src="inventario-lista.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>    
 </body>
 </html>
     
