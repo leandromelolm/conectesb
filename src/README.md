@@ -39,7 +39,8 @@
 `Ctrl+Shift+E` - Aba explorador</br>
 `Ctrl+Shift+P` - Pesquisar - tudo</br>
 `Ctrl+P ou Ctrl+E` - Pesquisar arquivo</br>
-`Ctrl+Shift+F` - Abre a barra de pesquisa menu lateral
+`Ctrl+Shift+F` - Localizar nos arquivos</br>
+`Ctrl+Shift+G` - Controle de código Git</br>
 `Ctrl+Shift+H` - Aba Pesquisar</br>
 `Ctrl+H` - Substituir</br>
 `Ctrl+F` - Pesquisar no Arquivo</br>
