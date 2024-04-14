@@ -440,6 +440,7 @@ table {
 
 .div__unidade-id {
     min-height: 40px;
+    align-items: center;
 }
 
 .strong__und {
