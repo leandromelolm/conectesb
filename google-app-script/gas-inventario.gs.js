@@ -41,11 +41,11 @@ function doPost(e) {
       let protocolo = gerarProtocolo(dados.data, id);
       let inventario = [
         id, 
-        protocolo,
+        protocolo, // inventario[1]
         dados.unidade, 
         dados.solicitante, 
         dados.email, 
-        dados.data, 
+        dados.data, // inventario[5]
         dados.quantidadeLista, 
         dados.observacao, 
         dados.listaInventario
@@ -55,7 +55,8 @@ function doPost(e) {
         JSON.stringify({
             status: "success", 
             message: "Inventário registrado com sucesso!",
-            content: {id: inventario.id, data: inventario.data}
+            protocolo: inventario[1], 
+            data: inventario[5]
         })
       ).setMimeType(ContentService.MimeType.JSON);
     }    
