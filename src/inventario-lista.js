@@ -91,7 +91,7 @@ function divListGroup(res){
     res.content.data.forEach(e => {
         item.push(`
         <div class="div__card-item">
-            <a href="#divSearch" class="a__item">
+            <a href="#" class="a__item" onclick="openDetail()">
                 <div class="div__unidade-id d-flex w-100 justify-content-between">
                     <strong class="strong__und">${e.unidade}</strong>
                     <small class="text-muted">${e.id}</small>
@@ -132,7 +132,7 @@ function verificarInput(protocolo){
         `;
         return false;
     }
-    if(protocolo.length < 10 || protocolo.length >20){
+    if(protocolo.length < 14 || protocolo.length >20){
         document.querySelector("#messageSearch").innerHTML = `Protocolo inválido.`;
         document.querySelector("#inventarioUnidade").innerHTML = `
         <div id="headerInventary"></div>
@@ -285,3 +285,23 @@ function dateFormat(data) {
     
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
+
+function openPage(pageName,element) {
+    let i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("div__tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("btn__tablink");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.cssText = ``;
+    }
+    document.getElementById(pageName).style.display = "block";
+    element.style.cssText = `border: 2px solid lightgrey; border-bottom: none; background-color: transparent;`; 
+  }
+
+  document.getElementById("defaultOpen").click();
+
+  function openDetail() {
+    document.getElementById("inventarioDetalhes").click();
+  }

@@ -22,14 +22,11 @@
     <div class="div__container">
         <div class="div__main">
 
-            <div class="d-flex justify-content-between">                
+            <div class="d-flex justify-content-between mb-2">                
                 <div class="flex-sm-column">                
                     <div>
                         <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário</a>
-                    </div>
-                    <div>
-                        <a href="#divSearch" class="text-decoration-none">Detalhes do inventário</a>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-end div__atualizar">
                     <button class="btn__atualizar" type="button" onclick="atualizarPagina()">
@@ -37,64 +34,78 @@
                         Atualizar                    
                     </button>
                 </div>
-            </div>            
-
-            <div class="div__list">
-                <h5 class="title__section">Lista de inventários</h5>
-                <div id="listGroupd" class="list-group">
-                    <div id="listGroupItem"></div>
-                    <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">Loading...</h5>
-                        <small class="text-muted">Loading...</small>
-                      </div>
-                      <div class="text-secondary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                      <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
-                      </div>
-                      <small class="text-muted">Loading...</small>
-                    </a>
-                </div>
             </div>
 
-            <!-- PESQUISAR DETALHES DO INVENTÁRIO -->
-            <div id="divSearch" class="row mt-2 div__search">
-                <h5 class="title__section">Detalhes do inventário</h5>
-                <div class="col-md-12 mx-auto">
-                    <div class="div__input-search">
-                        <input id="input-search" class="input__search" type="search" placeholder="Inserir número de protocolo" onkeydown="eventClickEnter(event)">
-                        <span class="input-group-append">
-                          <button id="btn-search" class="btn__search" type="button" onclick="handleSearch()">
-                              <img src="assets/search.svg">
-                          </button>
-                        </span>                            
+            <div id="main-content">
+                <button class="btn__tablink" onclick="openPage('listInventario', this)" id="defaultOpen">Lista de inventários</button>
+                <button class="btn__tablink" onclick="openPage('DetailInventario', this)" id="inventarioDetalhes">Detalhes do inventário</button>
+            
+                <div id="listInventario" class="div__tabcontent">
+                    <div class="div__list">
+                        <h5 class="title__section">Lista de inventários</h5>
+                        <div id="listGroupd" class="list-group">
+                            <div id="listGroupItem"></div>
+                            <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">Loading...</h5>
+                                    <small class="text-muted">Loading...</small>
+                                </div>
+                                <div class="text-secondary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                                </div>
+                                <small class="text-muted">Loading...</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="DetailInventario" class="div__tabcontent">                
+                    <!-- pesquisar detalhes do inventário -->
+                    <div id="divSearch" class="row div__search">
+                        <h5 class="title__section">Detalhes do inventário</h5>
+                        <div class="col-md-12 mx-auto">
+                            <div class="div__input-search">
+                                <input id="input-search" class="input__search" type="search" placeholder="Inserir número de protocolo"
+                                    onkeydown="eventClickEnter(event)">
+                                <span class="input-group-append">
+                                    <button id="btn-search" class="btn__search" type="button" onclick="handleSearch()">
+                                        <img src="assets/search.svg">
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div id="divLoadingById" class="div__loading-by-id d-none">
+                        <div class="spinner-grow text-secondary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <h5 class="mb-1">Carregando...</h5>
+                    </div>
+                
+                    <div id="messageSearch"></div>
+                
+                    <div id="inventarioUnidade">
+                        <div id="headerInventary"></div>
+                        <table id="tabelaInventario"></table>
+                        <div id="informacoesAdicionais"></div>
+                    </div>
+                    <div id='divBtn' class="div__btn d-none">
+                        <div></div>
+                        <button class="btn btn-outline-primary" onclick="copiarTodasInformacoesParaClipboard()">Copiar Informações
+                            Completas</button>
+                        <button class="btn btn-outline-primary" onclick="copiarTabelaParaClipboard()">Copiar Tabela</button>
                     </div>
                 </div>
             </div>
 
-            <div id="divLoadingById" class="div__loading-by-id d-none">
-                <div class="spinner-grow text-secondary" role="status">
-                    <span class="visually-hidden">Carregando...</span>
-                </div>
-                <h5 class="mb-1">Carregando...</h5>                  
-            </div>
-
-            <div id="messageSearch"></div>
-            
-            <div id="inventarioUnidade">
-                <div id="headerInventary"></div>
-                <table id="tabelaInventario"></table>
-                <div id="informacoesAdicionais"></div>
-            </div>
-            <div id='divBtn' class="div__btn d-none">
-                <div></div>
-                <button class="btn btn-outline-primary" onclick="copiarTodasInformacoesParaClipboard()">Copiar Informações Completas</button>
-                <button class="btn btn-outline-primary" onclick="copiarTabelaParaClipboard()">Copiar Tabela</button>
-            </div>
-        </div>     
-    </div>    
+        </div>             
+    </div>
+    
 </body>
 </html>
     
