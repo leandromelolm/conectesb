@@ -28,7 +28,7 @@
                         <a href="inventario-fazer.html" class="text-decoration-none">Fazer inventário</a>
                     </div>
                     <div>
-                        <a href="#divSearch" class="text-decoration-none">Ver detalhes inventário</a>
+                        <a href="#divSearch" class="text-decoration-none">Detalhes do inventário</a>
                     </div>
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-end div__atualizar">
@@ -40,7 +40,7 @@
             </div>            
 
             <div class="div__list">
-                <h5>Lista de unidades que já enviaram o inventário</h5>
+                <h5 class="title__section">Lista de inventários</h5>
                 <div id="listGroupd" class="list-group">
                     <div id="listGroupItem"></div>
                     <a href="#" id="itemLoading" class="list-group-item list-group-item-action">
@@ -61,9 +61,8 @@
 
             <!-- PESQUISAR DETALHES DO INVENTÁRIO -->
             <div id="divSearch" class="row mt-2 div__search">
+                <h5 class="title__section">Detalhes do inventário</h5>
                 <div class="col-md-12 mx-auto">
-                    <div class="small fw">Ver detalhes do inventário</div>
-
                     <div class="div__input-search">
                         <input id="input-search" class="input__search" type="search" placeholder="Inserir número de protocolo" onkeydown="eventClickEnter(event)">
                         <span class="input-group-append">

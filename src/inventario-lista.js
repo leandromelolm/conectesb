@@ -96,8 +96,10 @@ function divListGroup(res){
                     <strong class="strong__und">${e.unidade}</strong>
                     <small class="text-muted">${e.id}</small>
                 </div>
-                <p class="mb-1 text-muted">${e.data}</p>
-                <small class="text-muted">${e.funcionario}</small>
+                <div class="d-grid">
+                    <small class="text-muted">${e.data}</small>
+                    <small class="mb-1 text-muted">${e.funcionario}</small>
+                </div>
             </a>
         </div>        
         `)
@@ -122,7 +124,7 @@ function handleSearch() {
 
 function verificarInput(protocolo){
     if(!protocolo){
-        document.querySelector("#messageSearch").innerHTML = `Insira o protocolo no campo "Ver detalhes do inventário".`;
+        document.querySelector("#messageSearch").innerHTML = `Insira o protocolo no campo da seção Detalhes do inventário.`;
         document.querySelector("#inventarioUnidade").innerHTML = `
         <div id="headerInventary"></div>
             <table id="tabelaInventario"></table>
