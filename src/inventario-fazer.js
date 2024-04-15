@@ -95,20 +95,20 @@ function prepararParaEnviar(){
     const solicitante = document.getElementById("solicitante").value;
     const email = document.getElementById("email").value;
     const quantList = inventaryList.length;
-    const dataIventario = dateFormat(new Date());
+    const dataInventario = dateFormat(new Date());
     const observacao = document.getElementById("observacao").value;
 
-        const objIventario = {
+        const objInventario = {
         unidade: unidade.toUpperCase().trim(),
         solicitante: solicitante.trim(),
         email: email.trim(),
-        data: dataIventario,
+        data: dataInventario,
         quantidadeLista: quantList,
         listaInventario: localStorage.getItem("inventario_fazer_inventaryData"),
         observacao: observacao.trim()
     };
     // setTimeout(msgResponseSendToSheet('',''), 3000);
-    sendSpreadSheet(objIventario);
+    sendSpreadSheet(objInventario);
 }
 
 document.getElementById('solicitante').addEventListener('input', function() {
@@ -206,10 +206,10 @@ function carregarValoresSalvosNoLocalStorage() {
     }
 }
 
-function sendSpreadSheet(objIventario) {
+function sendSpreadSheet(objInventario) {
     mostrarMsgAguardeEnvio();
     
-    let objInventarioStr = JSON.stringify(objIventario);
+    let objInventarioStr = JSON.stringify(objInventario);
 
     let url = 'https://script.google.com/macros/s/AKfycbwFSFG79Sgu1P4HIO9kZ4huVb2FZOb38hvbsLhyJmrgPE7Pxx6GUERGCqphDcMRnnTqaA/exec';   
     fetch(url,{
@@ -221,8 +221,8 @@ function sendSpreadSheet(objIventario) {
         }
     })
     .then(response =>response.json())
-    .then(data => msgResponseSendToSheet(data, objIventario))
-    .catch(error => msgErrorSentToSpreadSheet(error, objIventario));
+    .then(data => msgResponseSendToSheet(data, objInventario))
+    .catch(error => msgErrorSentToSpreadSheet(error, objInventario));
 }
 
 function msgErrorSentToSpreadSheet(error) {
@@ -249,8 +249,8 @@ function msgErrorSentToSpreadSheet(error) {
 `
 }
 
-function msgResponseSendToSheet(data, objIventario) {
-    console.log(data, objIventario);
+function msgResponseSendToSheet(data, objInventario) {
+    console.log(data, objInventario);
     removerMsgAguardarEnvio();
     if (data.status == "success") {
 
@@ -265,7 +265,7 @@ function msgResponseSendToSheet(data, objIventario) {
                 </div>
             </div>                  
             <p><strong>Protocolo: </strong>${data.protocolo}</p>                    
-            <p><strong>Unidade: </strong>${objIventario.unidade}</p> 
+            <p><strong>Unidade: </strong>${objInventario.unidade}</p> 
             <p><strong>Data:</strong> ${data.data}</p>       
             <hr>
             <div class="d-grid gap-3">
@@ -287,19 +287,19 @@ function msgResponseSendToSheet(data, objIventario) {
     }
 }
 
-function sendEmail(objIventario) {
+function sendEmail(objInventario) {
     mostrarMsgAguardeEnvio();
     let inventorySendByEmail = {
-        _subject: `INVENTÁRIO: ${objIventario.unidade} (DSV) - ${objIventario.data}`,
+        _subject: `INVENTÁRIO: ${objInventario.unidade} (DSV) - ${objInventario.data}`,
         _template : "box", // box ou table        
-        unidade: objIventario.unidade,
-        solicitante: objIventario.solicitante,
-        data: objIventario.data,
-        quantidade_de_itens_do_inventario: objIventario.quantidadeLista,
-        observacao: objIventario.observacao
+        unidade: objInventario.unidade,
+        solicitante: objInventario.solicitante,
+        data: objInventario.data,
+        quantidade_de_itens_do_inventario: objInventario.quantidadeLista,
+        observacao: objInventario.observacao
     }
-    if (objIventario.email){
-        inventorySendByEmail['_cc'] = objIventario.email;
+    if (objInventario.email){
+        inventorySendByEmail['_cc'] = objInventario.email;
     }
 
     let list_item = [];
@@ -307,7 +307,7 @@ function sendEmail(objIventario) {
         `;
     list_item.push(item);
 
-    let list = JSON.parse(objIventario.listaInventario);
+    let list = JSON.parse(objInventario.listaInventario);
 
     list.forEach((i, index) => {
         let item =` ${i.index}. ${i.descricao}, ${i.quantEstoque}, ${i.quantPedida}
@@ -341,12 +341,12 @@ function sendEmail(objIventario) {
         body: inventoryStr
     })
     .then(response => response.json())
-    .then(data => responseSendEmail(data, objIventario))
+    .then(data => responseSendEmail(data, objInventario))
     .catch(error => responseErrorSubmitForm(error));    
 
 }
 
-function responseSendEmail(data, objIventario){
+function responseSendEmail(data, objInventario){
     removerMsgAguardarEnvio();
     limparTudo();
     document.getElementById("msgResponse").classList.toggle("hidden", false);
@@ -354,24 +354,24 @@ function responseSendEmail(data, objIventario){
         localStorage.removeItem('listInventario');
         document.getElementById('msgResponse').innerHTML = `
         <p><b>Um email foi enviado para coordenação de saúde bucal!</b></p> 
-        Unidade: ${objIventario.unidade}
-        <p>Data: ${objIventario.data}</p>        
+        Unidade: ${objInventario.unidade}
+        <p>Data: ${objInventario.data}</p>        
         `;
         document.getElementById('msgResponse').style.background = '#4CB050';
         document.getElementById('msgResponse').style.color = 'white';
         console.log(data);
     } 
-    if(objIventario._cc && data.success !== "true"){
+    if(objInventario._cc && data.success !== "true"){
         document.getElementById('msgResponse').innerHTML = `
         Algum problema aconteceu no envio do e-mail para a coordenação.
         messagem de erro: ${data.message}.
         <p>Se você preencheu o campo email, verifique se o email foi digitado corretamente.</p>
-        Email preenchido no formulário: ${objIventario._cc}  
+        Email preenchido no formulário: ${objInventario._cc}  
         <a href="index.html">Voltar para o menu principal</a>
         `;
         console.log(data);
     }    
-    if (!objIventario._cc && data.success !== "true") {
+    if (!objInventario._cc && data.success !== "true") {
         document.getElementById('msgResponse').innerHTML = `
         Erro no envio do email!.
         messagem de erro: ${data.message}.
@@ -410,10 +410,10 @@ function limparTudo() {
     document.getElementById("solicitante").value = '';
     document.getElementById("email").value = '';
     document.getElementById("observacao").value = '';
-    limparCamposItensIventario();
+    limparCamposItensInventario();
 }
 
-function limparCamposItensIventario() {
+function limparCamposItensInventario() {
     const inventaryContainer = document.getElementById("inventaryContainer");
     const camposDeInput = inventaryContainer.querySelectorAll('.input__item, .input__quant');
 
@@ -422,7 +422,7 @@ function limparCamposItensIventario() {
     });
 }
 
-function criarTabelaIventario(objIventario) {
+function criarTabelaInventario(objInventario) {
     const tabelaInventario = document.getElementById('tabelaInventario');
     tabelaInventario.innerHTML = '';
     const cabecalho = tabelaInventario.createTHead();
@@ -433,7 +433,7 @@ function criarTabelaIventario(objIventario) {
         th.textContent = rotulo;
         cabecalhoLinha.appendChild(th);
     });
-    objIventario.listaInventario.forEach((item) => {
+    objInventario.listaInventario.forEach((item) => {
         const linha = tabelaInventario.insertRow();
         for (const chave in item) {
             const celula = linha.insertCell();
