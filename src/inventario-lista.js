@@ -298,10 +298,10 @@ function openPage(pageName,element) {
     }
     document.getElementById(pageName).style.display = "block";
     element.style.cssText = `border: 2px solid lightgrey; border-bottom: none; background-color: transparent;`; 
-  }
+}
 
-  document.getElementById("defaultOpen").click();
+document.getElementById("defaultOpen").click();
 
-  function openDetail() {
-    document.getElementById("inventarioDetalhes").click();
-  }
+function openDetail() {
+document.getElementById("inventarioDetalhes").click();
+}
