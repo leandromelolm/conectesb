@@ -455,7 +455,7 @@ table {
     background-color: #EFEFEF;
     color: black;
     float: left;
-    border: none ;    
+    border: 1px solid #EFEFEF;    
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
