@@ -301,7 +301,7 @@ function openPage(pageName,element) {
     border: 2px solid lightgrey;
     border-bottom: none;
     background-color: transparent;
-    box-shadow: 5px -5px 0px 0px #999;
+    box-shadow: -4px -10px 1px -5px #999;
     `; 
 }
 
