@@ -297,7 +297,12 @@ function openPage(pageName,element) {
       tablinks[i].style.cssText = ``;
     }
     document.getElementById(pageName).style.display = "block";
-    element.style.cssText = `border: 2px solid lightgrey; border-bottom: none; background-color: transparent;`; 
+    element.style.cssText = `
+    border: 2px solid lightgrey;
+    border-bottom: none;
+    background-color: transparent;
+    box-shadow: 5px -5px 0px 0px #999;
+    `; 
 }
 
 document.getElementById("defaultOpen").click();
