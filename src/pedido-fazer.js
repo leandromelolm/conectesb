@@ -1,6 +1,3 @@
-
-document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
-
 const datalist = document.getElementById("item-list");
 const undlist = document.getElementById("u-list");
 // const dslist = document.getElementById("ds-list");
@@ -13,6 +10,8 @@ let scriptUrl;
 let appEnv;
 
 window.onload = () => {
+
+    document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
 
     localStorage.removeItem("dadosRequerente");
 
@@ -273,6 +272,7 @@ function retornarQuantidadeDeItensLocalStorage() {
 
 function recuperarDadosItensSessionStorage() {
     let dadosJSON = sessionStorage.getItem('dadosItens');
+    let obj = {};
     if (dadosJSON) {
         let dadosObj = JSON.parse(dadosJSON);
 
