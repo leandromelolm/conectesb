@@ -1,4 +1,4 @@
-/** v20 **/
+/** v22 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -121,7 +121,7 @@ function doGet(e) {
   } catch (error) {
   return ContentService
       .createTextOutput(JSON.stringify(
-        { 'result': 'error', error }))
+        { 'result': 'error', 'message': error }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } finally {
@@ -233,10 +233,11 @@ function findByColumn(str) {
  * */
 function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, distrito, grupoMaterial) {
   let ultimoElemento = sheet.getLastRow();
-  let { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacao(paginaAtual, elementosPorPagina, ultimoElemento);
+  const totalItens = ultimoElemento -1;
 
   let result = [];
   if (distrito === "" && grupoMaterial === "") {
+    const { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens);
     let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 4);    
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
@@ -255,7 +256,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
       pageNumber: paginaAtual,
       totalPages: totalPaginas,
       pageSize: elementosPorPagina,
-      totalElements: ultimoElemento -1,
+      totalElements: totalElementos,
       data: result
     };
   } 
@@ -278,13 +279,15 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
         }
     }
     result.sort((a, b) => b.id - a.id);
-    const resultLimitado = listaComQuantidadeLimitada(result,60);
+    const res = paginarLista(paginaAtual, elementosPorPagina, result);
     return {
       findDistrito: distrito,
-      totalElements: totalElementos -1,
+      totalElements: totalItens,
       totalElementsFound: result.length,
-      returnTotalElements: resultLimitado.length,
-      data: resultLimitado
+      pageNumber: paginaAtual,
+      pageSize: elementosPorPagina,
+      totalPages: res.totalDePaginas,
+      data: res.listaDaPagina
     };
   }
 
@@ -309,18 +312,18 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
     const resultLimitado = listaComQuantidadeLimitada(result,60);
     return {
       findGrupoMaterial: grupoMaterial,   
-      totalElements: totalElementos -1,
+      totalElements: totalItens,
       totalElementsFound: result.length,
       returnTotalElements: resultLimitado.length,
-      data: resultLimitado
+      data: resultLimitado      
     };
   }  
 }
 
-function calcularPaginacao(paginaAtual, elementosPorPagina, totalElementos) {
-  let totalPaginas, elemFim, elemInicio;  
-
-  totalPaginas = Math.ceil(totalElementos / elementosPorPagina);
+/** calcula paginação quando com a lista completa **/
+function calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens) {
+  let totalPaginas, elemFim, elemInicio;
+  totalPaginas = Math.ceil(totalItens / elementosPorPagina);
   if (paginaAtual < 1 || paginaAtual > totalPaginas) {    
     throw  error = {
       statusCode: 404,
@@ -329,18 +332,41 @@ function calcularPaginacao(paginaAtual, elementosPorPagina, totalElementos) {
       details: ""
     };
   }
-  elemFim = totalElementos - (paginaAtual - 1) * elementosPorPagina;
+  elemFim = totalItens - (paginaAtual - 1) * elementosPorPagina;
   elemInicio = elemFim - elementosPorPagina + 1;
-
   elemInicio = Math.max(elemInicio, 2); // inicia na linha 2 se elemInicio for menor que 2. 
-
   return {
     paginaAtual: paginaAtual,
-    totalElementos: totalElementos,
+    totalElementos: totalItens,
     totalPaginas: totalPaginas,
     elemInicio: elemInicio,
     elemFim: elemFim
   };
+}
+
+/** pagina lista que foi aplicado filtro **/
+function paginarLista(paginaAtual, elementosPorPagina, lista) {
+  if (lista.length === 0) {     
+    throw  error = {
+      statusCode: 404,
+      message: `Nenhum resultado encontrado`,
+      status: "Not Found",
+      details: ""      
+    }
+  }
+  const totalDePaginas = Math.ceil(lista.length / elementosPorPagina);
+  if (paginaAtual < 1 || paginaAtual > totalDePaginas) {    
+    throw  error = {
+      statusCode: 404,
+      message: `Página fora do limite. Página: ${paginaAtual}`,
+      status: "Not Found",
+      details: ""
+    };
+  }
+  const indiceInicial = (paginaAtual - 1) * elementosPorPagina;
+  const indiceFinal = indiceInicial + elementosPorPagina;
+  const listaDaPagina = lista.slice(indiceInicial, indiceFinal);
+  return {listaDaPagina, totalDePaginas};
 }
 
 function listaComQuantidadeLimitada(result, limiteResultado) {
