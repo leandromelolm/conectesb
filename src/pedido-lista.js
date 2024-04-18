@@ -265,7 +265,7 @@ function abrirPedidoNoFormulario() {
     sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
     sessionStorage.setItem('dadosItens', itensDados);
     // window.open('pedido-fazer.html', '_blank');
-    window.location.href = 'pedido-fazer.html';
+    window.location.href = 'pedido-fazer';
 };
 
 function limparCampos() {
