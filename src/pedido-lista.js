@@ -434,6 +434,7 @@ function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
 }
 
 async function findByDistrito(distrito) {
+    perPage = 60;
     try {
         document.getElementById("search-input").value = "";
         if(distrito === "todos"){
@@ -443,9 +444,15 @@ async function findByDistrito(distrito) {
             modalLoading.show()
             const result = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}`)
             const res = await result.json();
-            preencherTabelaListaDePedidos(res.responseDataPedidos.data);   
             let paginationContainer = document.getElementById("paginationButtons");
-            paginationContainer.innerHTML = res.responseDataPedidos.totalElementsFound === 0 ? `Nenhum registro encontrado` : `O filtro por distrito retorna no máximo os últimos 60 pedidos. Distrito Sanitário filtrado: ${distrito}` ;
+            if (res.responseDataPedidos.data !== undefined){
+                preencherTabelaListaDePedidos(res.responseDataPedidos.data);   
+                paginationContainer.innerHTML = `O filtro por Distrito quando aplicado retorna apenas os últimos 60 pedidos.`;
+                
+            } else{
+                document.getElementById('divListaPedido').innerHTML = "";
+                paginationContainer.innerHTML =`Nenhum registro encontrado`;
+            }
             modalLoading.hide();
         }        
     } catch (error) {
