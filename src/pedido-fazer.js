@@ -1,6 +1,5 @@
 const datalist = document.getElementById("item-list");
 const undlist = document.getElementById("u-list");
-// const dslist = document.getElementById("ds-list");
 const grupoList = document.getElementById("grupo-list");
 let nomeUnidade = document.getElementById("nomeUnidade");
 
@@ -28,12 +27,6 @@ window.onload = () => {
         optEl.value = opt;
         undlist.appendChild(optEl);
     });
-
-    // distritos.forEach(o => {
-    //     const optElem = document.createElement("option");
-    //     optElem.value = o;
-    //     dslist.appendChild(optElem);
-    // });
 
     grupos.forEach(opt => {
         const optEl = document.createElement("option");
@@ -608,8 +601,6 @@ const nomesUnidades = [
     'US 393 USF UPINHA DIA BONGI NOVO PRADO',
     'US 399 USF UPINHA DIA NOVO JIQUIÁ',
 ];
-
-const distritos = ['1', '5'];
 
 const grupos = ['SAÚDE BUCAL', 'SAÚDE DA MULHER'];
 
