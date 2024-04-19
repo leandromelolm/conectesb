@@ -50,7 +50,7 @@ document.getElementById("search-input").addEventListener("change", (e) =>{
 });
 
 document.querySelector("#selectDistrito").addEventListener('change', (e) =>{
-    findByDistrito(e.target.value);
+    findByDistrito(e.target.value, 60);
 })
 
 function searchTxt(txtSearch){
@@ -433,8 +433,13 @@ function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
     ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
 }
 
-async function findByDistrito(distrito) {
-    perPage = 60;
+document.querySelector("#paginationButtons").addEventListener('change', (e) => {
+    if (e.target.id === 'mostrarQtdFiltro') {
+        findByDistrito(document.querySelector("#selectDistrito").value, e.target.value);
+    }
+});
+
+async function findByDistrito(distrito, perPage) {    
     try {
         document.getElementById("search-input").value = "";
         if(distrito === "todos"){
@@ -446,10 +451,27 @@ async function findByDistrito(distrito) {
             const res = await result.json();
             let paginationContainer = document.getElementById("paginationButtons");
             if (res.responseDataPedidos.data !== undefined){
-                preencherTabelaListaDePedidos(res.responseDataPedidos.data);   
-                paginationContainer.innerHTML = `O filtro por Distrito quando aplicado retorna apenas os últimos 60 pedidos.`;
-                
-            } else{
+                preencherTabelaListaDePedidos(res.responseDataPedidos.data);
+                const txtResult = res.responseDataPedidos.totalElementsFound === 1 ? 'resultado': 'resultados';
+                paginationContainer.innerHTML = `
+                <div class="d-flex my-3">
+                    <div class="me-2"> 
+                        <b>${res.responseDataPedidos.totalElementsFound} ${txtResult}</b>                    
+                    </div>
+                    <label class="me-1">Mostrar:</label>
+                    <select name="mostrarQtdFiltro" id="mostrarQtdFiltro" class="select__mostrar-qtd-filtro">                    
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="60">60</option>
+                        <option value="100">100</option>                    
+                    </select>
+                </div>
+                `;
+                const selectElement = document.getElementById("mostrarQtdFiltro");
+                selectElement.value = perPage;                
+            } else {
                 document.getElementById('divListaPedido').innerHTML = "";
                 paginationContainer.innerHTML =`Nenhum registro encontrado`;
             }

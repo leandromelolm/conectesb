@@ -162,3 +162,10 @@ tbody, td, tfoot, th, thead, tr {
 .spinner-border {
   color: cornflowerblue;
 }
+
+.select__mostrar-qtd-filtro,
+.select__mostrar-qtd-filtro:focus-visible{
+  border-radius: 5px;
+  background-color: transparent;
+  outline: transparent;
+}
