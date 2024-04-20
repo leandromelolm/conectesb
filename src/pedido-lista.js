@@ -348,7 +348,7 @@ function buildPaginationButtons(totalPages, currentPage) {
     prevButton.addEventListener("click", function() {
         if (currentPage > 1) {
             currentPage--;
-            getListaPedidos(pageNumber);
+            getListaPedidos(currentPage);
         }
     });
     paginationContainer.appendChild(prevButton);
@@ -376,7 +376,7 @@ function buildPaginationButtons(totalPages, currentPage) {
     nextButton.addEventListener("click", function() {
         if (currentPage < totalPages) {
             currentPage++;
-            getListaPedidos(pageNumber);
+            getListaPedidos(currentPage);
         }
     });
     paginationContainer.appendChild(nextButton);
