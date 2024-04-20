@@ -348,7 +348,7 @@ function buildPaginationButtons(totalPages, currentPage) {
     prevButton.addEventListener("click", function() {
         if (currentPage > 1) {
             currentPage--;
-            fetchData(currentPage);
+            getListaPedidos(pageNumber);
         }
     });
     paginationContainer.appendChild(prevButton);
@@ -376,14 +376,10 @@ function buildPaginationButtons(totalPages, currentPage) {
     nextButton.addEventListener("click", function() {
         if (currentPage < totalPages) {
             currentPage++;
-            fetchData(currentPage);
+            getListaPedidos(pageNumber);
         }
     });
     paginationContainer.appendChild(nextButton);
-}
-
-function fetchData(pageNumber) {
-    getListaPedidos(pageNumber);
 }
 
 async function getListaPedidos(pageNumber) {
@@ -430,7 +426,7 @@ function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
             console.error(error)
         });
     }
-    ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
+    ultimaAtualizacaoDaPagina.innerText = `Data de atualização: ${dateFormat(new Date())}`;
 }
 
 document.querySelector("#paginationButtons").addEventListener('change', (e) => {
