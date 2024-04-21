@@ -1,4 +1,4 @@
-/** v24 **/
+/** v25 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -239,6 +239,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
   if (distrito === "" && grupoMaterial === "") {
     const { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens);
     // getRange(row, column, numRows, numColumns);
+    // elemInicio + 1 pois a lista se inicia na linha 2
     let range = sheet.getRange(elemInicio + 1, 1, elemFim - elemInicio + 1, 4);    
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
@@ -335,7 +336,7 @@ function calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalIt
   }
   elemFim = totalItens - (paginaAtual - 1) * elementosPorPagina;
   elemInicio = elemFim - elementosPorPagina + 1;
-  elemInicio = Math.max(elemInicio, 2); // inicia na linha 2 se elemInicio for menor que 2. 
+  elemInicio = Math.max(elemInicio, 1); // se for menor que 1 elemInicio recebe 1
   return {
     paginaAtual: paginaAtual,
     totalElementos: totalItens,
