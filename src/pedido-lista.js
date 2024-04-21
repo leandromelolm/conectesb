@@ -4,7 +4,7 @@ let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario')
 let id = "";
 let search = "";
 let pageNumber = 1;
-let perPage = 40;
+let perPage = 60;
 let startId = 1; // startId e endId apenas são validos na pesquisa quando search for atribuido o valor 'pesquisarIntervalo'
 let endId = 1;
 let ultimoPedidoFeito;
@@ -16,11 +16,11 @@ window.onload = async () => {
     ultimoPedidoFeito = localStorage.getItem('ultimoPedido');
     let listaDePedidos = localStorage.getItem('listaDePedidos');
     if(listaDePedidos){
-        // console.log(listaDePedidos);
         preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
         let totalPages = localStorage.getItem("lista-pedidos-totalPages");
         totalPages = totalPages === null ? 0 : totalPages;
         buildPaginationButtons(totalPages, pageNumber);
+        document.querySelector("#selectDistrito").value = "todos";
     }
     const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
     .then(res => res.json());
