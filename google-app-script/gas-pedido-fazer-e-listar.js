@@ -1,4 +1,4 @@
-/** v22 **/
+/** v24 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -238,7 +238,8 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
   let result = [];
   if (distrito === "" && grupoMaterial === "") {
     const { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens);
-    let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 4);    
+    // getRange(row, column, numRows, numColumns);
+    let range = sheet.getRange(elemInicio + 1, 1, elemFim - elemInicio + 1, 4);    
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
       let unidadeRequisitante = JSON.parse(values[row][3]);    
