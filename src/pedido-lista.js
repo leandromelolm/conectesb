@@ -76,10 +76,12 @@ function isPositiveInteger(n) {
 }
 
 function findById(id) {
+    modalLoading.show();
     return findByPedido(id,"","","","","");
 }
 
 function findByNameUnidade(nomeUnidade) {
+    document.getElementById("paginationButtons").innerHTML = "";
     return findByPedido("", nomeUnidade,"","","","");
 }
 
@@ -91,11 +93,11 @@ function findByPedido(id, search, pageNumber, perPage, startId, endId){
     })
     .then( response =>{
         verificarDados(response);
-        document.getElementById("paginationButtons").innerHTML = "";
         desabilitarBotaoPesquisa(false);
     })
     .catch(function (error) {
         hideLoading();
+        modalLoading.hide();
         desabilitarBotaoPesquisa(false);
         alert(`Erro na Requisição: ${error}`);
         document.getElementById('response__erro').innerHTML = "Pesquisa não encontrada. Insira um número de pedido válido.";
@@ -115,7 +117,7 @@ function verificarDados(data){
     } 
     else {
         mostrarDetalhesDoPedidoNoModal(data.responseDataPedidos);
-        hideLoading();
+        hideLoading();        
     }
 };
 
@@ -178,7 +180,7 @@ function preencherTabelaListaDePedidos(arr) {
         linkUnid.addEventListener('click', function () {
             document.getElementById("search-input").value = item.id;                    
             searchTxt(item.id);
-            scrollToTop();
+            // scrollToTop();
             document.getElementById("btn-clear").classList.remove("d-none");
         });
         cell3.appendChild(linkUnid);
@@ -245,6 +247,7 @@ function mostrarDetalhesDoPedidoNoModal(pedido) {
         }
     });
     openModal();
+    modalLoading.hide();
 };
 
 
@@ -253,12 +256,13 @@ function openModal() {
 }
 
 function closeModal() {
+    document.querySelector("#search-input").value = "";
     $('#modalMostrarPedido').modal('hide');
 }
 
 const closeButton = document.querySelector(".btn-secondary[data-dismiss='modal']");
 closeButton.addEventListener("click", function() {
-    closeModal();
+    closeModal();    
 });
 
 function scrollToTop() {
@@ -448,7 +452,7 @@ async function findByDistrito(distrito, perPage) {
             buildPaginationButtons(localStorage.getItem("lista-pedidos-totalPages"), 1);
             preencherTabelaListaDePedidos(JSON.parse(localStorage.getItem('listaDePedidos')));
         } else {
-            modalLoading.show()
+            modalLoading.show();
             const result = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}`)
             const res = await result.json();
             let paginationContainer = document.getElementById("paginationButtons");
