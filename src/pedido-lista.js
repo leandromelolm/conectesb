@@ -406,7 +406,8 @@ async function obterListaDePedido(pageNumber) {
 }
 
 async function obterListaAtualizada(ultimoPedido) {
-    ultimaAtualizacaoDaPagina.innerText = `Data de atualização: ${dateFormat(new Date())}`;
+    document.querySelector("#selectDistrito").value = "todos";
+    ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
     try {
         if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){
             localStorage.setItem('ultimoPedido', ultimoPedido);
@@ -416,9 +417,7 @@ async function obterListaAtualizada(ultimoPedido) {
             preencherTabelaListaDePedidos(data.responseDataPedidos.data);
             localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
             localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
-            const dtUltPedido = dateFormat(data.responseDataPedidos.data[0].dataPedido);
-            const dataUltimoPedido = dtUltPedido.split(' ')
-            msgNovoPedido.innerText = `Data do último pedido: ${dataUltimoPedido[0]}`;
+            msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
             document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
             document.getElementById('msgAguarde').classList.toggle('d-none', true);
             hideLoading();
