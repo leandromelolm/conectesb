@@ -24,7 +24,7 @@ window.onload = async () => {
     }
     const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
     .then(res => res.json());
-    getListaPedidosAtualizar(responseLastRow.res.body.lastRow,listaDePedidos);
+    obterListaAtualizada(responseLastRow.res.body.lastRow,listaDePedidos);
 };
 
 function eventClickEnter(event) {
@@ -35,8 +35,7 @@ function eventClickEnter(event) {
 
 function handleSearch() {
     var txtSearch = document.getElementById('search-input').value;
-    searchTxt(txtSearch);
-    desabilitarBotaoPesquisa();
+    searchTxt(txtSearch);    
     document.querySelector("#selectDistrito").value = "todos";
 };
 
@@ -54,30 +53,37 @@ document.querySelector("#selectDistrito").addEventListener('change', (e) =>{
 })
 
 function searchTxt(txtSearch){
+    desabilitarBotaoPesquisa(true);
     document.getElementById('response__erro').innerHTML = '';
     if (!txtSearch) {
         buildPaginationButtons(localStorage.getItem("lista-pedidos-totalPages"), 1);
         return preencherTabelaListaDePedidos(JSON.parse(localStorage.getItem('listaDePedidos')));
     }    
     if (isPositiveInteger(txtSearch)) { 
-        getFindPedido(txtSearch,"","","","","");
+        return findById(txtSearch,"","","","","");
     }
     if(Math.sign(txtSearch) == -1 || Math.sign(txtSearch) == 0) {
         return document.getElementById('response__erro').innerHTML = 'Numero de pedido inválido';
-
     }
     if (!isPositiveInteger(txtSearch)){
         document.querySelector("#selectDistrito").value = "todos";
-        return getFindPedido("", txtSearch,"","","","");
-    }
-    desabilitarBotaoPesquisa(); // desabilita por 3 seg
+        return findByNameUnidade(txtSearch);
+    }    
 };
 
 function isPositiveInteger(n) {
     return /^\d+$/.test(n) && parseInt(n, 10) > 0;
 }
 
-function getFindPedido(id, search, pageNumber, perPage, startId, endId){
+function findById(id) {
+    return findByPedido(id,"","","","","");
+}
+
+function findByNameUnidade(nomeUnidade) {
+    return findByPedido("", nomeUnidade,"","","","");
+}
+
+function findByPedido(id, search, pageNumber, perPage, startId, endId){
     showLoading();
     fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
     .then( data => {
@@ -86,9 +92,11 @@ function getFindPedido(id, search, pageNumber, perPage, startId, endId){
     .then( response =>{
         verificarDados(response);
         document.getElementById("paginationButtons").innerHTML = "";
+        desabilitarBotaoPesquisa(false);
     })
     .catch(function (error) {
         hideLoading();
+        desabilitarBotaoPesquisa(false);
         alert(`Erro na Requisição: ${error}`);
         document.getElementById('response__erro').innerHTML = "Pesquisa não encontrada. Insira um número de pedido válido.";
         console.error("erro: ",error);
@@ -113,6 +121,7 @@ function verificarDados(data){
 
 function preencherTabelaListaDePedidos(arr) {
     hideLoading();
+    desabilitarBotaoPesquisa(false);
     abrirPedidonoFormulario.className = "d-none";
     document.getElementById('divPedidoBuscado').className = 'd-none';
     document.getElementById('divListaPedido').innerHTML = "";
@@ -301,11 +310,8 @@ function dateFormat(data) {
     return `${dia}-${mes}-${ano} ${horas}:${minutos}:${segundos}`;
 };
 
-function desabilitarBotaoPesquisa() {
-    document.getElementById('btn-search').disabled = true;
-    setTimeout(function() {
-        document.getElementById('btn-search').disabled = false;
-    }, 3000);
+function desabilitarBotaoPesquisa(bStatus) {
+    document.getElementById('btn-search').disabled = bStatus;    
 };
 
 function showLoading() {
@@ -325,7 +331,7 @@ function atualizarPagina() {
     let listaDePedidos = null;
     document.getElementById('btnAtualizarPagina').classList.toggle('d-none', true);
     document.getElementById('msgAguarde').classList.toggle('d-none', false);
-    getListaPedidosAtualizar(ultimoPedido, listaDePedidos);
+    obterListaAtualizada(ultimoPedido, listaDePedidos);
 }
 
 function buildPaginationButtons(totalPages, currentPage) {
@@ -348,7 +354,7 @@ function buildPaginationButtons(totalPages, currentPage) {
     prevButton.addEventListener("click", function() {
         if (currentPage > 1) {
             currentPage--;
-            getListaPedidos(currentPage);
+            obterListaDePedido(currentPage);
         }
     });
     paginationContainer.appendChild(prevButton);
@@ -376,13 +382,13 @@ function buildPaginationButtons(totalPages, currentPage) {
     nextButton.addEventListener("click", function() {
         if (currentPage < totalPages) {
             currentPage++;
-            getListaPedidos(currentPage);
+            obterListaDePedido(currentPage);
         }
     });
     paginationContainer.appendChild(nextButton);
 }
 
-async function getListaPedidos(pageNumber) {
+async function obterListaDePedido(pageNumber) {
     try {
         modalLoading.show();    
         const url = `/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`;
@@ -397,7 +403,7 @@ async function getListaPedidos(pageNumber) {
     }
 }
 
-function getListaPedidosAtualizar(ultimoPedido, listaDePedidos) {
+function obterListaAtualizada(ultimoPedido, listaDePedidos) {
 
     if ( ultimoPedido != ultimoPedidoFeito || ultimoPedidoFeito == null || listaDePedidos == null){
         localStorage.setItem('ultimoPedido', ultimoPedido);
@@ -475,6 +481,8 @@ async function findByDistrito(distrito, perPage) {
         }        
     } catch (error) {
         console.log(error);
+        alert("erro na busca por distrito. Tente novamente!");
+        document.querySelector("#selectDistrito").value = "todos";
         modalLoading.hide();
     }
 }
