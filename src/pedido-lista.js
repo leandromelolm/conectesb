@@ -7,13 +7,13 @@ let pageNumber = 1;
 let perPage = 60;
 let startId = 1; // startId e endId apenas são validos na pesquisa quando search for atribuido o valor 'pesquisarIntervalo'
 let endId = 1;
-let ultimoPedidoFeito;
+let ultimoPedidoRegitrado;
 
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 
 window.onload = async () => {
     showLoading();
-    ultimoPedidoFeito = localStorage.getItem('ultimoPedido');
+    ultimoPedidoRegitrado = localStorage.getItem('ultimoPedido');
     let listaDePedidos = localStorage.getItem('listaDePedidos');
     if(listaDePedidos){
         preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
@@ -24,7 +24,7 @@ window.onload = async () => {
     }
     const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
     .then(res => res.json());
-    obterListaAtualizada(responseLastRow.res.body.lastRow,listaDePedidos);
+    obterListaAtualizada(responseLastRow.res.body.lastRow);
 };
 
 function eventClickEnter(event) {
@@ -77,12 +77,12 @@ function isPositiveInteger(n) {
 
 function findById(id) {
     modalLoading.show();
-    return findByPedido(id,"","","","","");
+    findByPedido(id,"","","","","");
 }
 
 function findByNameUnidade(nomeUnidade) {
     document.getElementById("paginationButtons").innerHTML = "";
-    return findByPedido("", nomeUnidade,"","","","");
+    findByPedido("", nomeUnidade,"","","","");
 }
 
 function findByPedido(id, search, pageNumber, perPage, startId, endId){
@@ -335,7 +335,7 @@ function atualizarPagina() {
     let listaDePedidos = null;
     document.getElementById('btnAtualizarPagina').classList.toggle('d-none', true);
     document.getElementById('msgAguarde').classList.toggle('d-none', false);
-    obterListaAtualizada(ultimoPedido, listaDePedidos);
+    obterListaAtualizada(ultimoPedido);
 }
 
 function buildPaginationButtons(totalPages, currentPage) {
@@ -395,28 +395,23 @@ function buildPaginationButtons(totalPages, currentPage) {
 async function obterListaDePedido(pageNumber) {
     try {
         modalLoading.show();    
-        const url = `/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`;
-        const res = await fetch(url);
-        const data = await res.json();
+        const data = await fetchPedidos('', '', pageNumber, perPage);
         preencherTabelaListaDePedidos(data.responseDataPedidos.data);
         buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
         modalLoading.hide();        
     } catch (error) {
-        alert("Erro na requisição de dados.");
+        alert("Erro na requisição da lista. Messagem:", error);
         modalLoading.hide();
     }
 }
 
-function obterListaAtualizada(ultimoPedido, listaDePedidos) {
-
-    if ( ultimoPedido != ultimoPedidoFeito || ultimoPedidoFeito == null || listaDePedidos == null){
-        localStorage.setItem('ultimoPedido', ultimoPedido);
-        showLoading();
-        fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
+async function obterListaAtualizada(ultimoPedido) {
+    ultimaAtualizacaoDaPagina.innerText = `Data de atualização: ${dateFormat(new Date())}`;
+    try {
+        if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){
+            localStorage.setItem('ultimoPedido', ultimoPedido);
+            showLoading();
+            const data = await fetchPedidos('', '', '', perPage);
             buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
             preencherTabelaListaDePedidos(data.responseDataPedidos.data);
             localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
@@ -427,16 +422,20 @@ function obterListaAtualizada(ultimoPedido, listaDePedidos) {
             document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
             document.getElementById('msgAguarde').classList.toggle('d-none', true);
             hideLoading();
-        })
-        .catch(function (error) {
-            document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
-            document.getElementById('msgAguarde').classList.toggle('d-none', true);
-            hideLoading();
-            alert(error);
-            console.error(error)
-        });
-    }
-    ultimaAtualizacaoDaPagina.innerText = `Data de atualização: ${dateFormat(new Date())}`;
+        }
+    } catch (error) {
+        document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
+        document.getElementById('msgAguarde').classList.toggle('d-none', true);
+        hideLoading();
+        alert("Erro na requisição para atualizar lista. Messagem:", error);
+        console.error(error);        
+    }    
+}
+
+async function fetchPedidos(id, search, pageNumber, perPage){
+    const res = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}`);    
+    const data = await res.json();
+    return data;
 }
 
 document.querySelector("#paginationButtons").addEventListener('change', (e) => {
