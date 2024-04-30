@@ -19,6 +19,8 @@ a {
 
 .main {
   width: 70% !important;
+  font-size: 0.875rem;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {
