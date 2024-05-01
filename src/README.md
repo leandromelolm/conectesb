@@ -60,6 +60,7 @@
 `Ctrl+Shift+.` Navegar no editor rapidamente entre as funções do arquivo de código<br>
 `F12` Ir para referência do valor que está selecionado no curso<br>
 `Ctrl+Shift+C` Abrir terminal do sistema operacional<br>
+`Ctrl+\` Duplicar aba atual<br>
 `ALT+J` Exibir: Ativar/Desativar Painel Maximizado (alterado configuração em preferências: abrir atalhos de teclado)
 
 #### Navegador

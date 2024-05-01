@@ -49,6 +49,7 @@ input {
 .btn__search {
   border-radius: 18px !important;
   background-color: white;
+  font-family: none;
 }
 
 .btn__search:focus {
@@ -101,7 +102,6 @@ button.navbar-toggler {
   display: none; /* Inicialmente, oculta a mensagem de carregamento */
   font-size: 18px;
   text-align: center;
-  margin: 0 12px;
 }
 
 #divPedidoBuscado {
@@ -136,6 +136,12 @@ tbody, td, tfoot, th, thead, tr {
   color: #808080 !important;
   padding: 6px 12px;
   place-self: center;
+}
+
+.msg__aguarde {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 .div__spinner-border {
