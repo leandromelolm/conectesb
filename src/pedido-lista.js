@@ -330,12 +330,25 @@ function hideLoading() {
 
 function atualizarPagina() {
     // Valores setados para forçar a requisição
-    document.querySelector("#selectDistrito").value = "todos";
-    let ultimoPedido = 1; 
-    let listaDePedidos = null;
-    document.getElementById('btnAtualizarPagina').classList.toggle('d-none', true);
-    document.getElementById('msgAguarde').classList.toggle('d-none', false);
+    document.querySelector("#selectDistrito").value = "todos";    
+    let ultimoPedido = null;    
+    toggleBtnAtualizar(true);
     obterListaAtualizada(ultimoPedido);
+}
+
+function toggleBtnAtualizar(toggle){
+    let btnAtualizarPagina = document.getElementById('btnAtualizarPagina');
+    if (toggle) {
+        btnAtualizarPagina.innerHTML = `
+        <div id="spinner" class="spinner-border div__spinner-border" role="status"></div> Aguarde
+        `;
+        btnAtualizarPagina.disabled = true;      
+    } else {
+        btnAtualizarPagina.innerHTML = `
+        <img src="assets/arrow-clockwise.svg" alt="Atualizar"/> Atualizar
+        `;
+        btnAtualizarPagina.disabled = false;      
+    }
 }
 
 function buildPaginationButtons(totalPages, currentPage) {
@@ -409,22 +422,21 @@ async function obterListaAtualizada(ultimoPedido) {
     document.querySelector("#selectDistrito").value = "todos";
     ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
     try {
-        if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){
+        if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){            
             localStorage.setItem('ultimoPedido', ultimoPedido);
+            ultimoPedidoRegitrado = ultimoPedido;
             showLoading();
             const data = await fetchPedidos('', '', '', perPage);
             buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
             preencherTabelaListaDePedidos(data.responseDataPedidos.data);
             localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
             localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
-            msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
-            document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
-            document.getElementById('msgAguarde').classList.toggle('d-none', true);
+            msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;            
+            toggleBtnAtualizar(false);
             hideLoading();
         }
-    } catch (error) {
-        document.getElementById('btnAtualizarPagina').classList.toggle('d-none', false);
-        document.getElementById('msgAguarde').classList.toggle('d-none', true);
+    } catch (error) {        
+        toggleBtnAtualizar(false);
         hideLoading();
         alert("Erro na requisição para atualizar lista. Messagem:", error);
         console.error(error);        
