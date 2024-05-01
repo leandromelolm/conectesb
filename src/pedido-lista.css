@@ -83,10 +83,11 @@ button:focus, input:focus, textarea:focus {
 }
 
 .select__distrito {
-  border-radius: 12px;
+  border-radius: 20px;
   height: 38px;
   background-color: white;
   text-align: center;
+  border: solid 2px darkgray;
 }
 
 #abrirPedidonoFormulario  {
