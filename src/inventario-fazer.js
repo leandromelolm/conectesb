@@ -536,7 +536,7 @@ const options = document.querySelector('.options');
 document.getElementById("unidade").addEventListener("blur", (e) => {
     setTimeout( ()=> {
         options.innerHTML = '';
-    },500);    
+    },500);
 });
 
 let selectedIndex = -1;
@@ -591,6 +591,7 @@ function updateSelectedIndex(items) {
 function preencherInput(value) {
     document.getElementById('unidade').value = value.trim();
     options.innerHTML = '';
+    saveUnidadeSolicitanteLocalStorage();
 }
 
 instrumentais_list = [
