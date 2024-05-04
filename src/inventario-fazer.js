@@ -530,8 +530,14 @@ function autoComplete(unidade) {
     })
 }
 
-const input__unidade = document.querySelector('.input__unidade')
-const options = document.querySelector('.options')
+const input__unidade = document.querySelector('.input__unidade');
+const options = document.querySelector('.options');
+
+document.getElementById("unidade").addEventListener("blur", (e) => {
+    setTimeout( ()=> {
+        options.innerHTML = '';
+    },500);    
+});
 
 let selectedIndex = -1;
 
@@ -544,9 +550,11 @@ input__unidade.addEventListener('input', ({ target }) => {
         options.innerHTML = `
             ${autoCompleteValores.map((value, index) => {
                 return (
-                    `<li>
-                        <a onclick="preencherInput('${value}')">${value}</a>
-                    </li>`
+                    `<a onclick="preencherInput('${value}')">
+                        <li>
+                            <b class="b__unidade-option">${value}</b>
+                        </li>
+                    </a>`
                 );
             }).join('')}
         `;

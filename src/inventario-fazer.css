@@ -188,8 +188,13 @@ ul {
     padding: 0;
 }
 
-ul li {
-    margin-bottom: 8px;
+li {
+    margin-bottom: 5px;
+    border-bottom: solid 1px lightblue;
+}
+
+.b__unidade-option {
+    font-size: small;
 }
 
 .hidden {
