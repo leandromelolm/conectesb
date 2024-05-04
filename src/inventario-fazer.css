@@ -76,11 +76,11 @@ a {
     text-decoration: none;
 }
 
-.input__item {
+.input__quant-estoque {
     border: 1px solid #ced4da;      
 }
 
-.input__quant {
+.input__quant-pedido {
     border: 1px solid #ced4da; 
 }
 
@@ -119,8 +119,7 @@ label {
 
 input {
     width: 100%;
-    padding: 8px;
-    /* margin-bottom: 16px; */
+    padding: 0px 2px;
     box-sizing: border-box;
     font-size: medium;
     border-radius: 5px

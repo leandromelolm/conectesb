@@ -34,15 +34,15 @@ function criarFormulario() {
         divElement.setAttribute("data-inventary", index + 1);
 
         const divInnerHtml = `           
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-center">
                 <div class="col-8 d-flex">
                     <div id="item">${index + 1}. ${item}</div>
                 </div>
                 <div class="col-2 div__item">
-                    <input type="number" id="quantEstoque${index}" min="0" max="300" class="input__item">
+                    <input type="number" id="quantEstoque${index}" min="0" max="9999" class="input__quant-estoque" oninput="validarQuantidade(this)">
                 </div>
                 <div class="col-2 div__quant">
-                    <input type="number" id="quantPedida${index}" min="0" max="300" class="input__quant">
+                    <input type="number" id="quantPedida${index}" min="0" max="9999" class="input__quant-pedido" oninput="validarQuantidade(this)">
                 </div>
             </div>
         `;
@@ -51,6 +51,20 @@ function criarFormulario() {
         inventaryContainer.appendChild(divElement);
     });    
 }
+
+function validarQuantidade(input) {
+    var min = parseInt(input.min);
+    var max = parseInt(input.max);
+    var valor = parseInt(input.value);
+  
+    if (isNaN(valor)) {
+      input.value = '';
+    } else if (valor < min) {
+      input.value = min;
+    } else if (valor > max) {
+      input.value = max;
+    }
+  }
 
 function validarFormulario(event) {
     'use strict';  
@@ -415,7 +429,7 @@ function limparTudo() {
 
 function limparCamposItensInventario() {
     const inventaryContainer = document.getElementById("inventaryContainer");
-    const camposDeInput = inventaryContainer.querySelectorAll('.input__item, .input__quant');
+    const camposDeInput = inventaryContainer.querySelectorAll('.input__quant-estoque, .input__quant-pedido');
 
     camposDeInput.forEach((campo) => {
         campo.value = "";
