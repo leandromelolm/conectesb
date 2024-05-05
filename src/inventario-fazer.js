@@ -456,6 +456,13 @@ function criarTabelaInventario(objInventario) {
     });
 }
 
+function scrollToID(id) {
+    var elem = document.getElementById(id);
+    if (elem) {
+      elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
 window.onscroll = function () {
   scrollFunctionToTop();
   scrollFunctionToBottom();
@@ -592,6 +599,7 @@ function preencherInput(value) {
     document.getElementById('unidade').value = value.trim();
     options.innerHTML = '';
     saveUnidadeSolicitanteLocalStorage();
+    scrollToID('unidade');
 }
 
 instrumentais_list = [
