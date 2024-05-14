@@ -4,14 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="vacina-esquema.css">
-    <script src="vacina-esquema.js"></script>
+    <script src="vacina-esquema.js" defer></script>
     <title>Esquema Vacina</title>
 </head>
 <body>    
     <button id="atualizar" onclick="atualizar()">Atualizar</button>
     <div id="updatePage"></div>
+    <div class="button-container">
+        <button value="Todos">Todos</button>
+        <button value="Criança">Criança</button>
+        <button value="Adolescente">Adolescente</button>
+        <button value="Adulto">Adulto</button>
+        <button value="Idoso">Idoso</button>
+        <button value="Gestante">Gestante</button>
+    </div>
     <div>
         <div id="lista">
+            <div id="divTitleFaixa">Todos</div>
+            <div id="selectIdade" class="d__none">
+                <label for="idade">Idade:</label>
+                <select name="idade" id="idade">
+                    <option disabled selected value="-">- Selecione -</option>
+                    <option value="0,0">recem-nascido</option>
+                    <option value="0,2">2 meses</option>
+                    <option value="0,3">3 meses</option>
+                    <option value="0,4">4 meses</option>
+                    <option value="0,5">5 meses</option>
+                    <option value="0,6">6 meses</option>
+                    <option value="0,7">7 meses</option>
+                    <option value="1,0">1 ano</option>
+                    <option value="1,3">1 ano 3 meses</option>
+                    <option value="4,0">4 anos</option>
+                    <option value="5,0">5 anos</option>
+                    <option value="9,0">9 anos</option>
+                </select>
+            </div>
             <div id="card"></div>
         </div>
     </div>    

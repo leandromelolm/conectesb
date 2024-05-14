@@ -457,7 +457,7 @@ function criarTabelaInventario(objInventario) {
 }
 
 function scrollToID(id) {
-    var elem = document.getElementById(id);
+    const elem = document.getElementById(id);
     if (elem) {
       elem.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
