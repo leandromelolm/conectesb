@@ -1,10 +1,8 @@
-let esquema_vacina;
 window.onload = () => {
-    esquema_vacina = sessionStorage.getItem('esquema-vacina');    
-    if (typeof esquema_vacina !== "string")
+    if (typeof sessionStorage.getItem('esquema-vacina') !== "string")
         getLista();
     else        
-        createCardsHtml(JSON.parse(esquema_vacina));
+        createCardsHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
 }
 
 async function getLista() {
@@ -19,6 +17,9 @@ async function getLista() {
 function atualizar(){
     document.getElementById('atualizar').disabled = true;
     getLista();
+    resetarSelectIdade();
+    document.querySelector('#selectIdade').classList.add('d__none');
+    document.querySelector("#divTitleFaixa").innerHTML = "Todos";
 }
 
 function createCardsHtml(lista) {
@@ -26,23 +27,21 @@ function createCardsHtml(lista) {
     lista.forEach(e => {
         let elCard = `
         <div class="div__card">
-            <div>Fase: ${e.faixa}</div>
-            <div style="font-size: xx-small;">
-                <div>${e.id}</div>                        
-            </div>
-            <div>${e.vacina}</div>
+            <div style="font-size: xx-small; color: darkgrey;">cod: ${e.id}</div>                        
+            <div style="font-weight: 600;">${e.vacina}</div>
             <div>${e.vacina_sigla}</div>
             <div>${e.dose}</div>
+            <div class="text-success">Fase: ${e.faixa}</div>
             <div style="display: flex;">
-                Faixa etária inicial:
-                <div style='margin: 0px 10px;'>ANO: ${e.idade_ano_minimo}</div>
+                <div>Idade inicial:</div>
+                <div class="mx-2">ANO: ${e.idade_ano_minimo}</div>
                 <div>Mes: ${e.idade_mes_minimo}</div>
             </div>        
             <div>${e.grupo}</div>
             <div>${e.observacao}</div>
             <div>${e.informacoes_complementares}</div>
-            <div>${e.via_de_administracao}</div>
-            <div>${e.local_de_administracao}</div>
+            <div><small>${e.via_de_administracao}</small></div>
+            <div><small>${e.local_de_administracao}</small></div>
             <div>${e.lote}</div>       
             <div>${e.validade}</div>       
         </div>
@@ -59,10 +58,10 @@ document.querySelector('.button-container').addEventListener('click', (e) =>{
     if(e.target.tagName === 'BUTTON') {
         document.querySelector("#divTitleFaixa").innerHTML = e.target.value;
         if(e.target.value === 'Todos') {
-            createCardsHtml(JSON.parse(esquema_vacina));
+            createCardsHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
         }
         if(e.target.value !== 'Todos'){
-            const result = filtarLista(JSON.parse(esquema_vacina), e.target.value);
+            const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), e.target.value);
             createCardsHtml(result);            
             if (e.target.value === "Criança")
                 document.querySelector('#selectIdade').classList.remove('d__none');
@@ -75,7 +74,7 @@ function filtarLista(lista, objFiltro){
 }
 
 document.getElementById('idade').addEventListener('change', (e) =>{    
-    const result = filtarLista(JSON.parse(esquema_vacina), 'Criança');
+    const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), 'Criança');
     const resultIdade = selectVacinaDaIdade(result, e.target.value);
     createCardsHtml(resultIdade);
 })
