@@ -23,6 +23,7 @@ function atualizar(){
 }
 
 function createCardsHtml(lista) {
+    createPopover(lista);
     let cards = [];
     lista.forEach(e => {
         let elCard = `
@@ -43,7 +44,7 @@ function createCardsHtml(lista) {
             <div><small>${e.via_de_administracao}</small></div>
             <div><small>${e.local_de_administracao}</small></div>
             <div>${e.lote}</div>       
-            <div>${e.validade}</div>       
+            <div>${e.validade}</div>            
         </div>
         `
         cards.push(elCard);
@@ -51,6 +52,28 @@ function createCardsHtml(lista) {
     document.getElementById('card').innerHTML = cards.join('');
     document.getElementById('atualizar').disabled = false;
 }
+
+function createPopover(lista) {
+    let list = [];
+    lista.forEach(e =>{
+        let el = `
+        <a tabindex="0" 
+            class="btn btn-sm btn-outline-primary my-1" 
+            role="button" 
+            data-bs-toggle="popover" 
+            data-bs-trigger="focus" 
+            data-bs-title="Administração" 
+            data-bs-content=" ${e.via_de_administracao} | ${e.local_de_administracao}">
+            ${e.vacina} | ${e.dose}
+        </a>
+        `
+        list.push(el);
+    });
+    document.getElementById('listVacinaSimplificada').innerHTML = list.join('');
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+}
+
 
 document.querySelector('.button-container').addEventListener('click', (e) =>{
     document.querySelector('#selectIdade').classList.add('d__none');
