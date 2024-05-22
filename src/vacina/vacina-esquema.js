@@ -57,13 +57,33 @@ function createPopover(lista) {
     let list = [];
     lista.forEach(e =>{
         let el = `
-        <a tabindex="0" 
-            class="btn btn-sm btn-outline-primary my-1" 
-            role="button" 
-            data-bs-toggle="popover" 
+        <a tabindex="0"
+            class="btn btn-sm btn-outline my-1 btn__${e.id.toString().substr(0,1)}"
+            data-bs-toggle="popover"
+            data-bs-title="${e.vacina}  ${e.dose}"
+            data-bs-html="true"
             data-bs-trigger="focus" 
-            data-bs-title="Administração" 
-            data-bs-content=" ${e.via_de_administracao} | ${e.local_de_administracao}">
+            data-bs-content="
+                <div>
+                    <div>
+                        <span><strong>Observação:</strong> ${e.observacao}</span>                    
+                    </div>                 
+                    <div>                    
+                        <span><strong>Informacões complementares:</strong> ${e.informacoes_complementares}</span>
+                    </div>  
+                    <div>
+                        <strong> Via:</strong> ${e.via_de_administracao}
+                    </div>
+                    <div>
+                        <strong>Local:</strong> ${e.local_de_administracao}
+                    </div>
+                    <div>
+                        ${e.lote}
+                    </div>
+                    <div>
+                       ${e.validade}
+                    </div>                                 
+                </div>">
             ${e.vacina} | ${e.dose}
         </a>
         `
