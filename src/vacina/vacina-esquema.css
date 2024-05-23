@@ -19,6 +19,40 @@
     border-radius: 10px;
 }
 
+.btn__todos {
+    
+}
+
+.btn__crianca {
+    background-color: #198754;
+    color: white;
+    border-color: #198754;
+}
+
+.btn__adolescente {
+    background-color: #fd7e14;
+    color: white;
+    border-color: #fd7e14;
+}
+
+.btn__adulto {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.btn__idoso {
+    background-color: #0dcaf0;
+    color: white;
+    border-color: #0dcaf0;
+}
+
+.btn__gestante {
+    background-color: #d63384;
+    color: white;
+    border-color: #d63384;
+}
+
 .div__content {
     margin: 10px;
 }
@@ -36,8 +70,8 @@
     border-color: #0d6efd;
 }
 .btn__4 {
-    color: #6610f2;
-    border-color: #6610f2;
+    color: #0dcaf0;
+    border-color: #0dcaf0;
 }
 .btn__5 {
     color: #d63384;
@@ -60,9 +94,9 @@
     border-color: #0d6efd;
 }
 .btn__4:hover {
-    background-color: #6610f2;
+    background-color: #0dcaf0;
     color: white;
-    border-color: #6610f2;
+    border-color: #0dcaf0;
 }
 .btn__5:hover {
     background-color: #d63384;

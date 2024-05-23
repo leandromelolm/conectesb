@@ -25,6 +25,7 @@ function atualizar(){
 function createCardsHtml(lista) {
     createPopover(lista);
     let cards = [];
+    cards.push('<hr><h5>Detalhes</h5>')
     lista.forEach(e => {
         let elCard = `
         <div class="div__card">
