@@ -2,7 +2,16 @@ window.onload = () => {
     if (typeof sessionStorage.getItem('esquema-vacina') !== "string")
         getLista();
     else        
-        createCardsHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
+        dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')))
+        createTableElementWithData(JSON.parse(sessionStorage.getItem('esquema-vacina')));  
+        console.log(JSON.parse(sessionStorage.getItem('esquema-vacina')));
+}
+
+function dataHtml(data) {
+    // createCardsHtml(data);
+    // createTableElementWithData(data);
+    createPopoverList(data);
+    document.getElementById('atualizar').disabled = false;
 }
 
 async function getLista() {
@@ -11,7 +20,7 @@ async function getLista() {
     sessionStorage.setItem("esquema-vacina", JSON.stringify(data.content));
     const nowDate = new Date();
     document.getElementById('updatePage').innerHTML = `${nowDate.toLocaleDateString()} ${nowDate.toLocaleTimeString()}`;
-    createCardsHtml(data.content);
+    dataHtml(data.content);
 }
 
 function atualizar(){
@@ -22,8 +31,7 @@ function atualizar(){
     document.querySelector("#divTitleFaixa").innerHTML = "Todos";
 }
 
-function createCardsHtml(lista) {
-    createPopover(lista);
+function createCardsHtml(lista) {    
     let cards = [];
     cards.push('<hr><h5>Detalhes</h5>')
     lista.forEach(e => {
@@ -50,11 +58,10 @@ function createCardsHtml(lista) {
         `
         cards.push(elCard);
     });
-    document.getElementById('card').innerHTML = cards.join('');
-    document.getElementById('atualizar').disabled = false;
+    document.getElementById('card').innerHTML = cards.join('');    
 }
 
-function createPopover(lista) {
+function createPopoverList(lista) {
     let list = [];
     lista.forEach(e =>{
         let el = `
@@ -102,13 +109,17 @@ document.querySelector('.button-container').addEventListener('click', (e) =>{
     if(e.target.tagName === 'BUTTON') {
         document.querySelector("#divTitleFaixa").innerHTML = e.target.value;
         if(e.target.value === 'Todos') {
-            createCardsHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
+            dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
         }
         if(e.target.value !== 'Todos'){
             const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), e.target.value);
-            createCardsHtml(result);            
-            if (e.target.value === "Criança")
+            dataHtml(result);                
+            if (e.target.value === "Criança"){
+                // const group = groupBy(result, "grupo");
+                // console.log(group);
+                // listItems(group);
                 document.querySelector('#selectIdade').classList.remove('d__none');
+            }
         }
     }
 })
@@ -120,7 +131,7 @@ function filtarLista(lista, objFiltro){
 document.getElementById('idade').addEventListener('change', (e) =>{    
     const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), 'Criança');
     const resultIdade = selectVacinaDaIdade(result, e.target.value);
-    createCardsHtml(resultIdade);
+    dataHtml(resultIdade);
 })
 
 function selectVacinaDaIdade(lista, filtro) {
@@ -134,4 +145,195 @@ function selectVacinaDaIdade(lista, filtro) {
 function resetarSelectIdade() {
     const selectElement = document.getElementById('idade');
     selectElement.value = "-";
+}
+
+function groupBy(array, key) {
+    return array
+      .reduce((hash, obj) => {
+        if(obj[key] === undefined) return hash; 
+        return Object.assign(hash, { [obj[key]]:( hash[obj[key]] || [] ).concat(obj)})
+      }, {})
+ }
+
+ function listItems(array) {
+    const container = document.getElementById('container');
+
+    for (const key in array) {
+        if (array.hasOwnProperty(key)) {
+            const items = array[key];
+
+            const section = document.createElement('div');
+
+            const parts = key.split(',');
+            const ano = parseInt(parts[0], 10);
+            const mes = parseInt(parts[1], 10);
+
+            if(ano === 0)
+                section.innerHTML = `<h6>${mes} Meses</h6>`;
+            if(ano !== 0)
+                section.innerHTML = `<h6>${ano} Ano(s) e ${mes} Mês(es)</h6>`;
+
+            const ul = document.createElement('div');
+            ul.className = ''
+
+            items.forEach((obj) => {
+                const li = document.createElement('div');
+                li.className = "";
+                li.innerHTML = createPopoverObj(obj);
+                ul.appendChild(li);
+                const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+                const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+            });
+
+            section.appendChild(ul);
+            container.appendChild(section);
+        }
+    }
+}
+
+function createPopoverObj(e) {    
+    return `
+        <a tabindex="0"
+            class="btn btn-sm btn-outline my-1 btn__${e.id.toString().substr(0,1)}"
+            data-bs-toggle="popover"
+            data-bs-title="${e.vacina}  ${e.dose}"
+            data-bs-html="true"
+            data-bs-trigger="focus" 
+            data-bs-content="
+                <div>
+                    <div>
+                        <span><strong>Observação:</strong> ${e.observacao}</span>                    
+                    </div>                 
+                    <div>                    
+                        <span><strong>Informacões complementares:</strong> ${e.informacoes_complementares}</span>
+                    </div>  
+                    <div>
+                        <strong> Via:</strong> ${e.via_de_administracao}
+                    </div>
+                    <div>
+                        <strong>Local:</strong> ${e.local_de_administracao}
+                    </div>
+                    <div>
+                        ${e.lote}
+                    </div>
+                    <div>
+                       ${e.validade}
+                    </div>                                 
+                </div>">
+            ${e.vacina} | ${e.dose}
+        </a>
+        `
+}
+
+function createTableElementWithData(data) {
+    let table = document.createElement("table");
+    table.id = "productTable";
+    table.className = "table table-bordered table-striped";
+    table.setAttribute('data-page-length', '100');
+    table.setAttribute('data-order', '[[0, "asc"]]');
+
+    const thead = document.createElement('thead');
+    const theadRow = document.createElement('tr');
+
+    const th1 = document.createElement('th');
+    const th2 = document.createElement('th');
+    const th3 = document.createElement('th');
+    const th4 = document.createElement('th');
+    const th5 = document.createElement('th');
+    const th6 = document.createElement('th');
+    const th7 = document.createElement('th');
+    const th8 = document.createElement('th');
+    const th9 = document.createElement('th');
+    const th10 = document.createElement('th');
+
+    th1.textContent = '#ID';
+    th2.textContent = 'VACINA';
+    th3.textContent = 'DOSE';
+    th4.textContent = 'ANO,MÊS';
+    th5.textContent = 'LOCAL DE ADMINISTRAÇÃO';
+    th6.textContent = 'VIA DE ADMINISTRAÇÃO';
+    th7.textContent = 'OBSERVAÇÃO';
+    th8.textContent = 'INFORMAÇÕES COMPLEMENTARES';
+    th9.textContent = 'FAIXA';
+    th10.textContent = 'VACINA SIGLA';
+
+    theadRow.appendChild(th1);
+    theadRow.appendChild(th2);
+    theadRow.appendChild(th3);
+    theadRow.appendChild(th4);
+    theadRow.appendChild(th5);
+    theadRow.appendChild(th6);
+    theadRow.appendChild(th7);
+    theadRow.appendChild(th8);
+    theadRow.appendChild(th9);
+    theadRow.appendChild(th10);
+
+    thead.appendChild(theadRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    for (let i = 0; i < data.length; i++) {
+
+        let tr = tbody.insertRow(-1);
+        let tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].id;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].vacina;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].dose;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].grupo;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].local_de_administracao;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].via_de_administracao;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].observacao;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].informacoes_complementares;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].faixa;
+        tabCell = tr.insertCell(-1);
+        tabCell.innerHTML = data[i].vacina_sigla;
+        
+    }
+
+    table.appendChild(tbody);
+
+    let divContainer = document.getElementById("showDataInTable");
+    divContainer.innerHTML = "";
+    divContainer.appendChild(table);    
+
+    
+    $("#response").css("visibility", "visible");
+
+    if ($.fn.DataTable.isDataTable('#productTable')) {
+        $('#productTable').DataTable().destroy();
+    }
+
+    $(document).ready(function () {
+        $('#productTable').DataTable({
+            "aaSorting": [],
+            "search": {
+                "search": ""
+            },
+            "language": {
+                "search": "Pesquisar:",
+                "searchPlaceholder": "Digite para pesquisar...",
+                "lengthMenu": "Mostrar _MENU_ itens por página",
+                "info": "Mostrando _START_ a _END_ de _TOTAL_ itens",
+                "infoEmpty": "Mostrando 0 a 0 de 0 itens",
+                "infoFiltered": "(filtrado de _MAX_ itens no total)",
+                "zeroRecords": "Nenhum registro correspondente encontrado",
+                "paginate": {
+                    "first": "Primeiro",
+                    "previous": "Anterior",
+                    "next": "Próximo",
+                    "last": "Último"
+                }
+            }
+        });
+
+    });      
 }
