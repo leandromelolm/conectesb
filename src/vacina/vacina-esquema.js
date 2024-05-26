@@ -253,6 +253,7 @@ function createTableElementWithData(data) {
     th5.textContent = 'LOCAL DE ADMINISTRAÇÃO';
     th6.textContent = 'VIA DE ADMINISTRAÇÃO';
     th7.textContent = 'OBSERVAÇÃO';
+    th7.className = "wide-column";
     th8.textContent = 'INFORMAÇÕES COMPLEMENTARES';
     th9.textContent = 'FAIXA';
     th10.textContent = 'VACINA SIGLA';
@@ -290,6 +291,7 @@ function createTableElementWithData(data) {
         tabCell.innerHTML = data[i].via_de_administracao;
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = data[i].observacao;
+        tabCell.className = "wide-column";
         tabCell = tr.insertCell(-1);
         tabCell.innerHTML = data[i].informacoes_complementares;
         tabCell = tr.insertCell(-1);
@@ -314,6 +316,11 @@ function createTableElementWithData(data) {
 
     $(document).ready(function () {
         $('#productTable').DataTable({
+            responsive: true,
+            rowReorder: {
+            selector: 'td:nth-child(1)'
+            },
+            scrollY: 600,
             "aaSorting": [],
             "search": {
                 "search": ""
@@ -332,8 +339,7 @@ function createTableElementWithData(data) {
                     "next": "Próximo",
                     "last": "Último"
                 }
-            }
+            },         
         });
-
     });      
 }
