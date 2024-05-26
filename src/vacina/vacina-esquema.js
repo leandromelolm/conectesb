@@ -1,8 +1,8 @@
 window.onload = () => {
     if (typeof sessionStorage.getItem('esquema-vacina') !== "string")
         getLista();
-    else        
-        dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')))
+    else 
+        dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
         createTableElementWithData(JSON.parse(sessionStorage.getItem('esquema-vacina')));  
         console.log(JSON.parse(sessionStorage.getItem('esquema-vacina')));
 }
@@ -21,6 +21,7 @@ async function getLista() {
     const nowDate = new Date();
     document.getElementById('updatePage').innerHTML = `${nowDate.toLocaleDateString()} ${nowDate.toLocaleTimeString()}`;
     dataHtml(data.content);
+    createTableElementWithData(data.content);
 }
 
 function atualizar(){
