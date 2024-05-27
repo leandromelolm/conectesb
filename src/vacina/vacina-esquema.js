@@ -3,7 +3,7 @@ window.onload = () => {
         getLista();
     else 
         dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
-        createTableElementWithData(JSON.parse(sessionStorage.getItem('esquema-vacina')));  
+        // createTableElementWithData(JSON.parse(sessionStorage.getItem('esquema-vacina')));  
         console.log(JSON.parse(sessionStorage.getItem('esquema-vacina')));
 }
 
@@ -21,7 +21,7 @@ async function getLista() {
     const nowDate = new Date();
     document.getElementById('updatePage').innerHTML = `${nowDate.toLocaleDateString()} ${nowDate.toLocaleTimeString()}`;
     dataHtml(data.content);
-    createTableElementWithData(data.content);
+    // createTableElementWithData(data.content);
 }
 
 function atualizar(){
@@ -109,18 +109,22 @@ document.querySelector('.button-container').addEventListener('click', (e) =>{
     resetarSelectIdade();
     if(e.target.tagName === 'BUTTON') {
         document.querySelector("#divTitleFaixa").innerHTML = e.target.value;
+        document.getElementById('container').innerHTML = "";
         if(e.target.value === 'Todos') {
             dataHtml(JSON.parse(sessionStorage.getItem('esquema-vacina')));
         }
-        if(e.target.value !== 'Todos'){
+        if(e.target.value !== 'Todos' && e.target.value !== 'Criança' ){
             const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), e.target.value);
-            dataHtml(result);                
-            if (e.target.value === "Criança"){
-                // const group = groupBy(result, "grupo");
-                // console.log(group);
-                // listItems(group);
-                document.querySelector('#selectIdade').classList.remove('d__none');
-            }
+            dataHtml(result);
+        }
+        if (e.target.value === "Criança"){
+            document.getElementById('listVacinaSimplificada').innerHTML = '';
+            const result = filtarLista(JSON.parse(sessionStorage.getItem('esquema-vacina')), e.target.value);
+            const group = groupBy(result, "grupo");
+            console.log(group);
+            const sortGroup = sortGroupsByName(group);
+            listItems(sortGroup);
+            document.querySelector('#selectIdade').classList.remove('d__none');
         }
     }
 })
@@ -156,8 +160,22 @@ function groupBy(array, key) {
       }, {})
  }
 
+ function sortGroupsByName(groupedObj) {
+    // Converte o objeto em um array de [chave, valor]
+    let groupedArray = Object.entries(groupedObj);
+
+    // Ordena o array com base no nome das chaves (grupos)
+    groupedArray.sort((a, b) => a[0].localeCompare(b[0]));
+
+    // Converte de volta para um objeto
+    let sortedGroupedObj = Object.fromEntries(groupedArray);
+
+    return sortedGroupedObj;
+}
+
  function listItems(array) {
     const container = document.getElementById('container');
+    container.classList.add('mt-5');
 
     for (const key in array) {
         if (array.hasOwnProperty(key)) {
@@ -175,7 +193,7 @@ function groupBy(array, key) {
                 section.innerHTML = `<h6>${ano} Ano(s) e ${mes} Mês(es)</h6>`;
 
             const ul = document.createElement('div');
-            ul.className = ''
+            ul.className = 'mb-3'
 
             items.forEach((obj) => {
                 const li = document.createElement('div');
