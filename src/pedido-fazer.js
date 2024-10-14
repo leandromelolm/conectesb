@@ -106,7 +106,10 @@ function validarPreenchimentoDeCampos(){
         mensagens.push(`O campo <b>Distrito Sanitário</b> precisa ser preenchido.</br>`);     
     
     if (document.getElementById('grupoMaterial').value === '')
-        mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`); 
+        mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`);
+    
+    if (sessionStorage.getItem('dadosRequerente') === null)
+        mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b> tente outro navegador se o erro persistir.</br>`); 
 
     messageValidateSending.innerHTML = mensagens.join("");
     return messageValidateSending;
