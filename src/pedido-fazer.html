@@ -996,9 +996,26 @@
 
     </div>
 
-    <div class="footer hidden-in-print">
+    <div class="footer hidden-in-print"></div>
 
-    </div>   
+    <!-- Modal Confirmar Envio de Pedido -->
+    <div class="modal fade" id="modal-confirmar-envio" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">ENVIAR PEDIDO</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            Clique em SIM para confirmar o envio do pedido da sua unidade
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelar" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="button" class="btn btn-primary" id="btn-sim" data-bs-dismiss="modal">SIM</button>
+            </div>
+        </div>
+        </div>
+    </div>    
 
 </body>
 

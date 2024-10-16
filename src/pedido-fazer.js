@@ -73,15 +73,19 @@ function sendToSpreadsheet() {
 
     document.querySelector('#messageValidateSending').innerHTML = "";    
     messageValidateSending.style.backgroundColor = 'transparent';
-    messageValidateSending.style.height = '1px';
-    let ok = confirm(`Clique em OK para confirmar o envio do pedido?`);
-    if (ok) {
-        fetchPostSaveSheetGoogle();
-        document.getElementById('btnSendSpreadsheet').disabled = true;
-        // desabilitarBotaoEnviar();
-        // printPage();
-    }
+    messageValidateSending.style.height = '1px';    
+    modalConfirmarEnvio();  
 }
+
+function modalConfirmarEnvio() {
+    let myModal = new bootstrap.Modal(document.getElementById('modal-confirmar-envio'));
+    myModal.toggle();
+}
+
+document.getElementById("btn-sim").addEventListener("click", function() {
+    fetchPostSaveSheetGoogle();
+    document.getElementById('btnSendSpreadsheet').disabled = true;
+})
 
 function validarPreenchimentoDeCampos(){
     let messageValidateSending = document.getElementById('messageValidateSending');
