@@ -82,6 +82,12 @@ function modalConfirmarEnvio() {
     myModal.toggle();
 }
 
+function abrirModal(str) {
+    let myModal = new bootstrap.Modal(document.getElementById('modal-resposta-envio'));
+    myModal.toggle();
+    document.querySelector("#modalBody").innerHTML = str;
+}
+
 document.getElementById("btn-sim").addEventListener("click", function() {
     fetchPostSaveSheetGoogle();
     document.getElementById('btnSendSpreadsheet').disabled = true;
@@ -422,16 +428,15 @@ function responseFetch(data) {
         let messageError = document.getElementById('messageError');        
         messageError.innerHTML =`
             <h4>
-                <b>Erro no Envio!</b>
+                <b>Erro no envio!</b>
             </h4>
             <div>
-                <span>tente novamente, se o erro repetir contate o administrador.</span>
+                <span>Verifique a conexão com a internet e tente novamente, se o erro repetir contate o administrador.</span>
                 <!-- Messagem do erro: <b>${data.error}</b> -->
             </div>
         `;
-        return alert(`
-        Erro: ${data.error}
-        `)
+        return abrirModal("Pedido não enviado! Erro no envio.");
+
     } else {
         limparTudo();
         document.getElementById('divLoadingById').classList.add('d-none');
@@ -447,11 +452,13 @@ function responseFetch(data) {
             <span>Momento: </span> <b>${data.dataPedido}</b>
         </div>         
         `;
-        alert(
-            `Pedido enviado com sucesso!
-            Número Pedido: ${data.numeroPedido}
-            Momento: ${data.dataPedido}`
-        );
+        abrirModal(`
+            <div class="flex-row">
+                <div>Pedido enviado com sucesso!</div>
+                <div>Número Pedido: ${data.numeroPedido}</div>
+                <div>Momento: ${data.dataPedido}</div>
+            </div>            
+        `);
     }
 }
 

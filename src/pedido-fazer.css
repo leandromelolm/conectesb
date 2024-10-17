@@ -332,6 +332,7 @@ input[type="number"] {
 #buttons {
     display: grid;
     justify-content: center;
+    place-items: center;
 }
 
 .tipo__pedido{
@@ -580,6 +581,7 @@ text-transform: none;
     height: auto; 
     text-align: center; 
     display: grid;
+    width: 100%;
 }
 
 .message__error {
@@ -588,4 +590,10 @@ text-transform: none;
     height: auto;
     text-align: center; 
     display: grid;
+    border-radius: 5px;
+    width: 380px;
+}
+
+.modal-body {
+    font-size: large;
 }
