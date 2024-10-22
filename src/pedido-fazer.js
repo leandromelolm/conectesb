@@ -465,11 +465,13 @@ function responseFetch(data) {
 function catchError(error) {
     document.getElementById('btnSendSpreadsheet').disabled = false; // habilitar botão enviar
 
-    alert(`
-        Aconteceu um erro!
-        Pode ser que sua solicitação não tenha sido enviada.
-        Mensagem de Erro: 
-        ${error}
+    abrirModal(`
+        <div class="flex-row">
+            <div>Aconteceu um erro!</div>
+            <div>Pode ser que sua solicitação não tenha sido enviada.</div>
+            <div>Mensagem de Erro:</div>
+            <div>${error}</div>
+        </div>            
     `);
     
     document.getElementById('divLoadingById').classList.add('d-none');
@@ -484,17 +486,11 @@ function catchError(error) {
     `;
 
     document.querySelector('#messageValidateSending').innerHTML = `
-        <h4>
-            <b>Erro no Envio!</b>
-        </h4>
+        <h4><b>Erro no envio!</b></h4>
         <div>Tente novamente!</div>
-        <div>
-            Se o erro persistir, verifique a conexão com a internet ou tente novamente mais tarde.      
-        </div>
+        <div>Se o erro persistir, verifique a conexão com a internet ou tente novamente mais tarde.</div>
         <div>Caso ainda continue a messagem de erro, contate o administrador e informe a menssagem de erro.</div>
-        <div>
-            Messagem do erro: <b>${error}</b>
-        </div>
+        <div>Messagem do erro: <b>${error}</b></div>
     `;
 }
 
@@ -588,7 +584,7 @@ function somar(inputQuantidade) {
 
 function subtrair(inputQuantidade) {
     let resultado = parseInt(inputQuantidade.val()) || 0;
-    resultado = (resultado > 0) ? resultado - 1 : 0;
+    resultado = (resultado > 1) ? resultado - 1 : null;
     inputQuantidade.val(resultado);
     saveDataItensLocalStorage();
 }
