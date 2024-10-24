@@ -16,6 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="pedido-fazer.js" defer></script>
+    <script src="lista-unidade.js" defer></script>
+    <script src="lista-itens-de-pedido.js"></script>
 </head>
 
 <body>
@@ -994,9 +996,36 @@
 
     </div>
 
-    <div class="footer hidden-in-print">
+    <div class="footer hidden-in-print"></div>
 
-    </div>   
+    <!-- Modal Confirmar Envio de Pedido -->
+    <div class="modal fade" id="modal-confirmar-envio" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">            
+            <div class="modal-body">                
+                <span>Clique em SIM para confirmar o envio do pedido</span>            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelar" data-bs-dismiss="modal">CANCELAR</button>
+            <button type="button" class="btn btn-primary" id="btn-sim" data-bs-dismiss="modal">SIM</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- Modal Resposta-->
+    <div class="modal fade" id="modal-resposta-envio" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">            
+            <div class="modal-body">
+                <div id="modalBody"></div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="cancelar" data-bs-dismiss="modal">Fechar</button>            
+            </div>
+        </div>
+        </div>
+    </div>
 
 </body>
 
