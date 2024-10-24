@@ -14,18 +14,53 @@ const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {})
 window.onload = async () => {
     showLoading();
     ultimoPedidoRegitrado = localStorage.getItem('ultimoPedido');
-    let listaDePedidos = localStorage.getItem('listaDePedidos');
-    if(listaDePedidos){
-        preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
-        let totalPages = localStorage.getItem("lista-pedidos-totalPages");
-        totalPages = totalPages === null ? 0 : totalPages;
-        buildPaginationButtons(totalPages, pageNumber);
-        document.querySelector("#selectDistrito").value = "todos";
+    let listaDePedidos = localStorage.getItem('listaDePedidos');    
+     
+    if (JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {        
+        findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));        
+    } else {        
+        if (listaDePedidos) {
+            preencherTabelaListaDePedidos(JSON.parse(listaDePedidos));
+            let totalPages = localStorage.getItem("lista-pedidos-totalPages");
+            totalPages = totalPages === null ? 0 : totalPages;
+            buildPaginationButtons(totalPages, pageNumber);
+            document.querySelector("#selectDistrito").value = "todos";
+        }
     }
-    const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
-    .then(res => res.json());
-    obterListaAtualizada(responseLastRow.res.body.lastRow);
+    atualizarPagina();
 };
+
+async function atualizarPagina() {
+    toggleBtnAtualizar(true);
+    // showLoading();
+    try {
+        const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
+        .then(res => res.json());
+        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;        
+        verificarSeFiltroEstaAtivo(responseLastRow.res.body.lastRow);
+        toggleBtnAtualizar(false);
+        hideLoading();
+    } catch (error) {
+        toggleBtnAtualizar(false);
+        hideLoading();
+        alert(`Erro na requisição para atualizar lista. Messagem: ${error}` );
+        console.error(error); 
+    }
+}
+
+function verificarSeFiltroEstaAtivo(ultimoPedido) {
+    if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){            
+        let up = ultimoPedido == null ? ultimoPedidoRegitrado : ultimoPedido; 
+        localStorage.setItem('ultimoPedido', up);
+        ultimoPedidoRegitrado = up;
+
+        if(JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
+            findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
+        } else {
+            obterListaAtualizada();
+        }
+    }
+}
 
 function eventClickEnter(event) {
     if (event.keyCode === 13) {
@@ -49,7 +84,8 @@ document.getElementById("search-input").addEventListener("change", (e) =>{
 });
 
 document.querySelector("#selectDistrito").addEventListener('change', (e) =>{
-    findByDistrito(e.target.value, 60);
+    let perPageSize = localStorage.getItem('filtro-distrito-perpage') || 60 ;
+    findByDistrito(e.target.value, perPageSize);
 })
 
 function searchTxt(txtSearch){
@@ -328,19 +364,11 @@ function hideLoading() {
     document.getElementById("content").style.display = "block";
 };
 
-function atualizarPagina() {
-    // Valores setados para forçar a requisição
-    document.querySelector("#selectDistrito").value = "todos";    
-    let ultimoPedido = null;    
-    toggleBtnAtualizar(true);
-    obterListaAtualizada(ultimoPedido);
-}
-
 function toggleBtnAtualizar(toggle){
     let btnAtualizarPagina = document.getElementById('btnAtualizarPagina');
     if (toggle) {
         btnAtualizarPagina.innerHTML = `
-        <div id="spinner" class="spinner-border div__spinner-border" role="status"></div> Aguarde
+        <div id="spinner" class="spinner-border div__spinner-border" role="status"></div> Buscando pedidos...  Aguarde.
         `;
         btnAtualizarPagina.disabled = true;      
     } else {
@@ -418,23 +446,18 @@ async function obterListaDePedido(pageNumber) {
     }
 }
 
-async function obterListaAtualizada(ultimoPedido) {
-    document.querySelector("#selectDistrito").value = "todos";
-    ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
+async function obterListaAtualizada() {
     try {
-        if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){            
-            localStorage.setItem('ultimoPedido', ultimoPedido);
-            ultimoPedidoRegitrado = ultimoPedido;
-            showLoading();
-            const data = await fetchPedidos('', '', '', perPage);
-            buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
-            preencherTabelaListaDePedidos(data.responseDataPedidos.data);
-            localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
-            localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
-            msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;            
-            toggleBtnAtualizar(false);
-            hideLoading();
-        }
+        showLoading();
+        const data = await fetchPedidos('', '', '', perPage);
+        buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
+        preencherTabelaListaDePedidos(data.responseDataPedidos.data);
+        localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
+        localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
+        msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;            
+        document.querySelector("#selectDistrito").value = "todos";
+        toggleBtnAtualizar(false);
+        hideLoading();
     } catch (error) {        
         toggleBtnAtualizar(false);
         hideLoading();
@@ -459,12 +482,23 @@ async function findByDistrito(distrito, perPage) {
     try {
         document.getElementById("search-input").value = "";
         if(distrito === "todos"){
+            localStorage.setItem('filtro-distrito-ativo', false);
             buildPaginationButtons(localStorage.getItem("lista-pedidos-totalPages"), 1);
             preencherTabelaListaDePedidos(JSON.parse(localStorage.getItem('listaDePedidos')));
         } else {
             modalLoading.show();
-            const result = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}`)
-            const res = await result.json();
+            localStorage.setItem('filtro-distrito-ativo', true);
+            let res;
+            if (localStorage.getItem('filtro-distrito-pedido-ult-registro') == ultimoPedidoRegitrado 
+                && distrito === localStorage.getItem('filtro-distrito')
+                && perPage == localStorage.getItem('filtro-distrito-perpage')
+            ) {
+                res =  JSON.parse(localStorage.getItem("filtro-distrito-pedido-lista"));    
+            } else {
+                const result = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}&distrito=${distrito}`)
+                res = await result.json();
+            }
+            
             let paginationContainer = document.getElementById("paginationButtons");
             if (res.responseDataPedidos.data !== undefined){
                 preencherTabelaListaDePedidos(res.responseDataPedidos.data);
@@ -486,12 +520,18 @@ async function findByDistrito(distrito, perPage) {
                 </div>
                 `;
                 const selectElement = document.getElementById("mostrarQtdFiltro");
-                selectElement.value = perPage;                
+                selectElement.value = perPage;
+                document.querySelector("#selectDistrito").value = distrito;
+                localStorage.setItem("filtro-distrito-pedido-lista", JSON.stringify(res));
+                localStorage.setItem("filtro-distrito", distrito);
+                localStorage.setItem('filtro-distrito-pedido-ult-registro', localStorage.getItem("ultimoPedido"));
+                localStorage.setItem('filtro-distrito-perpage', perPage);                
             } else {
                 document.getElementById('divListaPedido').innerHTML = "";
                 paginationContainer.innerHTML =`Nenhum registro encontrado`;
             }
             modalLoading.hide();
+            toggleBtnAtualizar(false);
         }        
     } catch (error) {
         console.log(error);
