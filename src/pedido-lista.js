@@ -32,6 +32,7 @@ window.onload = async () => {
 
 async function atualizarPagina() {
     toggleBtnAtualizar(true);
+    ultimaAtualizacaoDaPagina.innerText = "";
     // showLoading();
     try {
         const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
