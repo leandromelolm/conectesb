@@ -138,6 +138,7 @@ function printPage() {
     this.updateTitleWithDate();
     window.print();
     desabilitarBotaoEnviar(); // desabilita por alguns segundos
+    document.getElementById("docPrintClone").innerHTML = "";
 };
 
 function toggleRowVisibility() {
