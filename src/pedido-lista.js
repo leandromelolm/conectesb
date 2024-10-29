@@ -465,7 +465,7 @@ async function obterListaDePedido(pageNumber) {
 
 async function obterListaAtualizada() {
     try {
-        showLoading();
+        // showLoading();
         const data = await fetchPedidos('', '', '', perPage);
         buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
         preencherTabelaListaDePedidos(data.responseDataPedidos.data);
