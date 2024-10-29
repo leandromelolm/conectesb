@@ -72,6 +72,7 @@ function verificarNovosPedidos(ultimoPedido) {
 
 function btnAtualizarPagina() {
     if (!JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
+        toggleBtnAtualizar(true);
         obterListaAtualizada();
     } else {
         atualizarPagina();
@@ -470,7 +471,8 @@ async function obterListaAtualizada() {
         preencherTabelaListaDePedidos(data.responseDataPedidos.data);
         localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
         localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
-        msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;            
+        msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
+        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
         document.querySelector("#selectDistrito").value = "todos";
         toggleBtnAtualizar(false);
         hideLoading();
