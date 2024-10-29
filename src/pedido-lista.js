@@ -50,16 +50,31 @@ async function atualizarPagina() {
 }
 
 function verificarSeFiltroEstaAtivo(ultimoPedido) {
-    if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){            
-        let up = ultimoPedido == null ? ultimoPedidoRegitrado : ultimoPedido; 
-        localStorage.setItem('ultimoPedido', up);
-        ultimoPedidoRegitrado = up;
-
+    if (verificarNovosPedidos(ultimoPedido)){
         if(JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
             findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
         } else {
             obterListaAtualizada();
         }
+    }
+}
+
+function verificarNovosPedidos(ultimoPedido) {
+    if ( ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null){
+        let up = ultimoPedido == null ? ultimoPedidoRegitrado : ultimoPedido; 
+        localStorage.setItem('ultimoPedido', up);
+        ultimoPedidoRegitrado = up;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function btnAtualizarPagina() {
+    if (!JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
+        obterListaAtualizada();
+    } else {
+        atualizarPagina();
     }
 }
 
