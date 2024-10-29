@@ -466,15 +466,16 @@ async function obterListaDePedido(pageNumber) {
 async function obterListaAtualizada() {
     try {
         // showLoading();
+        ultimaAtualizacaoDaPagina.innerText = ``;
         const data = await fetchPedidos('', '', '', perPage);
         buildPaginationButtons(data.responseDataPedidos.totalPages,data.responseDataPedidos.pageNumber);
         preencherTabelaListaDePedidos(data.responseDataPedidos.data);
         localStorage.setItem('listaDePedidos',JSON.stringify(data.responseDataPedidos.data));
         localStorage.setItem("lista-pedidos-totalPages", data.responseDataPedidos.totalPages);
-        msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
-        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
+        // msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
         document.querySelector("#selectDistrito").value = "todos";
         toggleBtnAtualizar(false);
+        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
         hideLoading();
     } catch (error) {        
         toggleBtnAtualizar(false);
