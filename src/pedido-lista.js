@@ -36,8 +36,7 @@ async function atualizarPagina() {
     // showLoading();
     try {
         const responseLastRow = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true')
-        .then(res => res.json());
-        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
+        .then(res => res.json());        
         verificarSeFiltroEstaAtivo(responseLastRow.res.body.lastRow);
         toggleBtnAtualizar(false);
         hideLoading();
@@ -51,6 +50,7 @@ async function atualizarPagina() {
 
 function verificarSeFiltroEstaAtivo(ultimoPedido) {
     if (verificarNovosPedidos(ultimoPedido)){
+        ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
         if(JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
             findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
         } else {
@@ -476,7 +476,7 @@ async function obterListaAtualizada() {
         // msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
         document.querySelector("#selectDistrito").value = "todos";
         toggleBtnAtualizar(false);
-        ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;
+        ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
         hideLoading();
         modalLoading.hide();
     } catch (error) {        
@@ -548,7 +548,7 @@ async function findByDistrito(distrito, perPage) {
                 localStorage.setItem("filtro-distrito", distrito);
                 localStorage.setItem('filtro-distrito-pedido-ult-registro', localStorage.getItem("ultimoPedido"));
                 localStorage.setItem('filtro-distrito-perpage', perPage);
-                ultimaAtualizacaoDaPagina.innerText = `Última atualização: ${dateFormat(new Date())}`;         
+                ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;         
             } else {
                 document.getElementById('divListaPedido').innerHTML = "";
                 paginationContainer.innerHTML =`Nenhum registro encontrado`;
