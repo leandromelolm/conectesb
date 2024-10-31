@@ -49,8 +49,8 @@ async function atualizarPagina() {
 }
 
 function verificarSeFiltroEstaAtivo(ultimoPedido) {
+    ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
     if (verificarNovosPedidos(ultimoPedido)){
-        ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
         if(JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
             findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
         } else {
