@@ -332,8 +332,7 @@ function abrirPedidoNoFormulario() {
     const itensDados = document.getElementById('listaPedido').value;
     sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
     sessionStorage.setItem('dadosItens', itensDados);
-    window.open('pedido-fazer', '_blank');
-    // window.location.href = 'pedido-fazer';
+    window.location.href = 'pedido-fazer';
 };
 
 document.querySelector("#abrirNovaAba").addEventListener('click', ()=>{
