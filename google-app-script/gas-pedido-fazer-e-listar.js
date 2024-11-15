@@ -1,4 +1,7 @@
-/** v25 **/
+/**
+ * gas pedido fazer listar
+ * v26
+ */
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -163,16 +166,12 @@ function buscarPorId(id) {
   let valorColunaD = guia.getRange("D" + linha).getValue();
   let valorColunaE = guia.getRange("E" + linha).getValue();
   let valorColunaF = guia.getRange("F" + linha).getValue();
-  let requisitanteStr = valorColunaD;
-  let requisitante = JSON.parse(requisitanteStr);
-  let itensString = guia.getRange("E" + linha).getValue();
-  let itens = JSON.parse(itensString);
+  let requisitante = JSON.parse(valorColunaD);
+  let itens = JSON.parse(valorColunaE);
   objeto = {
     id: valorColunaA,
     dataPedido: valorColunaB,
-    nomeUnidade: valorColunaC,
-    requisitanteStr: valorColunaD,
-    itensStr: valorColunaE,      
+    nomeUnidade: valorColunaC, 
     tipoPedido: valorColunaF,
     requisitante: requisitante,
     itens: itens,

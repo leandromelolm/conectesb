@@ -282,8 +282,8 @@ function mostrarDetalhesDoPedidoNoModal(pedido) {
         </div>
     </div>
     `;
-    document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
-    document.getElementById('listaPedido').value = pedido.itensStr;
+    document.getElementById('unidadeRequisitante').value = JSON.stringify(pedido.requisitante);
+    document.getElementById('listaPedido').value = JSON.stringify(pedido.itens);
     sessionStorage.setItem('pedido', JSON.stringify(pedido));
     const tabela = document.getElementById("tableItensPedido").getElementsByTagName('tbody')[0];
     while (tabela.firstChild) {
