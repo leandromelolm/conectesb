@@ -92,7 +92,7 @@ button:focus, input:focus, textarea:focus {
 
 #abrirPedidonoFormulario  {
   margin: 0px 0 0px 0px!important;
-  width: 260px;
+  /* width: 260px; */
 }
 
 button.navbar-toggler {

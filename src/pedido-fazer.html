@@ -18,6 +18,7 @@
     <script src="pedido-fazer.js" defer></script>
     <script src="lista-unidade.js" defer></script>
     <script src="lista-itens-de-pedido.js"></script>
+    <script src="pedido-fazer-nova-aba.js"></script>
 </head>
 
 <body>
@@ -963,7 +964,7 @@
                 <div id="messageError" class="message__error"></div>
                 <input type="button" id="btnSendSpreadsheet" onclick="sendToSpreadsheet()" value="Enviar Pedido">
                 
-                <div style="display: grid">
+                <div id="btnConfig" class="d-grid">
                     <button type="button" id="btnPrint" class="btn btn-outline-primary btn__clear" onclick="printPage()">
                         <img src="assets/printer.svg" alt="">
                         Imprimir
@@ -971,24 +972,16 @@
                     <button type="button" id="toggleButton" class="btn btn-outline-success btn__clear" onclick="toggleRowVisibility()">
                         <img src="assets/plus-lg.svg" alt=""> Mostrar Mais Linhas
                     </button>                                           
-                    <button type="button" class="btn btn-outline-secondary btn__clear" onclick="inputsRequestorClean()">
+                    <button type="button" id="cleanHeader" class="btn btn-outline-secondary btn__clear" onclick="inputsRequestorClean()">
                         <img src="assets/eraser.svg" alt="">
                         Limpar campos do cabeçalho
                     </button>
-                    <button type="button" class="btn btn-outline-secondary btn__clear" onclick="inputsItensClean()">
+                    <button type="button" id="cleanItens" class="btn btn-outline-secondary btn__clear" onclick="inputsItensClean()">
                         <img src="assets/eraser.svg" alt="">
                         Limpar campos de itens
                     </button>                    
                 </div>
                 <br>
-
-                <!-- generate-pdf - hidden buttons -->
-                <input type="button" class="class_hover" onclick="saveSheetGoogle()" value="Salvar Test"
-                    style="display: none;">
-                <input type="button" class="class_hover" onclick="gerarPDF()" value="Salvar PDF (buttonPDF)"
-                    style="display: none;">
-                <input type="button" class="btn btn-danger" id="btnPDF" value="Gerar PDF (btnPDF)"
-                    style="display: none;">
             </div>
         </div>
 

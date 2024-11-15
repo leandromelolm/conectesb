@@ -46,6 +46,7 @@ window.onload = () => {
         visibilidadeDasLinhas(itensRecuperados.quantityOfOrderedItems);
     }
 
+    funcaoNovaAba();
 };
 
 function updateTitleWithDate() {

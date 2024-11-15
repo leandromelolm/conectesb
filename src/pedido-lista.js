@@ -12,6 +12,7 @@ let ultimoPedidoRegitrado;
 const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
 
 window.onload = async () => {
+    sessionStorage.setItem('aberto-nova-aba', false);
     showLoading();
     ultimoPedidoRegitrado = localStorage.getItem('ultimoPedido');
     let listaDePedidos = localStorage.getItem('listaDePedidos');    
@@ -282,7 +283,8 @@ function mostrarDetalhesDoPedidoNoModal(pedido) {
     </div>
     `;
     document.getElementById('unidadeRequisitante').value = pedido.requisitanteStr;
-    document.getElementById('listaPedido').value = pedido.itensStr; 
+    document.getElementById('listaPedido').value = pedido.itensStr;
+    sessionStorage.setItem('pedido', JSON.stringify(pedido));
     const tabela = document.getElementById("tableItensPedido").getElementsByTagName('tbody')[0];
     while (tabela.firstChild) {
         tabela.removeChild(tabela.firstChild);
@@ -330,9 +332,20 @@ function abrirPedidoNoFormulario() {
     const itensDados = document.getElementById('listaPedido').value;
     sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
     sessionStorage.setItem('dadosItens', itensDados);
-    // window.open('pedido-fazer.html', '_blank');
-    window.location.href = 'pedido-fazer';
+    window.open('pedido-fazer', '_blank');
+    // window.location.href = 'pedido-fazer';
 };
+
+document.querySelector("#abrirNovaAba").addEventListener('click', ()=>{
+    const unidadeRequisitante = document.getElementById('unidadeRequisitante').value  
+    const itensDados = document.getElementById('listaPedido').value;
+    sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
+    sessionStorage.setItem('dadosItens', itensDados);
+    sessionStorage.setItem('aberto-nova-aba', true); 
+    window.open('pedido-fazer', '_blank');
+    closeModal();
+    sessionStorage.setItem('aberto-nova-aba', false);
+})
 
 function limparCampos() {
     document.getElementById('unidadeRequisitante').value = '';
