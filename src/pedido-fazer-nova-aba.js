@@ -6,10 +6,30 @@ function funcaoNovaAba(){
         document.querySelector('#pageTitle').innerHTML = `${pedido.id}`;
         document.getElementById("titleCenter").innerHTML = `PEDIDO ${pedido.id} - <b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>`;
         const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
+        let i = 0;
+        let b = true;
+        inputs.forEach((input, index) => {
             input.setAttribute('disabled', true);
             input.style.cssText = 'background-color:white; color: black';
+            
+            if(input.id === ''){
+                if (b){
+                    i = i+1;
+                    input.style.cssText = 'background-color: #f7f7f7; color: black'
+                }else{
+                    i = i+1;
+                    input.style.cssText = 'background-color:white; color: black'
+                }                
+                if(i>=2){                                         
+                    i = 0;
+                    if(b)
+                        b = false
+                    else
+                        b = true;
+                }         
+            }
         });
+
         document.querySelectorAll('select').forEach(select => {
             select.setAttribute('disabled', true)
             select.style.cssText = 'background-color:white; color: black';
@@ -36,6 +56,5 @@ function funcaoNovaAba(){
 
 function fecharAba(){
     sessionStorage.setItem('aberto-nova-aba', false);
-    // window.location.href = 'pedido-fazer';
     window.close();
 }
