@@ -1,6 +1,6 @@
 let bNovaAba = sessionStorage.getItem("aberto-nova-aba");
 
-function funcaoNovaAba(){
+function abrirNovaAba(){
     if (JSON.parse(bNovaAba)) {
         let pedido = JSON.parse(sessionStorage.getItem('pedido'));
         document.querySelector('#pageTitle').innerHTML = `${pedido.id}`;
@@ -50,7 +50,7 @@ function funcaoNovaAba(){
         centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-danger my-4" onclick="fecharAba()">Fechar</button>`);
 
     } else {
-        console.log(`${JSON.parse(bNovaAba)}`);
+        console.log(`Função abrirNovaAba não ativa`);
     }
 };
 

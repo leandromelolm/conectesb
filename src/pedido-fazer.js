@@ -46,7 +46,7 @@ window.onload = () => {
         visibilidadeDasLinhas(itensRecuperados.quantityOfOrderedItems);
     }
 
-    funcaoNovaAba();
+    abrirNovaAba();
 };
 
 function updateTitleWithDate() {
@@ -393,6 +393,7 @@ function fetchPostSaveSheetGoogle() {
     let pedidoInfo = {
         requerente: sessionStorage.getItem('dadosRequerente'),
         itens: localStorage.getItem('dadosItens'),
+        qtdItens: JSON.parse(localStorage.getItem('dadosItens')).length,
         tipoPedido: localStorage.getItem('tipoPedido'),
         unidade: nUnid.toUpperCase(),
         navegador: "-", // userAgent
@@ -400,11 +401,6 @@ function fetchPostSaveSheetGoogle() {
         requisicao: "salvar",
         Date: ''
     };
-    // let params = new URLSearchParams(pedidoInfo);
-    // let sheetId = "";
-    // params.append("sheetId", sheetId);    
-    // let sheetName = appEnv === "dev" ? "Sheet1-test" : "Sheet1";
-    // params.append("sheetName", sheetName);
     submitPostFunctionsNetlify(pedidoInfo);
     document.getElementById('divLoadingById').classList.remove('d-none'); 
 };
