@@ -238,10 +238,19 @@ function preencherTabelaListaDePedidos(arr) {
             document.getElementById("btn-clear").classList.remove("d-none");
         });
         cell3.appendChild(linkUnid);
+
+        const divSubInfo = document.createElement('div');
         const spanEquipe = document.createElement('span');
-        spanEquipe.style.cssText = `font-size: small; color: dimgrey;`;
         spanEquipe.innerHTML = `Equipe: ${item.equipe}`;
-        cell3.appendChild(spanEquipe);
+        spanEquipe.style.cssText = `font-size: small; color: dimgrey`;
+        divSubInfo.appendChild(spanEquipe);
+        const divQtd = document.createElement('span');
+        divQtd.innerHTML = `• qtd itens: ${item.qtdItensNoPedido} `
+        divQtd.style.cssText = 'font-size: small; color: dimgray; font-weight: 500;'    
+        divQtd.className = 'ms-1'
+        divSubInfo.appendChild(divQtd)        
+        cell3.appendChild(divSubInfo);
+
         const spanGrupoMaterial = document.createElement('span');
         spanGrupoMaterial.style.cssText = `font-size: small; color: dimgrey;`;
         spanGrupoMaterial.innerHTML = `${item.grupoMaterial}`;
@@ -574,4 +583,4 @@ async function findByDistrito(distrito, perPage) {
         document.querySelector("#selectDistrito").value = "todos";
         modalLoading.hide();
     }
-}
+}git
