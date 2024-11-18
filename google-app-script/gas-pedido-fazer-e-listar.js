@@ -1,7 +1,4 @@
-/**
- * gas pedido fazer listar
- * v26
- */
+/** v27 **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -166,6 +163,7 @@ function buscarPorId(id) {
   let valorColunaD = guia.getRange("D" + linha).getValue();
   let valorColunaE = guia.getRange("E" + linha).getValue();
   let valorColunaF = guia.getRange("F" + linha).getValue();
+  let valorColunaI = guia.getRange("I" + linha).getValue();
   let requisitante = JSON.parse(valorColunaD);
   let itens = JSON.parse(valorColunaE);
   objeto = {
@@ -175,6 +173,7 @@ function buscarPorId(id) {
     tipoPedido: valorColunaF,
     requisitante: requisitante,
     itens: itens,
+    qtdItens: valorColunaI
   }; 
   return objeto;
 }
@@ -209,6 +208,7 @@ function findByColumn(str) {
     let colB = guia.getRange("B" + linha).getValue();
     let colC = guia.getRange("C" + linha).getValue();
     let colF = guia.getRange("F" + linha).getValue();
+    let colI = guia.getRange("I" + linha).getValue();
     
     const colD = guia.getRange("D"+linha).getValue();
     const requerente = JSON.parse(colD);
@@ -220,7 +220,8 @@ function findByColumn(str) {
       tipoPedido: colF,
       equipe: requerente.equipe,
       distrito: requerente.ds,
-      grupoMaterial: requerente.grupoMaterial
+      grupoMaterial: requerente.grupoMaterial,
+      qtdItens: colI
     };
     listaDeObjetos.push(objeto);    
   }
@@ -228,8 +229,10 @@ function findByColumn(str) {
 }
 
 /** 
- * Função Principal que retonar a lista de pedidos 
- * */
+ * Função Principal que retonar a lista de pedidos.
+ * Ordem inversa. Página 1 retorna os últimos pedidos.
+ * É retornado quantidade de itens no pedido.
+ * **/
 function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, distrito, grupoMaterial) {
   let ultimoElemento = sheet.getLastRow();
   const totalItens = ultimoElemento -1;
@@ -239,7 +242,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
     const { totalElementos, totalPaginas, elemInicio, elemFim } = calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens);
     // getRange(row, column, numRows, numColumns);
     // elemInicio + 1 pois a lista se inicia na linha 2
-    let range = sheet.getRange(elemInicio + 1, 1, elemFim - elemInicio + 1, 4);    
+    let range = sheet.getRange(elemInicio + 1, 1, elemFim - elemInicio + 1, 9);    
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
       let unidadeRequisitante = JSON.parse(values[row][3]);    
@@ -250,6 +253,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
       rowData.equipe = unidadeRequisitante.equipe || "-";
       rowData.distrito = unidadeRequisitante.ds || '';
       rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+      rowData.qtdItensNoPedido = values[row][8];
       result.push(rowData);
     }
     result.sort((a, b) => b.id - a.id);
@@ -263,7 +267,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
   } 
 
   if (distrito !== "") {
-    let range = sheet.getRange(2, 1, ultimoElemento -1, 4);
+    let range = sheet.getRange(2, 1, ultimoElemento -1, 9);
     // getRange(row, column, numRows, numColumns);
     let values = range.getValues();
       for (let row = 0; row < values.length; row++) {
@@ -276,6 +280,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
           rowData.equipe = unidadeRequisitante.equipe || "-";
           rowData.distrito = unidadeRequisitante.ds || '';
           rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+          rowData.qtdItensNoPedido = values[row][8];
           result.push(rowData);
         }
     }
@@ -293,7 +298,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
   }
 
   if (grupoMaterial !== "") {
-    let range = sheet.getRange(2, 1, ultimoElemento -1, 4);
+    let range = sheet.getRange(2, 1, ultimoElemento -1, 9);
     // getRange(row, column, numRows, numColumns);
     let values = range.getValues();
     for (let row = 0; row < values.length; row++) {
@@ -306,6 +311,7 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
         rowData.equipe = unidadeRequisitante.equipe || "-";
         rowData.distrito = unidadeRequisitante.ds || '';
         rowData.grupoMaterial = unidadeRequisitante.grupoMaterial || '';
+        rowData.qtdItensNoPedido = values[row][8];
         result.push(rowData);
       } 
     }
@@ -321,7 +327,9 @@ function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, dis
   }  
 }
 
-/** calcula paginação quando com a lista completa **/
+/** 
+ * calcula paginação quando com a lista completa 
+ * **/
 function calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalItens) {
   let totalPaginas, elemFim, elemInicio;
   totalPaginas = Math.ceil(totalItens / elementosPorPagina);
@@ -345,7 +353,9 @@ function calcularPaginacaoListaCompleta(paginaAtual, elementosPorPagina, totalIt
   };
 }
 
-/** pagina lista que foi aplicado filtro **/
+/** 
+ * paginação da lista quando filtro distrito está aplicado
+ * **/
 function paginarLista(paginaAtual, elementosPorPagina, lista) {
   if (lista.length === 0) {     
     throw  error = {
@@ -411,7 +421,9 @@ function retornarItensIntervalo(inicio, fim) {
   };
 }
 
-/** Encontrar na Folha */
+/** 
+ * Encontrar na Folha 
+ * **/
 function findBySheet(str) {
   let planilha = SpreadsheetApp.openById(spreadSheetID);
   let guia = planilha.getSheetByName(sheetName);
