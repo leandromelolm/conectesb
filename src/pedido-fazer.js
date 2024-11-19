@@ -63,7 +63,7 @@ function cloneDocPrint() {
     divDublicada.appendChild(divClone);
 };
 
-function sendToSpreadsheet() {
+function validateToSend() {
     document.querySelector('#messageSuccess').innerHTML = '';
     document.querySelector('#messageError').innerHTML = '';
 
@@ -75,7 +75,7 @@ function sendToSpreadsheet() {
     document.querySelector('#messageValidateSending').innerHTML = "";    
     messageValidateSending.style.backgroundColor = 'transparent';
     messageValidateSending.style.height = '1px';    
-    modalConfirmarEnvio();  
+    modalConfirmarEnvio();
 }
 
 function modalConfirmarEnvio() {
@@ -89,9 +89,9 @@ function abrirModal(str) {
     document.querySelector("#modalBody").innerHTML = str;
 }
 
-document.getElementById("btn-sim").addEventListener("click", function() {
-    fetchPostSaveSheetGoogle();
-    document.getElementById('btnSendSpreadsheet').disabled = true;
+document.getElementById("modalConfirmarBtnSim").addEventListener("click", function() {
+    sendDataToSpreadSheet();
+    document.getElementById('btnValidateToSend').disabled = true;
 })
 
 function validarPreenchimentoDeCampos(){
@@ -122,7 +122,14 @@ function validarPreenchimentoDeCampos(){
         mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`);
     
     if (sessionStorage.getItem('dadosRequerente') === null)
-        mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b> tente outro navegador se o erro persistir.</br>`); 
+        mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b> tente outro navegador se o erro persistir.</br>`);
+
+    if (!localStorage.getItem('dadosItens'))
+        mensagens.push(`Adicione algum item no pedido.</br>`);
+    
+    if (sessionStorage.getItem('dadosItens'))
+        mensagens.push(`Se o pedido foi carregado por meio do botão <b>abrir no formulário</b> da página lista de pedido, 
+        faça uma pequena alteração em algum item ou quantidade deste pedido.</br>`)
 
     messageValidateSending.innerHTML = mensagens.join("");
     return messageValidateSending;
@@ -386,7 +393,7 @@ function stringParaArray(string) {
     return linhas;
 };
 
-function fetchPostSaveSheetGoogle() {
+function sendDataToSpreadSheet() {
     const nomeUnidade = document.getElementById('nomeUnidade').value;
     let instantePedido = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     let nUnid = localStorage.getItem("tipoPedido") === "EXTRA" ? `${nomeUnidade} (EXTRA)` : nomeUnidade;
@@ -420,7 +427,7 @@ function submitPostFunctionsNetlify(pedidoInfo) {
 }
 
 function responseFetch(data) {
-    document.getElementById('btnSendSpreadsheet').disabled = false;
+    document.getElementById('btnValidateToSend').disabled = false;
     if (data.success === false || data.numeroPedido === undefined) {
         document.getElementById('divLoadingById').classList.add('d-none');
         let messageError = document.getElementById('messageError');        
@@ -461,7 +468,7 @@ function responseFetch(data) {
 }
 
 function catchError(error) {
-    document.getElementById('btnSendSpreadsheet').disabled = false; // habilitar botão enviar
+    document.getElementById('btnValidateToSend').disabled = false; // habilitar botão enviar
 
     abrirModal(`
         <div class="flex-row">
@@ -496,10 +503,10 @@ let botaoHabilitado = true;
 function desabilitarBotaoEnviar() {
     if (botaoHabilitado) {
         botaoHabilitado = false;
-        document.getElementById('btnSendSpreadsheet').disabled = true;
+        document.getElementById('btnValidateToSend').disabled = true;
         setTimeout(function () {
             botaoHabilitado = true;
-            document.getElementById('btnSendSpreadsheet').disabled = false;
+            document.getElementById('btnValidateToSend').disabled = false;
         }, 6000);
     }
 }

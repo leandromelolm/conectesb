@@ -583,4 +583,4 @@ async function findByDistrito(distrito, perPage) {
         document.querySelector("#selectDistrito").value = "todos";
         modalLoading.hide();
     }
-}git
+}

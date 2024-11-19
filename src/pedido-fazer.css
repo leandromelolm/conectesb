@@ -379,22 +379,22 @@ input[type="number"] {
     cursor: pointer;
 }
 
-#btnSendSpreadsheet {
+#btnValidateToSend {
     background-color: #5cebdf !important;
     color: black !important;
     cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
 }
 
-#btnSendSpreadsheet:hover {
+#btnValidateToSend:hover {
     background-color: #32E6E2 !important; /* Cor de fundo ao passar o mouse */
 }
 
-#btnSendSpreadsheet:active {
+#btnValidateToSend:active {
     background-color: rgb(160, 160, 159) !important;
       color: black;
 }
 
-#btnSendSpreadsheet:disabled {
+#btnValidateToSend:disabled {
     background-color: #999999 !important;
     color: #ffffff;
 }
