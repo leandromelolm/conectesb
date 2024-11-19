@@ -37,7 +37,7 @@ function abrirNovaAba(){
         document.querySelectorAll('.btn__quant').forEach( btnQuant => {
             btnQuant.style.cssText = 'display: none';
         })
-        document.getElementById('btnSendSpreadsheet').style.display = "none";
+        document.getElementById('btnValidateToSend').style.display = "none";
         document.querySelector('.tipo__pedido').style.display = 'none';
         document.querySelector('#toggleButton').style.display = 'none';
         document.querySelector('#cleanHeader').style.display = 'none';
