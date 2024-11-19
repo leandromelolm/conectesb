@@ -128,7 +128,7 @@ function validarPreenchimentoDeCampos(){
         mensagens.push(`Adicione algum item no pedido.</br>`);
     
     if (sessionStorage.getItem('dadosItens'))
-        mensagens.push(`Se o pedido foi carregado por meio do botão <b>abrir no formulário</b> da página lista de pedido, 
+        mensagens.push(`Se o pedido foi carregado por meio do botão <b>"Abrir no formulário"</b> da página <b>"Lista de pedidos"</b>, 
         faça uma pequena alteração em algum item ou quantidade deste pedido.</br>`)
 
     messageValidateSending.innerHTML = mensagens.join("");
