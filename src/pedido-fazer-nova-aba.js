@@ -10,7 +10,7 @@ function abrirNovaAba(){
         let b = true;
         inputs.forEach((input, index) => {
             input.setAttribute('disabled', true);
-            input.style.cssText = 'background-color:white; color: black';
+            input.style.cssText = 'background-color:transparent; color: black';
             
             if(input.id === ''){
                 if (b){
@@ -18,7 +18,7 @@ function abrirNovaAba(){
                     input.style.cssText = 'background-color: #f7f7f7; color: black'
                 }else{
                     i = i+1;
-                    input.style.cssText = 'background-color:white; color: black'
+                    input.style.cssText = 'background-color:transparent; color: black'
                 }                
                 if(i>=2){                                         
                     i = 0;
@@ -32,7 +32,7 @@ function abrirNovaAba(){
 
         document.querySelectorAll('select').forEach(select => {
             select.setAttribute('disabled', true)
-            select.style.cssText = 'background-color:white; color: black';
+            select.style.cssText = 'background-color:transparent; color: black';
         });
         document.querySelectorAll('.btn__quant').forEach( btnQuant => {
             btnQuant.style.cssText = 'display: none';
