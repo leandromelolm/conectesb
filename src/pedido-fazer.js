@@ -50,9 +50,9 @@ window.onload = () => {
 };
 
 function updateTitleWithDate() {
-    document.getElementById("pageTitle")
-        .innerText = "sb-material-" + nomeUnidade.value + "-"
-        + new Date().toISOString(('pt-BR', { timezone: 'UTC' })).substring(0, 10);
+    let dt = document.getElementById('dataPedidoShowPrint').value
+    let id_pedido = JSON.parse(sessionStorage.getItem('aberto-nova-aba')) ? `${JSON.parse(sessionStorage.getItem('pedido')).id}-`: "";
+    document.getElementById("pageTitle").innerText = id_pedido + "pedido-" + nomeUnidade.value + "-"+ formatDateString(dt);
 };
 
 function cloneDocPrint() {
@@ -324,6 +324,11 @@ function formatarDataParaYYYYMMDD(dataAtual) {
     return dataFormatada;
 }
 
+function formatDateString(dateStr) {
+    const [day, month, year] = dateStr.split('/');
+    return `${year}-${month}-${day}`;
+}
+
 function inputsRequestorClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
 Essa ação apagará os campos: 
@@ -507,7 +512,7 @@ function desabilitarBotaoEnviar() {
         setTimeout(function () {
             botaoHabilitado = true;
             document.getElementById('btnValidateToSend').disabled = false;
-        }, 6000);
+        }, 3000);
     }
 }
 
