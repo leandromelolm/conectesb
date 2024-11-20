@@ -1,4 +1,4 @@
-/** v27 **/
+/** v27 - gas pedido fazer listar **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -228,10 +228,10 @@ function findByColumn(str) {
   return listaDeObjetos;
 }
 
-/** 
+/**
  * Função Principal que retonar a lista de pedidos.
- * Ordem inversa. Página 1 retorna os últimos pedidos.
- * É retornado quantidade de itens no pedido.
+ * Ordem id decrescente. Página 1 retorna os pedidos mais recentes.
+ * O pedido exibido na lista contém informação da quantidade de itens do pedido
  * **/
 function retornarItensPaginadosOrdemInversa(paginaAtual, elementosPorPagina, distrito, grupoMaterial) {
   let ultimoElemento = sheet.getLastRow();
