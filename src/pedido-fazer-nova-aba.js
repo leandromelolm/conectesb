@@ -64,6 +64,8 @@ function showButtonPrintAndClose() {
     centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-success my-2" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
     if (window.opener)
         centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-danger my-4" onclick="fecharAba()">Fechar</button>`);
+    else
+        centerContent.insertAdjacentHTML("beforeend", `<a class="btn btn-link my-4" href="${window.location.origin}">Página Principal</a>`);
 }
 
 function hideButtons() {
