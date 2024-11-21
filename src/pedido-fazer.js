@@ -46,7 +46,7 @@ window.onload = () => {
         visibilidadeDasLinhas(itensRecuperados.quantityOfOrderedItems);
     }
 
-    abrirNovaAba();
+    abrirNovaAba(); // função no arquivo pedido-fazer-nova-aba.js
 };
 
 function updateTitleWithDate() {
@@ -460,15 +460,16 @@ function responseFetch(data) {
         </div>
         <div>
             <span>Momento: </span> <b>${data.dataPedido}</b>
-        </div>         
+        </div>                
         `;
         abrirModal(`
-            <div class="flex-row">
+            <div id=modalEnvioSucesso class="flex-row">
                 <div>Pedido enviado com sucesso!</div>
                 <div>Número Pedido: ${data.numeroPedido}</div>
                 <div>Momento: ${data.dataPedido}</div>
             </div>            
         `);
+        criarLinkWhatsApp(data.numeroPedido);
     }
 }
 
@@ -598,3 +599,18 @@ function subtrair(inputQuantidade) {
     inputQuantidade.val(resultado);
     saveDataItensLocalStorage();
 }
+
+function criarLinkWhatsApp(id) {
+    const linkWhatsApp = `https://wa.me/?text=${window.location.href}?pedidofeito=${id}`;    
+    const link = document.createElement('a');
+    link.href = linkWhatsApp;
+    link.textContent = 'Compartilhar link do pedido no WhatsApp';
+    link.target = '_blank';
+    document.querySelector('#modalEnvioSucesso').appendChild(link);
+
+    const link2 = document.createElement('a');
+    link2.href = linkWhatsApp;
+    link2.textContent = 'Compartilhar link do pedido no WhatsApp';
+    link2.target = '_blank';
+    document.querySelector('#messageSuccess').appendChild(link2);
+  }
