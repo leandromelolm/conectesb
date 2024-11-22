@@ -61,7 +61,7 @@ function showButtonPrintAndClose() {
     document.querySelector('#btnPrint').style.display = 'block';
     
     let centerContent = document.querySelector("#btnConfig");
-    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-success my-2" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
+    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
     if (window.opener)
         centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-secondary my-4" onclick="fecharAba()">Fechar</button>`);
     else
