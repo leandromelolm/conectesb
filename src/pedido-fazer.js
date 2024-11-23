@@ -470,6 +470,7 @@ function responseFetch(data) {
             </div>            
         `);
         criarLinkWhatsApp(data.numeroPedido);
+        criarLinkParaCopiar(data.numeroPedido);
     }
 }
 
@@ -614,3 +615,40 @@ function criarLinkWhatsApp(id) {
     link2.target = '_blank';
     document.querySelector('#messageSuccess').appendChild(link2);
   }
+
+  function criarLinkParaCopiar(id) {
+    const link = `${window.location.href}?pedidofeito=${id}`;
+    const linkCopy = document.createElement('span');
+    linkCopy.textContent = 'Clique aqui para copiar o Link do pedido';
+    linkCopy.id = "linkParaCopiar";
+    document.querySelector('#messageSuccess').appendChild(linkCopy);
+    document.getElementById('linkParaCopiar').addEventListener('click', function(event) {
+        event.preventDefault();
+        copiarTextoPedidoEnviado(link, linkCopy.id); 
+    });
+    linkCopy.addEventListener('mouseover', function() {
+        linkCopy.style.cursor = 'pointer';
+    });
+    linkCopy.addEventListener('mouseout', function() {
+        linkCopy.style.cursor = 'default';
+    });
+}
+
+function copiarTextoPedidoEnviado(link,id){
+    let r = document.createRange();
+    document.getElementById(id).innerText = link;
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    try {
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();    
+        document.getElementById('linkParaCopiar').innerText = "Link copiado";
+        setTimeout(() => {
+            document.getElementById('linkParaCopiar').innerText = "Clique aqui para copiar o Link do pedido";
+        }, 4000);
+    } catch (e) {
+        console.log('Não foi possível copiar!');
+        alert(`'Não foi possível copiar! ${e}`)
+    }
+}

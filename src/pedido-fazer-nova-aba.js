@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (document.querySelector('#linkPedido')) {
           const linkPedido = document.querySelector('#linkPedido');
           linkPedido.innerText = retornarLink();
+          linkPedido.style.cssText = 'place-self: center';
           observer.disconnect();
         }
       });
@@ -142,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function copyText(id){
     let r = document.createRange();
-    document.getElementById(id).innerText = retornarLink();;
+    document.getElementById(id).innerText = retornarLink();
     r.selectNode(document.getElementById(id));
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(r);
