@@ -61,9 +61,11 @@ function showButtonPrintAndClose() {
     document.querySelector('#btnPrint').style.display = 'block';
     
     let centerContent = document.querySelector("#btnConfig");
-    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
+    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2 btn__clear" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
+    centerContent.insertAdjacentHTML("beforeend", `<div id="linkPedido"></div>`);
+    centerContent.insertAdjacentHTML("beforeend", `<button id="btnCopy" class="btn btn-outline-dark btn__clear" onclick="copyText('linkPedido')">Copiar link</button>`);
     if (window.opener)
-        centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-secondary my-4" onclick="fecharAba()">Fechar</button>`);
+        centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-secondary my-4 btn__clear" onclick="fecharAba()">Fechar</button>`);
     else
         centerContent.insertAdjacentHTML("beforeend", `<a class="btn btn-link my-4" href="${window.location.origin}">Página Principal</a>`);
 }
@@ -123,4 +125,42 @@ function abrirWhatsApp() {
 function fecharAba(){
     sessionStorage.setItem('aberto-nova-aba', false);
     window.close();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function() {
+        if (document.querySelector('#linkPedido')) {
+          const linkPedido = document.querySelector('#linkPedido');
+          linkPedido.innerText = retornarLink();
+          observer.disconnect();
+        }
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+});
+
+function copyText(id){
+    let r = document.createRange();
+    document.getElementById(id).innerText = retornarLink();;
+    r.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    try {
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();    
+        document.getElementById('btnCopy').innerText = "Link copiado";
+        setTimeout(() => {
+            document.getElementById('btnCopy').innerText = "Copiar link";
+        }, 3000);
+    } catch (e) {
+        console.log('Não foi possível copiar!');
+        alert(`'Não foi possível copiar! ${e}`)
+    }
+}
+
+function retornarLink() {
+    const params = new URLSearchParams(window.location.search);
+    let id = params.get('pedidofeito');
+    return link = id ? `${window.location.href}` : `${window.location.href}?pedidofeito=${idPedidoGlobal}`;
 }
