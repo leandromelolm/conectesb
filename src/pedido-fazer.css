@@ -374,6 +374,10 @@ input[type="number"] {
     text-transform: uppercase;
 }
 
+.btn__clear:focus {
+    box-shadow: none;
+}
+
 #buttons input:hover {
     background-color: #0033ff;
     cursor: pointer;
