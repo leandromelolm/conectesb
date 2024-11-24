@@ -61,11 +61,11 @@ function showButtonPrintAndClose() {
     document.querySelector('#btnPrint').style.display = 'block';
     
     let centerContent = document.querySelector("#btnConfig");
-    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2 btn__clear" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
-    centerContent.insertAdjacentHTML("beforeend", `<div id="linkPedido"></div>`);
-    centerContent.insertAdjacentHTML("beforeend", `<button id="btnCopy" class="btn btn-outline-dark btn__clear" onclick="copyText('linkPedido')">Copiar link</button>`);
+    centerContent.insertAdjacentHTML("beforeend", `<div class="mt-2" id="linkPedido"></div>`);
+    centerContent.insertAdjacentHTML("beforeend", `<button id="btnCopyLink" class="btn mt-2 btn__config" onclick="copyText('linkPedido')">Copiar link</button>`);
+    centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2 btn__config" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
     if (window.opener)
-        centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-secondary my-4 btn__clear" onclick="fecharAba()">Fechar</button>`);
+        centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-secondary my-4 btn__config" onclick="fecharAba()">Fechar</button>`);
     else
         centerContent.insertAdjacentHTML("beforeend", `<a class="btn btn-link my-4" href="${window.location.origin}">Página Principal</a>`);
 }
@@ -149,10 +149,13 @@ function copyText(id){
     window.getSelection().addRange(r);
     try {
         document.execCommand('copy');
-        window.getSelection().removeAllRanges();    
-        document.getElementById('btnCopy').innerText = "Link copiado";
+        window.getSelection().removeAllRanges();
+        let btnCopyLink = document.getElementById('btnCopyLink');
+        btnCopyLink.innerText = "Link copiado";
+        btnCopyLink.style.cssText = "background-color:#212529; color:white"
         setTimeout(() => {
-            document.getElementById('btnCopy').innerText = "Copiar link";
+            btnCopyLink.innerText = "Copiar link";
+            btnCopyLink.style.cssText = "background-color:white; color:#212529"
         }, 3000);
     } catch (e) {
         console.log('Não foi possível copiar!');

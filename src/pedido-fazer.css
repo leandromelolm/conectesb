@@ -364,7 +364,7 @@ input[type="number"] {
     font-weight: bold;
 }
 
-.btn__clear {
+.btn__config {
     border-radius: 5px;
     width: 380px !important;
     height: 35px !important;
@@ -374,8 +374,12 @@ input[type="number"] {
     text-transform: uppercase;
 }
 
-.btn__clear:focus {
+.btn__config:focus {
     box-shadow: none;
+}
+
+#btnCopyLink {
+    border-color: #212529; 
 }
 
 #buttons input:hover {
@@ -386,7 +390,7 @@ input[type="number"] {
 #btnValidateToSend {
     background-color: #5cebdf !important;
     color: black !important;
-    cursor: pointer; /* Cursor de mão quando o mouse passa sobre o botão */
+    cursor: pointer;
 }
 
 #btnValidateToSend:hover {
