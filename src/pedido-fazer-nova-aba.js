@@ -61,7 +61,7 @@ function showButtonPrintAndClose() {
     document.querySelector('#btnPrint').style.display = 'block';
     
     let centerContent = document.querySelector("#btnConfig");
-    centerContent.insertAdjacentHTML("beforeend", `<div class="mt-2" id="linkPedido"></div>`);
+    centerContent.insertAdjacentHTML("beforeend", `<div class="mt-2 text-secondary" id="linkPedido"></div>`);
     centerContent.insertAdjacentHTML("beforeend", `<button id="btnCopyLink" class="btn mt-2 btn__config" onclick="copyText('linkPedido')">Copiar link</button>`);
     centerContent.insertAdjacentHTML("beforeend", `<button class="btn btn-outline-success my-2 btn__config" onclick="abrirWhatsApp()">Compartilhar no Whatsapp</button>`);
     if (window.opener)
@@ -152,7 +152,7 @@ function copyText(id){
         window.getSelection().removeAllRanges();
         let btnCopyLink = document.getElementById('btnCopyLink');
         btnCopyLink.innerText = "Link copiado";
-        btnCopyLink.style.cssText = "background-color:#212529; color:white"
+        btnCopyLink.style.cssText = "background-color:#495057; color:white"
         setTimeout(() => {
             btnCopyLink.innerText = "Copiar link";
             btnCopyLink.style.cssText = "background-color:white; color:#212529"
