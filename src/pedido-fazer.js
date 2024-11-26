@@ -466,7 +466,7 @@ function responseFetch(data) {
             <div id=modalEnvioSucesso class="flex-row">
                 <div>Pedido enviado com sucesso!</div>
                 <div>Número Pedido: ${data.numeroPedido}</div>
-                <div>Momento: ${data.dataPedido}</div>
+                <div class="mb-1">Momento: ${data.dataPedido}</div>
             </div>            
         `);
         criarLinkWhatsApp(data.numeroPedido);
@@ -603,24 +603,30 @@ function subtrair(inputQuantidade) {
 
 function criarLinkWhatsApp(id) {
     const linkWhatsApp = `https://wa.me/?text=${window.location.href}?pedidofeito=${id}`;    
-    const link = document.createElement('a');
-    link.href = linkWhatsApp;
-    link.textContent = 'Compartilhar link do pedido no WhatsApp';
-    link.target = '_blank';
-    document.querySelector('#modalEnvioSucesso').appendChild(link);
+    const link1 = document.createElement('a');
+    link1.href = linkWhatsApp;
+    link1.textContent = 'Compartilhar link do pedido no WhatsApp';
+    link1.target = '_blank';
+    link1.className = "mt-1";
+    link1.style.cssText = "text-decoration: none";
+    document.querySelector('#modalEnvioSucesso').appendChild(link1);
 
     const link2 = document.createElement('a');
     link2.href = linkWhatsApp;
     link2.textContent = 'Compartilhar link do pedido no WhatsApp';
     link2.target = '_blank';
+    link2.className = "mt-1";
+    link2.style.cssText = "text-decoration: none";
     document.querySelector('#messageSuccess').appendChild(link2);
   }
 
   function criarLinkParaCopiar(id) {
     const link = `${window.location.href}?pedidofeito=${id}`;
     const linkCopy = document.createElement('span');
-    linkCopy.textContent = 'Clique aqui para copiar o Link do pedido';
+    linkCopy.textContent = 'Clique aqui para copiar o link do pedido';
     linkCopy.id = "linkParaCopiar";
+    linkCopy.style.cssText = "";
+    linkCopy.className = "my-1";
     document.querySelector('#messageSuccess').appendChild(linkCopy);
     document.getElementById('linkParaCopiar').addEventListener('click', function(event) {
         event.preventDefault();
@@ -645,7 +651,7 @@ function copiarTextoPedidoEnviado(link,id){
         window.getSelection().removeAllRanges();    
         document.getElementById('linkParaCopiar').innerText = "Link copiado";
         setTimeout(() => {
-            document.getElementById('linkParaCopiar').innerText = "Clique aqui para copiar o Link do pedido";
+            document.getElementById('linkParaCopiar').innerText = "Clique aqui para copiar o link do pedido";
         }, 4000);
     } catch (e) {
         console.log('Não foi possível copiar!');
