@@ -755,19 +755,32 @@ async function getPedido(id) {
     spinnerLoading();
     document.querySelector('#docPrint').style.display = 'none';
     sessionStorage.removeItem("pedido");
-    let pedido = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}`)
-    .then( data => {
-        return data.json();
-    })
-    showButtonPrintAndClose();
-    document.querySelector('#docPrint').style.display = 'block';
+    try {
+        let pedido = await fetch(`/.netlify/functions/api-spreadsheet?id=${id}`)
+        .then( data => {
+            return data.json();
+        })
+        showButtonPrintAndClose();
+        document.querySelector('#docPrint').style.display = 'block';
+        pedido.responseDataPedidos.result || abrirPedidoModoVisualizar(pedido);
+        !pedido.responseDataPedidos.result || redirectPage(); //Quando não existe pedido
+    } catch (error) {
+        redirectPage();
+    }
+}
+
+function abrirPedidoModoVisualizar(pedido) {
     localStorage.setItem('dadosItens', JSON.stringify(pedido.responseDataPedidos.itens));
     recuperarDadosItensLocalStorage();
     sessionStorage.setItem('dadosRequerente', JSON.stringify(pedido.responseDataPedidos.requisitante));
     recuperarDadosRequisitanteSessionStorage();
     visibilidadeDasLinhas(pedido.responseDataPedidos.qtdItens);
     changePageTitleAndTitleCenter(pedido.responseDataPedidos.id);
-    removeSpinnerLoading();    
+    removeSpinnerLoading();  
+}
+
+function redirectPage() {
+    window.location.href = window.location.origin;
 }
 
 function spinnerLoading() {
