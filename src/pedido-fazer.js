@@ -449,29 +449,34 @@ function responseFetch(data) {
 
     } else {
         limparTudo();
-        document.getElementById('divLoadingById').classList.add('d-none');
-        let messageSuccess = document.getElementById('messageSuccess');
-        messageSuccess.innerHTML =
-        `<h4>
-            <b>Pedido enviado com sucesso!</b>
-        </h4>
-        <div>
-            <span>Número Pedido: </span> <b>${data.numeroPedido}</b>
-        </div>
-        <div>
-            <span>Momento: </span> <b>${data.dataPedido}</b>
-        </div>                
-        `;
+        messageSuccess(data.numeroPedido, data.dataPedido);
+        document.querySelector('#modalBody').classList.add('message__success');     
         abrirModal(`
-            <div id=modalEnvioSucesso class="flex-row">
-                <div>Pedido enviado com sucesso!</div>
+            <div id="modalEnvioSucesso">
+                <div><b>Pedido enviado com sucesso!</b></div>
                 <div>Número Pedido: ${data.numeroPedido}</div>
                 <div class="mb-1">Momento: ${data.dataPedido}</div>
             </div>            
         `);
         criarLinkWhatsApp(data.numeroPedido);
-        criarLinkParaCopiar(data.numeroPedido);
+        copiarLinkParaAreaTransferencia(data.numeroPedido);
     }
+}
+
+function messageSuccess(nPedido, datePedido) {
+    document.getElementById('divLoadingById').classList.add('d-none');
+    let messageSuccess = document.getElementById('messageSuccess');
+    messageSuccess.innerHTML =
+    `<div class="fs-6">
+        <h4><b>Pedido enviado com sucesso!</b></h4>
+        <div>
+            <span>Número Pedido: </span> <b>${nPedido}</b>
+        </div>
+        <div>
+            <span>Momento: </span> <b>${datePedido}</b>            
+        </div>                
+    </div>
+    `;
 }
 
 function catchError(error) {
@@ -601,46 +606,74 @@ function subtrair(inputQuantidade) {
     saveDataItensLocalStorage();
 }
 
-function criarLinkWhatsApp(id) {
-    const linkWhatsApp = `https://wa.me/?text=${window.location.href}?pedidofeito=${id}`;    
-    const link1 = document.createElement('a');
-    link1.href = linkWhatsApp;
-    link1.textContent = 'Compartilhar link do pedido no WhatsApp';
-    link1.target = '_blank';
-    link1.className = "mt-1";
-    link1.style.cssText = "text-decoration: none";
-    document.querySelector('#modalEnvioSucesso').appendChild(link1);
+function criarLinkWhatsApp(id) {    
+    document.querySelector('#modalEnvioSucesso').appendChild(criarElementoWs(id));    
+    document.querySelector('#messageSuccess').appendChild(criarElementoWs(id));
+}
 
-    const link2 = document.createElement('a');
-    link2.href = linkWhatsApp;
-    link2.textContent = 'Compartilhar link do pedido no WhatsApp';
-    link2.target = '_blank';
-    link2.className = "mt-1";
-    link2.style.cssText = "text-decoration: none";
-    document.querySelector('#messageSuccess').appendChild(link2);
-  }
+function criarElementoWs(id) {
+    const elDivWs = document.createElement('div');
+    const linkWhatsApp = `https://wa.me/?text=${window.location.href}?pedidofeito=${id}`;
+    const eleI = document.createElement('i');    
+    eleI.className = 'bi bi-whatsapp ms-1';
+    const eleA = document.createElement('a');
+    eleA.href = linkWhatsApp;
+    eleA.textContent = 'Compartilhar link do pedido no WhatsApp';
+    eleA.target = '_blank';
+    eleA.className = 'mt-2 fs-6';
+    eleA.style.cssText = "text-decoration: none";
+    eleA.appendChild(eleI);
+    elDivWs.appendChild(eleA);
+    return elDivWs;
+}
 
-  function criarLinkParaCopiar(id) {
+function copiarLinkParaAreaTransferencia(id) {
     const link = `${window.location.href}?pedidofeito=${id}`;
-    const linkCopy = document.createElement('span');
-    linkCopy.textContent = 'Clique aqui para copiar o link do pedido';
-    linkCopy.id = "linkParaCopiar";
-    linkCopy.style.cssText = "";
-    linkCopy.className = "my-1";
-    document.querySelector('#messageSuccess').appendChild(linkCopy);
-    document.getElementById('linkParaCopiar').addEventListener('click', function(event) {
+    linkCopiarNoModal(link);      
+    linkCopiar(link);
+}
+
+function linkCopiarNoModal(link) {
+    const linkCopyModal = criarElementoTag('linkParaCopiarModal', 'divCopyModal');
+    document.querySelector('#modalEnvioSucesso').appendChild(linkCopyModal); 
+    document.getElementById('linkParaCopiarModal').addEventListener('click', function(event) {
         event.preventDefault();
-        copiarTextoPedidoEnviado(link, linkCopy.id); 
-    });
-    linkCopy.addEventListener('mouseover', function() {
-        linkCopy.style.cursor = 'pointer';
-    });
-    linkCopy.addEventListener('mouseout', function() {
-        linkCopy.style.cursor = 'default';
+        copiarTextoParaAreaTransferencia(link, linkCopyModal.querySelector('span').id, 'divCopyModal');        
     });
 }
 
-function copiarTextoPedidoEnviado(link,id){
+function linkCopiar(link) {
+    const linkCopy = criarElementoTag('linkParaCopiar', 'divCopy');    
+    document.querySelector('#messageSuccess').appendChild(linkCopy);        
+    document.getElementById('linkParaCopiar').addEventListener('click', function(event) {
+        event.preventDefault();
+        copiarTextoParaAreaTransferencia(link, linkCopy.querySelector('span').id, 'divCopy');        
+    }); 
+}
+
+function criarElementoTag(idEl, idDev) {
+    const elDiv = document.createElement('div');
+    elDiv.id = idDev;
+    elDiv.className = "my-2";
+    const el = document.createElement('span');
+    el.textContent = 'Clique aqui para copiar o link do pedido';
+    el.id = idEl;
+    el.style.cssText = "text-decoration: none;";
+    el.className = "fs-6";
+    elDiv.appendChild(el);
+    el.addEventListener('mouseover', () => {
+        el.style.cursor = 'pointer'; 
+    });
+    el.addEventListener('mouseout', () => {
+        el.style.cursor = 'default';
+    });
+    const iEl = document.createElement('i');
+    iEl.className = 'bi bi-copy ms-1';
+    el.appendChild(iEl);
+    return elDiv;
+}
+
+function copiarTextoParaAreaTransferencia(link, id, iDdiv){
     let r = document.createRange();
     document.getElementById(id).innerText = link;
     r.selectNode(document.getElementById(id));
@@ -649,9 +682,13 @@ function copiarTextoPedidoEnviado(link,id){
     try {
         document.execCommand('copy');
         window.getSelection().removeAllRanges();    
-        document.getElementById('linkParaCopiar').innerText = "Link copiado";
+        document.getElementById(id).innerText = "Link copiado";
         setTimeout(() => {
-            document.getElementById('linkParaCopiar').innerText = "Clique aqui para copiar o link do pedido";
+            document.getElementById(iDdiv).remove();
+            if (iDdiv == 'divCopyModal')
+                linkCopiarNoModal(link);
+            if (iDdiv == 'divCopy')
+                linkCopiar(link);            
         }, 4000);
     } catch (e) {
         console.log('Não foi possível copiar!');
