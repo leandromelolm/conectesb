@@ -943,13 +943,6 @@
             <div class="div__margin-top_print_firefox d-none"></div>
             <div id="docPrintClone" class="show-in-print">2º via</div>
 
-            <div id="divLoadingById" class="div__loading d-none">
-                <div class="spinner-grow text-secondary" role="status">
-                    <span class="visually-hidden">Enviado...</span>
-                </div>
-                <h5 class="mb-1">Enviado...</h5>                  
-            </div>
-
             <div id="messageValidateSending" class="hidden-in-print"></div>
 
             <div id="buttons">
@@ -963,7 +956,10 @@
 
                 <div id="messageSuccess" class="message__success"></div>
                 <div id="messageError" class="message__error"></div>
-                <input type="button" id="btnValidateToSend" onclick="validateToSend()" value="Enviar Pedido">
+
+                <button type="button" id="btnValidateToSend" class="btn btn__config justify-content-center align-items-center d-flex" onclick="validateToSend()">
+                    <i class="bi bi-send"></i><div class="ms-1">Enviar Pedido</div>
+                </button>    
                 
                 <div id="btnConfig" class="d-grid">
                     <button type="button" id="btnPrint" class="btn btn-outline-primary btn__config" onclick="printPage()">

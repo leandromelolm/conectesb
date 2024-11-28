@@ -10,6 +10,8 @@ let itensForm;
 let scriptUrl;
 let appEnv;
 
+
+
 window.onload = () => {
 
     document.getElementById("titleCenter").innerHTML = "<b>NOTA DE REQUISIÇÃO E SAÍDA DE MATERIAL</b>";
@@ -91,8 +93,49 @@ function abrirModal(str) {
 
 document.getElementById("modalConfirmarBtnSim").addEventListener("click", function() {
     sendDataToSpreadSheet();
-    document.getElementById('btnValidateToSend').disabled = true;
+    loadingSendOrder(true);
+    loadingModalShow(true);    
 })
+
+function loadingSendOrder(b) {
+    if (b)
+        document.getElementById('btnValidateToSend').innerHTML = `
+        <div class='d-flex justify-content-center align-items-center'>
+            <div class="spinner-grow spinner-grow-sm" role="status"></div>
+            <div>Enviando...</div>
+        </div>`;
+    else 
+        document.getElementById('btnValidateToSend').innerHTML = `<i class="bi bi-send"></i><div class="ms-1">Enviar Pedido</div>`;
+}
+
+function loadingModalShow(b) {
+    const fullcontent = document.querySelector('.full-content');
+    if (b) {        
+        fullcontent.insertAdjacentHTML("afterbegin", `
+        <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered" style="background: none !important;">
+            <div class="modal-content" style="background: none !important; border: none;">
+              <div class="modal-body" style="text-align: center;">
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        `)
+        const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
+        modalLoading.show();
+        document.getElementById('btnValidateToSend').disabled = true;
+    } else {        
+        const modalElement = document.getElementById("loading");
+        const modalLoading = bootstrap.Modal.getInstance(modalElement);
+        modalLoading.hide();
+        modalElement.remove();
+        document.getElementById('btnValidateToSend').disabled = false;
+    }
+}
 
 function validarPreenchimentoDeCampos(){
     let messageValidateSending = document.getElementById('messageValidateSending');
@@ -122,7 +165,7 @@ function validarPreenchimentoDeCampos(){
         mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`);
     
     if (sessionStorage.getItem('dadosRequerente') === null)
-        mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b> tente outro navegador se o erro persistir.</br>`);
+        mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b>.</br>`);
 
     if (!localStorage.getItem('dadosItens'))
         mensagens.push(`Adicione algum item no pedido.</br>`);
@@ -414,7 +457,6 @@ function sendDataToSpreadSheet() {
         Date: ''
     };
     submitPostFunctionsNetlify(pedidoInfo);
-    document.getElementById('divLoadingById').classList.remove('d-none'); 
 };
 
 function submitPostFunctionsNetlify(pedidoInfo) {
@@ -431,10 +473,10 @@ function submitPostFunctionsNetlify(pedidoInfo) {
     });
 }
 
-function responseFetch(data) {
-    document.getElementById('btnValidateToSend').disabled = false;
+function responseFetch(data) {    
     if (data.success === false || data.numeroPedido === undefined) {
-        document.getElementById('divLoadingById').classList.add('d-none');
+        loadingModalShow(false);
+        loadingSendOrder(false);
         let messageError = document.getElementById('messageError');        
         messageError.innerHTML =`
             <h4>
@@ -464,7 +506,8 @@ function responseFetch(data) {
 }
 
 function messageSuccess(nPedido, datePedido) {
-    document.getElementById('divLoadingById').classList.add('d-none');
+    loadingModalShow(false);
+    loadingSendOrder(false);
     let messageSuccess = document.getElementById('messageSuccess');
     messageSuccess.innerHTML =
     `<div class="fs-6">
@@ -480,8 +523,6 @@ function messageSuccess(nPedido, datePedido) {
 }
 
 function catchError(error) {
-    document.getElementById('btnValidateToSend').disabled = false; // habilitar botão enviar
-
     abrirModal(`
         <div class="flex-row">
             <div>Aconteceu um erro!</div>
@@ -490,8 +531,8 @@ function catchError(error) {
             <div>${error}</div>
         </div>            
     `);
-    
-    document.getElementById('divLoadingById').classList.add('d-none');
+    loadingModalShow(false);
+    loadingSendOrder(false);    
     let messageValidateSending = document.getElementById('messageValidateSending');
     messageValidateSending.style.cssText = `
         background-color: #f8d7da;
