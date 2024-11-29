@@ -1,16 +1,4 @@
-const datalist = document.getElementById("item-list");
-const undlist = document.getElementById("u-list");
-const grupoList = document.getElementById("grupo-list");
-let nomeUnidade = document.getElementById("nomeUnidade");
-
 const grupos = ['SAÚDE BUCAL', ''];
-
-let requerenteForm;
-let itensForm;
-let scriptUrl;
-let appEnv;
-
-
 
 window.onload = () => {
 
@@ -23,19 +11,19 @@ window.onload = () => {
     itemArray.forEach(option => {
         const optionElement = document.createElement("option");
         optionElement.value = option;
-        datalist.appendChild(optionElement);
+        document.getElementById("item-list").appendChild(optionElement);
     });
 
     nomesUnidades.forEach(opt => {
         const optEl = document.createElement("option");
         optEl.value = opt;
-        undlist.appendChild(optEl);
+        document.getElementById("u-list").appendChild(optEl);
     });
 
     grupos.forEach(opt => {
         const optEl = document.createElement("option");
         optEl.value = opt;
-        grupoList.appendChild(optEl);
+        document.getElementById("grupo-list").appendChild(optEl);
     });
 
     recuperarDadosRequisitanteSessionStorage();
@@ -497,12 +485,27 @@ function responseFetch(data) {
             <div id="modalEnvioSucesso">
                 <div><b>Pedido enviado com sucesso!</b></div>
                 <div>Número Pedido: ${data.numeroPedido}</div>
-                <div class="mb-1">Momento: ${data.dataPedido}</div>
+                <div class="mb-2">Momento: ${data.dataPedido}</div>
+                <div class="mb-2">
+                    <a href="${window.location.href}?pedidofeito=${data.numeroPedido}" class="fs-6 text-decoration-none d-flex justify-content-center" style="color: #0f5132">
+                        <div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>
+                    </a>
+                </div>
             </div>            
         `);
+        redirecionarPaginaParaPedidoFeito(data.numeroPedido);
         criarLinkWhatsApp(data.numeroPedido);
         copiarLinkParaAreaTransferencia(data.numeroPedido);
     }
+}
+
+function redirecionarPaginaParaPedidoFeito(id) {
+    const a = document.createElement('a');
+    a.href = `${window.location.href}?pedidofeito=${id}`;
+    a.className = 'fs-6 text-decoration-none d-flex justify-content-center mb-2';
+    a.style.cssText = 'color: #0f5132';
+    a.innerHTML = `<div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>`;
+    document.querySelector('#messageSuccess').appendChild(a);
 }
 
 function messageSuccess(nPedido, datePedido) {
@@ -515,7 +518,7 @@ function messageSuccess(nPedido, datePedido) {
         <div>
             <span>Número Pedido: </span> <b>${nPedido}</b>
         </div>
-        <div>
+        <div class="mb-2">
             <span>Momento: </span> <b>${datePedido}</b>            
         </div>                
     </div>
