@@ -42,7 +42,7 @@ window.onload = () => {
 function updateTitleWithDate() {
     let dt = document.getElementById('dataPedidoShowPrint').value
     let id_pedido = JSON.parse(sessionStorage.getItem('aberto-nova-aba')) ? `${JSON.parse(sessionStorage.getItem('pedido')).id}-`: "";
-    document.getElementById("pageTitle").innerText = id_pedido + "pedido-" + nomeUnidade.value + "-"+ formatDateString(dt);
+    document.getElementById("pageTitle").innerText = id_pedido + "pedido-" + document.getElementById('nomeUnidade').value + "-"+ formatDateString(dt);
 };
 
 function cloneDocPrint() {
@@ -81,11 +81,11 @@ function abrirModal(str) {
 
 document.getElementById("modalConfirmarBtnSim").addEventListener("click", function() {
     sendDataToSpreadSheet();
-    loadingSendOrder(true);
+    loadingInsideBtnSend(true);
     loadingModalShow(true);    
 })
 
-function loadingSendOrder(b) {
+function loadingInsideBtnSend(b) {
     if (b)
         document.getElementById('btnValidateToSend').innerHTML = `
         <div class='d-flex justify-content-center align-items-center'>
@@ -464,7 +464,7 @@ function submitPostFunctionsNetlify(pedidoInfo) {
 function responseFetch(data) {    
     if (data.success === false || data.numeroPedido === undefined) {
         loadingModalShow(false);
-        loadingSendOrder(false);
+        loadingInsideBtnSend(false);
         let messageError = document.getElementById('messageError');        
         messageError.innerHTML =`
             <h4>
@@ -480,23 +480,34 @@ function responseFetch(data) {
     } else {
         limparTudo();
         messageSuccess(data.numeroPedido, data.dataPedido);
-        document.querySelector('#modalBody').classList.add('message__success');     
-        abrirModal(`
-            <div id="modalEnvioSucesso">
-                <div><b>Pedido enviado com sucesso!</b></div>
-                <div>Número Pedido: ${data.numeroPedido}</div>
-                <div class="mb-2">Momento: ${data.dataPedido}</div>
-                <div class="mb-2">
-                    <a href="${window.location.href}?pedidofeito=${data.numeroPedido}" class="fs-6 text-decoration-none d-flex justify-content-center" style="color: #0f5132">
-                        <div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>
-                    </a>
-                </div>
-            </div>            
-        `);
-        redirecionarPaginaParaPedidoFeito(data.numeroPedido);
-        criarLinkWhatsApp(data.numeroPedido);
-        copiarLinkParaAreaTransferencia(data.numeroPedido);
+        responseSuccess(data.numeroPedido, data.dataPedido);
     }
+}
+
+function responseSuccess(numPedido, dataPedido) {
+    document.querySelector('#modalBody').classList.add('message__success-modal');
+    abrirModal(`
+        <div id="modalEnvioSucesso">
+            <div><b>Pedido enviado com sucesso!</b></div>
+            <div>Número Pedido: ${numPedido}</div>
+            <div class="mb-2">Momento: ${dataPedido}</div>
+            <div>
+                <a href="pedido-fazer" class="fs-6 text-decoration-none d-flex justify-content-center mb-2 message__success-modal">
+                    <div><b>Clique aqui</b> para fazer um novo pedido</div> <i class="bi bi-cart"></i>
+                </a>
+            </div>
+            <div class="mb-2">
+                <a href="${window.location.href}?pedidofeito=${numPedido}" class="fs-6 text-decoration-none d-flex justify-content-center" style="color: #0f5132">
+                    <div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>
+                </a>
+            </div>
+        </div>
+    `);
+    redirecionarPaginaParaPedidoFeito(numPedido);
+    criarLinkWhatsApp(numPedido);
+    copiarLinkParaAreaTransferencia(numPedido);
+    document.querySelector('#docPrint').classList.add('d-none');
+    document.querySelector('#buttons').classList.add('d-none');
 }
 
 function redirecionarPaginaParaPedidoFeito(id) {
@@ -504,13 +515,13 @@ function redirecionarPaginaParaPedidoFeito(id) {
     a.href = `${window.location.href}?pedidofeito=${id}`;
     a.className = 'fs-6 text-decoration-none d-flex justify-content-center mb-2';
     a.style.cssText = 'color: #0f5132';
-    a.innerHTML = `<div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>`;
+    a.innerHTML = `<div><b>Clique aqui</b> para abrir o pedido</div> <i class="bi bi-box-seam ms-1"></i>`;
     document.querySelector('#messageSuccess').appendChild(a);
 }
 
 function messageSuccess(nPedido, datePedido) {
     loadingModalShow(false);
-    loadingSendOrder(false);
+    loadingInsideBtnSend(false);
     let messageSuccess = document.getElementById('messageSuccess');
     messageSuccess.innerHTML =
     `<div class="fs-6">
@@ -520,7 +531,12 @@ function messageSuccess(nPedido, datePedido) {
         </div>
         <div class="mb-2">
             <span>Momento: </span> <b>${datePedido}</b>            
-        </div>                
+        </div>
+        <div>
+            <a href="pedido-fazer" class="text-decoration-none d-flex justify-content-center mb-2 message__success">
+                <div><b>Clique aqui</b> para fazer um novo pedido</div> <i class="bi bi-cart"></i>
+            </a>
+        </div>
     </div>
     `;
 }
@@ -535,7 +551,7 @@ function catchError(error) {
         </div>            
     `);
     loadingModalShow(false);
-    loadingSendOrder(false);    
+    loadingInsideBtnSend(false);
     let messageValidateSending = document.getElementById('messageValidateSending');
     messageValidateSending.style.cssText = `
         background-color: #f8d7da;
@@ -662,10 +678,10 @@ function criarElementoWs(id) {
     eleI.className = 'bi bi-whatsapp ms-1';
     const eleA = document.createElement('a');
     eleA.href = linkWhatsApp;
-    eleA.textContent = 'Compartilhar link do pedido no WhatsApp';
+    eleA.textContent = 'Compartilhar pedido no WhatsApp';
     eleA.target = '_blank';
     eleA.className = 'mt-2 fs-6';
-    eleA.style.cssText = "text-decoration: none";
+    eleA.style.cssText = "text-decoration: none; color: #0f5132";
     eleA.appendChild(eleI);
     elDivWs.appendChild(eleA);
     return elDivWs;
@@ -700,10 +716,10 @@ function criarElementoTag(idEl, idDev) {
     elDiv.id = idDev;
     elDiv.className = "my-2";
     const el = document.createElement('span');
-    el.textContent = 'Clique aqui para copiar o link do pedido';
+    el.innerHTML = '<div><b>Clique aqui</b> para copiar o link do pedido';
     el.id = idEl;
     el.style.cssText = "text-decoration: none;";
-    el.className = "fs-6";
+    el.className = "fs-6 d-flex justify-content-center";
     elDiv.appendChild(el);
     el.addEventListener('mouseover', () => {
         el.style.cursor = 'pointer'; 

@@ -26,7 +26,7 @@
    
     <div class="full-content browser__style">
 
-        <div class="dashboard-sidebar hidden-in-print"></div>
+        <div id="menuLeft" class="dashboard-sidebar hidden-in-print"></div>
 
         <div class="center-content">
             <div class="div_center">  
@@ -944,6 +944,9 @@
 
             <div id="messageValidateSending" class="hidden-in-print"></div>
 
+            <div id="messageSuccess" class="message__success hidden-in-print"></div>
+            <div id="messageError" class="message__error hidden-in-print"></div>
+
             <div id="buttons">
                 <div class="tipo__pedido">
                     <span>Tipo de Pedido:</span>
@@ -952,9 +955,6 @@
                     <span>Extra</span>
                     <input type="checkbox" id="extra" name="extra"/>
                 </div>
-
-                <div id="messageSuccess" class="message__success"></div>
-                <div id="messageError" class="message__error"></div>
 
                 <button type="button" id="btnValidateToSend" class="btn btn__config justify-content-center align-items-center d-flex" onclick="validateToSend()">
                     <i class="bi bi-send"></i><div class="ms-1">Enviar Pedido</div>
@@ -980,8 +980,8 @@
                 <br>
             </div>
         </div>
-
-        <div class="right-sidebar hidden-in-print"></div>
+        
+        <div id="menuRight" class="right-sidebar hidden-in-print"></div>
 
     </div>
 
