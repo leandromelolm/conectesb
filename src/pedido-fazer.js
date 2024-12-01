@@ -173,7 +173,8 @@ function printPage() {
     } else {
         document.getElementById('dataPedidoShowPrint').value = "          /          /      "
     }
-    this.cloneDocPrint();
+    if ( recuperarDadosItensSessionStorage().quantityOfOrderedItems === 0 && recuperarDadosItensLocalStorage().quantityOfOrderedItems === 0)
+        this.cloneDocPrint();
     this.updateTitleWithDate();
     window.print();
     desabilitarBotaoEnviar(); // desabilita por alguns segundos
@@ -305,6 +306,9 @@ function recuperarDadosItensLocalStorage() {
                 }
             }
         });
+        return obj = {itensDoPedidoExistem: true, quantityOfOrderedItems: dadosObj.length};
+    } else {
+        return obj = {itensDoPedidoExistem: false, quantityOfOrderedItems: 0};
     }
 };
 
@@ -343,7 +347,7 @@ function recuperarDadosItensSessionStorage() {
         });
         return obj = {itensDoPedidoExistem: true, quantityOfOrderedItems: dadosObj.length};
     } else {
-        return obj = {itensDoPedidoExistem: false};
+        return obj = {itensDoPedidoExistem: false, quantityOfOrderedItems: 0};
     }
 };
 
