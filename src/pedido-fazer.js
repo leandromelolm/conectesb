@@ -14,9 +14,9 @@ window.onload = () => {
         document.getElementById("item-list").appendChild(optionElement);
     });
 
-    nomesUnidades.forEach(opt => {
+    nomesUnidades.forEach(u => {
         const optEl = document.createElement("option");
-        optEl.value = opt;
+        optEl.value = u.nomeUnidade;
         document.getElementById("u-list").appendChild(optEl);
     });
 
@@ -38,6 +38,12 @@ window.onload = () => {
 
     abrirPaginaModoMostrarPedido();
 };
+
+document.getElementById('nomeUnidade').addEventListener('change', (e) => {
+    const encontrado = nomesUnidades.find( u => u.nomeUnidade == e.target.value);
+    document.getElementById('dsSelect').value = encontrado ? encontrado.ds : '-';
+    saveInfoRequesterInSessionStorage();
+});
 
 function updateTitleWithDate() {
     let dt = document.getElementById('dataPedidoShowPrint').value
@@ -62,9 +68,9 @@ function validateToSend() {
         return;
     }
 
-    document.querySelector('#messageValidateSending').innerHTML = "";    
+    document.querySelector('#messageValidateSending').innerHTML = "";
     messageValidateSending.style.backgroundColor = 'transparent';
-    messageValidateSending.style.height = '1px';    
+    messageValidateSending.style.height = '1px';
     modalConfirmarEnvio();
 }
 
@@ -82,7 +88,7 @@ function abrirModal(str) {
 document.getElementById("modalConfirmarBtnSim").addEventListener("click", function() {
     sendDataToSpreadSheet();
     loadingInsideBtnSend(true);
-    loadingModalShow(true);    
+    loadingModalShow(true);
 })
 
 function loadingInsideBtnSend(b) {
@@ -92,13 +98,13 @@ function loadingInsideBtnSend(b) {
             <div class="spinner-grow spinner-grow-sm" role="status"></div>
             <div>Enviando...</div>
         </div>`;
-    else 
+    else
         document.getElementById('btnValidateToSend').innerHTML = `<i class="bi bi-send"></i><div class="ms-1">Enviar Pedido</div>`;
 }
 
 function loadingModalShow(b) {
     const fullcontent = document.querySelector('.full-content');
-    if (b) {        
+    if (b) {
         fullcontent.insertAdjacentHTML("afterbegin", `
         <div class="modal" style="background: none !important;" id="loading" data-bs-backdrop="static"
           data-bs-keyboard="false" tabindex="-1">
@@ -116,7 +122,7 @@ function loadingModalShow(b) {
         const modalLoading = new bootstrap.Modal(document.getElementById("loading"), {});
         modalLoading.show();
         document.getElementById('btnValidateToSend').disabled = true;
-    } else {        
+    } else {
         const modalElement = document.getElementById("loading");
         const modalLoading = bootstrap.Modal.getInstance(modalElement);
         modalLoading.hide();
@@ -130,8 +136,8 @@ function validarPreenchimentoDeCampos(){
     let mensagens = [];
     messageValidateSending.style.cssText = `
         background-color: #f8d7da;
-        color: #842029; 
-        text-align: center        
+        color: #842029;
+        text-align: center
     `;
 
     let dataInput = new Date(document.getElementById('dataPedido').value);
@@ -142,24 +148,24 @@ function validarPreenchimentoDeCampos(){
 
     if (dataInput.toLocaleDateString() ==="Invalid Date")
         mensagens.push(`O campo <b>Data</b> precisa ser preenchido.</br>`);
-    
-    if (document.getElementById('nomeUnidade').value === '')      
-        mensagens.push(`O campo <b>Unidade Requisitante</b> precisa ser preenchido.</br>`);    
-    
+
+    if (document.getElementById('nomeUnidade').value === '')
+        mensagens.push(`O campo <b>Unidade Requisitante</b> precisa ser preenchido.</br>`);
+
     if (document.getElementById('ds').value === '-' || document.getElementById('ds').value === '')
-        mensagens.push(`O campo <b>Distrito Sanitário</b> precisa ser preenchido.</br>`);     
-    
+        mensagens.push(`O campo <b>Distrito Sanitário</b> precisa ser preenchido.</br>`);
+
     if (document.getElementById('grupoMaterial').value === '')
         mensagens.push(`O campo <b>Grupo de Material</b> precisa ser preenchido.</br>`);
-    
+
     if (sessionStorage.getItem('dadosRequerente') === null)
         mensagens.push(`<b>Erro ao salvar dados da unidade requisitante</b>.</br>`);
 
     if (!localStorage.getItem('dadosItens'))
         mensagens.push(`Adicione algum item no pedido.</br>`);
-    
+
     if (sessionStorage.getItem('dadosItens'))
-        mensagens.push(`Se o pedido foi carregado por meio do botão <b>"Abrir no formulário"</b> da página <b>"Lista de pedidos"</b>, 
+        mensagens.push(`Se o pedido foi carregado por meio do botão <b>"Abrir no formulário"</b> da página <b>"Lista de pedidos"</b>,
         faça uma pequena alteração em algum item ou quantidade deste pedido.</br>`)
 
     messageValidateSending.innerHTML = mensagens.join("");
@@ -218,7 +224,7 @@ function visibilidadeDasLinhas(quantidadeItens) {
 
 
 function saveInfoRequesterInSessionStorage() {
-    document.getElementById('ds').value = document.getElementById("dsSelect").value;;    
+    document.getElementById('ds').value = document.getElementById("dsSelect").value;
     document.getElementById('equipe').value =  document.getElementById('equipeSelect').value;
     let dadosRequerente = {
         nomeUnidade: document.getElementById('nomeUnidade').value,
@@ -250,7 +256,7 @@ function saveDataItensLocalStorage() {
             dados.push(item);
             const celulaItem = cells[index + 1];
             celulaItem.textContent = index + 1;
-             
+
         }
     });
     visibilidadeDasLinhas(dados.length);
@@ -265,7 +271,7 @@ inputs.forEach(function (input) {
 });
 
 function recuperarDadosRequisitanteSessionStorage() {
-    let requerenteJson = sessionStorage.getItem("dadosRequerente");    
+    let requerenteJson = sessionStorage.getItem("dadosRequerente");
     if (requerenteJson) {
         let requerente = JSON.parse(requerenteJson)
         document.getElementById('nomeUnidade').value = requerente.nomeUnidade;
@@ -275,7 +281,7 @@ function recuperarDadosRequisitanteSessionStorage() {
         document.getElementById('equipeSelect').value = requerente.equipe || "-";
         document.getElementById('grupoMaterial').value = requerente.grupoMaterial;
         document.getElementById('nomeResponsavel').value = requerente.nomeResponsavel;
-        document.getElementById('dataPedido').value = 
+        document.getElementById('dataPedido').value =
             requerente.dataPedido ? requerente.dataPedido : formatarDataParaYYYYMMDD(new Date());
     } else {
         document.getElementById('dataPedido').value = formatarDataParaYYYYMMDD(new Date());
@@ -285,7 +291,7 @@ function recuperarDadosRequisitanteSessionStorage() {
 };
 
 function recuperarDadosItensLocalStorage() {
-    let dadosJSON = localStorage.getItem('dadosItens');    
+    let dadosJSON = localStorage.getItem('dadosItens');
     if (dadosJSON) {
         let dadosObj = JSON.parse(dadosJSON);
 
@@ -366,11 +372,11 @@ function formatDateString(dateStr) {
 
 function inputsRequestorClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os dados preenchidos no formulário?
-Essa ação apagará os campos: 
+Essa ação apagará os campos:
 UNIDADE REQUISITANTE,
 EQUIPE,
-DISTRITO, 
-GRUPO DE MATERIAL 
+DISTRITO,
+GRUPO DE MATERIAL
 E FUNCIONÁRIO RESPONSÁVEL
 `);
     if (ok) {
@@ -393,8 +399,8 @@ function limparCamposInfoUnidade() {
 
 function inputsItensClean() {
     let ok = confirm(`Tem certeza de que deseja limpar os ITENS PEDIDOS?
-Essa ação apagará os campos da coluna: 
-ESPECIFICAÇÕES E QUANTIDADE PEDIDA 
+Essa ação apagará os campos da coluna:
+ESPECIFICAÇÕES E QUANTIDADE PEDIDA
 `);
     if (ok) {
         limparCamposItens();
@@ -459,17 +465,17 @@ function submitPostFunctionsNetlify(pedidoInfo) {
         return response.json();
     }).then(function(data) {
         console.log(data);
-        responseFetch(data);  
+        responseFetch(data);
     }).catch(function(error) {
         catchError(error);
     });
 }
 
-function responseFetch(data) {    
+function responseFetch(data) {
     if (data.success === false || data.numeroPedido === undefined) {
         loadingModalShow(false);
         loadingInsideBtnSend(false);
-        let messageError = document.getElementById('messageError');        
+        let messageError = document.getElementById('messageError');
         messageError.innerHTML =`
             <h4>
                 <b>Erro no envio!</b>
@@ -534,7 +540,7 @@ function messageSuccess(nPedido, datePedido) {
             <span>Número Pedido: </span> <b>${nPedido}</b>
         </div>
         <div class="mb-2">
-            <span>Momento: </span> <b>${datePedido}</b>            
+            <span>Momento: </span> <b>${datePedido}</b>
         </div>
         <div>
             <a href="pedido-fazer" class="text-decoration-none d-flex justify-content-center mb-2 message__success">
@@ -552,7 +558,7 @@ function catchError(error) {
             <div>Pode ser que sua solicitação não tenha sido enviada.</div>
             <div>Mensagem de Erro:</div>
             <div>${error}</div>
-        </div>            
+        </div>
     `);
     loadingModalShow(false);
     loadingInsideBtnSend(false);
@@ -646,7 +652,7 @@ if (userAgent.includes("Chrome")) {
 
 $(document).ready(function () {
     $('.div__quant_pedida').on('click', '.subtrairBtn', function () {
-        let inputQuantidade = $(this).siblings('.input__quantidade');        
+        let inputQuantidade = $(this).siblings('.input__quantidade');
         subtrair(inputQuantidade);
     });
 
@@ -655,7 +661,7 @@ $(document).ready(function () {
         somar(inputQuantidade);
     });
 });
-  
+
 function somar(inputQuantidade) {
     let resultado = parseInt(inputQuantidade.val()) || 0;
     resultado++;
@@ -670,15 +676,15 @@ function subtrair(inputQuantidade) {
     saveDataItensLocalStorage();
 }
 
-function criarLinkWhatsApp(id) {    
-    document.querySelector('#modalEnvioSucesso').appendChild(criarElementoWs(id));    
+function criarLinkWhatsApp(id) {
+    document.querySelector('#modalEnvioSucesso').appendChild(criarElementoWs(id));
     document.querySelector('#messageSuccess').appendChild(criarElementoWs(id));
 }
 
 function criarElementoWs(id) {
     const elDivWs = document.createElement('div');
     const linkWhatsApp = `https://wa.me/?text=${window.location.href}?pedidofeito=${id}`;
-    const eleI = document.createElement('i');    
+    const eleI = document.createElement('i');
     eleI.className = 'bi bi-whatsapp ms-1';
     const eleA = document.createElement('a');
     eleA.href = linkWhatsApp;
@@ -693,26 +699,26 @@ function criarElementoWs(id) {
 
 function copiarLinkParaAreaTransferencia(id) {
     const link = `${window.location.href}?pedidofeito=${id}`;
-    linkCopiarNoModal(link);      
+    linkCopiarNoModal(link);
     linkCopiar(link);
 }
 
 function linkCopiarNoModal(link) {
     const linkCopyModal = criarElementoTag('linkParaCopiarModal', 'divCopyModal');
-    document.querySelector('#modalEnvioSucesso').appendChild(linkCopyModal); 
+    document.querySelector('#modalEnvioSucesso').appendChild(linkCopyModal);
     document.getElementById('linkParaCopiarModal').addEventListener('click', function(event) {
         event.preventDefault();
-        copiarTextoParaAreaTransferencia(link, linkCopyModal.querySelector('span').id, 'divCopyModal');        
+        copiarTextoParaAreaTransferencia(link, linkCopyModal.querySelector('span').id, 'divCopyModal');
     });
 }
 
 function linkCopiar(link) {
-    const linkCopy = criarElementoTag('linkParaCopiar', 'divCopy');    
-    document.querySelector('#messageSuccess').appendChild(linkCopy);        
+    const linkCopy = criarElementoTag('linkParaCopiar', 'divCopy');
+    document.querySelector('#messageSuccess').appendChild(linkCopy);
     document.getElementById('linkParaCopiar').addEventListener('click', function(event) {
         event.preventDefault();
-        copiarTextoParaAreaTransferencia(link, linkCopy.querySelector('span').id, 'divCopy');        
-    }); 
+        copiarTextoParaAreaTransferencia(link, linkCopy.querySelector('span').id, 'divCopy');
+    });
 }
 
 function criarElementoTag(idEl, idDev) {
@@ -726,7 +732,7 @@ function criarElementoTag(idEl, idDev) {
     el.className = "fs-6 d-flex justify-content-center";
     elDiv.appendChild(el);
     el.addEventListener('mouseover', () => {
-        el.style.cursor = 'pointer'; 
+        el.style.cursor = 'pointer';
     });
     el.addEventListener('mouseout', () => {
         el.style.cursor = 'default';
@@ -745,14 +751,14 @@ function copiarTextoParaAreaTransferencia(link, id, iDdiv){
     window.getSelection().addRange(r);
     try {
         document.execCommand('copy');
-        window.getSelection().removeAllRanges();    
+        window.getSelection().removeAllRanges();
         document.getElementById(id).innerText = "Link copiado";
         setTimeout(() => {
             document.getElementById(iDdiv).remove();
             if (iDdiv == 'divCopyModal')
                 linkCopiarNoModal(link);
             if (iDdiv == 'divCopy')
-                linkCopiar(link);            
+                linkCopiar(link);
         }, 4000);
     } catch (e) {
         console.log('Não foi possível copiar!');
@@ -766,7 +772,7 @@ let idPedidoGlobal = "";
 function abrirPaginaModoMostrarPedido(){
     const params = new URLSearchParams(window.location.search);
     let id = params.get('pedidofeito');
-    id && getPedido(id) || bNovaAba && AplicarEstiloVisualizarPedido();        
+    id && getPedido(id) || bNovaAba && AplicarEstiloVisualizarPedido();
 };
 
 async function getPedido(id) {
@@ -799,7 +805,7 @@ function abrirPedidoModoVisualizar(pedido) {
     recuperarDadosRequisitanteSessionStorage();
     visibilidadeDasLinhas(pedido.responseDataPedidos.qtdItens);
     changePageTitleAndTitleCenter(pedido.responseDataPedidos.id);
-    removeSpinnerLoading();  
+    removeSpinnerLoading();
 }
 
 function redirectPage() {
@@ -809,7 +815,7 @@ function redirectPage() {
 function spinnerLoading() {
     const centerContent = document.querySelector(".center-content");
     centerContent.insertAdjacentHTML("afterbegin", `
-        <div id="spinnerGrow" class="spinner-grow" style="top:50%; left:50%; position:absolute"></div>`);    
+        <div id="spinnerGrow" class="spinner-grow" style="top:50%; left:50%; position:absolute"></div>`);
 }
 
 function removeSpinnerLoading() {
@@ -819,8 +825,8 @@ function removeSpinnerLoading() {
 }
 
 function AplicarEstiloVisualizarPedido() {
-    disableInputs();    
-    hideButtons(); 
+    disableInputs();
+    hideButtons();
     let pedido = JSON.parse(sessionStorage.getItem('pedido'));
     changePageTitleAndTitleCenter(pedido.id);
     idPedidoGlobal = pedido.id;
@@ -834,7 +840,7 @@ function changePageTitleAndTitleCenter(id) {
 
 function showButtonPrintAndClose() {
     document.querySelector('#btnPrint').style.display = 'block';
-    
+
     let centerContent = document.querySelector("#btnConfig");
     centerContent.insertAdjacentHTML("beforeend", `<div class="mt-2 text-secondary" id="linkPedido"></div>`);
     centerContent.insertAdjacentHTML("beforeend", `<button id="btnCopyLink" class="btn mt-2 btn__config" onclick="copyText('linkPedido')">Copiar link</button>`);
@@ -862,7 +868,7 @@ function disableInputs() {
     inputs.forEach((input, index) => {
         input.setAttribute('disabled', true);
         input.style.cssText = 'background-color:transparent; color: black';
-        
+
         if(input.id === ''){
             if (b){
                 i = i+1;
@@ -870,14 +876,14 @@ function disableInputs() {
             }else{
                 i = i+1;
                 input.style.cssText = 'background-color:transparent; color: black'
-            }                
-            if(i>=2){                                         
+            }
+            if(i>=2){
                 i = 0;
                 if(b)
                     b = false
                 else
                     b = true;
-            }         
+            }
         }
     });
 
