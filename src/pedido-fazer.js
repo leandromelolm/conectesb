@@ -490,27 +490,30 @@ function responseFetch(data) {
     } else {
         limparTudo();
         messageSuccess(data.numeroPedido, data.dataPedido);
-        responseSuccess(data.numeroPedido, data.dataPedido);
+        responseModalSuccess(data.numeroPedido, data.dataPedido);
     }
 }
 
-function responseSuccess(numPedido, dataPedido) {
+function responseModalSuccess(numPedido, dataPedido) {
     document.querySelector('#modalBody').classList.add('message__success-modal');
     abrirModal(`
         <div id="modalEnvioSucesso">
             <div><b>Pedido enviado com sucesso!</b></div>
             <div>Número Pedido: ${numPedido}</div>
             <div class="mb-2">Momento: ${dataPedido}</div>
+            <hr>
             <div>
                 <a href="pedido-fazer" class="fs-6 text-decoration-none d-flex justify-content-center mb-2 message__success-modal">
-                    <div><b>Clique aqui</b> para fazer um novo pedido</div> <i class="bi bi-cart"></i>
+                    <div>Fazer um novo pedido</div> <i class="bi bi-cart"></i>
                 </a>
             </div>
+             <hr>
             <div class="mb-2">
-                <a href="${window.location.href}?pedidofeito=${numPedido}" class="fs-6 text-decoration-none d-flex justify-content-center" style="color: #0f5132">
-                    <div><b>Clique aqui</b> para abrir o pedido</div><i class="bi bi-box-seam ms-1"></i>
+                <a href="${window.location.href}?pedidofeito=${numPedido}" target="_blank" class="fs-6 text-decoration-none d-flex justify-content-center" style="color: #0f5132">
+                    <div>Ver o pedido feito</div><i class="bi bi-box-seam ms-1"></i>
                 </a>
             </div>
+             <hr>
         </div>
     `);
     redirecionarPaginaParaPedidoFeito(numPedido);
@@ -523,10 +526,12 @@ function responseSuccess(numPedido, dataPedido) {
 function redirecionarPaginaParaPedidoFeito(id) {
     const a = document.createElement('a');
     a.href = `${window.location.href}?pedidofeito=${id}`;
-    a.className = 'fs-6 text-decoration-none d-flex justify-content-center mb-2';
+    a.target = '_blank'
+    a.className = 'fs-6 text-decoration-none d-flex justify-content-center';
     a.style.cssText = 'color: #0f5132';
-    a.innerHTML = `<div><b>Clique aqui</b> para abrir o pedido</div> <i class="bi bi-box-seam ms-1"></i>`;
+    a.innerHTML = `<div>Ver o pedido feito</div> <i class="bi bi-box-seam ms-1"></i>`;
     document.querySelector('#messageSuccess').appendChild(a);
+    document.querySelector('#messageSuccess').appendChild(document.createElement('hr'));
 }
 
 function messageSuccess(nPedido, datePedido) {
@@ -542,11 +547,13 @@ function messageSuccess(nPedido, datePedido) {
         <div class="mb-2">
             <span>Momento: </span> <b>${datePedido}</b>
         </div>
+        <hr>
         <div>
             <a href="pedido-fazer" class="text-decoration-none d-flex justify-content-center mb-2 message__success">
-                <div><b>Clique aqui</b> para fazer um novo pedido</div> <i class="bi bi-cart"></i>
+                <div>Fazer um novo pedido</div> <i class="bi bi-cart"></i>
             </a>
         </div>
+        <hr>
     </div>
     `;
 }
@@ -694,6 +701,7 @@ function criarElementoWs(id) {
     eleA.style.cssText = "text-decoration: none; color: #0f5132";
     eleA.appendChild(eleI);
     elDivWs.appendChild(eleA);
+    elDivWs.appendChild(document.createElement('hr'));
     return elDivWs;
 }
 
@@ -724,9 +732,9 @@ function linkCopiar(link) {
 function criarElementoTag(idEl, idDev) {
     const elDiv = document.createElement('div');
     elDiv.id = idDev;
-    elDiv.className = "my-2";
+    elDiv.className = "mb-4";
     const el = document.createElement('span');
-    el.innerHTML = '<div><b>Clique aqui</b> para copiar o link do pedido';
+    el.innerHTML = '<div>Copiar o link do pedido';
     el.id = idEl;
     el.style.cssText = "text-decoration: none;";
     el.className = "fs-6 d-flex justify-content-center";
