@@ -140,13 +140,18 @@ function validarPreenchimentoDeCampos(){
         text-align: center
     `;
 
-    let dataInput = new Date(document.getElementById('dataPedido').value);
-    dataInput.setTime(dataInput.getTime() + dataInput.getTimezoneOffset() * 60 * 1000);
-
-    if (dataInput.toLocaleDateString() < new Date().toLocaleDateString())
+    let today = new Date().setHours(-3,0,0,0); // seta hr, min, seg, ms. -3 ajustar timeZone para 0.
+    let dataInput;
+    try {
+        dataInput = new Date(document.getElementById('dataPedido').value).toISOString();
+    } catch (error) {
+        mensagens.push(`O campo <b>Data</b> precisa ser preenchido.</br>`);        
+    }
+    
+    if (dataInput < new Date(today).toISOString())
         mensagens.push(`O campo <b>Data</b> não pode ser uma data passada.</br>`);
 
-    if (dataInput.toLocaleDateString() ==="Invalid Date")
+    if (dataInput ==="Invalid Date")
         mensagens.push(`O campo <b>Data</b> precisa ser preenchido.</br>`);
 
     if (document.getElementById('nomeUnidade').value === '')
