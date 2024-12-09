@@ -35,8 +35,9 @@ async function atualizarPagina() {
     toggleBtnAtualizar(true);
     ultimaAtualizacaoDaPagina.innerText = "";
     try {
-        const response = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true').then(res => res.json());        
-        verificarSeFiltroEstaAtivo(response.res.body.lastRow);
+        const response = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true');
+        const r = await response.json();
+        verificarNovosPedidos(r.res.body.lastRow) && verificarSeFiltroEstaAtivo();        
         toggleBtnAtualizar(false);
         hideLoading();
     } catch (error) {
@@ -47,13 +48,11 @@ async function atualizarPagina() {
     }
 }
 
-function verificarSeFiltroEstaAtivo(ultimoPedido) {
-    if (verificarNovosPedidos(ultimoPedido)) {
-        if (JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
-            findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
-        } else {
-            obterListaAtualizada();
-        }
+function verificarSeFiltroEstaAtivo() {    
+    if (JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
+        findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
+    } else {
+        obterListaAtualizada();
     }
 }
 
