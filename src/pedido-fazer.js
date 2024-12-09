@@ -946,10 +946,10 @@ function copyText(id){
         window.getSelection().removeAllRanges();
         let btnCopyLink = document.getElementById('btnCopyLink');
         btnCopyLink.innerText = "Link copiado";
-        btnCopyLink.style.cssText = "background-color:#495057; color:white"
+        btnCopyLink.style.cssText = "background-color:white; color:#495057"
         setTimeout(() => {
             btnCopyLink.innerText = "Copiar link";
-            btnCopyLink.style.cssText = "background-color:white; color:#212529"
+            btnCopyLink.style.cssText = "background-color:transparent; color:#212529"
         }, 3000);
     } catch (e) {
         console.log('Não foi possível copiar!');
