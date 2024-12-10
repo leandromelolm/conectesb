@@ -37,18 +37,21 @@ async function atualizarPagina() {
     try {
         const response = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true');
         const r = await response.json();
-        verificarNovosPedidos(r.res.body.lastRow) && verificarSeFiltroEstaAtivo();        
+        verificarNovosPedidos(r.res.body.lastRow) && verificarSeFiltroEstaAtivo();
+        console.log();
         toggleBtnAtualizar(false);
         hideLoading();
+        if(r.res.statusCode == 200)
+            ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
     } catch (error) {
         toggleBtnAtualizar(false);
         hideLoading();
         alert(`Erro na requisição para atualizar lista. Messagem: ${error}` );
-        console.error(error); 
+        console.error(error);
     }
 }
 
-function verificarSeFiltroEstaAtivo() {    
+function verificarSeFiltroEstaAtivo() {
     if (JSON.parse(localStorage.getItem('filtro-distrito-ativo'))) {
         findByDistrito(localStorage.getItem('filtro-distrito'), localStorage.getItem('filtro-distrito-perpage'));
     } else {
@@ -56,10 +59,9 @@ function verificarSeFiltroEstaAtivo() {
     }
 }
 
-function verificarNovosPedidos(ultimoPedido) {
-    ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
+function verificarNovosPedidos(ultimoPedido) {    
     if (ultimoPedido != ultimoPedidoRegitrado || ultimoPedidoRegitrado == null) {
-        let up = ultimoPedido == null ? ultimoPedidoRegitrado : ultimoPedido; 
+        let up = ultimoPedido == null ? ultimoPedidoRegitrado : ultimoPedido;
         localStorage.setItem('ultimoPedido', up);
         ultimoPedidoRegitrado = up;
         return true;
