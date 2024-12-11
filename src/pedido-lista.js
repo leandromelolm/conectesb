@@ -33,16 +33,14 @@ window.onload = async () => {
 
 async function atualizarPagina() {
     toggleBtnAtualizar(true);
-    ultimaAtualizacaoDaPagina.innerText = "";
+    ultimaAtualizacaoDaPagina.innerText = ``;
     try {
         const response = await fetch('/.netlify/functions/api-spreadsheet?lastRow=true');
         const r = await response.json();
         verificarNovosPedidos(r.res.body.lastRow) && verificarSeFiltroEstaAtivo();
-        console.log();
         toggleBtnAtualizar(false);
         hideLoading();
-        if(r.res.statusCode == 200)
-            ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
+        ultimaAtualizacaoDaPagina.innerText = `Atualizado: ${dateFormat(new Date())}`;
     } catch (error) {
         toggleBtnAtualizar(false);
         hideLoading();
