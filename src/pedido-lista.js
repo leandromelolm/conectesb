@@ -1,7 +1,7 @@
 let ultimaAtualizacaoDaPagina = document.getElementById('ultimaAtualizacaoDaPagina');
 let msgNovoPedido = document.getElementById('msgNovoPedido');
 let abrirPedidonoFormulario = document.getElementById('abrirPedidonoFormulario');
-let id = "";
+let idOrder = "";
 let search = "";
 let pageNumber = 1;
 let perPage = 60;
@@ -361,6 +361,7 @@ function detalhesDoPedidoNoModalBuscaLocal(pedido) {
     document.getElementById('unidadeRequisitante').value = '';
     document.getElementById('listaPedido').value = JSON.stringify(pedido.itens);
     sessionStorage.setItem('pedido', JSON.stringify(pedido));
+    idOrder = pedido.id;
     const tabela = document.getElementById("tableItensPedido").getElementsByTagName('tbody')[0];
     while (tabela.firstChild) {
         tabela.removeChild(tabela.firstChild);
@@ -417,7 +418,8 @@ document.querySelector("#abrirNovaAba").addEventListener('click', ()=>{
     sessionStorage.setItem('dadosRequerente', unidadeRequisitante)
     sessionStorage.setItem('dadosItens', itensDados);
     sessionStorage.setItem('aberto-nova-aba', true); 
-    window.open('pedido-fazer', '_blank');
+    // window.open('pedido-fazer', '_blank');
+    window.open(`pedido-fazer?pedidofeito=${idOrder}`, '_blank');
     closeModal();
     sessionStorage.setItem('aberto-nova-aba', false);
 })
