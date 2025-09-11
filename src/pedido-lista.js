@@ -56,10 +56,16 @@ const ID_GAS_PEDIDOS_COM_ITENS = 'AKfycbzsjSOWpwhRhwBTwB4vRboGPZccPM3qlVVQWdcOR8
 async function getPedidosComItens(ultimoPedido, quantPedidos){
     const ultPedidoListaComItens = localStorage.getItem('lista-pedidos-com-itens-ultpedido');
     if(ultPedidoListaComItens == ultimoPedido) return
-    const result = await fetch(`https://script.google.com/macros/s/${ID_GAS_PEDIDOS_COM_ITENS}/exec?action=listadepedidoscomitens&id_ultimo_pedido=${ultimoPedido}&quantidade_de_pedidos=${quantPedidos}`)
-    let res = await result.json();
-    localStorage.setItem('lista-pedidos-com-itens', JSON.stringify(res.content.data));
-    localStorage.setItem('lista-pedidos-com-itens-ultpedido', JSON.stringify(res.idPedidoMaiorBuscado));
+    try {
+        modalLoading.show();
+        const result = await fetch(`https://script.google.com/macros/s/${ID_GAS_PEDIDOS_COM_ITENS}/exec?action=listadepedidoscomitens&id_ultimo_pedido=${ultimoPedido}&quantidade_de_pedidos=${quantPedidos}`)
+        let res = await result.json();
+        localStorage.setItem('lista-pedidos-com-itens', JSON.stringify(res.content.data));
+        localStorage.setItem('lista-pedidos-com-itens-ultpedido', JSON.stringify(res.idPedidoMaiorBuscado));
+    } catch (error) {
+        console.log(error);  
+    }
+    modalLoading.hide();
 }
 
 function verificarSeFiltroEstaAtivo() {
