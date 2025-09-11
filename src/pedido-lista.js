@@ -47,6 +47,19 @@ async function atualizarPagina() {
         alert(`Erro na requisição para atualizar lista. Messagem: ${error}` );
         console.error(error);
     }
+
+    getPedidosComItens(ultimoPedidoRegitrado, 25);
+}
+
+const ID_GAS_PEDIDOS_COM_ITENS = 'AKfycbzsjSOWpwhRhwBTwB4vRboGPZccPM3qlVVQWdcOR8mAajVo_4Et8B5RiBDiVORNRzRB0A';
+
+async function getPedidosComItens(ultimoPedido, quantPedidos){
+    const ultPedidoListaComItens = localStorage.getItem('lista-pedidos-com-itens-ultpedido');
+    if(ultPedidoListaComItens == ultimoPedido) return
+    const result = await fetch(`https://script.google.com/macros/s/${ID_GAS_PEDIDOS_COM_ITENS}/exec?action=listadepedidoscomitens&id_ultimo_pedido=${ultimoPedido}&quantidade_de_pedidos=${quantPedidos}`)
+    let res = await result.json();
+    localStorage.setItem('lista-pedidos-com-itens', JSON.stringify(res.content.data));
+    localStorage.setItem('lista-pedidos-com-itens-ultpedido', JSON.stringify(res.idPedidoMaiorBuscado));
 }
 
 function verificarSeFiltroEstaAtivo() {
@@ -137,6 +150,9 @@ function findByNameUnidade(nomeUnidade) {
 }
 
 function findByPedido(id, search, pageNumber, perPage, startId, endId){
+
+    if(buscarPedidoLocal(id)) return;
+
     showLoading();
     fetch(`/.netlify/functions/api-spreadsheet?id=${id}&search=${search}&page=${pageNumber}&perPage=${perPage}&startId=${startId}&endId=${endId}`)
     .then( data => {
@@ -155,6 +171,17 @@ function findByPedido(id, search, pageNumber, perPage, startId, endId){
         console.error("erro: ",error);
     });;    
 };
+
+function buscarPedidoLocal(id) {
+    const listaPedidosComItens = JSON.parse(localStorage.getItem("lista-pedidos-com-itens"));
+    const pedido = listaPedidosComItens.find( p => p.id === id)
+    if(pedido){
+        detalhesDoPedidoNoModalBuscaLocal(pedido)
+        desabilitarBotaoPesquisa(false);
+        return true;
+    } else
+        return false;
+}
 
 function verificarDados(data){
     if (data.responseDataPedidos.result === "error") {        
@@ -300,6 +327,43 @@ function mostrarDetalhesDoPedidoNoModal(pedido) {
         const row = tabela.insertRow();        
         const itemCell = row.insertCell();
         itemCell.textContent = index + 1; // Números crescentes a partir de 1      
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const cell = row.insertCell();
+            cell.textContent = obj[key];
+          }
+        }
+    });
+    openModal();
+    modalLoading.hide();
+};
+
+function detalhesDoPedidoNoModalBuscaLocal(pedido) {
+    abrirPedidonoFormulario.className = "btn btn-primary armazenamento";
+    document.getElementById('divPedidoBuscado').className = 'card';
+    document.getElementById('labelPedido').innerHTML = `<b style="color:#0051A2">${pedido.id}</b> | <b>Data:</b> ${dateFormat(pedido.dataPedido)} `;
+    document.getElementById('requisitante').innerHTML =
+    `<div style="display:grid">
+        <div>
+            <span style="font-size:small"><b>Unidade:</b> ${pedido.nomeUnidade}</span>
+        </div>
+        <div>
+            <span style="font-size:small"> <b>Equipe:</b> ${pedido.equipe}</span>
+        </div>
+    </div>
+    `;
+    document.getElementById('unidadeRequisitante').value = '';
+    document.getElementById('listaPedido').value = JSON.stringify(pedido.itens);
+    sessionStorage.setItem('pedido', JSON.stringify(pedido));
+    const tabela = document.getElementById("tableItensPedido").getElementsByTagName('tbody')[0];
+    while (tabela.firstChild) {
+        tabela.removeChild(tabela.firstChild);
+    }
+    const listaItens =pedido.itens;
+    listaItens.forEach((obj, index) => {
+        const row = tabela.insertRow();
+        const itemCell = row.insertCell();
+        itemCell.textContent = index + 1; // Números crescentes a partir de 1
         for (const key in obj) {
           if (obj.hasOwnProperty(key)) {
             const cell = row.insertCell();
