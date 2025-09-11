@@ -1,4 +1,4 @@
-/** v27 - gas pedido fazer listar **/
+/** v28 - gas pedido fazer listar **/
 const urlSpreadSheet = infoPlanilha().urlPlanilha;
 const spreadSheetID = infoPlanilha().idPlanilha;
 const sheetName = infoPlanilha().folhaDePedidos;
@@ -68,6 +68,12 @@ function doGet(e) {
   const searchKey = e.parameter['search_key'] || "";
   const distrito = e.parameter['distrito'] || '';
   const grupoMaterial = e.parameter['grupo'] || '';
+  const action = e.parameter['action'] || '';
+  const ultimoPedidoId = e.parameter['id_ultimo_pedido'] || 1;
+  const quantidadeDePedidos = e.parameter['quantidade_de_pedidos'] || 20;
+
+  if(action == 'listadepedidoscomitens')
+    return listaDePedidosComItens(ultimoPedidoId, quantidadeDePedidos);
 
   if(searchKey === sheetUser.getRange("F2").getValue()){
     let encontrado = findBySheet(pesquisaTxt)
@@ -386,6 +392,12 @@ function listaComQuantidadeLimitada(result, limiteResultado) {
     return result.slice(0, limiteResultado);
 }
 
+/** 
+ * Retorna lista de pedidos que estiver entre os parâmetros inicio e fim.
+ * inicio: id do pedido mais antigo (número do id menor).
+ * fim: id do pedido mais recente (número do id maior)
+ * linha inicial precisa ser menor que a linha final
+*/
 function retornarItensIntervalo(inicio, fim) {
   let lastRow = sheet.getLastRow();
   let elemInicio = Math.min(inicio, lastRow);
@@ -403,7 +415,7 @@ function retornarItensIntervalo(inicio, fim) {
     elemInicio = lastRow - 9;
     elemFim = lastRow;
   }  
-  let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 4);
+  let range = sheet.getRange(elemInicio, 1, elemFim - elemInicio + 1, 5);
   let values = range.getValues();
   let result = [];
   for (let row = 0; row < values.length; row++) {
@@ -412,6 +424,7 @@ function retornarItensIntervalo(inicio, fim) {
     rowData.dataPedido = values[row][1];
     rowData.nomeUnidade = values[row][2];
     rowData.equipe = JSON.parse(values[row][3]).equipe || "-";
+    rowData.itens = values[row][4] || "-";
     result.push(rowData);
   }  
   return {
