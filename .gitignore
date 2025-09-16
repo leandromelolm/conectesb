@@ -9,6 +9,9 @@ node_modules
 # Local Netlify folder
 .netlify
 
+# Firebase Studio
+.idx/
+
 
 src/components/index.js
 src/components/lista_insumos.js

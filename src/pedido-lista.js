@@ -40,7 +40,7 @@ async function atualizarPagina() {
         verificarNovosPedidos(r.res.body.lastRow) && verificarSeFiltroEstaAtivo();
         toggleBtnAtualizar(false);
         hideLoading();
-        ultimaAtualizacaoDaPagina.innerText = `Atualizado: ${dateFormat(new Date())}`;
+        informacaoDeAtualizacaoDaPagina();
     } catch (error) {
         toggleBtnAtualizar(false);
         hideLoading();
@@ -49,6 +49,14 @@ async function atualizarPagina() {
     }
 
     getPedidosComItens(ultimoPedidoRegitrado, 25);
+}
+
+document.getElementById('btnLimparCache').addEventListener('click', limparCache);
+
+function limparCache() {
+    localStorage.clear();
+    window.location.reload();
+    // alert('Cache do localStorage foi limpo!');
 }
 
 const ID_GAS_PEDIDOS_COM_ITENS = 'AKfycbzsjSOWpwhRhwBTwB4vRboGPZccPM3qlVVQWdcOR8mAajVo_4Et8B5RiBDiVORNRzRB0A';
@@ -566,7 +574,7 @@ async function obterListaAtualizada() {
         // msgNovoPedido.innerText = `Último pedido: ${dateFormat(data.responseDataPedidos.data[0].dataPedido)}`;
         document.querySelector("#selectDistrito").value = "todos";
         toggleBtnAtualizar(false);
-        ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;
+        informacaoDeAtualizacaoDaPagina();
         hideLoading();
         modalLoading.hide();
     } catch (error) {        
@@ -638,7 +646,7 @@ async function findByDistrito(distrito, perPage) {
                 localStorage.setItem("filtro-distrito", distrito);
                 localStorage.setItem('filtro-distrito-pedido-ult-registro', localStorage.getItem("ultimoPedido"));
                 localStorage.setItem('filtro-distrito-perpage', perPage);
-                ultimaAtualizacaoDaPagina.innerText = `Atualizado em: ${dateFormat(new Date())}`;         
+                informacaoDeAtualizacaoDaPagina();
             } else {
                 document.getElementById('divListaPedido').innerHTML = "";
                 paginationContainer.innerHTML =`Nenhum registro encontrado`;
@@ -652,4 +660,12 @@ async function findByDistrito(distrito, perPage) {
         document.querySelector("#selectDistrito").value = "todos";
         modalLoading.hide();
     }
+}
+
+function informacaoDeAtualizacaoDaPagina() {
+    ultimaAtualizacaoDaPagina.innerHTML = `
+    <div class="row">
+        <div class="">Atualizado em:</div> 
+        <div class="">${dateFormat(new Date())}</div>
+    </div>`
 }
