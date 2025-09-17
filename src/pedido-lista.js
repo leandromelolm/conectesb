@@ -363,6 +363,8 @@ function detalhesDoPedidoNoModalBuscaLocal(pedido) {
         </div>
         <div>
             <span style="font-size:small"> <b>Equipe:</b> ${pedido.equipe}</span>
+            •
+            <small> <b>Quantidade de itens:</b> ${pedido.itens.length}</small>
         </div>
     </div>
     `;
@@ -664,8 +666,8 @@ async function findByDistrito(distrito, perPage) {
 
 function informacaoDeAtualizacaoDaPagina() {
     ultimaAtualizacaoDaPagina.innerHTML = `
-    <div class="row">
-        <div class="">Atualizado em:</div> 
-        <div class="">${dateFormat(new Date())}</div>
+    <div class="row row-cols-auto">
+        <div class="col pe-0">Atualizado em:</div> 
+        <div class="col">${dateFormat(new Date())}</div>
     </div>`
 }

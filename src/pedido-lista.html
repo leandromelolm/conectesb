@@ -18,7 +18,7 @@
   <header-component></header-component>
 
   <div class="container-fluid main">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
       <div>
         <div id="atualizacaoPagina">
           <p id="ultimaAtualizacaoDaPagina"></p>
@@ -28,15 +28,17 @@
           <span id="unidadeRequisitante"></span>
           <span id="listaPedido"></span>
         </div>
-      </div>    
-      <button id="btnAtualizarPagina" class="btn link btn__atualizar" type="button" onclick="btnAtualizarPagina()">
-        <img src="assets/arrow-clockwise.svg" alt="Atualizar"/>
-        Atualizar
-      </button>
-      <button id="btnLimparCache" class="btn link btn__atualizar" type="button" onclick="btnLimparCache()">
-        <img src="assets/trash3.svg" alt="Limpar"/>
-        Limpar
-      </button>
+      </div>
+      <div class="d-flex">
+        <button id="btnAtualizarPagina" class="btn link btn__atualizar" type="button" onclick="btnAtualizarPagina()">
+          <img src="assets/arrow-clockwise.svg" alt="Atualizar"/>
+          Atualizar
+        </button>
+        <button id="btnLimparCache" class="btn link btn__atualizar" type="button" onclick="btnLimparCache()">
+          <img src="assets/trash3.svg" alt="Limpar"/>
+          Limpar
+        </button>
+      </div>
     </div>
 
       <!--PESQUISA-->
