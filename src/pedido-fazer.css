@@ -627,3 +627,11 @@ text-transform: none;
 .modal-body {
     font-size: large;
 }
+
+#btnConfig {
+    justify-items: center
+}
+
+#linkPedido {
+    text-align: center;
+}

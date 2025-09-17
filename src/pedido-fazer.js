@@ -805,10 +805,16 @@ async function getPedido(id) {
         showButtonPrintAndClose();
         document.querySelector('#docPrint').style.display = 'block';
         pedido.responseDataPedidos.result || abrirPedidoModoVisualizar(pedido);
-        !pedido.responseDataPedidos.result || redirectPage(); //Quando não existe pedido
+        !pedido.responseDataPedidos.result || alertaErroAoBuscarPedido('pedido não encontrado.'); //Quando não existe pedido
     } catch (error) {
-        redirectPage();
+        alertaErroAoBuscarPedido(error)
+        fecharAba();
     }
+}
+
+function alertaErroAoBuscarPedido(msgErro) {
+    alert(`Erro ao buscar pedido. Mensagem de erro: ${msgErro}`);
+    fecharAba();
 }
 
 function abrirPedidoModoVisualizar(pedido) {
@@ -916,7 +922,7 @@ function abrirWhatsApp() {
     window.open(link, '_blank');
 }
 
-function fecharAba(){
+function fecharAba() {
     sessionStorage.setItem('aberto-nova-aba', false);
     window.close();
 }
