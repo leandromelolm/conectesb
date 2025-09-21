@@ -166,3 +166,11 @@ tbody, td, tfoot, th, thead, tr {
   background-color: transparent;
   outline: transparent;
 }
+
+.table>:not(caption)>*>* {
+  padding: .2rem .2rem !important
+}
+
+#tableItensPedido td {
+  font-size: 10px !important;
+}
